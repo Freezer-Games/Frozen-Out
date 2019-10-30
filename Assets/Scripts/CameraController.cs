@@ -9,6 +9,9 @@ public class CameraController : MonoBehaviour
     public bool useOffsetValue;
     public float rotateSpeed;
     public Transform pivot; 
+    public float maxViewAngle;
+    public float minviewAngle;
+    public bool invertY;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +36,25 @@ public class CameraController : MonoBehaviour
 
         //get X pos raton y rota el pivot
         float vertical = Input.GetAxis("Mouse Y") * rotateSpeed;
-        pivot.Rotate(-vertical, 0, 0);
+        //pivot.Rotate(vertical, 0, 0);
+        if (invertY) 
+        {
+            pivot.Rotate(vertical, 0, 0);
+        } else 
+        {
+            pivot.Rotate(-vertical, 0, 0);
+        }
+
+        //limit up/down camera rotation
+        if (pivot.rotation.eulerAngles.x > maxViewAngle && pivot.rotation.eulerAngles.x < 180f) 
+        {
+            pivot.rotation = Quaternion.Euler(maxViewAngle, 0, 0);
+        }
+
+        if (pivot.rotation.eulerAngles.x > 180f && pivot.rotation.eulerAngles.x < minviewAngle) 
+        {
+            pivot.rotation = Quaternion.Euler(360f + minviewAngle, 0, 0);
+        }
 
         //Mueve camara según rotación actual del target y offset original
         float desiredYAngle = target.eulerAngles.y;
