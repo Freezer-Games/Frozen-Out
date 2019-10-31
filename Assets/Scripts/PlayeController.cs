@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yarn.Unity;
 
 public class PlayeController : MonoBehaviour
 {
@@ -11,16 +12,25 @@ public class PlayeController : MonoBehaviour
     private Vector3 moveDirection;
     public float gravityScale;
 
+    private DialogueRunner dialogueSystemYarn;
+
     // Start is called before the first frame update
     void Start()
     {
         //rb = GetComponent<Rigidbody>();
        controller = GetComponent<CharacterController>();
+
+        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Remove all player control when we're in dialogue
+        if (dialogueSystemYarn.isDialogueRunning == true) {
+            return;
+        }
+
         //rb.velocity = new Vector3(Input.GetAxis("Horizontal")*moveSpeed,rb.velocity.y,  Input.GetAxis("Vertical")*moveSpeed);
 
         /*if(Input.GetButtonDown("Jump")) {
