@@ -31,12 +31,6 @@ public class PlayeController : MonoBehaviour
             return;
         }
 
-        //rb.velocity = new Vector3(Input.GetAxis("Horizontal")*moveSpeed,rb.velocity.y,  Input.GetAxis("Vertical")*moveSpeed);
-
-        /*if(Input.GetButtonDown("Jump")) {
-            rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-        }*/
-
         //moveDirection = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, moveDirection.y,  Input.GetAxis("Vertical") * moveSpeed);
         float yStore = moveDirection.y;
         moveDirection = (transform.forward * Input.GetAxis("Vertical")) + 
