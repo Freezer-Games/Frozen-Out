@@ -32,7 +32,7 @@ public class Snowtracks : MonoBehaviour
     void Update()
     {
         RaycastHit groundHit;
-        if(Physics.Raycast(PolPalo.position, Vector3.down, out groundHit, 1.0f, _terrainMask))
+        if(Physics.Raycast(PolPalo.position, Vector3.down, out groundHit, 0.5f, _terrainMask))
         {
             _drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
             _drawMaterial.SetFloat("_Size", _brushSize);
