@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Yarn.Unity;
 
 public class PlayerYarn : MonoBehaviour
 {
-    public KeyCode DialogueInput = KeyCode.F;
+    public KeyCode dialogueInput = KeyCode.F;
+    public Text dialoguePromptText;
 
     private DialogueRunner dialogueSystemYarn;
 
@@ -16,26 +18,32 @@ public class PlayerYarn : MonoBehaviour
 
     void Start() {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
+        dialoguePromptText.text = "";
     }
 
-    /// Update is called once per frame
-    void Update () {
-
-        // Remove all player control when we're in dialogue
-        if (dialogueSystemYarn.isDialogueRunning == true) {
-            return;
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "NPC")
+        {
+            dialoguePromptText.text = "Press [" + dialogueInput.ToString() + "] to talk";
         }
-
     }
 
     private void OnTriggerStay(Collider other) {
         
-        if (!dialogueSystemYarn.isDialogueRunning && (other.gameObject.tag == "NPC") && Input.GetKeyDown(DialogueInput))
+        if (!dialogueSystemYarn.isDialogueRunning && (other.gameObject.tag == "NPC") && Input.GetKeyDown(dialogueInput))
         {
+            dialoguePromptText.text = "";
             NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
             if(target != null) {
                 dialogueSystemYarn.StartDialogue (target.talkToNode);
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.gameObject.tag == "NPC")
+        {
+            dialoguePromptText.text = "";
         }
     }
 }

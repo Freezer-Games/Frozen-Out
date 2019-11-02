@@ -15,14 +15,15 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
     public Text otherDialogueText;
 
     //Place where name and dialogue will be contained
-    public GameObject dialoguePromptGUI;
     public GameObject dialogueBoxGUI;
+    public Text continuePrompt;
 
     public float letterDelay = 0.1f;
 
     public AudioClip audioClip;
 
     private AudioSource audioSource;
+    private float localDelay;
 
     private string LINE_SEPARATOR = ": ";
     private string MAIN_NAME = "Pol";
@@ -34,12 +35,19 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         if (dialogueBoxGUI != null) {
             dialogueBoxGUI.SetActive(false);
         }
+        if(continuePrompt != null) {
+            continuePrompt.gameObject.SetActive(false);
+        }
 
         mainNameText.text = "";
         mainDialogueText.text = "";
 
         otherNameText.text = "";
         otherDialogueText.text = "";
+    }
+
+    void Update() {
+        if(Input.anyKeyDown) { localDelay = localDelay / 2; }
     }
 
     public override IEnumerator RunLine(Yarn.Line line) {
@@ -63,18 +71,20 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
             // Display the line one character at a time
             var stringBuilder = new StringBuilder ();
 
+            localDelay = letterDelay;
+
             foreach (char c in characterDialogue) {
                 stringBuilder.Append (c);
                 currentDialogueText.text = stringBuilder.ToString ();
-                yield return new WaitForSeconds (letterDelay);
+                yield return new WaitForSeconds (localDelay);
             }
-        } else {
-            // Display the line immediately if textSpeed == 0
-            currentDialogueText.text = characterDialogue;
         }
+        currentDialogueText.text = characterDialogue;
 
-        //if (continuePrompt != null)
-        //    continuePrompt.SetActive (true);
+        // Show the 'press any key' prompt when done, if we have one
+        if (continuePrompt != null) {
+            continuePrompt.gameObject.SetActive (true);
+        }
 
         while (Input.anyKeyDown == false) {
             yield return null;
@@ -84,8 +94,9 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
         currentDialogueText.gameObject.SetActive (false);
 
-        //if (continuePrompt != null)
-        //        continuePrompt.SetActive (false);
+        if (continuePrompt != null){
+            continuePrompt.gameObject.SetActive (false);
+        }
     }
 
     public override IEnumerator RunOptions(Yarn.Options optionsCollection, Yarn.OptionChooser optionChooser) {
@@ -94,16 +105,11 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
     public override IEnumerator RunCommand (Yarn.Command command)
     {
-        // "Perform" the command
-        Debug.Log ("Command: " + command.text);
-
         yield break;
     }
 
     public override IEnumerator DialogueStarted ()
     {
-        Debug.Log ("Dialogue starting!");
-
         // Enable the dialogue controls.
         if (dialogueBoxGUI != null) {
             dialogueBoxGUI.SetActive(true);
@@ -114,8 +120,6 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
     public override IEnumerator DialogueComplete ()
     {
-        Debug.Log ("Complete!");
-
         // Hide the dialogue interface.
         if (dialogueBoxGUI != null)
             dialogueBoxGUI.SetActive(false);
