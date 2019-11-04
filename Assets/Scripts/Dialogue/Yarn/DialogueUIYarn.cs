@@ -114,7 +114,10 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         if (dialogueBoxGUI != null) {
             dialogueBoxGUI.SetActive(true);
         }
-        
+
+        mainNameText.text = "";
+        otherNameText.text = "";
+
         yield break;
     }
 
