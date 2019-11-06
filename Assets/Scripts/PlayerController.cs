@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private readonly float gravity = 20.0f;
 
+    private float _height, _bendHeight;
+
     private Vector3 _moveDir = Vector3.zero;
 
     public event EventHandler<PlayerControllerEventArgs> Moving; 
@@ -26,6 +28,8 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         _characterController = GetComponent<CharacterController>();
+        _height = _characterController.height;
+        _bendHeight = _characterController.height * 0.8f;
     }
 
     // Update is called once per frame
@@ -63,11 +67,12 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButton("Fire1")) { //left control - va lento
                 _moveDir *= bendSpeed;
                 _animator.SetTrigger("isSneakingIn");
+                _characterController.height = _bendHeight;
             }
             else {
                 _moveDir *= Speed;
                 _animator.SetTrigger("isSneakingOut");
-
+                _characterController.height = _height;
             }
 
             _moveDir.y = 0;
