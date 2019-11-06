@@ -20,11 +20,18 @@ public class PlayerYarn : MonoBehaviour
 
         PlayerController controller = FindObjectOfType<PlayerController>();
         controller.Moving += Player_Moving;
+        controller.Idle += Player_Idle;
+    }
+
+    private void Player_Idle(object sender, System.EventArgs e)
+    {
+        this.enabled = true;
     }
 
     private void Player_Moving(object sender, PlayerControllerEventArgs e)
     {
         if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
+        this.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -36,7 +43,7 @@ public class PlayerYarn : MonoBehaviour
 
     private void OnTriggerStay(Collider other) {
         
-        if (!dialogueSystemYarn.isDialogueRunning && (other.gameObject.tag == "NPC") && Input.GetKeyDown(dialogueInput))
+        if (this.isActiveAndEnabled && !dialogueSystemYarn.isDialogueRunning && (other.gameObject.tag == "NPC") && Input.GetKeyDown(dialogueInput))
         {
             dialoguePromptText.text = "";
             NPCYarn target = other.gameObject.GetComponent<NPCYarn>();

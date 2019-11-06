@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveDir = Vector3.zero;
 
     public event EventHandler<PlayerControllerEventArgs> Moving; 
-    public event EventHandler Moved;
+    public event EventHandler Idle;
 
     // Use this for initialization
     void Start()
@@ -35,12 +35,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Avisa de que se va a mover
-        PlayerControllerEventArgs e = OnMoving();
-
-        // Si alguien le ha dicho que cancele el movimiento, para
-        if (e.Cancel) return;
-
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -56,6 +50,21 @@ public class PlayerController : MonoBehaviour
 
         // Get Euler angles
         float turnAmount = Mathf.Atan2(move.x, move.z);
+
+        bool moving = move != Vector3.zero;
+
+        if (moving)
+        {
+            // Avisa de que se va a mover
+            PlayerControllerEventArgs e = OnMoving();
+
+            // Si alguien le ha dicho que cancele el movimiento, para
+            if (e.Cancel) return;
+        } 
+        else
+        {
+            OnIdle();
+        }
 
         transform.Rotate(0, turnAmount *  RotationSpeed * Time.deltaTime, 0);
 
@@ -86,8 +95,6 @@ public class PlayerController : MonoBehaviour
         _moveDir.y -= gravity * Time.deltaTime;
 
         _characterController.Move(_moveDir * Time.deltaTime);
-
-        OnMoved();
     }
 
     protected virtual PlayerControllerEventArgs OnMoving()
@@ -97,9 +104,9 @@ public class PlayerController : MonoBehaviour
         return e;
     }
 
-    protected virtual void OnMoved()
+    protected virtual void OnIdle()
     {
-        Moved?.Invoke(this, EventArgs.Empty);
+        Idle?.Invoke(this, EventArgs.Empty);
     }
 }
 
