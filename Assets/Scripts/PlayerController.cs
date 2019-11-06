@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //private Animator _animator;
+    private Animator _animator;
     private CharacterController _characterController;
     public float Speed = 5.0f;
     public float bendSpeed = 2.5f;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //_animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -57,20 +57,24 @@ public class PlayerController : MonoBehaviour
 
         if (_characterController.isGrounded)
         {
-            //_animator.SetBool("run", move.magnitude> 0);
+            _animator.SetBool("isMoving", move.magnitude> 0);
             _moveDir = transform.forward * move.magnitude;
 
             if (Input.GetButton("Fire1")) { //left control - va lento
                 _moveDir *= bendSpeed;
+                _animator.SetTrigger("isSneakingIn");
             }
             else {
                 _moveDir *= Speed;
+                _animator.SetTrigger("isSneakingOut");
+
             }
 
             _moveDir.y = 0;
             if (Input.GetButtonDown("Jump"))
             {
                 _moveDir.y = JumpForce;
+                _animator.SetTrigger("isJumping");
             }
         }
 
