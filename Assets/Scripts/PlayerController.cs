@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _moveDir = Vector3.zero;
 
     public event EventHandler<PlayerControllerEventArgs> Moving; 
-    public event EventHandler Moved;
+    public event EventHandler Idle;
 
     // Use this for initialization
     void Start()
@@ -35,23 +35,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetPlayerMove();
-
-        _moveDir.y -= gravity * Time.deltaTime;
-
-        _characterController.Move(_moveDir * Time.deltaTime);
-
-        OnMoved();
-    }
-
-    private void SetPlayerMove()
-    {
-        // Avisa de que se va a mover
-        PlayerControllerEventArgs e = OnMoving();
-
-        // Si alguien le ha dicho que cancele el movimiento, para
-        if (e.Cancel) return;
-
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -68,21 +51,34 @@ public class PlayerController : MonoBehaviour
         // Get Euler angles
         float turnAmount = Mathf.Atan2(move.x, move.z);
 
-        transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
+        bool moving = move != Vector3.zero;
+
+        if (moving)
+        {
+            // Avisa de que se va a mover
+            PlayerControllerEventArgs e = OnMoving();
+
+            // Si alguien le ha dicho que cancele el movimiento, para
+            if (e.Cancel) return;
+        } 
+        else
+        {
+            OnIdle();
+        }
+
+        transform.Rotate(0, turnAmount *  RotationSpeed * Time.deltaTime, 0);
 
         if (_characterController.isGrounded)
         {
-            _animator.SetBool("isMoving", move.magnitude > 0);
+            _animator.SetBool("isMoving", move.magnitude> 0);
             _moveDir = transform.forward * move.magnitude;
 
-            if (Input.GetButton("Fire1"))
-            { //left control - va lento
+            if (Input.GetButton("Fire1")) { //left control - va lento
                 _moveDir *= bendSpeed;
                 _animator.SetTrigger("isSneakingIn");
                 _characterController.height = _bendHeight;
             }
-            else
-            {
+            else {
                 _moveDir *= Speed;
                 _animator.SetTrigger("isSneakingOut");
                 _characterController.height = _height;
@@ -95,6 +91,10 @@ public class PlayerController : MonoBehaviour
                 _animator.SetTrigger("isJumping");
             }
         }
+
+        _moveDir.y -= gravity * Time.deltaTime;
+
+        _characterController.Move(_moveDir * Time.deltaTime);
     }
 
     protected virtual PlayerControllerEventArgs OnMoving()
@@ -104,9 +104,9 @@ public class PlayerController : MonoBehaviour
         return e;
     }
 
-    protected virtual void OnMoved()
+    protected virtual void OnIdle()
     {
-        Moved?.Invoke(this, EventArgs.Empty);
+        Idle?.Invoke(this, EventArgs.Empty);
     }
 }
 
