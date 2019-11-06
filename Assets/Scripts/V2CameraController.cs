@@ -4,34 +4,37 @@ using UnityEngine;
 
 public class V2CameraController : MonoBehaviour
 {
-    public float RotationSpeed = 1;
-    public Transform Target, Player;
-    float mouseX, mouseY;
+    public Transform target;
+    public Vector3 offsetPos;
+    public float moveSpeed = 5f;
+    public float turnSpeed = 10f;
+    public float smoothSpeed = 0.5f;
 
-    void Start()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+    Quaternion targetRotation;
+    Vector3 targetPos;
+    bool smoothRotating = false;
 
-    void LateUpdate() 
-    {
-        mouseX += Input.GetAxis("Mouse X") * RotationSpeed;
-        mouseY -= Input.GetAxis("Mouse Y") * RotationSpeed;
-        mouseY = Mathf.Clamp(mouseY, -17, 60);
+    void Update() {
+        MoveWithTarget();
+        LookAtTarget();
 
-        transform.LookAt(Target);
-
-        if (Input.GetKey(KeyCode.Mouse2)) 
-        {
-            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
-        }
-        else 
-        {
-            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
-            Player.rotation = Quaternion.Euler(0, mouseX, 0);
-        }
         
     }
+
+    void MoveWithTarget() {
+        targetPos = target.position + offsetPos;
+        transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed * Time.deltaTime);
+    }
+
+    void LookAtTarget() {
+        target.rotation = Quaternion.LookRotation(target.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation )
+    }
+
+
+
+    /*mouseX += Input.GetAxis("Mouse X") * RotationSpeed;
+        mouseY -= Input.GetAxis("Mouse Y") * RotationSpeed;
+        mouseY = Mathf.Clamp(mouseY, -17, 60); */
 
 }
