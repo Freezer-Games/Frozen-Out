@@ -5,7 +5,6 @@ using Yarn.Unity;
 
 public class PlayeController : MonoBehaviour
 {
-    //public Rigidbody rb;
     public float moveSpeed;
     public float jumpForce;
     public CharacterController controller;
@@ -17,7 +16,6 @@ public class PlayeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //rb = GetComponent<Rigidbody>();
        controller = GetComponent<CharacterController>();
 
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
