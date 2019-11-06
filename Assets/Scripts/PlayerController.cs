@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Yarn.Unity;
+﻿using System;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _moveDir = Vector3.zero;
 
-    private DialogueRunner _dialogueSystemYarn;
+    public event EventHandler<PlayerControllerEventArgs> Moving; 
+    public event EventHandler Moved;
 
     // Use this for initialization
     void Start()
@@ -24,15 +25,17 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        _dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         _characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Remove all player control when we're in dialogue
-        if ((_dialogueSystemYarn?.isDialogueRunning ?? false) == true) return;
+        // Avisa de que se va a mover
+        PlayerControllerEventArgs e = OnMoving();
+
+        // Si alguien le ha dicho que cancele el movimiento, para
+        if (e.Cancel) return;
 
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
@@ -74,5 +77,24 @@ public class PlayerController : MonoBehaviour
         _moveDir.y -= gravity * Time.deltaTime;
 
         _characterController.Move(_moveDir * Time.deltaTime);
+
+        OnMoved();
     }
+
+    protected virtual PlayerControllerEventArgs OnMoving()
+    {
+        PlayerControllerEventArgs e = new PlayerControllerEventArgs();
+        Moving?.Invoke(this, e);
+        return e;
+    }
+
+    protected virtual void OnMoved()
+    {
+        Moved?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+public class PlayerControllerEventArgs : EventArgs
+{
+    public bool Cancel { get; set; }
 }
