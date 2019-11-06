@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Yarn.Unity;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,19 +7,29 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
     public float Speed = 5.0f;
     public float RotationSpeed = 240.0f;
-    private float Gravity = 20.0f;
+
+    public float JumpForce = 10.0f;
+
+    private readonly float gravity = 20.0f;
+
     private Vector3 _moveDir = Vector3.zero;
+
+    private DialogueRunner _dialogueSystemYarn;
 
     // Use this for initialization
     void Start()
     {
         //_animator = GetComponent<Animator>();
+        _dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         _characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Remove all player control when we're in dialogue
+        if (_dialogueSystemYarn.isDialogueRunning == true) return;
+
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -47,9 +56,15 @@ public class PlayerController : MonoBehaviour
 
             _moveDir *= Speed;
 
+            _moveDir.y = 0;
+            if (Input.GetButtonDown("Jump"))
+            {
+                _moveDir.y = JumpForce;
+            }
+
         }
 
-        _moveDir.y -= Gravity * Time.deltaTime;
+        _moveDir.y -= gravity * Time.deltaTime;
 
         _characterController.Move(_moveDir * Time.deltaTime);
     }
