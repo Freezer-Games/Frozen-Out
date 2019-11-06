@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Remove all player control when we're in dialogue
-        if (_dialogueSystemYarn.isDialogueRunning == true) return;
+        if ((_dialogueSystemYarn?.isDialogueRunning ?? false) == true) return;
 
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
