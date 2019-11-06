@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     //private Animator _animator;
     private CharacterController _characterController;
     public float Speed = 5.0f;
+    public float bendSpeed = 2.5f;
     public float RotationSpeed = 240.0f;
 
     public float JumpForce = 10.0f;
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         //_animator = GetComponent<Animator>();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         _characterController = GetComponent<CharacterController>();
     }
@@ -51,17 +55,20 @@ public class PlayerController : MonoBehaviour
         if (_characterController.isGrounded)
         {
             //_animator.SetBool("run", move.magnitude> 0);
-
             _moveDir = transform.forward * move.magnitude;
 
-            _moveDir *= Speed;
+            if (Input.GetButton("Fire1")) { //left control - va lento
+                _moveDir *= bendSpeed;
+            }
+            else {
+                _moveDir *= Speed;
+            }
 
             _moveDir.y = 0;
             if (Input.GetButtonDown("Jump"))
             {
                 _moveDir.y = JumpForce;
             }
-
         }
 
         _moveDir.y -= gravity * Time.deltaTime;
