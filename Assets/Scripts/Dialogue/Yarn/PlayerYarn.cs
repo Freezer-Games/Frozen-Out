@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 using Yarn.Unity;
 
 public class PlayerYarn : MonoBehaviour
@@ -19,6 +17,14 @@ public class PlayerYarn : MonoBehaviour
     void Start() {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         dialoguePromptText.text = "";
+
+        PlayerController controller = FindObjectOfType<PlayerController>();
+        controller.Moving += Player_Moving;
+    }
+
+    private void Player_Moving(object sender, PlayerControllerEventArgs e)
+    {
+        if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
     }
 
     private void OnTriggerEnter(Collider other) {
