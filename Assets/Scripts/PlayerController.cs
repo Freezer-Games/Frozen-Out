@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Yarn.Unity;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,16 +17,22 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _moveDir = Vector3.zero;
 
+    private DialogueRunner _dialogueSystemYarn;
+
     // Use this for initialization
     void Start()
     {
         //_animator = GetComponent<Animator>();
+        _dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         _characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Remove all player control when we're in dialogue
+        if (_dialogueSystemYarn.isDialogueRunning == true) return;
+
         // Get Input for axis
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
