@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour
 
     public float RotationSpeed = 240.0f;
 
-    private float Gravity = 20.0f;
+    public float JumpForce = 10.0f;
+
+    private readonly float gravity = 20.0f;
 
     private Vector3 _moveDir = Vector3.zero;
 
@@ -52,9 +54,15 @@ public class PlayerController : MonoBehaviour
 
             _moveDir *= Speed;
 
+            _moveDir.y = 0;
+            if (Input.GetButtonDown("Jump"))
+            {
+                _moveDir.y = JumpForce;
+            }
+
         }
 
-        _moveDir.y -= Gravity * Time.deltaTime;
+        _moveDir.y -= gravity * Time.deltaTime;
 
         _characterController.Move(_moveDir * Time.deltaTime);
     }
