@@ -3,10 +3,10 @@ title: Polo3
 <<if $talked_to_moving>>
     Polo3: ¡¡mucho mejor aqui!!
 <<endif>>
-
+<<if $talked_to_moving is false>>
     Polo3: ¡Uff que frio! ¿¿Tu no tienes frio??
     Pol: Un poco si...
     Polo3: Voy a irme a mi cubitera a refrescarme
-
-<<set $talked_to_moving to true>>
+    <<set $talked_to_moving to true>>
+<<endif>>
 ===

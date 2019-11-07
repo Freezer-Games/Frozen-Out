@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1161,7 +1161,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: abbfd281cdf2c0b4bbfdb0a133464d21,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: abbfd281cdf2c0b4bbfdb0a133464d21,
         type: 3}
@@ -2014,8 +2014,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173611666}
   m_LocalRotation: {x: -0.0063982075, y: -0.967944, z: 0.25104272, w: -0.00458842}
-  m_LocalPosition: {x: 1.52, y: 0.69, z: 0.82}
-  m_LocalScale: {x: 1, y: 1, z: 2.57247}
+  m_LocalPosition: {x: 1.899, y: 0.686, z: 0.825}
+  m_LocalScale: {x: 1.759, y: 1, z: 2.57247}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -2778,6 +2778,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CubiteraCuadradaSketch
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: dfb77ea7553607b4aafe92c15d7be7d8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: dfb77ea7553607b4aafe92c15d7be7d8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3084,6 +3089,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PolModel
       objectReference: {fileID: 0}
+    - target: {fileID: 4101384543429434634, guid: 6c8e4d70f5fab084489a3781a595640b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1058436467286961945, guid: 6c8e4d70f5fab084489a3781a595640b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3139,10 +3149,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1058436467286961945, guid: 6c8e4d70f5fab084489a3781a595640b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1288863470, guid: 6c8e4d70f5fab084489a3781a595640b, type: 3}
       propertyPath: _ground
       value: 
       objectReference: {fileID: 1455793717}
+    - target: {fileID: 733458129995231732, guid: 6c8e4d70f5fab084489a3781a595640b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6678714509069060865, guid: 6c8e4d70f5fab084489a3781a595640b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288863469, guid: 6c8e4d70f5fab084489a3781a595640b, type: 3}
+      propertyPath: character
+      value: 
+      objectReference: {fileID: 1288863472}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c8e4d70f5fab084489a3781a595640b, type: 3}
 --- !u!1 &5461431026843758931 stripped
