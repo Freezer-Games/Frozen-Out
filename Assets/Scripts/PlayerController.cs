@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         // Get Euler angles
         float turnAmount = Mathf.Atan2(move.x, move.z);
 
-        bool moving = move != Vector3.zero;
+        bool moving = move.magnitude > 0;
 
         if (moving)
         {
@@ -59,7 +59,12 @@ public class PlayerController : MonoBehaviour
             PlayerControllerEventArgs e = OnMoving();
 
             // Si alguien le ha dicho que cancele el movimiento, para
-            if (e.Cancel) return;
+            if (e.Cancel)
+            {
+                _moveDir = Vector3.zero;
+                OnIdle();
+                return;
+            }
         } 
         else
         {
@@ -70,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
         if (_characterController.isGrounded)
         {
-            _animator.SetBool("isMoving", move.magnitude> 0);
+            _animator.SetBool("isMoving", moving);
             _moveDir = transform.forward * move.magnitude;
 
             if (Input.GetButton("Fire1")) { //left control - va lento
@@ -106,6 +111,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void OnIdle()
     {
+        _animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
     }
 }
