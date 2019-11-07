@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private readonly float gravity = 20.0f;
 
-    private float _height, _bendHeight;
+    private float _height, _bendHeight; 
+    private float _bendJumpForce => JumpForce * 0.3f;
 
     private Vector3 _moveDir = Vector3.zero;
 
@@ -78,7 +79,10 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isMoving", moving);
             _moveDir = transform.forward * move.magnitude;
 
+            bool sneaking = false;
+
             if (Input.GetButton("Fire1")) { //left control - va lento
+                sneaking = true;
                 _moveDir *= bendSpeed;
                 _animator.SetTrigger("isSneakingIn");
                 _characterController.height = _bendHeight;
@@ -92,7 +96,7 @@ public class PlayerController : MonoBehaviour
             _moveDir.y = 0;
             if (Input.GetButtonDown("Jump"))
             {
-                _moveDir.y = JumpForce;
+                _moveDir.y = sneaking ? _bendJumpForce : JumpForce;
                 _animator.SetTrigger("isJumping");
             }
         }
