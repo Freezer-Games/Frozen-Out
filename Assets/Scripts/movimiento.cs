@@ -21,7 +21,6 @@ public class movimiento : MonoBehaviour
     {
         if (variableStorageYarn.GetValue("$talked_to_moving") != Yarn.Value.NULL && objetivo==false)
         {
-
             UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             agent.destination = goal.position;
             objetivo = true;
