@@ -41,6 +41,7 @@ public class GameMenu : MonoBehaviour
 
     void exit()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
