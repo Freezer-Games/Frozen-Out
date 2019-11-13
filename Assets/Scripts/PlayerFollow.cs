@@ -17,6 +17,8 @@ public class PlayerFollow : MonoBehaviour {
 
     public float RotationsSpeed = 5.0f;
 
+    //public float mouseY;
+
 	// Use this for initialization
 	void Start () {
         _cameraOffset = transform.position - PlayerTransform.position;	
@@ -27,8 +29,13 @@ public class PlayerFollow : MonoBehaviour {
 
         if(RotateAroundPlayer)
         {
+            //mouseY = Input.GetAxis("Mouse Y") * RotationsSpeed;
+            //mouseY = Mathf.Clamp(mouseY, -11, 60);
+
             Quaternion camTurnAngle =
-                Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationsSpeed, Vector3.up);
+                Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationsSpeed, Vector3.up)
+                /** Quaternion.AngleAxis(-mouseY * RotationsSpeed, Vector3.right)*/;
+
 
             _cameraOffset = camTurnAngle * _cameraOffset;
         }
@@ -41,3 +48,4 @@ public class PlayerFollow : MonoBehaviour {
             transform.LookAt(PlayerTransform);
 	}
 }
+

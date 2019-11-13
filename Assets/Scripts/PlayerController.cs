@@ -13,8 +13,10 @@ public class PlayerController : MonoBehaviour
 
     private readonly float gravity = 20.0f;
 
-    private float _height, _bendHeight; 
+    private float _height, _bendHeight;
+    private Vector3 _center, _bendCenter;
     private float _bendJumpForce => JumpForce * 0.3f;
+    private readonly float _bendDiff = 0.4f;
 
     private Vector3 _moveDir = Vector3.zero;
 
@@ -30,7 +32,10 @@ public class PlayerController : MonoBehaviour
 
         _characterController = GetComponent<CharacterController>();
         _height = _characterController.height;
-        _bendHeight = _characterController.height * 0.8f;
+        _bendHeight = _characterController.height - _bendDiff;
+        _center = _characterController.center;
+        _bendCenter = _characterController.center;
+        _bendCenter.y -= (_bendDiff / 2);
     }
 
     // Update is called once per frame
@@ -84,13 +89,15 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButton("Fire1")) { //left control - va lento
                 sneaking = true;
                 _moveDir *= bendSpeed;
-                _animator.SetTrigger("isSneakingIn");
                 _characterController.height = _bendHeight;
+                _characterController.center = _bendCenter;
+                _animator.SetTrigger("isSneakingIn");
             }
             else {
                 _moveDir *= Speed;
                 _animator.SetTrigger("isSneakingOut");
                 _characterController.height = _height;
+                _characterController.center = _center;
             }
 
             _moveDir.y = 0;
