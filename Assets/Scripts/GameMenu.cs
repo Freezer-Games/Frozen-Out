@@ -9,6 +9,7 @@ public class GameMenu : MonoBehaviour
     public Button ContinueButton;
     public Button SaveButton;
     public Button LoadButton;
+    public Button RestartButton;
     public Button ExitButton;
     public Canvas MenuCanvas;
 
@@ -19,7 +20,18 @@ public class GameMenu : MonoBehaviour
         ContinueButton.onClick.AddListener(CloseOpenMenu);
         SaveButton.onClick.AddListener(SaveGame);
         LoadButton.onClick.AddListener(LoadGame);
+        RestartButton.onClick.AddListener(Restart);
         ExitButton.onClick.AddListener(exit);
+
+    }
+
+    void Restart()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
     }
 
