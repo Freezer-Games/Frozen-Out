@@ -8,15 +8,22 @@ public class GraphicsMenu : MonoBehaviour
 {
     public Dropdown resolutiondropdown;
     public Dropdown proportiondropdown;
-    public Button applybutton;
     public Dropdown screentypedropdown;
+    public Button LowResButton;
+    public Button MediumResButton;
+    public Button HighResButton;
+    public Button applybutton;
+
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        applybutton.onClick.AddListener(apply_settings);
+        proportiondropdown.onValueChanged.AddListener(delegate {
+            proportionchange(proportiondropdown, resolutiondropdown);
+        });
     }
 
     void apply_settings()
@@ -28,7 +35,9 @@ public class GraphicsMenu : MonoBehaviour
         int res2 = Int32.Parse(strlist[1]);
         if (screentypedropdown.value == 0) { Screen.SetResolution(res1, res2, true); }
         else if (screentypedropdown.value == 1) { Screen.SetResolution(res1, res2, false); }
-
+        if (HighResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 0; }
+        else if (MediumResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 4; }
+        else if (LowResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 8; }
 
     }
 
@@ -75,9 +84,6 @@ public class GraphicsMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        applybutton.onClick.AddListener(apply_settings);
-        proportiondropdown.onValueChanged.AddListener(delegate {
-            proportionchange(proportiondropdown, resolutiondropdown);
-        });
+
     }
 }
