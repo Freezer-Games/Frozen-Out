@@ -22,7 +22,7 @@ public class PlayerFollow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _cameraOffset = transform.position - PlayerTransform.position;	
+        _cameraOffset = transform.position - PlayerTransform.position;
 	}
 	
 	// LateUpdate is called after Update methods
@@ -30,12 +30,11 @@ public class PlayerFollow : MonoBehaviour {
 
         if(RotateAroundPlayer)
         {
-            //mouseY = -(Input.GetAxis("Mouse Y") * RotationsSpeed);
-            //mouseY = Mathf.Clamp(mouseY, -11, 60);
+            //mouseY = -(Input.GetAxis("Mouse Y") * RotationsSpeed);    
 
             Quaternion camTurnAngle =
-                Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationsSpeed, Vector3.up) 
-             /* * Quaternion.AngleAxis(mouseY * VerticalSpeed, Vector3.right)*/;
+                Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationsSpeed, Vector3.up);
+              //* Quaternion.AngleAxis(mouseY * VerticalSpeed, Vector3.right)
 
             _cameraOffset = camTurnAngle * _cameraOffset;
         }

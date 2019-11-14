@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Animator _animator;
+    [Header("Player values")]
     private CharacterController _characterController;
     public float Speed = 5.0f;
     public float bendSpeed = 2.5f;
@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
+
+    private Animator _animator;
 
     // Use this for initialization
     void Start()
