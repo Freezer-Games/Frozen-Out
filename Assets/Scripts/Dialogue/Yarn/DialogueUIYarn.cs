@@ -24,9 +24,14 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
     private AudioSource audioSource;
     private float localDelay;
+    private readonly float localDelayMultiplier = 1.5f;
 
     private string LINE_SEPARATOR = ": ";
     private string MAIN_NAME = "Pol";
+
+    private Text currentNameText, currentDialogueText;
+
+    private bool dialogueRunning = false;
 
     void Start()
     {
@@ -46,66 +51,98 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         otherDialogueText.text = "";
     }
 
-    void Update() {
-        if(Input.anyKeyDown) { localDelay = localDelay / 2; }
+    void FixedUpdate() {
+        if (dialogueRunning && Input.anyKey)
+        {
+            localDelay /= localDelayMultiplier;
+        }
     }
 
-    public override IEnumerator RunLine(Yarn.Line line) {
+    public override IEnumerator RunLine(Yarn.Line line)
+    {
 
-        string characterName;
-        string characterDialogue;
-        SeparateLine(line.text, out characterName, out characterDialogue);
-        
-        Text currentNameText = mainNameText;
-        Text currentDialogueText = mainDialogueText;
-        if(characterName != MAIN_NAME)
+        SeparateLine(line.text, out string characterName, out string characterDialogue);
+
+        GetCurrentDialogueText(characterName);
+        ApplyStyle();
+
+        currentDialogueText.gameObject.SetActive(true);
+
+        if (letterDelay > 0.0f)
+        {
+            // Display the line one character at a time
+            var stringBuilder = new StringBuilder();
+
+            localDelay = letterDelay;
+
+            foreach (char c in characterDialogue)
+            {
+                stringBuilder.Append(c);
+                currentDialogueText.text = stringBuilder.ToString();
+                yield return new WaitForSeconds(localDelay);
+            }
+        }
+        currentDialogueText.text = characterDialogue;
+
+        // Show the 'press any key' prompt when done, if we have one
+        if (continuePrompt != null)
+        {
+            continuePrompt.gameObject.SetActive(true);
+        }
+
+        while (!Input.anyKeyDown)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        currentDialogueText.gameObject.SetActive(false);
+
+        if (continuePrompt != null)
+        {
+            continuePrompt.gameObject.SetActive(false);
+        }
+    }
+
+    private void GetCurrentDialogueText(string characterName)
+    {
+        currentNameText = mainNameText;
+        currentDialogueText = mainDialogueText;
+        if (characterName != MAIN_NAME)
         {
             currentNameText = otherNameText;
             currentDialogueText = otherDialogueText;
         }
 
         currentNameText.text = characterName;
-        currentDialogueText.gameObject.SetActive (true);
-
-        if (letterDelay > 0.0f) {
-            // Display the line one character at a time
-            var stringBuilder = new StringBuilder ();
-
-            localDelay = letterDelay;
-
-            foreach (char c in characterDialogue) {
-                stringBuilder.Append (c);
-                currentDialogueText.text = stringBuilder.ToString ();
-                yield return new WaitForSeconds (localDelay);
-            }
-        }
-        currentDialogueText.text = characterDialogue;
-
-        // Show the 'press any key' prompt when done, if we have one
-        if (continuePrompt != null) {
-            continuePrompt.gameObject.SetActive (true);
-        }
-
-        while (Input.anyKeyDown == false) {
-            yield return null;
-        }
-
-        yield return new WaitForEndOfFrame();
-
-        currentDialogueText.gameObject.SetActive (false);
-
-        if (continuePrompt != null){
-            continuePrompt.gameObject.SetActive (false);
-        }
     }
 
     public override IEnumerator RunOptions(Yarn.Options optionsCollection, Yarn.OptionChooser optionChooser) {
         yield return null;
     }
 
+    private FontStyle _previousFontStyle, currentFontStyle;
+
     public override IEnumerator RunCommand (Yarn.Command command)
     {
+        switch (command.text)
+        {
+            case "bold":
+                currentFontStyle = FontStyle.Bold;
+                break;
+            case "/bold":
+                currentFontStyle = _previousFontStyle;
+                break;
+        }
+
         yield break;
+    }
+
+    private void ApplyStyle()
+    {
+        _previousFontStyle = currentDialogueText.fontStyle;
+        currentDialogueText.fontStyle = currentFontStyle;
     }
 
     public override IEnumerator DialogueStarted ()
@@ -118,6 +155,8 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         mainNameText.text = "";
         otherNameText.text = "";
 
+        dialogueRunning = true;
+
         yield break;
     }
 
@@ -126,6 +165,8 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         // Hide the dialogue interface.
         if (dialogueBoxGUI != null)
             dialogueBoxGUI.SetActive(false);
+
+        dialogueRunning = false;
 
         yield break;
     }
