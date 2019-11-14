@@ -7,7 +7,7 @@ public class LocalizedText : MonoBehaviour
 {
     public string key;
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
         Text text = GetComponent<Text>();
         text.text = LocalizationManager.instance.GetLocalizedValue(key);

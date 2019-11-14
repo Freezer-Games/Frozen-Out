@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeLanguage : MonoBehaviour
+public class GameCanvas : MonoBehaviour
 {
     public Dropdown DropdownLanguage;
     // Start is called before the first frame update

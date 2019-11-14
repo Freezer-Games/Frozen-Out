@@ -31,6 +31,7 @@ public class LocalizationManager : MonoBehaviour
     {
         localizedText = new Dictionary<string, string>();
         string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+        print(Application.streamingAssetsPath);
 
         if (File.Exists(filePath))
         {
