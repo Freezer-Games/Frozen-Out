@@ -87,11 +87,10 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 				char c = characterDialogue[index];
                 if (c.Equals(TAG_SEPARATOR_INIT))
                 {
-                    ExtractTag(characterDialogue, index, out string tagOptionFull, out string tagOption, out TagOptionPosition tagOptionPosition, out string remainingText);
-                    int nextIndex = index + tagOptionFull.Length;
+                    ExtractTag(characterDialogue, index, out string tagOptionFull, out string tagOption, out TagOptionPosition tagOptionPosition, out string _);
                     if (tagOptionPosition == TagOptionPosition.start)
                     {
-                        yield return RunTaggedLine(stringBuilder, remainingText, nextIndex + 1, tagOptionFull, tagOption);
+                        yield return RunTaggedLine(stringBuilder, characterDialogue, index, tagOptionFull, tagOption);
                     }
                     else
                     {
@@ -99,8 +98,11 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
                     }
                     index = currentIndex;
                 }
-
-                stringBuilder.Append(c);
+                else
+                {
+                    stringBuilder.Append(c);
+                }
+ 
                 currentDialogueText.text = stringBuilder.ToString();
                 yield return new WaitForSeconds(localDelay);
 			}
@@ -143,12 +145,13 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
     private IEnumerator RunTaggedLine(StringBuilder builder, string line, int startIndex, string tagOptionFull, string tagOption)
     {
-        int indexOfNextTagInit = line.IndexOf(TAG_SEPARATOR_INIT);
+        string lineWithoutInit = line.Substring(startIndex + tagOptionFull.Length);
+        int indexOfNextTagInit = lineWithoutInit.IndexOf(TAG_SEPARATOR_INIT);
 
         if (indexOfNextTagInit >= 0)
         {
-            ExtractTag(line, indexOfNextTagInit, out string nextTagOptionFull, out string nextTagOption, out TagOptionPosition tagOptionPosition, out string nextLine);
-            int nextIndex = startIndex + tagOptionFull.Length;
+            ExtractTag(lineWithoutInit, indexOfNextTagInit, out string nextTagOptionFull, out string nextTagOption, out TagOptionPosition tagOptionPosition, out string nextLine);
+            int taggedLineLength = 0;
             if (tagOptionPosition == TagOptionPosition.end)
             {             
                 if (tagOption == nextTagOption)
@@ -156,11 +159,13 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
                     builder.Append(tagOptionFull + nextTagOptionFull);                 
                     for (int indexWord = 0; indexWord < indexOfNextTagInit; indexWord++)
                     {
-                        char w = line[indexWord];
+                        char w = lineWithoutInit[indexWord];
                         builder.Insert(builder.Length - nextTagOptionFull.Length, w);
+                        currentDialogueText.text = builder.ToString();
                         yield return new WaitForSeconds(localDelay);
                     }
-                    nextIndex = indexOfNextTagInit + nextTagOptionFull.Length;
+
+                    taggedLineLength = tagOptionFull.Length + indexOfNextTagInit + nextTagOptionFull.Length;
                 }
                 else
                 {
@@ -169,9 +174,9 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
             }
             else
             {
-                RunTaggedLine(builder, nextLine, nextIndex + 1, tagOptionFull, tagOption);          
+                yield return RunTaggedLine(builder, nextLine, taggedLineLength + 1, tagOptionFull, tagOption);          
             }
-            currentIndex = nextIndex;
+            currentIndex += taggedLineLength;
         }
         else
         {
