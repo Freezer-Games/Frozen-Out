@@ -6,6 +6,12 @@ using System.Text;
 using Yarn.Unity;
 
 public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
+    public const string MAIN_NAME = "Pol";
+    public const string LINE_SEPARATOR = ": ";
+
+    public const char TAG_SEPARATOR_INIT = '<';
+    public const char TAG_SEPARATOR_END = '>';
+    public const char TAG_OPTION_END = '/';
 
     //Where name of character will be displayed
     public Text mainNameText;
@@ -27,14 +33,10 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
     private AudioSource audioSource;
     private float localDelay;
     private readonly float localDelayMultiplier = 1.5f;
-    
-    private string MAIN_NAME = "Pol";
-	private string LINE_SEPARATOR = ": ";
-	
-	private char TAG_SEPARATOR_INIT = '<';
-	private char TAG_SEPARATOR_END = '>';
 	
 	private DialogueRunner dialogueSystem;
+    private int currentLineNumber;
+    private int currentIndex;
 
     void Start()
     {
@@ -64,6 +66,9 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
     public override IEnumerator RunLine(Yarn.Line line)
     {
+        currentLineNumber++;
+        currentIndex = 0;
+
         SeparateLine(line.text, out string characterName, out string characterDialogue);
 
         GetCurrentDialogueText(characterName);
@@ -77,47 +82,25 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
             localDelay = letterDelay;
 			
-			for(int index = 0; index < characterDialogue.Length; index++) {
-				
+			for(int index = currentIndex; index < characterDialogue.Length; index++) {
+                currentIndex = index;
 				char c = characterDialogue[index];
-				
-				if(c.Equals(TAG_SEPARATOR_INIT)){
-					string remainingTextWithStart = characterDialogue.Substring(index);
-					
-					int indexOfSeparatorStartEnd = remainingTextWithStart.IndexOf(TAG_SEPARATOR_END);
-					string richTextOption_init = remainingTextWithStart.Substring(
-						0,
-						indexOfSeparatorStartEnd + 1);
-					
-					string remainingText = remainingTextWithStart.Substring(indexOfSeparatorStartEnd + 1);
-					
-					int indexOfSeparatorFinishInit = remainingText.IndexOf(TAG_SEPARATOR_INIT);
-					
-					string richTextOption_word = remainingText.Substring(
-						0,
-						indexOfSeparatorFinishInit);
-					
-					string remainingTextWithEnd = remainingText.Substring(indexOfSeparatorFinishInit);
-					
-					int indexOfSeparatorFinishEnd = remainingTextWithEnd.IndexOf(TAG_SEPARATOR_END);
-					string richTextOption_end = remainingTextWithEnd.Substring(
-						0,
-						indexOfSeparatorFinishEnd + 1);
-						
-					stringBuilder.Append(richTextOption_init + richTextOption_end);
-					for(int indexWord = 0; indexWord < richTextOption_word.Length; indexWord++){
-						char w = richTextOption_word[indexWord];
-						
-						stringBuilder.Insert(stringBuilder.Length - richTextOption_end.Length, w);
-						currentDialogueText.text = stringBuilder.ToString();
-						yield return new WaitForSeconds(localDelay);
-					}
-					
-					index += richTextOption_init.Length + richTextOption_word.Length + richTextOption_end.Length - 1;
-					continue;
-				}
-				
-				stringBuilder.Append(c);
+                if (c.Equals(TAG_SEPARATOR_INIT))
+                {
+                    ExtractTag(characterDialogue, index, out string tagOptionFull, out string tagOption, out TagOptionPosition tagOptionPosition, out string remainingText);
+                    int nextIndex = index + tagOptionFull.Length;
+                    if (tagOptionPosition == TagOptionPosition.start)
+                    {
+                        yield return RunTaggedLine(stringBuilder, remainingText, nextIndex + 1, tagOptionFull, tagOption);
+                    }
+                    else
+                    {
+                        LogWarningEndTagBeforeStart(index);
+                    }
+                    index = currentIndex;
+                }
+
+                stringBuilder.Append(c);
                 currentDialogueText.text = stringBuilder.ToString();
                 yield return new WaitForSeconds(localDelay);
 			}
@@ -158,6 +141,72 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         currentNameText.text = characterName;
     }
 
+    private IEnumerator RunTaggedLine(StringBuilder builder, string line, int startIndex, string tagOptionFull, string tagOption)
+    {
+        int indexOfNextTagInit = line.IndexOf(TAG_SEPARATOR_INIT);
+
+        if (indexOfNextTagInit >= 0)
+        {
+            ExtractTag(line, indexOfNextTagInit, out string nextTagOptionFull, out string nextTagOption, out TagOptionPosition tagOptionPosition, out string nextLine);
+            int nextIndex = startIndex + tagOptionFull.Length;
+            if (tagOptionPosition == TagOptionPosition.end)
+            {             
+                if (tagOption == nextTagOption)
+                {
+                    builder.Append(tagOptionFull + nextTagOptionFull);                 
+                    for (int indexWord = 0; indexWord < indexOfNextTagInit; indexWord++)
+                    {
+                        char w = line[indexWord];
+                        builder.Insert(builder.Length - nextTagOptionFull.Length, w);
+                        yield return new WaitForSeconds(localDelay);
+                    }
+                    nextIndex = indexOfNextTagInit + nextTagOptionFull.Length;
+                }
+                else
+                {
+                    LogWarningEndTagBeforeStart(startIndex);
+                }
+            }
+            else
+            {
+                RunTaggedLine(builder, nextLine, nextIndex + 1, tagOptionFull, tagOption);          
+            }
+            currentIndex = nextIndex;
+        }
+        else
+        {
+            LogWarningStartTagWithoutEnd(startIndex);
+            currentIndex = startIndex;
+        }
+    }
+
+    private void LogWarningEndTagBeforeStart(int index) => Debug.LogWarning($"Warning: End tag before start (line {currentLineNumber}, position {index}). Skipping tag.");
+    private void LogWarningStartTagWithoutEnd(int index) => Debug.LogWarning($"Warning: Start tag without end (line {currentLineNumber}, position {index}). Skipping tag.");
+
+    private static void ExtractTag(string line, int startIndex, out string tagOptionFull, out string tagOption, out TagOptionPosition tagOptionPosition, out string remainingText)
+    {
+        string remainingTextWithStart = line.Substring(startIndex);
+
+        int indexOfSeparatorStartEnd = remainingTextWithStart.IndexOf(TAG_SEPARATOR_END);
+        tagOptionFull = remainingTextWithStart.Substring(0, indexOfSeparatorStartEnd + 1);
+        tagOption = ExtractTagOption(tagOptionFull);
+
+        int indexOfOptionEnd = tagOptionFull.IndexOf(TAG_OPTION_END);
+        if (indexOfOptionEnd < 0)
+        {
+            tagOptionPosition = TagOptionPosition.start;
+        }
+        else
+        {
+            tagOptionPosition = TagOptionPosition.end;
+            tagOption = tagOption.Remove(indexOfOptionEnd - 1, 1);
+        }
+
+        remainingText = remainingTextWithStart.Substring(indexOfSeparatorStartEnd + 1);
+    }
+
+    private static string ExtractTagOption(string tagOptionFull) => tagOptionFull.Substring(1, tagOptionFull.Length - 2);
+
     public override IEnumerator RunOptions(Yarn.Options optionsCollection, Yarn.OptionChooser optionChooser) {
         yield return null;
     }
@@ -176,6 +225,8 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
 
         mainNameText.text = "";
         otherNameText.text = "";
+
+        currentLineNumber = 0;
 
         yield break;
     }
@@ -196,3 +247,5 @@ public class DialogueUIYarn : Yarn.Unity.DialogueUIBehaviour {
         dialogue = text.Substring(indexOfNameSeparator + 2);
     }
 }
+
+public enum TagOptionPosition { start, end }
