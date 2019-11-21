@@ -108,18 +108,18 @@ namespace Assets.Scripts.Dialogue.Texts
                         if (tag.Position == TagOptionPosition.start)
                         {
                             string textSearchingForEnd = remainingTextAfterStart;
-                            string taggedText = null;
+                            string taggedText = null, remainingTextAfterEnd = null;
                             TagOption endTag = null;
                             while (taggedText == null && textSearchingForEnd.Length > 0)
                             {
                                 int indexOfEndTagInit = textSearchingForEnd.IndexOf(Tag.SEPARATOR_INIT);
                                 if (indexOfEndTagInit >= 0)
                                 {
-                                    endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out string remainingTextAfterEnd);
+                                    endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out remainingTextAfterEnd);
                                     if (TagOption.Matches(tag, endTag))
                                     {
                                         taggedText = remainingTextAfterStart.Substring(0, remainingTextAfterStart.Length - remainingTextAfterEnd.Length - endTag.Text.Length);
-                                        nextIndex = textBeingAnalyzed.Length - remainingTextAfterEnd.Length; // This tag has been found correctly, go to the next portion of the text
+                                        textBeingAnalyzed = remainingTextAfterEnd; // This tag has been found correctly, go to the next portion of the text
                                     }
                                     else
                                     {
@@ -135,8 +135,21 @@ namespace Assets.Scripts.Dialogue.Texts
                             else
                             {
                                 DialogueTaggedText dialogueTaggedText = new DialogueTaggedText(new Tag(tag, endTag), AnalyzeText(taggedText, logger));
-                                if (resultDialogueText == null) resultDialogueText = dialogueTaggedText;
-                                else resultDialogueText.AddDialogueText(dialogueTaggedText);
+                                if (resultDialogueText == null)
+                                {
+                                    if (remainingTextAfterEnd != null && remainingTextAfterEnd.Length > 0)
+                                    {
+                                        resultDialogueText = new ComplexDialogueText(dialogueTaggedText);
+                                    }
+                                    else
+                                    {
+                                        resultDialogueText = dialogueTaggedText;
+                                    }
+                                }
+                                else
+                                {
+                                    resultDialogueText.AddDialogueText(dialogueTaggedText);
+                                }
                             }
                         }
                         else
@@ -146,14 +159,14 @@ namespace Assets.Scripts.Dialogue.Texts
                     }
                     catch (ParsingException ex)
                     {
-                        // Log the warning
+                        // Log the exception
                         logger?.Invoke(ex);
-                        Console.WriteLine(ex.Message); 
-                    }
+                        Console.WriteLine(ex.Message);
 
-                    // Go to the next portion of the text (depending on what happened)
-                    textBeingAnalyzed = textBeingAnalyzed.Substring(nextIndex);
-                    currentIndex = nextIndex;
+                        // Go to the next portion of the text (Skip the exception source)
+                        textBeingAnalyzed = textBeingAnalyzed.Substring(nextIndex);
+                        currentIndex = nextIndex;
+                    }
                 }
                 else
                 {
