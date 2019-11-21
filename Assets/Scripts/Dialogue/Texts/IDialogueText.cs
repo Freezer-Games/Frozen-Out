@@ -5,8 +5,7 @@ namespace Assets.Scripts.Dialogue.Texts
 {
     public interface IDialogueText
     {
-        IEnumerable<char> Parse();
-        IEnumerable<string> ParseInBuilder(StringBuilder builder);
+        IEnumerable<string> Parse();
 
         void AddText(string text);
         void AddDialogueText(IDialogueText dialogueText);

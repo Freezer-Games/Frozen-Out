@@ -25,20 +25,13 @@ namespace Assets.Scripts.Dialogue.Texts
             this.Text += dialogueText.ToString();
         }
 
-        public IEnumerable<string> ParseInBuilder(StringBuilder builder)
+        public IEnumerable<string> Parse()
         {
-            foreach (char letter in Parse())
-            {
-                builder.Append(letter);
-                yield return letter.ToString();
-            }
-        }
-
-        public IEnumerable<char> Parse()
-        {
+            string currentText = "";
             foreach (char letter in Text)
             {
-                yield return letter;
+                currentText += letter;
+                yield return currentText;
             }
         }
 

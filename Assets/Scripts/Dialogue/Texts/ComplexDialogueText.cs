@@ -47,36 +47,23 @@ namespace Assets.Scripts.Dialogue.Texts
         }
 
         /// <summary>
-        /// Obtiene el texto de todos los <see cref="DialogueText"/>, y lo va actualizando letra a letra en el <paramref name="builder"/>.
-        /// <para>En este método, si el texto tiene tags (<see cref="DialogueTaggedText"/>),
+        /// Obtiene el texto de todos los <see cref="IDialogueText"/>, y lo devuelve letra a letra.
+        /// <para>Si el texto tiene tags (<see cref="DialogueTaggedText"/>),
         /// envolverá el texto en el tag para que el usuario nunca vea los caracteres asociados al mismo (los cuales no forman parte del texto).</para>
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> ParseInBuilder(StringBuilder builder)
+        public IEnumerable<string> Parse()
         {
+            string currentTotalText = "";
             foreach (IDialogueText text in Texts)
             {
-                foreach (string currentText in text.ParseInBuilder(builder))
+                string currentText = "";
+                foreach (string nextText in text.Parse())
                 {
-                    yield return currentText;
+                    currentText = nextText;
+                    yield return currentTotalText + nextText;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Obtiene el texto de todos los <see cref="IDialogueText"/>, y lo devuelve letra a letra.
-        /// <para>En este método, no importa si el texto tiene tags (<see cref="DialogueTaggedText"/>), devolverá cada carácter uno por uno.</para>
-        /// <para>Para un comportamiento más útil para mostrar en elementos de la UI, es mejor utilizar <see cref="ParseInBuilder(StringBuilder)"/>.</para>
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<char> Parse()
-        {
-            foreach (IDialogueText text in Texts)
-            {
-                foreach (char letter in text.Parse())
-                {
-                    yield return letter;
-                }
+                currentTotalText += currentText;
             }
         }
 

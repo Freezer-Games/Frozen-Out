@@ -77,17 +77,14 @@ namespace Assets.Scripts.Dialogue
 
             if (letterDelay > 0.0f)
             {
-                // Display the line one character at a time
-                var stringBuilder = new StringBuilder();
-
                 localDelay = letterDelay;
 
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, 
                     parsingException => Debug.LogError($"Error: {parsingException.GetFullMessage(currentLineNumber)}"));
 
-                foreach (string lastTextAddition in completeCharacterDialogue.ParseInBuilder(stringBuilder))
+                foreach (string currentText in completeCharacterDialogue.Parse())
                 {
-                    currentDialogueText.text = stringBuilder.ToString();
+                    currentDialogueText.text = currentText;
                     yield return new WaitForSeconds(localDelay);
                 }
             }

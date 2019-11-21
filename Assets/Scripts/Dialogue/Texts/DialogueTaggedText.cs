@@ -37,22 +37,14 @@ namespace Assets.Scripts.Dialogue.Texts
                 this.Text.AddDialogueText(dialogueText);
         }
 
-        public IEnumerable<string> ParseInBuilder(StringBuilder builder)
+        public IEnumerable<string> Parse()
         {
+            string startTag = Tag.StartOption.Text;
             string endTag = Tag.EndOption.Text;
-            builder.Append(Tag.StartOption.Text + endTag);
-            foreach (char letter in Parse())
-            {
-                builder.Insert(builder.Length - endTag.Length, letter);
-                yield return builder.ToString();
-            }
-        }
 
-        public IEnumerable<char> Parse()
-        {
-            foreach (char letter in Text.Parse())
+            foreach (string nextText in Text.Parse())
             {
-                yield return letter;
+                yield return $"{startTag}{nextText}{endTag}";
             }
         }
 
