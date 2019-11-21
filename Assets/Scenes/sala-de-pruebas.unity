@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 73083752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c00b36654e7a74cb033cbfce34cdef, type: 3}
+  m_Script: {fileID: 11500000, guid: 75cc25f3f303f11448787ac9f461bf67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &73083754
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 73083752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c54bd5263712c54eb4266abc1ba6ddd, type: 3}
+  m_Script: {fileID: 11500000, guid: 89458fb9e10904948a144ca7770b25db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainNameText: {fileID: 443929104}
@@ -890,7 +890,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 381452761}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d92c625df56924686a0ab01f7077f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 232984554bc75fe49894f1d001a8c364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Polo3
@@ -1474,7 +1474,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 503816592}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d92c625df56924686a0ab01f7077f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 232984554bc75fe49894f1d001a8c364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Paco
@@ -2711,81 +2711,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986868129}
   m_CullTransparentMesh: 0
---- !u!1 &1021298744
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1021298745}
-  - component: {fileID: 1021298746}
-  - component: {fileID: 1021298747}
-  - component: {fileID: 1021298748}
-  m_Layer: 0
-  m_Name: DialogueCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1021298745
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021298744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1559963938}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1021298746
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021298744}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1021298747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021298744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f032fdad1f5394419fc6ee037030fab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueInput: 102
-  dialoguePromptText: {fileID: 1776775421}
---- !u!114 &1021298748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1021298744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d92c625df56924686a0ab01f7077f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: Player
-  talkToNode: 
-  scriptToLoad: {fileID: 0}
 --- !u!1 &1068512515
 GameObject:
   m_ObjectHideFlags: 0
@@ -3578,50 +3503,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: -4615670470175278366, guid: 25f050637a1b5d94da222a6229bc0d80, type: 3}
---- !u!1 &1559963935 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: abbfd281cdf2c0b4bbfdb0a133464d21,
-    type: 3}
-  m_PrefabInstance: {fileID: 620900449}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &1559963936
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559963935}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.7
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.3, z: 0}
---- !u!4 &1559963938 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: abbfd281cdf2c0b4bbfdb0a133464d21,
-    type: 3}
-  m_PrefabInstance: {fileID: 620900449}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &1559963939
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559963935}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.27491593
-  m_Height: 1.5967088
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.29542184, z: -0.0050718784}
 --- !u!1 &1607288644
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,7 +4060,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1758834100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d92c625df56924686a0ab01f7077f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 232984554bc75fe49894f1d001a8c364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Polo2
@@ -4790,7 +4671,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2016024531}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49d92c625df56924686a0ab01f7077f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 232984554bc75fe49894f1d001a8c364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Polo1
@@ -5775,7 +5656,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5461431026843758931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f032fdad1f5394419fc6ee037030fab, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d5bb1b6bd1bb554c92392f109dca7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueInput: 102
