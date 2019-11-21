@@ -1,5 +1,8 @@
 ﻿namespace Assets.Scripts.Dialogue.Texts.Tags
 {
+    /// <summary>
+    /// Tags disponibles en Unity: https://docs.unity3d.com/Manual/StyledText.html
+    /// </summary>
     public class Tag
     {
         public const char SEPARATOR_INIT = '<';
