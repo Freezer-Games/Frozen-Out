@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BetterCamera : MonoBehaviour
 {
-    private const float Y_ANGLE_MIN = 1.0f;
-    private const float Y_ANGLE_MAX = 50.0f;
+    private const float Y_ANGLE_MIN = 10.0f;
+    private const float Y_ANGLE_MAX = 75.0f;
     public Transform lookAt;
     public Transform camTransform;
 
