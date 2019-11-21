@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Dialogue.Yarn
+﻿namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class Tag
     {

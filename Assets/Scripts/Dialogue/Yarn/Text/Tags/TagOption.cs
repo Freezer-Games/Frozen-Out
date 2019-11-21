@@ -4,19 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Dialogue.Yarn
+namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class TagOption
     {
         public string Option { get; set; }
         public TagOptionPosition Position { get; set; }
 
-        public string Text => Position switch
+        public string Text
         {
-            TagOptionPosition.start => Tag.SEPARATOR_INIT + Option + Tag.SEPARATOR_END,
-            TagOptionPosition.end => Tag.SEPARATOR_INIT + Tag.OPTION_END + Option + Tag.SEPARATOR_END,
-            _ => null,
-        };
+            get
+            {
+                // No se puede convertir en expresión switch, porque Unity no lo entiende
+                // (es una adición a CSharp muy nueva)
+                switch (Position)
+                {
+                    case TagOptionPosition.start: return $"{Tag.SEPARATOR_INIT}{Option}{Tag.SEPARATOR_END}";
+                    case TagOptionPosition.end: return $"{Tag.SEPARATOR_INIT}{Tag.OPTION_END}{Option}{Tag.SEPARATOR_END}";
+                    default: return null;
+                };
+            }
+        }
 
         public TagOption(string option, TagOptionPosition position = TagOptionPosition.start)
         {
@@ -24,7 +32,7 @@ namespace Assets.Scripts.Dialogue.Yarn
             this.Position = position;
         }    
 
-        public override string ToString() => base.ToString();
+        public override string ToString() => this.Text;
 
         public static TagOption ExtractTag(string line, int startIndex, out string remainingText)
         {
