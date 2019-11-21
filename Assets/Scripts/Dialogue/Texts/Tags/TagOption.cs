@@ -2,7 +2,17 @@
 {
     public class TagOption
     {
+        public const char EQUAL_SIGN = '=';
+
         public string Option { get; set; }
+
+        public string MainOption => 
+            (Option == null) 
+            ? null 
+            : (Option.IndexOf(EQUAL_SIGN) < 0) 
+                ? Option 
+                : Option.Split(EQUAL_SIGN)[0];
+
         public TagOptionPosition Position { get; set; }
 
         public string Text
@@ -24,9 +34,16 @@
         {
             this.Option = option;
             this.Position = position;
-        }    
+        }
 
         public override string ToString() => this.Text;
+
+        public static bool Matches(TagOption start, TagOption end)
+        {
+            return start.Position == TagOptionPosition.start
+                && end.Position == TagOptionPosition.end
+                && start.MainOption == end.MainOption;
+        }
 
         public static TagOption ExtractTag(string line, int startIndex, out string remainingText)
         {

@@ -115,7 +115,7 @@ namespace Assets.Scripts.Dialogue.Texts
                                 if (indexOfEndTagInit >= 0)
                                 {
                                     TagOption endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out string remainingTextAfterEnd);
-                                    if (endTag.Position == TagOptionPosition.end && tag.Option == endTag.Option)
+                                    if (TagOption.Matches(tag, endTag))
                                     {
                                         taggedText = remainingTextAfterStart.Substring(0, remainingTextAfterStart.Length - remainingTextAfterEnd.Length - endTag.Text.Length);
                                         nextIndex = textBeingAnalyzed.Length - remainingTextAfterEnd.Length; // This tag has been found correctly, go to the next portion of the text
