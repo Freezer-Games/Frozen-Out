@@ -6,17 +6,19 @@ public class CameraCollision : MonoBehaviour
 {
     public Transform cam;
     public Transform character;
+    public Transform leftRay;
+    public Transform rightRay;
     public Material transparencia;
 
 
     private Vector3 direction;
     private Vector3 camPosition;
     private Vector3 characterPosition;
+    private Vector3 addedCharPos = new Vector3(0, 1.3f, 0);
 
     private Renderer onCol;
 
     private Material oldMaterial;
-
 
     private bool check;
 
@@ -28,7 +30,7 @@ public class CameraCollision : MonoBehaviour
     void Update()
     {
         camPosition = cam.position;
-        characterPosition = character.position;
+        characterPosition = character.position + addedCharPos;
 
         direction = characterPosition - camPosition;
 
