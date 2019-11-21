@@ -54,7 +54,7 @@ namespace Assets.Scripts.Dialogue.Texts
         /// <returns></returns>
         public IEnumerable<string> ParseInBuilder(StringBuilder builder)
         {
-            foreach (DialogueText text in Texts)
+            foreach (IDialogueText text in Texts)
             {
                 foreach (string currentText in text.ParseInBuilder(builder))
                 {
@@ -87,7 +87,7 @@ namespace Assets.Scripts.Dialogue.Texts
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static IDialogueText AnalyzeText(string text, Action<TagException> logger = null)
+        public static IDialogueText AnalyzeText(string text, Action<ParsingException> logger = null)
         {
             IDialogueText resultDialogueText = null;
             string textBeingAnalyzed = text;
@@ -98,12 +98,13 @@ namespace Assets.Scripts.Dialogue.Texts
                 int indexOfTagInit = textBeingAnalyzed.IndexOf(Tag.SEPARATOR_INIT);
                 if (indexOfTagInit >= 0)
                 {
-                    TagOption tag = TagOption.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
-
-                    // If something went wrong with the tag, it would skip it
-                    int nextIndex = indexOfTagInit + tag.Text.Length;
+                    int nextIndex = indexOfTagInit + 1;
                     try
                     {
+                        TagOption tag = TagOption.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
+
+                        // If something went wrong with the tag, it would skip it
+                        nextIndex = indexOfTagInit + tag.Text.Length;
                         if (indexOfTagInit > 0)
                         {
                             string textBeforeTag = text.Substring(0, indexOfTagInit);
@@ -141,7 +142,7 @@ namespace Assets.Scripts.Dialogue.Texts
 
                             if (taggedText == null)
                             {
-                                throw new StartTagWithoutEndException(tag, indexOfTagInit);
+                                throw new TagException.StartTagWithoutEndException(tag, indexOfTagInit);
                             }
                             else
                             {
@@ -152,14 +153,14 @@ namespace Assets.Scripts.Dialogue.Texts
                         }
                         else
                         {
-                            throw new EndTagBeforeStartException(tag, currentIndex);
+                            throw new TagException.EndTagBeforeStartException(tag, currentIndex);
                         }
                     }
-                    catch (TagException ex)
+                    catch (ParsingException ex)
                     {
                         // Log the warning
                         logger?.Invoke(ex);
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.Message); 
                     }
 
                     // Go to the next portion of the text (depending on what happened)

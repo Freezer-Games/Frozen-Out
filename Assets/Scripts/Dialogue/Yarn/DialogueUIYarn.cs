@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue.Texts;
@@ -84,7 +83,7 @@ namespace Assets.Scripts.Dialogue
                 localDelay = letterDelay;
 
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, 
-                    tagException => Debug.LogWarning(tagException.GetFullMessage(currentLineNumber)));
+                    parsingException => Debug.LogError($"Error: {parsingException.GetFullMessage(currentLineNumber)}"));
 
                 foreach (string lastTextAddition in completeCharacterDialogue.ParseInBuilder(stringBuilder))
                 {

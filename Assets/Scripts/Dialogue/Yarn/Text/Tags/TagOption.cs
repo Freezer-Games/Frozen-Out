@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts.Dialogue.Texts.Tags
+﻿namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class TagOption
     {
@@ -39,6 +33,8 @@ namespace Assets.Scripts.Dialogue.Texts.Tags
             string remainingTextWithStart = line.Substring(startIndex);
 
             int indexOfSeparatorStartEnd = remainingTextWithStart.IndexOf(Tag.SEPARATOR_END);
+            if (indexOfSeparatorStartEnd < 0) throw new ParsingException.StartTagSeparatorWithoutEndException(startIndex);
+
             string tagOptionFull = remainingTextWithStart.Substring(0, indexOfSeparatorStartEnd + 1);
             string tagOption = ExtractTagOption(tagOptionFull);
 
