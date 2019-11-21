@@ -38,7 +38,7 @@ namespace Assets.Scripts.Dialogue.Texts
 
         public void AddText(string text)
         {
-            this.Texts.Add(new DialogueText(text));
+            this.AddDialogueText(new DialogueText(text));
         }
 
         public void AddDialogueText(IDialogueText dialogueText)
@@ -85,16 +85,16 @@ namespace Assets.Scripts.Dialogue.Texts
                 int indexOfTagInit = textBeingAnalyzed.IndexOf(Tag.SEPARATOR_INIT);
                 if (indexOfTagInit >= 0)
                 {
-                    int nextIndex = indexOfTagInit + 1;
+                    int nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + 1;
                     try
                     {
                         TagOption tag = TagOption.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
 
                         // If something went wrong with the tag, it would skip it
-                        nextIndex = indexOfTagInit + tag.Text.Length;
+                        nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + tag.Text.Length;
                         if (indexOfTagInit > 0)
                         {
-                            string textBeforeTag = text.Substring(0, indexOfTagInit);
+                            string textBeforeTag = textBeingAnalyzed.Substring(0, indexOfTagInit);
                             if (resultDialogueText == null)
                             {
                                 resultDialogueText = new ComplexDialogueText(textBeforeTag);
@@ -109,12 +109,13 @@ namespace Assets.Scripts.Dialogue.Texts
                         {
                             string textSearchingForEnd = remainingTextAfterStart;
                             string taggedText = null;
+                            TagOption endTag = null;
                             while (taggedText == null && textSearchingForEnd.Length > 0)
                             {
                                 int indexOfEndTagInit = textSearchingForEnd.IndexOf(Tag.SEPARATOR_INIT);
                                 if (indexOfEndTagInit >= 0)
                                 {
-                                    TagOption endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out string remainingTextAfterEnd);
+                                    endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out string remainingTextAfterEnd);
                                     if (TagOption.Matches(tag, endTag))
                                     {
                                         taggedText = remainingTextAfterStart.Substring(0, remainingTextAfterStart.Length - remainingTextAfterEnd.Length - endTag.Text.Length);
@@ -133,7 +134,7 @@ namespace Assets.Scripts.Dialogue.Texts
                             }
                             else
                             {
-                                DialogueTaggedText dialogueTaggedText = new DialogueTaggedText(new Tag(tag.Option), AnalyzeText(taggedText, logger));
+                                DialogueTaggedText dialogueTaggedText = new DialogueTaggedText(new Tag(tag, endTag), AnalyzeText(taggedText, logger));
                                 if (resultDialogueText == null) resultDialogueText = dialogueTaggedText;
                                 else resultDialogueText.AddDialogueText(dialogueTaggedText);
                             }
@@ -156,7 +157,15 @@ namespace Assets.Scripts.Dialogue.Texts
                 }
                 else
                 {
-                    return new DialogueText(textBeingAnalyzed);
+                    if (resultDialogueText == null)
+                    {
+                        return new DialogueText(textBeingAnalyzed);
+                    }
+                    else
+                    {
+                        resultDialogueText.AddText(textBeingAnalyzed);
+                        return resultDialogueText;
+                    }
                 }
             }
 
