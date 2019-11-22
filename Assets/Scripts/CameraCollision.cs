@@ -10,21 +10,14 @@ public class CameraCollision : MonoBehaviour
     public Transform rightRay;
     public Material transparencia;
 
+    private Dictionary<string,Renderer> viewcolisions = new Dictionary<string, Renderer>();
+    private Dictionary<string,Material> materiales = new Dictionary<string, Material>();
+    List<string> objetos = new List<string>();
 
     private Vector3 direction;
     private Vector3 camPosition;
     private Vector3 characterPosition;
     private Vector3 addedCharPos = new Vector3(0, 1.3f, 0);
-
-    private Renderer onCol;
-
-    private Material oldMaterial;
-
-    private bool check;
-
-    void Start() {
-        check=false;
-    }
 
     // Update is called once per frame
     void Update()
@@ -35,37 +28,49 @@ public class CameraCollision : MonoBehaviour
         direction = characterPosition - camPosition;
 
         int layerMask = 1 << 9;
+        objetos.Clear();
 
-        RaycastHit hit;
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(camPosition, direction, direction.magnitude, layerMask);
 
-        if (Physics.Raycast(camPosition, direction, out hit, direction.magnitude, layerMask))
+        for (int i = 0; i < hits.Length; i++)
         {
-            Debug.DrawRay(camPosition, direction * hit.distance, Color.yellow);
+            RaycastHit hit = hits[i];
+            string objeto = hit.transform.gameObject.name;
+            Renderer rend = hit.transform.GetComponent<Renderer>();
+            if (rend)
+            {
+                if (!viewcolisions.ContainsKey(objeto))
+                {
+                    viewcolisions.Add(objeto, rend);
+                    materiales.Add(objeto, rend.material);
+                    rend.material = transparencia;
+                    //Debug.Log("añade");
+                }
+            }
+            //Debug.Log("hit");
+            objetos.Add(objeto);
+        }
+        List<string> keys = new List<string>(viewcolisions.Keys);
 
-
-            if (!check) {
-                 oldMaterial = hit.transform.gameObject.GetComponent<Renderer>().material;
-                 onCol = hit.transform.gameObject.GetComponent<Renderer>();
-                 onCol.material = transparencia;
-                 Debug.Log(oldMaterial);
-                 check = true;
+        foreach (string key in keys)
+        {
+            if (hits.Length == 0)
+            {
+                //Debug.Log("elimina0");
+                viewcolisions[key].material = materiales[key];
+                viewcolisions.Remove(key);
+                materiales.Remove(key);
+            } 
+            else if (!objetos.Contains(key))
+            {
+                //Debug.Log("elimina1");
+                viewcolisions[key].material = materiales[key];
+                viewcolisions.Remove(key);
+                materiales.Remove(key);
             }
 
-
-            hit.transform.gameObject.GetComponent<Renderer>().material = transparencia;
-            //hit.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
-         
-
         }
-        else
-        {
-            Debug.DrawRay(camPosition, direction * 1000, Color.blue);
 
-            if (check) {
-                onCol.material = oldMaterial;
-                check = false;
-            }
-            Debug.Log("Did not Hit");
-        }
     }
 }
