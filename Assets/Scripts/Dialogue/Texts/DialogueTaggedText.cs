@@ -38,33 +38,7 @@ namespace Assets.Scripts.Dialogue.Texts
                 this.Text.AddDialogueText(dialogueText);
         }
 
-        public IEnumerable<string> Parse()
-        {
-            switch (Tag.Format.Strategy)
-            {
-                case TagParsingStrategy.Clean: return ParseClean();
-                default: return ParseFull();
-            }
-        }
-
-        private IEnumerable<string> ParseFull()
-        {
-            string startTag = Tag.StartOption.Text;
-            string endTag = Tag.EndOption.Text;
-
-            foreach (string nextText in Text.Parse())
-            {
-                yield return $"{startTag}{nextText}{endTag}";
-            }
-        }
-
-        private IEnumerable<string> ParseClean()
-        {
-            foreach (string nextText in Text.Parse())
-            {
-                yield return nextText;
-            }
-        }
+        public IEnumerable<string> Parse() => Tag.Parse(Text.Parse);
 
         public override string ToString() => this.FullText;
 

@@ -1,4 +1,7 @@
-﻿namespace Assets.Scripts.Dialogue.Texts.Tags
+﻿using System;
+using System.Collections.Generic;
+
+namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class TagFormat
     {
@@ -8,12 +11,15 @@
 
         public TagParsingStrategy Strategy { get; }
 
-        public TagFormat(string startSeparator, string endSeparator, string endOptionSeparator, TagParsingStrategy strategy = TagParsingStrategy.Full)
+        public Func<string, string> Formatter { get; set; }
+
+        public TagFormat(string startSeparator, string endSeparator, string endOptionSeparator, TagParsingStrategy strategy = TagParsingStrategy.Full, Func<string, string> formatter = null)
         {
             StartSeparator = startSeparator;
             EndSeparator = endSeparator;
             EndOptionSeparator = endOptionSeparator;
             Strategy = strategy;
+            Formatter = formatter;
         }
 
         public int IndexOfNextStart(string text) => text.IndexOf(StartSeparator);
