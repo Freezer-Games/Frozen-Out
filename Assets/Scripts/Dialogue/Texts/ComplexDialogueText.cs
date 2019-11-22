@@ -74,7 +74,10 @@ namespace Assets.Scripts.Dialogue.Texts
         private const char RichTextTagSeparatorEnd = '>';
         private const char RichTextTagOptionEnd = '/';
 
-        private static readonly TagFormat RichTextTagFormat = new TagFormat(RichTextTagSeparatorInit, RichTextTagSeparatorEnd, RichTextTagOptionEnd);
+        private static readonly TagFormat RichTextTagFormat = new TagFormat(
+            RichTextTagSeparatorInit.ToString(),
+            RichTextTagSeparatorEnd.ToString(),
+            RichTextTagOptionEnd.ToString());
 
         /// <summary>
         /// Analiza el <paramref name="text"/> indicado, y lo clasifica según el tipo de <see cref="IDialogueText"/> que es (si contiene o no tags, etc.)
@@ -83,7 +86,7 @@ namespace Assets.Scripts.Dialogue.Texts
         /// <returns></returns>
         public static IDialogueText AnalyzeText(string text, Action<ParsingException> logger = null)
         {
-            IDialogueText resultDialogueText; 
+            IDialogueText resultDialogueText;
 
             if (RichTextTagFormat.HasAnyTags(text))
             {

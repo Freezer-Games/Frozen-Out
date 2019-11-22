@@ -7,6 +7,8 @@
     {
         public string Option { get; }
 
+        public TagFormat Format { get; set; }
+
         public TagOption StartOption { get; }
         public TagOption EndOption { get; }
 
@@ -20,6 +22,8 @@
         public Tag(TagOption startOption, TagOption endOption)
         {
             this.Option = startOption.MainOption;
+            this.Format = startOption.Format;
+
             this.StartOption = startOption;
             this.EndOption = endOption;
         }
