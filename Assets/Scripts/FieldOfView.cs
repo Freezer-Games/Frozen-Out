@@ -7,6 +7,7 @@ public class FieldOfView : MonoBehaviour
 
     public float viewRadius;
     public float closeRadius;
+    public float trueSightRadius;
     [Range(0,360)]
     public float viewAngle;
 
@@ -36,14 +37,21 @@ public class FieldOfView : MonoBehaviour
 
     void FindVisibleTargets() {
         visibleTargets.Clear();
+        closeTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
         Collider[] targetsInCloseRadius = Physics.OverlapSphere(transform.position, closeRadius, targetMask);
+        Collider[] targetsInTrueSightRadius = Physics.OverlapSphere(transform.position, trueSightRadius, targetMask);
         for (int i = 0; i < targetsInCloseRadius.Length; i++)
         {
             Transform target = targetsInCloseRadius[i].transform;
             closeTargets.Add(target);
         }
 
+        for (int i = 0; i < targetsInTrueSightRadius.Length; i++)
+        {
+            Transform target = targetsInTrueSightRadius[i].transform;
+            visibleTargets.Add(target);
+        }
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
