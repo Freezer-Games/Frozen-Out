@@ -69,6 +69,13 @@ namespace Assets.Scripts.Dialogue.Texts
 
         public override string ToString() => FullText;
 
+
+        private const char RichTextTagSeparatorInit = '<';
+        private const char RichTextTagSeparatorEnd = '>';
+        private const char RichTextTagOptionEnd = '/';
+
+        private static readonly TagFormat RichTextTagFormat = new TagFormat(RichTextTagSeparatorInit, RichTextTagSeparatorEnd, RichTextTagOptionEnd);
+
         /// <summary>
         /// Analiza el <paramref name="text"/> indicado, y lo clasifica según el tipo de <see cref="IDialogueText"/> que es (si contiene o no tags, etc.)
         /// </summary>
@@ -78,9 +85,9 @@ namespace Assets.Scripts.Dialogue.Texts
         {
             IDialogueText resultDialogueText; 
 
-            if (Tag.HasAnyTags(text))
+            if (RichTextTagFormat.HasAnyTags(text))
             {
-                resultDialogueText = DialogueTaggedText.AnalyzeText(text, logger);
+                resultDialogueText = DialogueTaggedText.AnalyzeText(text, RichTextTagFormat, logger);
             }
             else
             {

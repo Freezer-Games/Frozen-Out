@@ -51,26 +51,31 @@ namespace Assets.Scripts.Dialogue.Texts
 
         public override string ToString() => this.FullText;
 
+
         /// <summary>
         /// Analiza el <paramref name="text"/> indicado, y lo clasifica según si contiene o no tags.
+        /// <para>Opcionalmente, puedes añadir un <paramref name="logger"/> para que te reporte las excepciones internas que se puedan producir (mediante <see cref="ParsingException"/>).</para>
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">El texto de entrada.</param>
+        /// <param name="logger">Función que te reporte las excepciones internas que se puedan producir.</param>
+        /// <param name="format">El formato de Tag que deseas que analice dentro del texto.</param>
         /// <returns></returns>
-        public static IDialogueText AnalyzeText(string text, Action<ParsingException> logger = null)
+        public static IDialogueText AnalyzeText(string text, TagFormat format, Action<ParsingException> logger = null)
         {
             IDialogueText resultDialogueText = null;
+
             string textBeingAnalyzed = text;
             int currentIndex = 0;
 
             while (textBeingAnalyzed.Length > 0)
             {
-                int indexOfTagInit = Tag.IndexOfNextTagInit(textBeingAnalyzed);
+                int indexOfTagInit = format.IndexOfNextTagInit(textBeingAnalyzed);
                 if (indexOfTagInit >= 0)
                 {
                     int nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + 1;
                     try
                     {
-                        TagOption tag = TagOption.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
+                        TagOption tag = format.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
 
                         // If something went wrong with the tag, it would skip it
                         nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + tag.Text.Length;
@@ -94,10 +99,10 @@ namespace Assets.Scripts.Dialogue.Texts
                             TagOption endTag = null;
                             while (taggedText == null && textSearchingForEnd.Length > 0)
                             {
-                                int indexOfEndTagInit = Tag.IndexOfNextTagInit(textSearchingForEnd);
+                                int indexOfEndTagInit = format.IndexOfNextTagInit(textSearchingForEnd);
                                 if (indexOfEndTagInit >= 0)
                                 {
-                                    endTag = TagOption.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out remainingTextAfterEnd);
+                                    endTag = format.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out remainingTextAfterEnd);
                                     if (TagOption.Matches(tag, endTag))
                                     {
                                         taggedText = remainingTextAfterStart.Substring(0, remainingTextAfterStart.Length - remainingTextAfterEnd.Length - endTag.Text.Length);
@@ -116,7 +121,7 @@ namespace Assets.Scripts.Dialogue.Texts
                             }
                             else
                             {
-                                DialogueTaggedText dialogueTaggedText = new DialogueTaggedText(new Tag(tag, endTag), AnalyzeText(taggedText, logger));
+                                DialogueTaggedText dialogueTaggedText = new DialogueTaggedText(new Tag(tag, endTag), AnalyzeText(taggedText, format, logger));
                                 if (resultDialogueText == null)
                                 {
                                     if (remainingTextAfterEnd != null && remainingTextAfterEnd.Length > 0)
