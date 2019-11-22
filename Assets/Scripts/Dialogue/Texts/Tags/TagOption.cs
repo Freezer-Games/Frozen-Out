@@ -49,14 +49,14 @@
         {
             string remainingTextWithStart = line.Substring(startIndex);
 
-            int indexOfSeparatorStartEnd = remainingTextWithStart.IndexOf(Tag.SEPARATOR_END);
+            int indexOfSeparatorStartEnd = Tag.IndexOfNextTagEnd(remainingTextWithStart);
             if (indexOfSeparatorStartEnd < 0) throw new ParsingException.StartTagSeparatorWithoutEndException(startIndex);
 
             string tagOptionFull = remainingTextWithStart.Substring(0, indexOfSeparatorStartEnd + 1);
             string tagOption = ExtractTagOption(tagOptionFull);
 
             TagOptionPosition tagOptionPosition;
-            int indexOfOptionEnd = tagOptionFull.IndexOf(Tag.OPTION_END);
+            int indexOfOptionEnd = Tag.IndexOfNextOptionEnd(tagOptionFull);
             if (indexOfOptionEnd < 0)
             {
                 tagOptionPosition = TagOptionPosition.start;

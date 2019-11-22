@@ -29,5 +29,12 @@
         }
 
         public string GetTaggedText(string text) => StartOption.Text + text + EndOption.Text;
+
+
+        public static int IndexOfNextTagInit(string text) => text.IndexOf(SEPARATOR_INIT);
+        public static int IndexOfNextOptionEnd(string text) => text.IndexOf(OPTION_END);
+        public static int IndexOfNextTagEnd(string text) => text.IndexOf(SEPARATOR_END);
+
+        public static bool HasAnyTags(string text) => IndexOfNextTagInit(text) >= 0;
     }
 }
