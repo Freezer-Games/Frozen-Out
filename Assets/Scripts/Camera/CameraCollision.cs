@@ -39,75 +39,77 @@ public class CameraCollision : MonoBehaviour
         RaycastHit[] hits;
         hits = Physics.RaycastAll(characterPosition, direction, direction.magnitude, layerMask);
 
-        for (int i = 0; i < hits.Length; i++)
-        {
-            RaycastHit hit = hits[i];
-            string objeto = hit.transform.gameObject.name;
-            Transform pos = hit.transform;
-            if (hit.transform.gameObject.tag == "Wall") 
+        try {
+            for (int i = 0; i < hits.Length; i++)
             {
-                newCamDistance = (hits[0].transform.position  - characterPosition).magnitude;
-
-                cam.GetComponent<BetterCamera>().distance = newCamDistance + 1.0f;
-
-                viewcolisions.Add(objeto, pos);
-                materiales.Add(objeto, pos.GetComponent<Renderer>().material);
-                pos.GetComponent<MeshRenderer>().enabled = false;
-            }
-            else 
-            {
-                if (pos)
+                RaycastHit hit = hits[i];
+                string objeto = hit.transform.gameObject.name;
+                Transform pos = hit.transform;
+                if (hit.transform.gameObject.tag == "Wall") 
                 {
-                    if (!viewcolisions.ContainsKey(objeto))
+                    newCamDistance = (hits[0].transform.position  - characterPosition).magnitude;
+
+                    cam.GetComponent<BetterCamera>().distance = newCamDistance + 1.0f;
+
+                    viewcolisions.Add(objeto, pos);
+                    materiales.Add(objeto, pos.GetComponent<Renderer>().material);
+                    pos.GetComponent<MeshRenderer>().enabled = false;
+                }
+                else 
+                {
+                    if (pos)
                     {
-                        viewcolisions.Add(objeto, pos);
-                        materiales.Add(objeto, pos.GetComponent<Renderer>().material);
-                        pos.GetComponent<Renderer>().material = transparencia;
-                        //Debug.Log("añade");
+                        if (!viewcolisions.ContainsKey(objeto))
+                        {
+                            viewcolisions.Add(objeto, pos);
+                            materiales.Add(objeto, pos.GetComponent<Renderer>().material);
+                            pos.GetComponent<Renderer>().material = transparencia;
+                            //Debug.Log("añade");
+                        }
                     }
-                }
-            }  
-            //Debug.Log("hit");
-            objetos.Add(objeto);
-        }
-
-        List<string> keys = new List<string>(viewcolisions.Keys);
-
-        foreach (string key in keys)
-        {
-            if (hits.Length == 0)
-            {
-                //Debug.Log("elimina0");
-                if (viewcolisions[key].gameObject.tag == "Wall") {
-                    cam.GetComponent<BetterCamera>().distance = direction.magnitude;
-                    viewcolisions[key].GetComponent<MeshRenderer>().enabled = true;
-                    viewcolisions.Remove(key);
-                    materiales.Remove(key);
-                }
-                else 
-                {
-                    viewcolisions[key].GetComponent<Renderer>().material = materiales[key];
-                    viewcolisions.Remove(key);
-                    materiales.Remove(key);
-                }        
-            } 
-            else if (!objetos.Contains(key))
-            {
-                if (viewcolisions[key].gameObject.tag == "Wall") {
-                    cam.GetComponent<BetterCamera>().resetDistance();
-                    viewcolisions[key].GetComponent<MeshRenderer>().enabled = true;
-                    viewcolisions.Remove(key);
-                    materiales.Remove(key);
-                }
-                else 
-                {
-                    viewcolisions[key].GetComponent<Renderer>().material = materiales[key];
-                    viewcolisions.Remove(key);
-                    materiales.Remove(key);
-                }
-                //Debug.Log("elimina1");  
+                }  
+                //Debug.Log("hit");
+                objetos.Add(objeto);
             }
-        }
+
+            List<string> keys = new List<string>(viewcolisions.Keys);
+
+            foreach (string key in keys)
+            {
+                if (hits.Length == 0)
+                {
+                    //Debug.Log("elimina0");
+                    if (viewcolisions[key].gameObject.tag == "Wall") {
+                        cam.GetComponent<BetterCamera>().distance = direction.magnitude;
+                        viewcolisions[key].GetComponent<MeshRenderer>().enabled = true;
+                        viewcolisions.Remove(key);
+                        materiales.Remove(key);
+                    }
+                    else 
+                    {
+                        viewcolisions[key].GetComponent<Renderer>().material = materiales[key];
+                        viewcolisions.Remove(key);
+                        materiales.Remove(key);
+                    }        
+                } 
+                else if (!objetos.Contains(key))
+                {
+                    if (viewcolisions[key].gameObject.tag == "Wall") {
+                        cam.GetComponent<BetterCamera>().resetDistance();
+                        viewcolisions[key].GetComponent<MeshRenderer>().enabled = true;
+                        viewcolisions.Remove(key);
+                        materiales.Remove(key);
+                    }
+                    else 
+                    {
+                        viewcolisions[key].GetComponent<Renderer>().material = materiales[key];
+                        viewcolisions.Remove(key);
+                        materiales.Remove(key);
+                    }
+                    //Debug.Log("elimina1");  
+                }
+            }
+        } catch {}
     }
 }
 
