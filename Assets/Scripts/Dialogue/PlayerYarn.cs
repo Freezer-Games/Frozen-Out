@@ -8,6 +8,8 @@ namespace Assets.Scripts.Dialogue
 {
     public class PlayerYarn : MonoBehaviour
     {
+        public string dialogueInput = "Use";
+        public string itemInput = "Use";
         public Text promptText;
 
         private DialogueRunner dialogueSystemYarn;
@@ -34,36 +36,37 @@ namespace Assets.Scripts.Dialogue
             if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == "NPC")
-            {
-                promptText.text = "Press [" + "F" + "] to talk";
-            }
-            else if(other.gameObject.tag == "Item")
-            {
-                ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
-                promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>";
-            }
-        }
-
         private void OnTriggerStay(Collider other)
         {
             if (this.isActiveAndEnabled && !dialogueSystemYarn.isDialogueRunning)
             {
-                if(other.gameObject.tag == "NPC" && Input.GetButtonDown("Use"))
+                if(other.gameObject.tag == "NPC")
                 {
-                    promptText.text = "";
-                    NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
-                    if (target != null)
+                    if(Input.GetButtonDown(dialogueInput)){
+                        promptText.text = "";
+                        NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
+                        if (target != null)
+                        {
+                            dialogueSystemYarn.StartDialogue(target.talkToNode);
+                        }
+                    }
+                    else
                     {
-                        dialogueSystemYarn.StartDialogue(target.talkToNode);
+                        promptText.text = "Press [" + "F" + "] to talk";
                     }
                 }
-                else if(other.gameObject.tag == "Item" && Input.GetButtonDown("Use"))
+                else if(other.gameObject.tag == "Item")
                 {
-                    promptText.text = "";
-                    inventory.GetItem(other.gameObject);
+                    if(Input.GetButtonDown(itemInput))
+                    {
+                        promptText.text = "";
+                        inventory.GetItem(other.gameObject);
+                    }
+                    else
+                    {
+                        ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
+                        promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>";
+                    }
                 }
             }
         }

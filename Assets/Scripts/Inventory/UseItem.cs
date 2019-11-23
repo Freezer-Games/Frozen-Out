@@ -9,7 +9,7 @@ namespace Assets.Scripts.Item
 {
     public class UseItem : MonoBehaviour
     {
-        public KeyCode itemInput = KeyCode.F;
+        public string itemInput = "Use";
         public GameObject usableItem;
         public Text promptText;
 
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Item
                 promptText.text = "";
                 if(inventory.IsItemInInventory(usableItemInfo))
                 {
-                    promptText.text = "Press [" + itemInput.ToString() + "] to use <b>" + usableItemInfo.itemName + "</b>";
+                    promptText.text = "Press [" + "F" + "] to use <b>" + usableItemInfo.itemName + "</b>";
                 }
                 else if(!inventory.IsItemUsed(usableItemInfo))
                 {
@@ -41,7 +41,7 @@ namespace Assets.Scripts.Item
 
         void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetButtonDown("Use"))
+            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetButtonDown(itemInput))
             {
                 promptText.text = "";
                 inventory.UseInventoryItem(usableItemInfo);
