@@ -18,6 +18,7 @@ public class SelectLoad : MonoBehaviour
         LoadCanvas.enabled = false;
         CancelButton.onClick.AddListener(Cancel);
         hscroll.enabled = false;
+        LoadButton.enabled = false;
 
     }
 
@@ -26,12 +27,5 @@ public class SelectLoad : MonoBehaviour
 
         LoadCanvas.enabled = false;
 
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
