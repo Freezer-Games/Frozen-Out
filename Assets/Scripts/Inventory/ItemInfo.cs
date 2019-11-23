@@ -8,15 +8,20 @@ namespace Assets.Scripts.Item
     {
         public string itemName;
         public string variableName;
-        public bool initialValue = false;
-        public bool isWorldItem = false;
+        public string usedVariableName
+        {
+            get{
+                return "used_" + variableName;
+            }
+        }
+        public bool isInitiallyInInventory = false;
 
         void Start()
         {
             bool startVisible = true;
-            if(!isWorldItem)
+            if(transform.parent.name == "Inventory")
             {
-                startVisible = initialValue;
+                startVisible = isInitiallyInInventory;
             }
 
             this.gameObject.SetActive(startVisible);

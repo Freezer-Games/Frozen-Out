@@ -25,21 +25,26 @@ namespace Assets.Scripts.Dialogue
             // that the user typed in in Unity and store the variable
             foreach (ItemInfo item in inventory.inventoryItems) {
 
-                SetValue (item.variableName, item.initialValue);
+                SetValue (item.variableName, item.isInitiallyInInventory);
 
             }
         }
 
-        public void SetValue(string variableName, bool value)
+        public void SetValue(string variableName, bool value, bool includeLeading = true)
         {
             Yarn.Value yarnValue = new Yarn.Value(value);
 
-            SetValue(variableName, yarnValue, true);
+            if(includeLeading)
+            {
+                variableName = AddLeading(variableName);
+            }
+
+            SetValue(variableName, yarnValue);
         }
 
-        public void SetValue(string variableName, Yarn.Value value, bool includeLeading)
+        public string AddLeading(string variableName)
         {
-            SetValue("$" + variableName, value);
+            return "$" + variableName;
         }
 
         public override void SetValue(string variableName, Yarn.Value value)
@@ -55,6 +60,34 @@ namespace Assets.Scripts.Dialogue
                 return Yarn.Value.NULL;
 
             return variables[variableName];
+        }
+
+        private Yarn.Value GetObjectValue(string variableName, bool includeLeading = true)
+        {
+            if(includeLeading)
+            {
+                variableName = AddLeading(variableName);
+            }
+
+            return GetValue(variableName);
+        }
+
+        public bool GetBoolValue(string variableName, bool includeLeading = true)
+        {
+            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            return yarnValue.AsBool;
+        }
+
+        public string GetStringValue(string variableName, bool includeLeading = true)
+        {
+            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            return yarnValue.AsString;
+        }
+
+        public float GetNumberValue(string variableName, bool includeLeading = true)
+        {
+            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            return yarnValue.AsNumber;
         }
 
         public override void Clear()

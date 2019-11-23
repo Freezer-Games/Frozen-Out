@@ -29,7 +29,7 @@ namespace Assets.Scripts.Item
             variableStorage = FindObjectOfType<VariableStorageYarn>();
         }
 
-        ItemInfo GetAttachedItem(GameObject worldItem)
+        private ItemInfo GetInventoryItem(GameObject worldItem)
         {
             string itemName = worldItem.GetComponent<ItemInfo>().itemName;
 
@@ -40,12 +40,30 @@ namespace Assets.Scripts.Item
 
         public void GetItem(GameObject worldItem)
         {
-            ItemInfo attachedItem = GetAttachedItem(worldItem);
+            ItemInfo inventoryItemInfo = GetInventoryItem(worldItem);
 
-            attachedItem.gameObject.SetActive(true);
+            inventoryItemInfo.gameObject.SetActive(true);
             GameObject.Destroy(worldItem);
 
-            variableStorage.SetValue(attachedItem.variableName, true);
+            variableStorage.SetValue(inventoryItemInfo.variableName, true);
+        }
+
+        public void UseInventoryItem(ItemInfo itemInfo)
+        {
+            itemInfo.gameObject.SetActive(false);
+
+            variableStorage.SetValue(itemInfo.variableName, false);
+            variableStorage.SetValue(itemInfo.usedVariableName, true);
+        }
+
+        public bool IsItemInInventory(ItemInfo itemInfo)
+        {
+            return variableStorage.GetBoolValue(itemInfo.variableName);
+        }
+
+        public bool IsItemUsed(ItemInfo itemInfo)
+        {
+            return variableStorage.GetBoolValue(itemInfo.usedVariableName);
         }
     }
 }

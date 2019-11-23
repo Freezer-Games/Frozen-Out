@@ -1458,6 +1458,7 @@ GameObject:
   - component: {fileID: 496349366}
   - component: {fileID: 496349365}
   - component: {fileID: 496349364}
+  - component: {fileID: 496349368}
   m_Layer: 0
   m_Name: TopCollider
   m_TagString: Untagged
@@ -1512,6 +1513,21 @@ Transform:
   m_Father: {fileID: 75912011}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &496349368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496349363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 525c00d6f941f794e944539de3e5f3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemInput: 102
+  usableItem: {fileID: 824000438}
+  promptText: {fileID: 1776775421}
 --- !u!1001 &503816591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2477,8 +2493,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7234823789042999465, guid: df034c6a7b2151746b2f04e7e848b1e2,
+        type: 3}
+      propertyPath: isInitiallyInInventory
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df034c6a7b2151746b2f04e7e848b1e2, type: 3}
+--- !u!1 &824000438 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5992135976737524079, guid: df034c6a7b2151746b2f04e7e848b1e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 824000437}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &879139157
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,6 +4737,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: NPC
       objectReference: {fileID: 0}
+    - target: {fileID: 40830445668743488, guid: 405454fc694383447b0e1baee97a0332,
+        type: 3}
+      propertyPath: m_TagString
+      value: NPC
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 405454fc694383447b0e1baee97a0332,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4785,11 +4817,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
-    - target: {fileID: 40830445668743488, guid: 405454fc694383447b0e1baee97a0332,
-        type: 3}
-      propertyPath: m_TagString
-      value: NPC
-      objectReference: {fileID: 0}
     - target: {fileID: 7492853138955312134, guid: 405454fc694383447b0e1baee97a0332,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5022,7 +5049,8 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 512
-  visibleTargets: [{fileID: 1288863472}]
+  visibleTargets:
+  - {fileID: 1288863472}
   closeTargets: []
 --- !u!136 &1995843918
 CapsuleCollider:
@@ -5093,7 +5121,8 @@ Transform:
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 5.78, y: 0.5, z: -10.25}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children: [{fileID: 1060154757}]
+  m_Children:
+  - {fileID: 1060154757}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}

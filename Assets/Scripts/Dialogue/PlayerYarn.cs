@@ -9,7 +9,7 @@ namespace Assets.Scripts.Dialogue
     public class PlayerYarn : MonoBehaviour
     {
         public KeyCode dialogueInput = KeyCode.F;
-        public KeyCode itemInput = KeyCode.E;
+        public KeyCode itemInput = KeyCode.F;
         public Text promptText;
 
         private DialogueRunner dialogueSystemYarn;
@@ -64,6 +64,7 @@ namespace Assets.Scripts.Dialogue
                 }
                 else if(other.gameObject.tag == "Item" && Input.GetKeyDown(itemInput))
                 {
+                    promptText.text = "";
                     inventory.GetItem(other.gameObject);
                 }
             }
