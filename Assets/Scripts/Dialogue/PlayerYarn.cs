@@ -53,7 +53,7 @@ namespace Assets.Scripts.Dialogue
         {
             if (this.isActiveAndEnabled && !dialogueSystemYarn.isDialogueRunning)
             {
-                if(other.gameObject.tag == "NPC" && Input.GetKeyDown(dialogueInput))
+                if(other.gameObject.tag == "NPC" && Input.GetButtonDown("Use"))
                 {
                     promptText.text = "";
                     NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Dialogue
                         dialogueSystemYarn.StartDialogue(target.talkToNode);
                     }
                 }
-                else if(other.gameObject.tag == "Item" && Input.GetKeyDown(itemInput))
+                else if(other.gameObject.tag == "Item" && Input.GetButtonDown("Use"))
                 {
                     promptText.text = "";
                     inventory.GetItem(other.gameObject);

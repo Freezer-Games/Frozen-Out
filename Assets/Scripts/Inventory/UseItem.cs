@@ -41,7 +41,7 @@ namespace Assets.Scripts.Item
 
         void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetKeyDown(itemInput))
+            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetButtonDown("Use"))
             {
                 promptText.text = "";
                 inventory.UseInventoryItem(usableItemInfo);
