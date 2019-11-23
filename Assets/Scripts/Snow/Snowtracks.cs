@@ -16,10 +16,11 @@ public class Snowtracks : MonoBehaviour
     private Material _snowMaterial;
     private Material _drawMaterial;
     private int _terrainMask;
+
     // Start is called before the first frame update
     void Start()
     {
-        _terrainMask = LayerMask.GetMask("Ground");
+        _terrainMask = LayerMask.GetMask("Snowground");
 
         _drawMaterial = new Material(_snowtrackShader);
 
