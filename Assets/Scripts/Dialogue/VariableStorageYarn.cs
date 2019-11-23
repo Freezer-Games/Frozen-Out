@@ -1,27 +1,51 @@
 using System.Collections.Generic;
 using Yarn.Unity;
 
+using Assets.Scripts.Item;
+
 namespace Assets.Scripts.Dialogue
 {
     public class VariableStorageYarn : VariableStorageBehaviour
     {
-        // Where we actually keeping our variables
-        Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
+        // Where we actually keep our variables
+        private Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
 
-        void Awake()
+        public Inventory inventory;
+
+        void Start()
         {
             ResetToDefaults();
         }
 
-        public override void ResetToDefaults()
+        public override void ResetToDefaults ()
         {
-            Clear();
+            Clear ();
+
+            // For each default variable that's been defined, parse the string
+            // that the user typed in in Unity and store the variable
+            foreach (ItemInfo item in inventory.inventoryItems) {
+
+                SetValue (item.variableName, item.initialValue);
+
+            }
+        }
+
+        public void SetValue(string variableName, bool value)
+        {
+            Yarn.Value yarnValue = new Yarn.Value(value);
+
+            SetValue(variableName, yarnValue, true);
+        }
+
+        public void SetValue(string variableName, Yarn.Value value, bool includeLeading)
+        {
+            SetValue("$" + variableName, value);
         }
 
         public override void SetValue(string variableName, Yarn.Value value)
         {
             // Copy this value into our list
-            variables[variableName] = new Yarn.Value(value);
+            variables[variableName] = value;
         }
 
         public override Yarn.Value GetValue(string variableName)
