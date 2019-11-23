@@ -12,11 +12,13 @@ public class GameMenu : MonoBehaviour
     public Button RestartButton;
     public Button ExitButton;
     public Canvas MenuCanvas;
+    public Canvas LoadCanvas;
 
     // Start is called before the first frame update
     void Start()
     {
         MenuCanvas.enabled = false;
+        LoadCanvas.enabled = false;
         ContinueButton.onClick.AddListener(CloseOpenMenu);
         SaveButton.onClick.AddListener(SaveGame);
         LoadButton.onClick.AddListener(LoadGame);
@@ -37,7 +39,12 @@ public class GameMenu : MonoBehaviour
 
     void SaveGame() { }
 
-    void LoadGame() { }
+    void LoadGame()
+    {
+
+        LoadCanvas.enabled = true;
+
+    }
 
     void exit()
     {

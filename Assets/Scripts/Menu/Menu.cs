@@ -20,7 +20,9 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (PlayerPrefs.HasKey("Language")) { LocalizationManager.instance.LoadLocalizedText("Menu_" + PlayerPrefs.GetString("Language") + ".json"); }
+        else if (Application.systemLanguage == SystemLanguage.Spanish) { LocalizationManager.instance.LoadLocalizedText("Menu_Es.json"); }
+        else { LocalizationManager.instance.LoadLocalizedText("Menu_Es.json"); }
         StartButton.onClick.AddListener(Lanzar_nivel);
         OptionsButton.onClick.AddListener(Options);
         ExitButton.onClick.AddListener(Exit);
