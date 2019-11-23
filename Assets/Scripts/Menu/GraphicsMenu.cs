@@ -50,6 +50,7 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() {text = "1920x1080" });
             resdrop.options.Add(new Dropdown.OptionData() {text = "1280x720" });
             resdrop.options.Add(new Dropdown.OptionData() {text = "2560x1440" });
+            resdrop.value = 0;
         }
         else if (propdrop.value == 1)
         {
@@ -61,6 +62,7 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() { text = "1280x960" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1400x1050" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1440x1080" });
+            resdrop.value = 0;
         }
         else if (propdrop.value == 2)
         {
@@ -70,12 +72,14 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() { text = "800x800" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1080x1080" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1440x1440" });
+            resdrop.value = 0;
         }
         else if (propdrop.value == 3)
         {
             resdrop.options.Clear();
             resdrop.options.Add(new Dropdown.OptionData() { text = "3840x1080" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "5120x1440" });
+            resdrop.value = 0;
         }
 
     }
