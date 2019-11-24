@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public BetterCamera betterCamera; //hacer un cameraManager
+    public CameraController cameraController; //hacer un cameraManager
     public GameObject playerObject;
     public PlayerManager playerManager;
 
