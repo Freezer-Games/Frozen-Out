@@ -48,8 +48,7 @@ public class Menu : MonoBehaviour
 
     IEnumerator LoadLevel()
     {
-        
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(0);
         SceneManager.LoadScene("sala-de-pruebas", LoadSceneMode.Single);
     }
 

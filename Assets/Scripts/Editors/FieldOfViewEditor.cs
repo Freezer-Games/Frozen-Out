@@ -25,6 +25,11 @@ public class FieldOfViewEditor : Editor
         {
             Handles.DrawLine(fow.transform.position, visibleTarget.position);
         }
+        Handles.color = Color.yellow;
+        foreach (Transform closeTarget in fow.closeTargets)
+        {
+            Handles.DrawLine(fow.transform.position, closeTarget.position);
+        }
     }
 
 }

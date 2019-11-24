@@ -16,6 +16,7 @@ public class FieldOfView : MonoBehaviour
 
     [HideInInspector]
     public List<Transform> visibleTargets = new List<Transform>();
+    [HideInInspector]
     public List<Transform> closeTargets = new List<Transform>();
 
 
@@ -23,6 +24,7 @@ public class FieldOfView : MonoBehaviour
     void Start()
     {
         visibleTargets.Clear();
+        closeTargets.Clear();
         StartCoroutine("FindTargetsWithDelay", .2f);
     }
 
@@ -41,6 +43,7 @@ public class FieldOfView : MonoBehaviour
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
         Collider[] targetsInCloseRadius = Physics.OverlapSphere(transform.position, closeRadius, targetMask);
         Collider[] targetsInTrueSightRadius = Physics.OverlapSphere(transform.position, trueSightRadius, targetMask);
+
         for (int i = 0; i < targetsInCloseRadius.Length; i++)
         {
             Transform target = targetsInCloseRadius[i].transform;
