@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
             sneaking = false;
 
-            if (Input.GetButton("Fire1")) { //left control - va lento
+            if (Input.GetKey(GameManager.instance.crouch)) { //left control - va lento
                 SneakyMode();
             }
             else {
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             }
             moveDir.y = 0;
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetKeyDown(GameManager.instance.jump))
             {
                 Jump();
             }

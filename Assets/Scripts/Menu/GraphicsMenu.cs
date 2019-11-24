@@ -24,10 +24,15 @@ public class GraphicsMenu : MonoBehaviour
         proportiondropdown.onValueChanged.AddListener(delegate {
             proportionchange(proportiondropdown, resolutiondropdown);
         });
-        if (PlayerPrefs.GetString("Quality") == "High") { HighResButton.onClick.Invoke(); }
-        else if (PlayerPrefs.GetString("Quality") == "Medium") { MediumResButton.onClick.Invoke(); }
-        else if (PlayerPrefs.GetString("Quality") == "Low") { LowResButton.onClick.Invoke(); }
-
+        if (PlayerPrefs.HasKey("Proportion")){
+            if (PlayerPrefs.GetString("Quality") == "High") { HighResButton.onClick.Invoke(); }
+            else if (PlayerPrefs.GetString("Quality") == "Medium") { MediumResButton.onClick.Invoke(); }
+            else if (PlayerPrefs.GetString("Quality") == "Low") { LowResButton.onClick.Invoke(); }
+            screentypedropdown.value = PlayerPrefs.GetInt("ScreenType");
+            proportiondropdown.value = PlayerPrefs.GetInt("Proportion");
+            resolutiondropdown.RefreshShownValue();
+            resolutiondropdown.value = PlayerPrefs.GetInt("Resolution");
+        }
     }
 
     void apply_settings()
@@ -42,7 +47,9 @@ public class GraphicsMenu : MonoBehaviour
         if (HighResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 0; PlayerPrefs.SetString("Quality","High"); }
         else if (MediumResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 4; PlayerPrefs.SetString("Quality", "Medium"); }
         else if (LowResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 8; PlayerPrefs.SetString("Quality", "Low"); }
-
+        PlayerPrefs.SetInt("Proportion",proportiondropdown.value);
+        PlayerPrefs.SetInt("Resolution",resolutiondropdown.value);
+        PlayerPrefs.SetInt("ScreenType",screentypedropdown.value);
     }
 
     void proportionchange(Dropdown propdrop , Dropdown resdrop)
