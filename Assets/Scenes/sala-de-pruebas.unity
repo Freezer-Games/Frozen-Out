@@ -4291,6 +4291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1310826351}
+  - component: {fileID: 1310826352}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4312,6 +4313,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1310826352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310826350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4771519707c5c4789bd39693331fbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  betterCamera: {fileID: 0}
+  playerObject: {fileID: 5461431026843758931}
+  playerManager:
+    m_SpawnPoint: {fileID: 0}
+    m_checkPoint: {fileID: 0}
+    m_Instance: {fileID: 0}
 --- !u!1001 &1316745162
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public BetterCamera m_BetterCamera;
-    public GameObject m_PolPrefab;
-    public PlayerManager m_PlayerManager;
+    public static GameManager instance;
+    public BetterCamera betterCamera; //hacer un cameraManager
+    public GameObject playerObject;
+    public PlayerManager playerManager;
 
-    // Start is called before the first frame update
+    void Awake()
+    {
+        MakeSingleton();
+    }
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    protected void MakeSingleton()
     {
-        
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
