@@ -3,53 +3,84 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Player values")]
-    private CharacterController _characterController;
+    private CharacterController characterController;
+
+    [Header("Movement")]
     public float Speed = 5.0f;
-    public float bendSpeed = 2.5f;
     public float RotationSpeed = 240.0f;
+    private Vector3 moveDir = Vector3.zero;
+    private Vector3 move;
+    private Vector3 camForward_Dir;
+    private float h, v;
+    private bool moving;
 
+
+    [Header("Jump")]
     public float JumpForce = 10.0f;
-
     private readonly float gravity = 20.0f;
+    
 
-    private float _height, _bendHeight;
-    private Vector3 _center, _bendCenter;
-    private float _bendJumpForce => JumpForce * 0.3f;
-    private readonly float _bendDiff = 0.4f;
-
-    private Vector3 _moveDir = Vector3.zero;
+    [Header("Bending")]
+    public float bendSpeed = 2.5f;
+    private float height, bendHeight;
+    private Vector3 center, bendCenter;
+    private float bendJumpForce => JumpForce * 0.3f;
+    private readonly float bendDiff = 0.4f;
+    private bool sneaking;
 
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
-
-    private Animator _animator;
-
+    private Animator animator;
     // Use this for initialization
+
     void Start()
     {
-        _animator = GetComponent<Animator>();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
 
-        _characterController = GetComponent<CharacterController>();
-        _height = _characterController.height;
-        _bendHeight = _characterController.height - _bendDiff;
-        _center = _characterController.center;
-        _bendCenter = _characterController.center;
-        _bendCenter.y -= (_bendDiff / 2);
+        height = characterController.height;
+        bendHeight = characterController.height - bendDiff;
+        center = characterController.center;
+        bendCenter = characterController.center;
+        bendCenter.y -= (bendDiff / 2);
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Get Input for axis
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        // Calculate the forward vector
-        Vector3 camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
-        Vector3 move = v * camForward_Dir + h * Camera.main.transform.right;
+        MovementCalculation();
+        
+        if (characterController.isGrounded)
+        {
+            animator.SetBool("isMoving", moving);
+            moveDir = transform.forward * move.magnitude;
+
+            sneaking = false;
+
+            if (Input.GetButton("Fire1")) { //left control - va lento
+                SneakyMode();
+            }
+            else {
+                NormalMode();
+            }
+            moveDir.y = 0;
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
+        }
+        moveDir.y -= gravity * Time.deltaTime;
+        characterController.Move(moveDir * Time.deltaTime);
+    }
+
+    private void MovementCalculation() {
+        h = Input.GetAxis("Horizontal");
+        v = Input.GetAxis("Vertical");
+
+        move = v * camForward_Dir + h * Camera.main.transform.right;
 
         if (move.magnitude > 1f) move.Normalize();
 
@@ -59,7 +90,7 @@ public class PlayerController : MonoBehaviour
         // Get Euler angles
         float turnAmount = Mathf.Atan2(move.x, move.z);
 
-        bool moving = move.magnitude > 0;
+        moving = move.magnitude > 0;
 
         if (moving)
         {
@@ -69,7 +100,7 @@ public class PlayerController : MonoBehaviour
             // Si alguien le ha dicho que cancele el movimiento, para
             if (e.Cancel)
             {
-                _moveDir = Vector3.zero;
+                moveDir = Vector3.zero;
                 OnIdle();
                 return;
             }
@@ -80,39 +111,29 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.Rotate(0, turnAmount *  RotationSpeed * Time.deltaTime, 0);
+    }
 
-        if (_characterController.isGrounded)
-        {
-            _animator.SetBool("isMoving", moving);
-            _moveDir = transform.forward * move.magnitude;
+    private void NormalMode() 
+    {
+        moveDir *= Speed;
+        animator.SetTrigger("isSneakingOut");
+        characterController.height = height;
+        characterController.center = center;
+    }
 
-            bool sneaking = false;
+    private void SneakyMode() 
+    {
+        sneaking = true;
+        moveDir *= bendSpeed;
+        characterController.height = bendHeight;
+        characterController.center = bendCenter;
+        animator.SetTrigger("isSneakingIn");
+    }
 
-            if (Input.GetButton("Fire1")) { //left control - va lento
-                sneaking = true;
-                _moveDir *= bendSpeed;
-                _characterController.height = _bendHeight;
-                _characterController.center = _bendCenter;
-                _animator.SetTrigger("isSneakingIn");
-            }
-            else {
-                _moveDir *= Speed;
-                _animator.SetTrigger("isSneakingOut");
-                _characterController.height = _height;
-                _characterController.center = _center;
-            }
-
-            _moveDir.y = 0;
-            if (Input.GetButtonDown("Jump"))
-            {
-                _moveDir.y = sneaking ? _bendJumpForce : JumpForce;
-                _animator.SetTrigger("isJumping");
-            }
-        }
-
-        _moveDir.y -= gravity * Time.deltaTime;
-
-        _characterController.Move(_moveDir * Time.deltaTime);
+    private void Jump() 
+    {
+        moveDir.y = sneaking ? bendJumpForce : JumpForce;
+        animator.SetTrigger("isJumping");
     }
 
     protected virtual PlayerControllerEventArgs OnMoving()
@@ -124,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void OnIdle()
     {
-        _animator.SetBool("isMoving", false);
+        animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
     }
 }
