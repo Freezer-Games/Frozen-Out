@@ -4,16 +4,18 @@
     {
         public const char EQUAL_SIGN = '=';
 
-        public string Option { get; set; }
+        public string Option { get; }
 
-        public string MainOption => 
-            (Option == null) 
-            ? null 
-            : (Option.IndexOf(EQUAL_SIGN) < 0) 
-                ? Option 
+        public string MainOption =>
+            (Option == null)
+            ? null
+            : (Option.IndexOf(EQUAL_SIGN) < 0)
+                ? Option
                 : Option.Split(EQUAL_SIGN)[0];
 
-        public TagOptionPosition Position { get; set; }
+        public TagFormat Format { get; }
+
+        public TagOptionPosition Position { get; }
 
         public string Text
         {
@@ -23,16 +25,17 @@
                 // (es una adición a CSharp muy nueva)
                 switch (Position)
                 {
-                    case TagOptionPosition.start: return $"{Tag.SEPARATOR_INIT}{Option}{Tag.SEPARATOR_END}";
-                    case TagOptionPosition.end: return $"{Tag.SEPARATOR_INIT}{Tag.OPTION_END}{Option}{Tag.SEPARATOR_END}";
+                    case TagOptionPosition.start: return $"{Format.StartSeparator}{Option}{Format.EndSeparator}";
+                    case TagOptionPosition.end: return $"{Format.StartSeparator}{Format.EndOptionSeparator}{Option}{Format.EndSeparator}";
                     default: return null;
                 };
             }
         }
 
-        public TagOption(string option, TagOptionPosition position = TagOptionPosition.start)
+        public TagOption(string option, TagFormat format, TagOptionPosition position = TagOptionPosition.start)
         {
             this.Option = option;
+            this.Format = format;
             this.Position = position;
         }
 
@@ -44,34 +47,5 @@
                 && end.Position == TagOptionPosition.end
                 && start.MainOption == end.MainOption;
         }
-
-        public static TagOption ExtractTag(string line, int startIndex, out string remainingText)
-        {
-            string remainingTextWithStart = line.Substring(startIndex);
-
-            int indexOfSeparatorStartEnd = remainingTextWithStart.IndexOf(Tag.SEPARATOR_END);
-            if (indexOfSeparatorStartEnd < 0) throw new ParsingException.StartTagSeparatorWithoutEndException(startIndex);
-
-            string tagOptionFull = remainingTextWithStart.Substring(0, indexOfSeparatorStartEnd + 1);
-            string tagOption = ExtractTagOption(tagOptionFull);
-
-            TagOptionPosition tagOptionPosition;
-            int indexOfOptionEnd = tagOptionFull.IndexOf(Tag.OPTION_END);
-            if (indexOfOptionEnd < 0)
-            {
-                tagOptionPosition = TagOptionPosition.start;
-            }
-            else
-            {
-                tagOptionPosition = TagOptionPosition.end;
-                tagOption = tagOption.Remove(indexOfOptionEnd - 1, 1);
-            }
-
-            remainingText = remainingTextWithStart.Substring(indexOfSeparatorStartEnd + 1);
-
-            return new TagOption(tagOption, tagOptionPosition);
-        }
-
-        private static string ExtractTagOption(string tagOptionFull) => tagOptionFull.Substring(1, tagOptionFull.Length - 2);
     }
 }

@@ -24,6 +24,15 @@ public class GraphicsMenu : MonoBehaviour
         proportiondropdown.onValueChanged.AddListener(delegate {
             proportionchange(proportiondropdown, resolutiondropdown);
         });
+        if (PlayerPrefs.HasKey("Proportion")){
+            if (PlayerPrefs.GetString("Quality") == "High") { HighResButton.onClick.Invoke(); }
+            else if (PlayerPrefs.GetString("Quality") == "Medium") { MediumResButton.onClick.Invoke(); }
+            else if (PlayerPrefs.GetString("Quality") == "Low") { LowResButton.onClick.Invoke(); }
+            screentypedropdown.value = PlayerPrefs.GetInt("ScreenType");
+            proportiondropdown.value = PlayerPrefs.GetInt("Proportion");
+            resolutiondropdown.RefreshShownValue();
+            resolutiondropdown.value = PlayerPrefs.GetInt("Resolution");
+        }
     }
 
     void apply_settings()
@@ -35,10 +44,12 @@ public class GraphicsMenu : MonoBehaviour
         int res2 = Int32.Parse(strlist[1]);
         if (screentypedropdown.value == 0) { Screen.SetResolution(res1, res2, true); }
         else if (screentypedropdown.value == 1) { Screen.SetResolution(res1, res2, false); }
-        if (HighResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 0; }
-        else if (MediumResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 4; }
-        else if (LowResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 8; }
-
+        if (HighResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 0; PlayerPrefs.SetString("Quality","High"); }
+        else if (MediumResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 4; PlayerPrefs.SetString("Quality", "Medium"); }
+        else if (LowResButton.IsInteractable() == false) { QualitySettings.masterTextureLimit = 8; PlayerPrefs.SetString("Quality", "Low"); }
+        PlayerPrefs.SetInt("Proportion",proportiondropdown.value);
+        PlayerPrefs.SetInt("Resolution",resolutiondropdown.value);
+        PlayerPrefs.SetInt("ScreenType",screentypedropdown.value);
     }
 
     void proportionchange(Dropdown propdrop , Dropdown resdrop)
@@ -50,6 +61,7 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() {text = "1920x1080" });
             resdrop.options.Add(new Dropdown.OptionData() {text = "1280x720" });
             resdrop.options.Add(new Dropdown.OptionData() {text = "2560x1440" });
+            resdrop.RefreshShownValue();
         }
         else if (propdrop.value == 1)
         {
@@ -61,6 +73,7 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() { text = "1280x960" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1400x1050" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1440x1080" });
+            resdrop.RefreshShownValue();
         }
         else if (propdrop.value == 2)
         {
@@ -70,12 +83,14 @@ public class GraphicsMenu : MonoBehaviour
             resdrop.options.Add(new Dropdown.OptionData() { text = "800x800" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1080x1080" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "1440x1440" });
+            resdrop.RefreshShownValue();
         }
         else if (propdrop.value == 3)
         {
             resdrop.options.Clear();
             resdrop.options.Add(new Dropdown.OptionData() { text = "3840x1080" });
             resdrop.options.Add(new Dropdown.OptionData() { text = "5120x1440" });
+            resdrop.RefreshShownValue();
         }
 
     }

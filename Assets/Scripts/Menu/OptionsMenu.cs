@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -26,16 +27,25 @@ public class OptionsMenu : MonoBehaviour
         OptionsCanvas.enabled = false;
         AudioCanvas.enabled = false;
         GraphicsCanvas.enabled = false;
-        ControlsCanvas.enabled = false;
-        ConfirmButton.onClick.AddListener(confirm);
-        CancelButton.onClick.AddListener(cancel);
+        ControlsCanvas.transform.gameObject.SetActive(false);
+        ConfirmButton.onClick.AddListener(Confirm);
+        CancelButton.onClick.AddListener(Cancel);
         GameButton.onClick.AddListener(Game);
         AudioButton.onClick.AddListener(Audio);
         GraphicsButton.onClick.AddListener(Graphics);
         ControlsButton.onClick.AddListener(Controls);
     }
 
-    void confirm()
+    void Confirm()
+    {
+
+        MainCanvas.enabled = true;
+        OptionsCanvas.enabled = false;
+        SaveChanges();
+
+    }
+
+    void Cancel()
     {
 
         MainCanvas.enabled = true;
@@ -43,12 +53,10 @@ public class OptionsMenu : MonoBehaviour
 
     }
 
-    void cancel()
+    void SaveChanges()
     {
-
-        MainCanvas.enabled = true;
-        OptionsCanvas.enabled = false;
-
+        if (PlayerPrefs.GetString("Language") == "Es") { EditorUtility.DisplayDialog("Confirmar", "¿estas seguro de que quieres guardar los cambios?", "confirmar", "cancelar"); }
+        else { EditorUtility.DisplayDialog("Confirm", "Are you sure you want to save the changes?", "confirm", "cancel"); }
     }
 
     void Game()
@@ -57,7 +65,7 @@ public class OptionsMenu : MonoBehaviour
         GameCanvas.enabled = true;
         AudioCanvas.enabled = false;
         GraphicsCanvas.enabled = false;
-        ControlsCanvas.enabled = false;
+        ControlsCanvas.transform.gameObject.SetActive(false);
 
     }
 
@@ -67,7 +75,7 @@ public class OptionsMenu : MonoBehaviour
         GameCanvas.enabled = false;
         AudioCanvas.enabled = true;
         GraphicsCanvas.enabled = false;
-        ControlsCanvas.enabled = false;
+        ControlsCanvas.transform.gameObject.SetActive(false);
 
     }
 
@@ -77,7 +85,7 @@ public class OptionsMenu : MonoBehaviour
         GameCanvas.enabled = false;
         AudioCanvas.enabled = false;
         GraphicsCanvas.enabled = true;
-        ControlsCanvas.enabled = false;
+        ControlsCanvas.transform.gameObject.SetActive(false);
 
     }
 
@@ -87,7 +95,7 @@ public class OptionsMenu : MonoBehaviour
         GameCanvas.enabled = false;
         AudioCanvas.enabled = false;
         GraphicsCanvas.enabled = false;
-        ControlsCanvas.enabled = true;
+        ControlsCanvas.transform.gameObject.SetActive(true);
 
     }
 
