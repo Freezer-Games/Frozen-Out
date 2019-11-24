@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -27,15 +28,24 @@ public class OptionsMenu : MonoBehaviour
         AudioCanvas.enabled = false;
         GraphicsCanvas.enabled = false;
         ControlsCanvas.enabled = false;
-        ConfirmButton.onClick.AddListener(confirm);
-        CancelButton.onClick.AddListener(cancel);
+        ConfirmButton.onClick.AddListener(Confirm);
+        CancelButton.onClick.AddListener(Cancel);
         GameButton.onClick.AddListener(Game);
         AudioButton.onClick.AddListener(Audio);
         GraphicsButton.onClick.AddListener(Graphics);
         ControlsButton.onClick.AddListener(Controls);
     }
 
-    void confirm()
+    void Confirm()
+    {
+
+        MainCanvas.enabled = true;
+        OptionsCanvas.enabled = false;
+        SaveChanges();
+
+    }
+
+    void Cancel()
     {
 
         MainCanvas.enabled = true;
@@ -43,12 +53,12 @@ public class OptionsMenu : MonoBehaviour
 
     }
 
-    void cancel()
+    void SaveChanges()
     {
-
-        MainCanvas.enabled = true;
-        OptionsCanvas.enabled = false;
-
+        #if UNITY_EDITOR
+        if (PlayerPrefs.GetString("Language") == "Es") { EditorUtility.DisplayDialog("Confirmar", "¿estas seguro de que quieres guardar los cambios?", "confirmar", "cancelar"); }
+        else { EditorUtility.DisplayDialog("Confirm", "Are you sure you want to save the changes?", "confirm", "cancel"); }
+        #endif
     }
 
     void Game()

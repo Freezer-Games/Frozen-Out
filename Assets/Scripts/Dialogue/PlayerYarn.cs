@@ -2,14 +2,18 @@
 using UnityEngine.UI;
 using Yarn.Unity;
 
+using Assets.Scripts.Item;
+
 namespace Assets.Scripts.Dialogue
 {
     public class PlayerYarn : MonoBehaviour
     {
-        public KeyCode dialogueInput = KeyCode.F;
-        public Text dialoguePromptText;
+        public string dialogueInput = "Use";
+        public string itemInput = "Use";
+        public Text promptText;
 
         private DialogueRunner dialogueSystemYarn;
+        private Inventory inventory;
 
         /// Draw the range at which we'll start talking to people.
         void OnDrawGizmosSelected()
@@ -20,7 +24,8 @@ namespace Assets.Scripts.Dialogue
         void Start()
         {
             dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
-            dialoguePromptText.text = "";
+            inventory = FindObjectOfType<Inventory>();
+            promptText.text = "";
 
             PlayerController controller = FindObjectOfType<PlayerController>();
             controller.Moving += Player_Moving;
@@ -31,33 +36,46 @@ namespace Assets.Scripts.Dialogue
             if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject.tag == "NPC")
-            {
-                dialoguePromptText.text = "Press [" + dialogueInput.ToString() + "] to talk";
-            }
-        }
-
         private void OnTriggerStay(Collider other)
         {
-
-            if (this.isActiveAndEnabled && !dialogueSystemYarn.isDialogueRunning && (other.gameObject.tag == "NPC") && Input.GetKeyDown(dialogueInput))
+            if (this.isActiveAndEnabled && !dialogueSystemYarn.isDialogueRunning)
             {
-                dialoguePromptText.text = "";
-                NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
-                if (target != null)
+                if(other.gameObject.tag == "NPC")
                 {
-                    dialogueSystemYarn.StartDialogue(target.talkToNode);
+                    if(Input.GetButtonDown(dialogueInput)){
+                        promptText.text = "";
+                        NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
+                        if (target != null)
+                        {
+                            dialogueSystemYarn.StartDialogue(target.talkToNode);
+                        }
+                    }
+                    else
+                    {
+                        promptText.text = "Press [" + "F" + "] to talk";
+                    }
+                }
+                else if(other.gameObject.tag == "Item")
+                {
+                    if(Input.GetButtonDown(itemInput))
+                    {
+                        promptText.text = "";
+                        inventory.GetItem(other.gameObject);
+                    }
+                    else
+                    {
+                        ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
+                        promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>";
+                    }
                 }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.tag == "NPC")
+            if (other.gameObject.tag == "NPC" || other.gameObject.tag == "Item")
             {
-                dialoguePromptText.text = "";
+                promptText.text = "";
             }
         }
     }

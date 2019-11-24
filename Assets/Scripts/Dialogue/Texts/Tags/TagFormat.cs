@@ -1,33 +1,49 @@
-﻿namespace Assets.Scripts.Dialogue.Texts.Tags
+﻿using System;
+using System.Collections.Generic;
+
+namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class TagFormat
     {
-        public char StartSeparator { get; }
-        public char EndSeparator { get; }
-        public char EndOptionSeparator { get; }
+        public string StartSeparator { get; }
+        public string EndSeparator { get; }
+        public string EndOptionSeparator { get; }
 
-        public TagFormat(char startSeparator, char endSeparator, char endOptionSeparator)
+        public TagParsingStrategy Strategy { get; }
+
+        public Func<string, string> Formatter { get; set; }
+
+        public TagFormat(string startSeparator, string endSeparator, string endOptionSeparator, TagParsingStrategy strategy = TagParsingStrategy.Full, Func<string, string> formatter = null)
         {
             StartSeparator = startSeparator;
             EndSeparator = endSeparator;
             EndOptionSeparator = endOptionSeparator;
+            Strategy = strategy;
+            Formatter = formatter;
         }
 
-        public int IndexOfNextTagInit(string text) => text.IndexOf(StartSeparator);
+        public int IndexOfNextStart(string text) => text.IndexOf(StartSeparator);
         public int IndexOfNextOptionEnd(string text) => text.IndexOf(EndOptionSeparator);
         public int IndexOfNextTagEnd(string text) => text.IndexOf(EndSeparator);
 
-        public bool HasAnyTags(string text) => IndexOfNextTagInit(text) >= 0;
+        public bool HasAnyTags(string text) => IndexOfNextStart(text) >= 0;
 
 
-        public TagOption ExtractTag(string line, int startIndex, out string remainingText)
+        public TagOption ExtractTag(string line, out int indexOfTagStart, out string remainingText)
         {
-            string remainingTextWithStart = line.Substring(startIndex);
+            indexOfTagStart = IndexOfNextStart(line);
+            if (indexOfTagStart < 0)
+            {
+                remainingText = null;
+                return null;
+            }
+
+            string remainingTextWithStart = line.Substring(indexOfTagStart + StartSeparator.Length);
 
             int indexOfSeparatorStartEnd = IndexOfNextTagEnd(remainingTextWithStart);
-            if (indexOfSeparatorStartEnd < 0) throw new ParsingException.StartTagSeparatorWithoutEndException(startIndex);
+            if (indexOfSeparatorStartEnd < 0) throw new ParsingException.StartTagSeparatorWithoutEndException(indexOfTagStart);
 
-            string tagOptionFull = remainingTextWithStart.Substring(0, indexOfSeparatorStartEnd + 1);
+            string tagOptionFull = line.Substring(indexOfTagStart, StartSeparator.Length + indexOfSeparatorStartEnd + EndSeparator.Length);
             string tagOption = ExtractTagOption(tagOptionFull);
 
             TagOptionPosition tagOptionPosition;
@@ -39,15 +55,14 @@
             else
             {
                 tagOptionPosition = TagOptionPosition.end;
-                tagOption = tagOption.Remove(indexOfOptionEnd - 1, 1);
+                tagOption = tagOption.Remove(indexOfOptionEnd - 1, EndOptionSeparator.Length);
             }
 
-            remainingText = remainingTextWithStart.Substring(indexOfSeparatorStartEnd + 1);
+            remainingText = remainingTextWithStart.Substring(indexOfSeparatorStartEnd + EndSeparator.Length);
 
             return new TagOption(tagOption, this, tagOptionPosition);
         }
 
-
-        private static string ExtractTagOption(string tagOptionFull) => tagOptionFull.Substring(1, tagOptionFull.Length - 2);
+        private string ExtractTagOption(string tagOptionFull) => tagOptionFull.Substring(StartSeparator.Length, tagOptionFull.Length - 2);
     }
 }

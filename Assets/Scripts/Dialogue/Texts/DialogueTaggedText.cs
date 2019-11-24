@@ -38,16 +38,7 @@ namespace Assets.Scripts.Dialogue.Texts
                 this.Text.AddDialogueText(dialogueText);
         }
 
-        public IEnumerable<string> Parse()
-        {
-            string startTag = Tag.StartOption.Text;
-            string endTag = Tag.EndOption.Text;
-
-            foreach (string nextText in Text.Parse())
-            {
-                yield return $"{startTag}{nextText}{endTag}";
-            }
-        }
+        public IEnumerable<string> Parse() => Tag.Parse(Text.Parse);
 
         public override string ToString() => this.FullText;
 
@@ -69,14 +60,12 @@ namespace Assets.Scripts.Dialogue.Texts
 
             while (textBeingAnalyzed.Length > 0)
             {
-                int indexOfTagInit = format.IndexOfNextTagInit(textBeingAnalyzed);
-                if (indexOfTagInit >= 0)
+                int nextIndex = currentIndex, indexOfTagInit = 0;
+                try
                 {
-                    int nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + 1;
-                    try
+                    TagOption tag = format.ExtractTag(textBeingAnalyzed, out indexOfTagInit, out string remainingTextAfterStart);
+                    if (tag != null)
                     {
-                        TagOption tag = format.ExtractTag(textBeingAnalyzed, indexOfTagInit, out string remainingTextAfterStart);
-
                         // If something went wrong with the tag, it would skip it
                         nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + tag.Text.Length;
                         if (indexOfTagInit > 0)
@@ -99,10 +88,9 @@ namespace Assets.Scripts.Dialogue.Texts
                             TagOption endTag = null;
                             while (taggedText == null && textSearchingForEnd.Length > 0)
                             {
-                                int indexOfEndTagInit = format.IndexOfNextTagInit(textSearchingForEnd);
-                                if (indexOfEndTagInit >= 0)
-                                {
-                                    endTag = format.ExtractTag(textSearchingForEnd, indexOfEndTagInit, out remainingTextAfterEnd);
+                                endTag = format.ExtractTag(textSearchingForEnd, out int indexOfEndTagInit, out remainingTextAfterEnd);
+                                if (endTag != null)
+                                {                               
                                     if (TagOption.Matches(tag, endTag))
                                     {
                                         taggedText = remainingTextAfterStart.Substring(0, remainingTextAfterStart.Length - remainingTextAfterEnd.Length - endTag.Text.Length);
@@ -144,28 +132,30 @@ namespace Assets.Scripts.Dialogue.Texts
                             throw new TagException.EndTagBeforeStartException(tag, currentIndex);
                         }
                     }
-                    catch (ParsingException ex)
-                    {
-                        // Log the exception
-                        logger?.Invoke(ex);
-                        Console.WriteLine(ex.Message);
-
-                        // Go to the next portion of the text (Skip the exception source)
-                        textBeingAnalyzed = textBeingAnalyzed.Substring(nextIndex);
-                        currentIndex = nextIndex;
-                    }
-                }
-                else
-                {
-                    if (resultDialogueText == null)
-                    {
-                        return new DialogueText(textBeingAnalyzed);
-                    }
                     else
                     {
-                        resultDialogueText.AddText(textBeingAnalyzed);
-                        return resultDialogueText;
+                        if (resultDialogueText == null)
+                        {
+                            return new DialogueText(textBeingAnalyzed);
+                        }
+                        else
+                        {
+                            resultDialogueText.AddText(textBeingAnalyzed);
+                            return resultDialogueText;
+                        }
                     }
+                }
+                catch (ParsingException ex)
+                {
+                    // Log the exception
+                    logger?.Invoke(ex);
+                    Console.WriteLine(ex.Message);
+
+                    nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + 1;
+
+                    // Go to the next portion of the text (Skip the exception source)
+                    textBeingAnalyzed = textBeingAnalyzed.Substring(nextIndex);
+                    currentIndex = nextIndex;
                 }
             }
 
