@@ -56,8 +56,8 @@ public class OptionsMenu : MonoBehaviour
 
     void SaveChanges()
     {
-        if (PlayerPrefs.GetString("Language") == "Es") { EditorUtility.DisplayDialog("Confirmar", "¿estas seguro de que quieres guardar los cambios?", "confirmar", "cancelar"); }
-        else { EditorUtility.DisplayDialog("Confirm", "Are you sure you want to save the changes?", "confirm", "cancel"); }
+        EditorUtility.DisplayDialog(LocalizationManager.instance.GetLocalizedValue("Confirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmText"), LocalizationManager.instance.GetLocalizedValue("ConfirmConfirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmCancel"));
+
     }
 
     void Game()
