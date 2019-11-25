@@ -34,12 +34,14 @@ namespace Assets.Scripts.Dialogue
         private readonly float localDelayMultiplier = 1.5f;
 
         private DialogueRunner dialogueSystem;
+        private DialogueSnippetSystem snippetSystem;
         private int currentLineNumber;
 
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
             dialogueSystem = FindObjectOfType<DialogueRunner>();
+            snippetSystem = FindObjectOfType<DialogueSnippetSystem>();
 
             if (dialogueBoxGUI != null)
             {
@@ -69,7 +71,14 @@ namespace Assets.Scripts.Dialogue
         {
             currentLineNumber++;
 
-            SeparateLine(line.text, out string characterName, out string characterDialogue);
+            string lineText = line.text;
+
+            if (snippetSystem != null)
+            {
+                lineText = snippetSystem.ParseSnippets(lineText, RunLineLogger);
+            }
+
+            SeparateLine(lineText, out string characterName, out string characterDialogue);
 
             GetCurrentDialogueText(characterName);
 
@@ -79,8 +88,7 @@ namespace Assets.Scripts.Dialogue
             {
                 localDelay = letterDelay;
 
-                IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, 
-                    parsingException => Debug.LogError($"Error: {parsingException.GetFullMessage(currentLineNumber)}"));
+                IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, RunLineLogger);
 
                 foreach (string currentText in completeCharacterDialogue.Parse())
                 {
@@ -109,6 +117,11 @@ namespace Assets.Scripts.Dialogue
             {
                 continuePrompt.gameObject.SetActive(false);
             }
+        }
+
+        private void RunLineLogger(ParsingException parsingException)
+        {
+            Debug.LogError($"Error: {parsingException.GetFullMessage(currentLineNumber)}");
         }
 
         private void GetCurrentDialogueText(string characterName)

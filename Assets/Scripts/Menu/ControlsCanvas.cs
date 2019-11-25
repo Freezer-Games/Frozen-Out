@@ -33,6 +33,8 @@ public class ControlsCanvas : MonoBehaviour
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.jump.ToString();
             }else if (menuPanel.GetChild(i).name == "CrouchKey"){
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.crouch.ToString();
+            }else if (menuPanel.GetChild(i).name == "InteractKey"){
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.interact.ToString();
             }
 
         }
@@ -103,6 +105,12 @@ public class ControlsCanvas : MonoBehaviour
                 buttonText.text = GameManager.instance.crouch.ToString();
                 PlayerPrefs.SetString("CrouchKey", GameManager.instance.crouch.ToString());
                 break;
+            case "interact":
+                GameManager.instance.interact = newKey;
+                buttonText.text = GameManager.instance.interact.ToString();
+                PlayerPrefs.SetString("InteractKey", GameManager.instance.interact.ToString());
+                break;
+
         }
 
         yield return null;

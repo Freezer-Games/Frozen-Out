@@ -35,7 +35,7 @@ public class GraphicsMenu : MonoBehaviour
         }
     }
 
-    void apply_settings()
+    public void apply_settings()
     {
         string a =resolutiondropdown.options[resolutiondropdown.value].text;
         char[] separator = { 'x'};

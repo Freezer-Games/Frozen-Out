@@ -42,6 +42,7 @@ public class OptionsMenu : MonoBehaviour
         MainCanvas.enabled = true;
         OptionsCanvas.enabled = false;
         SaveChanges();
+        GraphicsCanvas.GetComponent<GraphicsMenu>().apply_settings();
 
     }
 

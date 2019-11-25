@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 73083755}
   - component: {fileID: 73083754}
   - component: {fileID: 73083753}
+  - component: {fileID: 73083757}
   m_Layer: 0
   m_Name: DialogueSystem
   m_TagString: Untagged
@@ -396,6 +397,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &73083757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73083752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca71de006ad107e4795a259f08986beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Snippets: {fileID: 4900000, guid: 07e8b83854335374b98600742bec8fb5, type: 3}
 --- !u!1 &75912010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,7 +1723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 525c00d6f941f794e944539de3e5f3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemInput: Use
   usableItem: {fileID: 69146858}
   promptText: {fileID: 1776775421}
 --- !u!1001 &503816591
@@ -6496,6 +6509,7 @@ GameObject:
   - component: {fileID: 1995843915}
   - component: {fileID: 1995843913}
   - component: {fileID: 1995843917}
+  - component: {fileID: 1995843914}
   m_Layer: 0
   m_Name: Polo4
   m_TagString: Untagged
@@ -6513,6 +6527,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4d82c2d3186e014a9f15ba13606eb22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1995843914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995843912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 250bc1b1836de4c4c8bd3920031467b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!195 &1995843915
@@ -8293,8 +8319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d5bb1b6bd1bb554c92392f109dca7e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueInput: Use
-  itemInput: Use
   promptText: {fileID: 1776775421}
 --- !u!135 &5461431026843758937
 SphereCollider:
