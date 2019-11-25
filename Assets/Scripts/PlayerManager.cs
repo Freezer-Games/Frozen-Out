@@ -1,18 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+[Serializable]
+public class PlayerManager 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public Transform m_SpawnPoint;
+    public Transform m_checkPoint;
+    [HideInInspector] public GameObject m_Instance;
+
+    private PlayerController m_PlayerController;
+    
+    public void Setup() {
+        m_PlayerController = m_Instance.GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DisableControl() 
     {
-        
+        m_PlayerController.enabled = false;
+
+    }
+
+    public void EnableControl() 
+    {
+        m_PlayerController.enabled = true;
+    }
+
+    public void Reset() 
+    {
+        m_Instance.transform.position = m_SpawnPoint.position;
+        m_Instance.transform.rotation = m_SpawnPoint.rotation;
+
+        m_Instance.SetActive(false);
+        m_Instance.SetActive(true);
+    }
+
+    public void ResetOnCheckpoint()
+    {
+        m_Instance.transform.position = m_checkPoint.position;
+        m_Instance.transform.rotation = m_checkPoint.rotation;
     }
 }

@@ -8,8 +8,6 @@ namespace Assets.Scripts.Dialogue
 {
     public class PlayerYarn : MonoBehaviour
     {
-        public string dialogueInput = "Use";
-        public string itemInput = "Use";
         public Text promptText;
 
         private DialogueRunner dialogueSystemYarn;
@@ -42,7 +40,7 @@ namespace Assets.Scripts.Dialogue
             {
                 if(other.gameObject.tag == "NPC")
                 {
-                    if(Input.GetButtonDown(dialogueInput)){
+                    if(Input.GetKeyDown(GameManager.instance.interact)){
                         promptText.text = "";
                         NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
                         if (target != null)
@@ -52,12 +50,14 @@ namespace Assets.Scripts.Dialogue
                     }
                     else
                     {
-                        promptText.text = "Press [" + "F" + "] to talk";
+
+                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("speak");
+
                     }
                 }
                 else if(other.gameObject.tag == "Item")
                 {
-                    if(Input.GetButtonDown(itemInput))
+                    if(Input.GetKeyDown(GameManager.instance.interact))
                     {
                         promptText.text = "";
                         inventory.GetItem(other.gameObject);
@@ -65,7 +65,7 @@ namespace Assets.Scripts.Dialogue
                     else
                     {
                         ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
-                        promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>";
+                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("take") +"< b>" + itemInfo.itemName + "</b>";
                     }
                 }
             }

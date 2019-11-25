@@ -9,7 +9,6 @@ namespace Assets.Scripts.Item
 {
     public class UseItem : MonoBehaviour
     {
-        public string itemInput = "Use";
         public GameObject usableItem;
         public Text promptText;
 
@@ -30,18 +29,18 @@ namespace Assets.Scripts.Item
                 promptText.text = "";
                 if(inventory.IsItemInInventory(usableItemInfo))
                 {
-                    promptText.text = "Press [" + "F" + "] to use <b>" + usableItemInfo.itemName + "</b>";
+                    promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("use");
                 }
                 else if(!inventory.IsItemUsed(usableItemInfo))
                 {
-                    promptText.text = "Need to get <b>" + usableItemInfo.itemName + "</b>";
+                    promptText.text = LocalizationManager.instance.GetLocalizedValue("need");
                 }
             }
         }
 
         void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetButtonDown(itemInput))
+            if(other.CompareTag("Player") && inventory.IsItemInInventory(usableItemInfo) && Input.GetKeyDown(GameManager.instance.interact))
             {
                 promptText.text = "";
                 inventory.UseInventoryItem(usableItemInfo);
