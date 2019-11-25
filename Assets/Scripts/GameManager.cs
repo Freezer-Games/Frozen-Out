@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public KeyCode right { get; set; }
     public KeyCode left { get; set; }
     public KeyCode crouch { get; set; }
-
+    public KeyCode interact { get; set; }
 
     public static GameManager instance;
     public CameraController cameraController; //hacer un cameraManager
@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
         right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
         left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
         crouch = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("CrouchKey", "LeftControl"));
+        interact = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("InteractKey", "F"));
     }
     void Start()
     {
