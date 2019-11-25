@@ -10,7 +10,7 @@ namespace Assets.Scripts.Dialogue
 
         public string ParseSnippets(string text, Action<ParsingException> logger = null)
         {
-            string result = null, textBeingAnalyzed = text;
+            string result = text, textBeingAnalyzed = text;
             int currentIndex = 0;
 
             while (textBeingAnalyzed.Length > 0)
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Dialogue
                             Snippet snippet = new Snippet(snippetName);
                             snippet.LoadValueFrom(Snippets.text);
 
-                            result = snippet.Replace(text);
+                            result = snippet.Replace(result);
                         }
                         else
                         {
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Dialogue
                 currentIndex = nextIndex;
             }
 
-            return result ?? text;
+            return result;
         }
     }
 }
