@@ -29,14 +29,11 @@ namespace Assets.Scripts.Item
                 promptText.text = "";
                 if(inventory.IsItemInInventory(usableItemInfo))
                 {
-                    if (PlayerPrefs.GetString("Language") == "Es") { promptText.text = "Pulsa [" + PlayerPrefs.GetString("InteractKey", "F") + "] para utilizar"; }
-                    else { promptText.text = "Press [" + PlayerPrefs.GetString("InteractKey", "F") + "] to use"; }
+                    promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("use");
                 }
                 else if(!inventory.IsItemUsed(usableItemInfo))
                 {
-                    promptText.text = "Need to get <b>" + usableItemInfo.itemName + "</b>";
-                    if (PlayerPrefs.GetString("Language") == "Es") { promptText.text = "necesitas conseguir " + usableItemInfo.itemName + " </ b >"; }
-                    else { promptText.text = "Need to get <b>" + usableItemInfo.itemName + "</b>"; }
+                    promptText.text = LocalizationManager.instance.GetLocalizedValue("need");
                 }
             }
         }

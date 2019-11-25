@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         MakeSingleton();
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
         AssignKeys();
     }

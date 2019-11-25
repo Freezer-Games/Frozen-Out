@@ -25,9 +25,11 @@ public class GameCanvas : MonoBehaviour
 
         if (selection == 0) {
             File.WriteAllBytes("Assets/StreamingAssets/Menu_Default.json", File.ReadAllBytes("Assets/StreamingAssets/Menu_En.json"));
+            File.WriteAllBytes("Assets/StreamingAssets/Trial_level_Default.json", File.ReadAllBytes("Assets/StreamingAssets/Trial_level_En.json"));
             PlayerPrefs.SetString("Language", "En");
         }else if (selection == 1) {
             File.WriteAllBytes("Assets/StreamingAssets/Menu_Default.json", File.ReadAllBytes("Assets/StreamingAssets/Menu_Es.json"));
+            File.WriteAllBytes("Assets/StreamingAssets/Trial_level_Default.json", File.ReadAllBytes("Assets/StreamingAssets/Trial_level_Es.json"));
             PlayerPrefs.SetString("Language", "Es");
         }
         LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
