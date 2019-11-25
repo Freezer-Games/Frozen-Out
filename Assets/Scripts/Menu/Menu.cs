@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class Menu : MonoBehaviour
 {
@@ -16,13 +17,15 @@ public class Menu : MonoBehaviour
     public Canvas OptionsCanvas;
     public Canvas LoadCanvas;
     public Canvas LoadlevelCanvas;
+    public Dropdown language;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.HasKey("Language")) { LocalizationManager.instance.LoadLocalizedText("Menu_" + PlayerPrefs.GetString("Language") + ".json"); }
-        else if (Application.systemLanguage == SystemLanguage.Spanish) { LocalizationManager.instance.LoadLocalizedText("Menu_Es.json"); }
-        else { LocalizationManager.instance.LoadLocalizedText("Menu_Es.json"); }
+        if (File.Exists("Assets/StreamingAssets/Menu_Default.json")) {
+            LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
+        } else if (Application.systemLanguage == SystemLanguage.Spanish) { language.value = 1;}
+        else { language.value = 0; }
         StartButton.onClick.AddListener(Lanzar_nivel);
         OptionsButton.onClick.AddListener(Options);
         ExitButton.onClick.AddListener(Exit);

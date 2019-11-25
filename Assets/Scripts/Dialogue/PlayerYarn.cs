@@ -50,8 +50,9 @@ namespace Assets.Scripts.Dialogue
                     }
                     else
                     {
-                        if (PlayerPrefs.GetString("Language")=="Es") { promptText.text = "Pulsa [" + PlayerPrefs.GetString("InteractKey", "F") + "] para hablar"; }
-                        else { promptText.text = "Press [" + PlayerPrefs.GetString("InteractKey", "F") + "] to talk"; }
+
+                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("speak");
+
                     }
                 }
                 else if(other.gameObject.tag == "Item")
@@ -64,8 +65,7 @@ namespace Assets.Scripts.Dialogue
                     else
                     {
                         ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
-                        if (PlayerPrefs.GetString("Language") == "Es") { promptText.text = "Pulsa [" + PlayerPrefs.GetString("InteractKey", "F") + "] para coger <b>" + itemInfo.itemName + "</b>"; }
-                        else { promptText.text = "Press [" + PlayerPrefs.GetString("InteractKey", "F") + "] to get <b>" + itemInfo.itemName + "</b>"; }
+                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("take") +"< b>" + itemInfo.itemName + "</b>";
                     }
                 }
             }
