@@ -77,8 +77,13 @@ public class PlayerController : MonoBehaviour
     }
 
     private void MovementCalculation() {
-        h = Input.GetAxis("Horizontal");
-        v = Input.GetAxis("Vertical");
+
+        h = 0;
+        v = 0;
+        if (Input.GetKey(GameManager.instance.forward)) { v++; }else if (Input.GetKey(GameManager.instance.backward)) { v--; }
+        //h = Input.GetAxis("Horizontal");
+        if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
+        //v = Input.GetAxis("Vertical");
 
         move = v * camForward_Dir + h * Camera.main.transform.right;
 

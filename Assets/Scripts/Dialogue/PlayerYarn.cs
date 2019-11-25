@@ -52,7 +52,8 @@ namespace Assets.Scripts.Dialogue
                     }
                     else
                     {
-                        promptText.text = "Press [" + "F" + "] to talk";
+                        if (PlayerPrefs.GetString("Language")=="Es") { promptText.text = "Pulsa [" + "F" + "] para hablar"; }
+                        else { promptText.text = "Press [" + "F" + "] to talk"; }
                     }
                 }
                 else if(other.gameObject.tag == "Item")
@@ -65,7 +66,8 @@ namespace Assets.Scripts.Dialogue
                     else
                     {
                         ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
-                        promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>";
+                        if (PlayerPrefs.GetString("Language") == "Es") { promptText.text = "Pulsa [" + "F" + "] para coger <b>" + itemInfo.itemName + "</b>"; }
+                        else { promptText.text = "Press [" + "F" + "] to get <b>" + itemInfo.itemName + "</b>"; }
                     }
                 }
             }
