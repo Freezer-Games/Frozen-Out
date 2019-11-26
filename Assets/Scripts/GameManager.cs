@@ -21,9 +21,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         MakeSingleton();
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
-
         AssignKeys();
     }
 
@@ -39,6 +36,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        // Todas las referencias a objetos singleton deben hacerse como muy pronto desde el Start(),
+        // porque los Awake() se ejecutan en orden aleatorio.
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 #if UNITY_EDITOR
