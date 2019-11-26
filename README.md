@@ -2,6 +2,6 @@
 
 
 ### Credits
-Snow Texture: https://www.textures.com/download/3dscans0089/128337
+Yarn Spinner - Secret Lab: https://github.com/YarnSpinnerTool/YarnSpinner
 
-Snow Ground Texture: https://www.textures.com/download/snow0163/122111
+Snow Deformation Shader - Peer Play: https://www.youtube.com/playlist?list=PL3POsQzaCw53KM74XVRXv2xyesLjngfbG
