@@ -9,8 +9,17 @@ namespace Assets.Scripts.Dialogue
         public const string DefaultSeparator = "%";
         private const string DefaultNameValueSeparator = "===";
 
+        public string StartSeparator = DefaultSeparator;
+        public string EndSeparator = DefaultSeparator;
+        public string NameValueSeparator = DefaultNameValueSeparator;
+
         public TextAsset Snippets;
-        public SnippetFormat Format = new SnippetFormat(DefaultSeparator, DefaultSeparator, DefaultNameValueSeparator);
+        private SnippetFormat format;
+
+        void Start()
+        {
+            format = new SnippetFormat(StartSeparator, EndSeparator, NameValueSeparator);
+        }
 
         public string ParseSnippets(string text, Action<ParsingException> logger = null)
         {
@@ -23,7 +32,7 @@ namespace Assets.Scripts.Dialogue
                 int nextIndex = currentIndex + 1, indexOfSnippetInit = 0;
                 try
                 {
-                    Snippet snippet = Format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
+                    Snippet snippet = format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
                     if (snippet != null)
                     {
                         snippet.LoadValueFrom(Snippets.text);
