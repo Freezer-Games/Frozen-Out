@@ -96,9 +96,9 @@ public class CameraCollision : MonoBehaviour
 
     private void ZoomInCamera(Transform pos, RaycastHit hit, string objeto) 
     {
-        newCamDistance = (hits[0].transform.position  - characterPosition).magnitude;
+        newCamDistance = (hits[0].point  - characterPosition).magnitude;
 
-        cam.GetComponent<CameraController>().distance = newCamDistance + 1.0f;
+        cam.GetComponent<CameraController>().distance = newCamDistance + 3.0f;
 
         viewcolisions.Add(objeto, pos);
         materiales.Add(objeto, pos.GetComponent<Renderer>().material);
