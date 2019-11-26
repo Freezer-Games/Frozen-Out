@@ -21,9 +21,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         MakeSingleton();
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
-
         AssignKeys();
     }
 
@@ -39,7 +36,12 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
+#if UNITY_EDITOR
+        // Todas las referencias a objetos singleton deben hacerse como muy pronto desde el Start(),
+        // porque los Awake() se ejecutan en orden aleatorio.
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+#endif
         SceneManager.sceneLoaded += OnSceneLoaded;
 #if UNITY_EDITOR
         if (SceneManager.GetActiveScene().buildIndex != 0) {
@@ -51,14 +53,20 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-        if (scene.buildIndex == 0) {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }else {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+            if (scene.buildIndex == 0) {
+
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            } else if (scene.buildIndex==1) {
+
+                LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+
+            } else {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
 
     }
 

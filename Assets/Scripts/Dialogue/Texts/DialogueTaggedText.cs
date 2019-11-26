@@ -63,7 +63,7 @@ namespace Assets.Scripts.Dialogue.Texts
                 int nextIndex = currentIndex, indexOfTagInit = 0;
                 try
                 {
-                    TagOption tag = format.ExtractTag(textBeingAnalyzed, out indexOfTagInit, out string remainingTextAfterStart);
+                    TagOption tag = format.Extract(textBeingAnalyzed, out indexOfTagInit, out int _, out string remainingTextAfterStart);
                     if (tag != null)
                     {
                         // If something went wrong with the tag, it would skip it
@@ -88,7 +88,7 @@ namespace Assets.Scripts.Dialogue.Texts
                             TagOption endTag = null;
                             while (taggedText == null && textSearchingForEnd.Length > 0)
                             {
-                                endTag = format.ExtractTag(textSearchingForEnd, out int indexOfEndTagInit, out remainingTextAfterEnd);
+                                endTag = format.Extract(textSearchingForEnd, out int indexOfEndTagInit, out int _, out remainingTextAfterEnd);
                                 if (endTag != null)
                                 {                               
                                     if (TagOption.Matches(tag, endTag))

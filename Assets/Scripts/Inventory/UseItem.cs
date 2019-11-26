@@ -33,7 +33,7 @@ namespace Assets.Scripts.Item
                 }
                 else if(!inventory.IsItemUsed(usableItemInfo))
                 {
-                    promptText.text = LocalizationManager.instance.GetLocalizedValue("need");
+                    promptText.text = LocalizationManager.instance.GetLocalizedValue("need") + " " + usableItemInfo.itemName;
                 }
             }
         }
