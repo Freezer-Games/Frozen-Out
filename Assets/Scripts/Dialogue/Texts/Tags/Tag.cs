@@ -47,7 +47,7 @@ namespace Assets.Scripts.Dialogue.Texts.Tags
 
             switch (Format.Strategy)
             {
-                case TagParsingStrategy.Clean: return ParseClean(textFeeder);
+                case ParsingStrategy.Clean: return ParseClean(textFeeder);
                 default: return ParseFull(textFeeder);
             }
         }

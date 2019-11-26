@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Dialogue.Texts.Tags
 {
-    public enum TagParsingStrategy
+    public enum ParsingStrategy
     {
         Full, Clean
     }

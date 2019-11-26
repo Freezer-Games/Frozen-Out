@@ -4,18 +4,18 @@ namespace Assets.Scripts.Dialogue.Texts
 {
     public class Snippet
     {
-        public const char Separator = '%';
-        private const string EqualSign = "===";
-
         public string Name { get; set; }
 
         public string Value { get; private set; }
 
-        public string FullName => $"{Separator}{Name}{Separator}";
+        public string FullName => $"{Format.StartSeparator}{Name}{Format.EndSeparator}";
 
-        public Snippet(string name)
+        public SnippetFormat Format { get; set; }
+
+        public Snippet(string name, SnippetFormat format)
         {
             Name = name;
+            Format = format;
         }
 
         public void LoadValueFrom(string text)
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Dialogue.Texts
                 {
                     if (line.StartsWith(Name))
                     {
-                        Value = line.Substring(line.IndexOf(EqualSign) + EqualSign.Length);
+                        Value = line.Substring(Format.IndexOfNextNameValueSeparator(line) + Format.NameValueSeparator.Length);
                         return;
                     }
                 }
