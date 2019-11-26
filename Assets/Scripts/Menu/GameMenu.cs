@@ -17,7 +17,7 @@ public class GameMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
         MenuCanvas.enabled = false;
         LoadCanvas.enabled = false;
