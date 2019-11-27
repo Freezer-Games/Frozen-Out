@@ -36,7 +36,7 @@ namespace Assets.Scripts.Dialogue
 
         private GameManager gameManager;
         private DialogueRunner dialogueSystem;
-        private DialogueSnippetSystem snippetSystem;
+        private DialogueSnippetSystem<string> snippetSystem;
 
         private int currentLineNumber;
 
@@ -45,7 +45,7 @@ namespace Assets.Scripts.Dialogue
             audioSource = GetComponent<AudioSource>();
             gameManager = FindObjectOfType<GameManager>();
             dialogueSystem = FindObjectOfType<DialogueRunner>();
-            snippetSystem = FindObjectOfType<DialogueSnippetSystem>();
+            snippetSystem = FindObjectOfType<DialogueSnippetSystem<string>>();
 
             if (dialogueBoxGUI != null)
             {

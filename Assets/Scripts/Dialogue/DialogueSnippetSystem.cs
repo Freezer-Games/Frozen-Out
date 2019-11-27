@@ -6,22 +6,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Dialogue
 {
-    public class DialogueSnippetSystem : DialogueSnippetSystem<string>
-    {
-        public List<string> Names;
-        public List<string> Values;
-
-        protected override void Start()
-        {
-            for (int i = 0; i < Names.Count; i++)
-            {
-                snippets[Names[i]] = Values[i];
-            }
-
-            base.Start();
-        }
-    }
-
     public class DialogueSnippetSystem<T> : MonoBehaviour
     {
         public const string DefaultSeparator = "%";
