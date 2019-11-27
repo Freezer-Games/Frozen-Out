@@ -36,7 +36,9 @@ namespace Assets.Scripts.Dialogue
 
         private GameManager gameManager;
         private DialogueRunner dialogueSystem;
-        private DialogueSnippetSystem snippetSystem;
+        private DialogueSnippetSystem<string>[] snippetSystems;
+        private VariableSnippetSystem variableSystem;
+
         private int currentLineNumber;
 
         void Start()
@@ -44,7 +46,8 @@ namespace Assets.Scripts.Dialogue
             audioSource = GetComponent<AudioSource>();
             gameManager = FindObjectOfType<GameManager>();
             dialogueSystem = FindObjectOfType<DialogueRunner>();
-            snippetSystem = FindObjectOfType<DialogueSnippetSystem>();
+            snippetSystems = FindObjectsOfType<DialogueSnippetSystem<string>>();
+            variableSystem = FindObjectOfType<VariableSnippetSystem>();
 
             if (dialogueBoxGUI != null)
             {
@@ -76,9 +79,17 @@ namespace Assets.Scripts.Dialogue
 
             string lineText = line.text;
 
-            if (snippetSystem != null)
+            if (snippetSystems != null && snippetSystems.Length > 0)
             {
-                lineText = snippetSystem.ParseSnippets(lineText, RunLineLogger);
+                foreach (var snippetSystem in snippetSystems)
+                {
+                    lineText = ParseSnippetSystem(lineText, snippetSystem);
+                }
+            }
+
+            if (variableSystem != null)
+            {
+                lineText = ParseSnippetSystem(lineText, variableSystem);
             }
 
             SeparateLine(lineText, out string characterName, out string characterDialogue);
@@ -129,6 +140,17 @@ namespace Assets.Scripts.Dialogue
             {
                 continuePrompt.gameObject.SetActive(false);
             }
+        }
+
+        private string ParseSnippetSystem<T>(string lineText, DialogueSnippetSystem<T> snippetSystem) where T : class
+        {
+            var snippets = snippetSystem.ParseSnippets(lineText, RunLineLogger);
+            foreach (var snippet in snippets)
+            {
+                lineText = lineText.Replace(snippet.FullName, snippet.Value.ToString());
+            }
+
+            return lineText;
         }
 
         private void RunLineLogger(ParsingException parsingException)

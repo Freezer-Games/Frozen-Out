@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 camForward_Dir;
     private float h, v;
     private bool moving;
-
+    public int closeRadius;
 
     [Header("Jump")]
     public float JumpForce = 10.0f;
@@ -31,13 +32,15 @@ public class PlayerController : MonoBehaviour
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
+
+
+
     // Use this for initialization
 
     void Start()
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-
         height = characterController.height;
         bendHeight = characterController.height - bendDiff;
         center = characterController.center;
