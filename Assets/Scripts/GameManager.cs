@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public KeyCode crouch { get; set; }
     public KeyCode interact { get; set; }
 
-    public double TextSize { get; set; } = 24.0;
+    public double TextSize { get; set; } = 14;
 
     public static GameManager instance;
     public CameraController cameraController; //hacer un cameraManager
@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        TextSize = PlayerPrefs.GetFloat("TextSize", 14);
 #if UNITY_EDITOR
         // Todas las referencias a objetos singleton deben hacerse como muy pronto desde el Start(),
         // porque los Awake() se ejecutan en orden aleatorio.

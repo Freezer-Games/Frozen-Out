@@ -18,6 +18,7 @@ public class Menu : MonoBehaviour
     public Canvas LoadCanvas;
     public Canvas LoadlevelCanvas;
     public Dropdown language;
+    public Button pruebas;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,12 @@ public class Menu : MonoBehaviour
         ExitButton.onClick.AddListener(Exit);
         ContinueButton.onClick.AddListener(continuegame);
         LoadButton.onClick.AddListener(loadgame);
+        pruebas.onClick.AddListener(lanzaprueba);
+
+    }
+    void lanzaprueba() {
+
+        StartCoroutine(LoadLevel(1));
 
     }
 
@@ -49,10 +56,10 @@ public class Menu : MonoBehaviour
     }
 
 
-    IEnumerator LoadLevel()
+    IEnumerator LoadLevel(int level)
     {
         yield return new WaitForSeconds(0);
-        SceneManager.LoadScene(2, LoadSceneMode.Single);
+        SceneManager.LoadScene(level, LoadSceneMode.Single);
     }
 
     void Lanzar_nivel()
@@ -60,7 +67,7 @@ public class Menu : MonoBehaviour
 
         MainCanvas.enabled = false;
         LoadCanvas.enabled = true;
-        StartCoroutine(LoadLevel());
+        StartCoroutine(LoadLevel(2));
 
     }
     void Options()
