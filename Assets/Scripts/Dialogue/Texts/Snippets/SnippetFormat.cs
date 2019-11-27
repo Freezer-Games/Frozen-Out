@@ -4,8 +4,6 @@ namespace Assets.Scripts.Dialogue.Texts.Snippets
 {
     public class SnippetFormat<T> : ISeparatedFormat<Snippet<T>>
     {
-        public static readonly SnippetFormat<object> VariableYarnFormat = new SnippetFormat<object>("$", " ");
-
         public string StartSeparator { get; }
         public string EndSeparator { get; }
 
