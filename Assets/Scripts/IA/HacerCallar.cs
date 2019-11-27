@@ -29,11 +29,9 @@ public class HacerCallar : MonoBehaviour
         else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") {
             print(dialogueSystemYarn.currentNodeName);
             dialogueSystemYarn.Stop();
-            dialogUI.DialogueComplete();
-            StopAllCoroutines();
-            dialogueSystemYarn.dialogueUI.StopAllCoroutines();
+            dialogUI.dialogueBoxGUI.SetActive(false);
             //dialogueSystemYarn.RunDialogue("Guardia");
-            StartCoroutine(dialogueSystemYarn.RunDialogue("Guardia"));
+            //StartCoroutine(dialogueSystemYarn.RunDialogue("Guardia"));
             //dialogueSystemYarn.StartDialogue("Guardia");
         }
         if (cercanos.Count == 2) { agent.destination = gameObject.transform.position; }
