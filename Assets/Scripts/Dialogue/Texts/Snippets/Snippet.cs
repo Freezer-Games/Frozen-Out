@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Dialogue.Texts.Snippets
 {
@@ -17,7 +18,13 @@ namespace Assets.Scripts.Dialogue.Texts.Snippets
         {
             Name = name;
             Format = format;
-            Value = format.Snippets[name];
+
+            format.Snippets.TryGetValue(name, out T value);
+
+            if (value == null) 
+                throw new KeyNotFoundException($"El Snippet de nombre \"{name}\" no tiene valor asociado.");
+            else 
+                Value = value;
         }
     }
 }

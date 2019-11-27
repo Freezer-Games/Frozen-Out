@@ -36,8 +36,7 @@ namespace Assets.Scripts.Dialogue
 
         private GameManager gameManager;
         private DialogueRunner dialogueSystem;
-        private DialogueSnippetSystem snippetSystem;
-        private VariableStorageBehaviour variableStorage => dialogueSystem?.variableStorage;
+        private DialogueSnippetSystem<string> snippetSystem;
 
         private int currentLineNumber;
 
@@ -46,7 +45,7 @@ namespace Assets.Scripts.Dialogue
             audioSource = GetComponent<AudioSource>();
             gameManager = FindObjectOfType<GameManager>();
             dialogueSystem = FindObjectOfType<DialogueRunner>();
-            snippetSystem = FindObjectOfType<DialogueSnippetSystem>();
+            snippetSystem = FindObjectOfType<DialogueSnippetSystem<string>>();
 
             if (dialogueBoxGUI != null)
             {
@@ -86,11 +85,6 @@ namespace Assets.Scripts.Dialogue
                     lineText = lineText.Replace(snippet.FullName, snippet.Value);
                 }
             }
-
-            //if (variableStorage != null)
-            //{
-            //    lineText = 
-            //}
 
             SeparateLine(lineText, out string characterName, out string characterDialogue);
 
