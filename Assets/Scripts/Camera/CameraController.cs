@@ -9,9 +9,9 @@ public class CameraController : MonoBehaviour
     public Transform lookAt;
 
     [Header("Camera preferences")]
-    [SerializeField] private const float Y_ANGLE_MIN = 5.0f;
-    [SerializeField] private const float Y_ANGLE_MAX = 80.0f;
-    [SerializeField] private float INIT_CAM_OFFSET = 7.0f;
+    [SerializeField] private const float Y_ANGLE_MIN = 4.0f;
+    [SerializeField] private const float Y_ANGLE_MAX = 75.0f;
+    [SerializeField] private float INIT_CAM_OFFSET = 10.0f;
 
     [HideInInspector] public Transform camTransform;
     [HideInInspector] public float distance;
