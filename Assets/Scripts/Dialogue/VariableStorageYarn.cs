@@ -34,7 +34,7 @@ namespace Assets.Scripts.Dialogue
             }
         }
 
-        public void SetValue<T>(string variableName, T value, bool includeLeading = true) where T : struct
+        public void SetValue<T>(string variableName, T value, bool includeLeading = true)
         {
             Yarn.Value yarnValue = new Yarn.Value(value);
 
