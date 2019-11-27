@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Yarn.Unity;
 
 using Assets.Scripts.Item;
+using System.Collections.ObjectModel;
+using System;
 
 namespace Assets.Scripts.Dialogue
 {
@@ -12,7 +14,13 @@ namespace Assets.Scripts.Dialogue
         // Where we actually keep our variables
         private readonly Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
 
+        public ReadOnlyDictionary<string, Yarn.Value> Variables => new ReadOnlyDictionary<string, Yarn.Value>(variables);
+
         private GameManager gameManager;
+
+        public bool IsInitialized { get; private set; }
+
+        public event EventHandler<ReadOnlyDictionary<string, Yarn.Value>> Initialized;
 
         void Start()
         {
@@ -22,6 +30,7 @@ namespace Assets.Scripts.Dialogue
 
         public override void ResetToDefaults ()
         {
+            IsInitialized = false;
             Clear();
 
             SetValue(nameof(gameManager.TextSize), gameManager.TextSize);
@@ -32,6 +41,14 @@ namespace Assets.Scripts.Dialogue
 
                 SetValue (item.variableName, item.isInitiallyInInventory);
             }
+
+            OnInitialized(Variables);
+        }
+
+        protected virtual void OnInitialized(ReadOnlyDictionary<string, Yarn.Value> variables)
+        {
+            IsInitialized = true;
+            Initialized?.Invoke(this, variables);
         }
 
         public void SetValue<T>(string variableName, T value, bool includeLeading = true)

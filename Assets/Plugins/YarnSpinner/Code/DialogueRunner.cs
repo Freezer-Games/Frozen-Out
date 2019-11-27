@@ -206,7 +206,7 @@ namespace Yarn.Unity
             StartCoroutine (RunDialogue (startNode));
         }
 
-        IEnumerator RunDialogue (string startNode = "Start")
+        public IEnumerator RunDialogue (string startNode = "Start")
         {
             // Mark that we're in conversation.
             isDialogueRunning = true;

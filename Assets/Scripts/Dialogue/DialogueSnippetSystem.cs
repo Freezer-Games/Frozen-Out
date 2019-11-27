@@ -6,11 +6,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Dialogue
 {
-    public class DialogueSnippetSystem : DialogueSnippetSystem<string>
-    {
-
-    }
-
     public class DialogueSnippetSystem<T> : MonoBehaviour
     {
         public const string DefaultSeparator = "%";
@@ -25,20 +20,13 @@ namespace Assets.Scripts.Dialogue
             public string value;
         }
 
-        public List<string> names;
-        public List<T> values;
+        protected readonly Dictionary<string, T> snippets = new Dictionary<string, T>();
 
-        private readonly Dictionary<string, T> snippets = new Dictionary<string, T>();
-        protected SnippetFormat<T> format;
+        public SnippetFormat<T> Format { get; set; }
 
-        void Start()
-        {
-            for (int i = 0; i < names.Count; i++)
-            {
-                snippets[names[i]] = values[i];
-            }
-
-            format = new SnippetFormat<T>(StartSeparator, EndSeparator)
+        protected virtual void Start()
+        { 
+            Format = new SnippetFormat<T>(StartSeparator, EndSeparator)
             {
                 Snippets = snippets
             };
@@ -56,7 +44,7 @@ namespace Assets.Scripts.Dialogue
                 int nextIndex = currentIndex + 1, indexOfSnippetInit = 0;
                 try
                 {
-                    Snippet<T> snippet = format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
+                    Snippet<T> snippet = Format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
                     if (snippet != null)
                     {
                         result.Add(snippet);

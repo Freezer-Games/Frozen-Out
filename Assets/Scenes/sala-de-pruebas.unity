@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -423,11 +423,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 73083752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ac0eab5858d4c478ceaea4faf91fca, type: 3}
+  m_Script: {fileID: 11500000, guid: 458249eafa360614e8e8b6dcdc4f0bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartSeparator: '%'
-  EndSeparator: '%'
+  StartSeparator: $
+  EndSeparator: ' '
 --- !u!1 &75912010
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1205,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 381452761}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -5627,11 +5627,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SANTIAGO
       objectReference: {fileID: 0}
-    - target: {fileID: -8713933551992349066, guid: c8239a3eed10c6d48a3942a64c41568b,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 8d02e2739e941f34eaa501adea252fd3, type: 2}
     - target: {fileID: -4216859302048453862, guid: c8239a3eed10c6d48a3942a64c41568b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5687,16 +5682,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 681629294533655553, guid: c8239a3eed10c6d48a3942a64c41568b,
+    - target: {fileID: -8713933551992349066, guid: c8239a3eed10c6d48a3942a64c41568b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 3f7739f5b38456141a9f05a52c0dc8ce, type: 2}
+      objectReference: {fileID: 2100000, guid: 8d02e2739e941f34eaa501adea252fd3, type: 2}
     - target: {fileID: 6001828379073588702, guid: c8239a3eed10c6d48a3942a64c41568b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 600ae2db6ac32684aa8519956416917b, type: 2}
+    - target: {fileID: 681629294533655553, guid: c8239a3eed10c6d48a3942a64c41568b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f7739f5b38456141a9f05a52c0dc8ce, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8239a3eed10c6d48a3942a64c41568b, type: 3}
 --- !u!1 &1667767160
@@ -6111,7 +6111,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1758834100}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -6744,7 +6744,7 @@ GameObject:
   - component: {fileID: 1995843914}
   m_Layer: 0
   m_Name: Polo4
-  m_TagString: Untagged
+  m_TagString: Guard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7066,7 +7066,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
