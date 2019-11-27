@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public KeyCode crouch { get; set; }
     public KeyCode interact { get; set; }
 
+    public double TextSize { get; set; } = 14.0;
+
     public static GameManager instance;
     public CameraController cameraController; //hacer un cameraManager
     public GameObject playerObject;
