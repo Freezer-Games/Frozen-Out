@@ -52,7 +52,7 @@ public class Menu : MonoBehaviour
     IEnumerator LoadLevel()
     {
         yield return new WaitForSeconds(0);
-        SceneManager.LoadScene("sala-de-pruebas", LoadSceneMode.Single);
+        SceneManager.LoadScene(2, LoadSceneMode.Single);
     }
 
     void Lanzar_nivel()
