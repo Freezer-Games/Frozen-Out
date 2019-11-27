@@ -4,6 +4,7 @@ using System.Collections;
 using System.Text;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue.Texts;
+using Assets.Scripts.Dialogue.Texts.Tags;
 
 namespace Assets.Scripts.Dialogue
 {
@@ -33,6 +34,7 @@ namespace Assets.Scripts.Dialogue
         private float localDelay;
         private readonly float localDelayMultiplier = 1.5f;
 
+        private GameManager gameManager;
         private DialogueRunner dialogueSystem;
         private DialogueSnippetSystem snippetSystem;
         private int currentLineNumber;
@@ -40,6 +42,7 @@ namespace Assets.Scripts.Dialogue
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            gameManager = FindObjectOfType<GameManager>();
             dialogueSystem = FindObjectOfType<DialogueRunner>();
             snippetSystem = FindObjectOfType<DialogueSnippetSystem>();
 
@@ -90,13 +93,22 @@ namespace Assets.Scripts.Dialogue
 
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, RunLineLogger);
 
+                TagOption selectedTextSizeStartTagOption
+                    = new TagOption($"size={gameManager.TextSize}", TagFormat.RichTextTagFormat, TagOptionPosition.start);
+
+                TagOption selectedTextSizeEndTagOption
+                    = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.end);
+
+                Tag selectedTextSizeTag = new Tag(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
+
+                completeCharacterDialogue = new DialogueTaggedText(selectedTextSizeTag, completeCharacterDialogue);
+
                 foreach (string currentText in completeCharacterDialogue.Parse())
                 {
                     currentDialogueText.text = currentText;
                     yield return new WaitForSeconds(localDelay);
                 }
             }
-            currentDialogueText.text = characterDialogue;
 
             // Show the 'press any key' prompt when done, if we have one
             if (continuePrompt != null)

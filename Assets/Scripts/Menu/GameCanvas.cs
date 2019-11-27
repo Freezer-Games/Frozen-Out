@@ -8,10 +8,14 @@ using System.IO;
 public class GameCanvas : MonoBehaviour
 {
     public Dropdown DropdownLanguage;
+    public Slider sizeSlider;
+    public Text sizeText;
 
     // Start is called before the first frame update
     void Start()
     {
+        float size = PlayerPrefs.GetFloat("TextSize", 14);
+        sizeSlider.value = size;
         if (PlayerPrefs.HasKey("Language"))
         {
             if (PlayerPrefs.GetString("Language") == "Es") { DropdownLanguage.value = 1; }
@@ -36,11 +40,12 @@ public class GameCanvas : MonoBehaviour
         }
         LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
     }
-    void DeleteFile() { }
 
     // Update is called once per frame
     void Update()
     {
-        
+        sizeText.text = sizeSlider.value.ToString();
+        PlayerPrefs.SetFloat("TextSize", sizeSlider.value);
+        GameManager.instance.TextSize = sizeSlider.value;
     }
 }
