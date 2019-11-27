@@ -1,29 +1,53 @@
 ﻿using Assets.Scripts.Dialogue.Texts;
+using Assets.Scripts.Dialogue.Texts.Snippets;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue
 {
-    public class DialogueSnippetSystem : MonoBehaviour
+    public class DialogueSnippetSystem : DialogueSnippetSystem<string>
+    {
+
+    }
+
+    public class DialogueSnippetSystem<T> : MonoBehaviour
     {
         public const string DefaultSeparator = "%";
-        private const string DefaultNameValueSeparator = "===";
 
         public string StartSeparator = DefaultSeparator;
         public string EndSeparator = DefaultSeparator;
-        public string NameValueSeparator = DefaultNameValueSeparator;
 
-        public TextAsset Snippets;
-        private SnippetFormat format;
+        [Serializable]
+        public struct SimpleSnippet
+        {
+            public string name;
+            public string value;
+        }
+
+        public List<string> names;
+        public List<T> values;
+
+        private readonly Dictionary<string, T> snippets = new Dictionary<string, T>();
+        protected SnippetFormat<T> format;
 
         void Start()
         {
-            format = new SnippetFormat(StartSeparator, EndSeparator, NameValueSeparator);
+            for (int i = 0; i < names.Count; i++)
+            {
+                snippets[names[i]] = values[i];
+            }
+
+            format = new SnippetFormat<T>(StartSeparator, EndSeparator)
+            {
+                Snippets = snippets
+            };
         }
 
-        public string ParseSnippets(string text, Action<ParsingException> logger = null)
+        public List<Snippet<T>> ParseSnippets(string text, Action<ParsingException> logger = null)
         {
-            string result = text, textBeingAnalyzed = text;
+            List<Snippet<T>> result = new List<Snippet<T>>();
+            string textBeingAnalyzed = text;
             int currentIndex = 0;
 
             while (textBeingAnalyzed != null && textBeingAnalyzed.Length > 0)
@@ -32,11 +56,10 @@ namespace Assets.Scripts.Dialogue
                 int nextIndex = currentIndex + 1, indexOfSnippetInit = 0;
                 try
                 {
-                    Snippet snippet = format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
+                    Snippet<T> snippet = format.Extract(textBeingAnalyzed, out indexOfSnippetInit, out nextIndex, out string remainingText);
                     if (snippet != null)
                     {
-                        snippet.LoadValueFrom(Snippets.text);
-                        result = snippet.Replace(result);
+                        result.Add(snippet);
                     }
                     else
                     {
