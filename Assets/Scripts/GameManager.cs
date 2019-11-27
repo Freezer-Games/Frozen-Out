@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
             LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 #endif
         SceneManager.sceneLoaded += OnSceneLoaded;
+        Time.timeScale = 1;
 #if UNITY_EDITOR
         if (SceneManager.GetActiveScene().buildIndex != 0) {
             Cursor.visible = false;
