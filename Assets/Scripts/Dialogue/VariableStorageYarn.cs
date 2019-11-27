@@ -7,30 +7,34 @@ namespace Assets.Scripts.Dialogue
 {
     public class VariableStorageYarn : VariableStorageBehaviour
     {
-        // Where we actually keep our variables
-        private Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
-
         public Inventory inventory;
+
+        // Where we actually keep our variables
+        private readonly Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
+
+        private GameManager gameManager;
 
         void Start()
         {
+            gameManager = FindObjectOfType<GameManager>();
             ResetToDefaults();
         }
 
         public override void ResetToDefaults ()
         {
-            Clear ();
+            Clear();
+
+            SetValue(nameof(gameManager.TextSize), gameManager.TextSize);
 
             // For each default variable that's been defined, parse the string
             // that the user typed in in Unity and store the variable
             foreach (ItemInfo item in inventory.inventoryItems) {
 
                 SetValue (item.variableName, item.isInitiallyInInventory);
-
             }
         }
 
-        public void SetValue(string variableName, bool value, bool includeLeading = true)
+        public void SetValue<T>(string variableName, T value, bool includeLeading = true) where T : struct
         {
             Yarn.Value yarnValue = new Yarn.Value(value);
 
@@ -39,7 +43,7 @@ namespace Assets.Scripts.Dialogue
                 variableName = AddLeading(variableName);
             }
 
-            SetValue(variableName, yarnValue);
+            SetValue(variableName, yarnValue: yarnValue);
         }
 
         public string AddLeading(string variableName)
@@ -47,10 +51,10 @@ namespace Assets.Scripts.Dialogue
             return "$" + variableName;
         }
 
-        public override void SetValue(string variableName, Yarn.Value value)
+        public override void SetValue(string variableName, Yarn.Value yarnValue)
         {
             // Copy this value into our list
-            variables[variableName] = value;
+            variables[variableName] = yarnValue;
         }
 
         public override Yarn.Value GetValue(string variableName)

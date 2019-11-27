@@ -5,6 +5,15 @@ namespace Assets.Scripts.Dialogue.Texts.Tags
 {
     public class TagFormat : ISeparatedFormat<TagOption>
     {
+        private const char RichTextTagSeparatorInit = '<';
+        private const char RichTextTagSeparatorEnd = '>';
+        private const char RichTextTagOptionEnd = '/';
+
+        public static readonly TagFormat RichTextTagFormat = new TagFormat(
+            RichTextTagSeparatorInit.ToString(),
+            RichTextTagSeparatorEnd.ToString(),
+            RichTextTagOptionEnd.ToString());
+
         public string StartSeparator { get; }
         public string EndSeparator { get; }
         public string EndOptionSeparator { get; }

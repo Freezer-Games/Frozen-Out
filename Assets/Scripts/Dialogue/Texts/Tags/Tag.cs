@@ -15,9 +15,13 @@ namespace Assets.Scripts.Dialogue.Texts.Tags
         public TagOption StartOption { get; }
         public TagOption EndOption { get; }
 
+        public Dictionary<string, string> Attributes { get; } = new Dictionary<string, string>();
+
         public Tag(string option, TagFormat format)
         {
             this.Option = option;
+            this.Format = format;
+
             this.StartOption = new TagOption(option, format, TagOptionPosition.start);
             this.EndOption = new TagOption(option, format, TagOptionPosition.end);
         }
