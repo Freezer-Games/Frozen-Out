@@ -11,13 +11,13 @@ namespace Assets.Scripts.Dialogue
 
         public string NameValueSeparator = DefaultNameValueSeparator;
 
-        public new TextAsset Snippets;
+        public TextAsset Snippets;
 
-        void Start()
+        protected override void Start()
         {
             FileSnippetFormat fileFormat = new FileSnippetFormat(StartSeparator, EndSeparator, NameValueSeparator);
             fileFormat.LoadSnippets(Snippets.text);
-            format = fileFormat;
+            Format = fileFormat;
         }
 
         public new string ParseSnippets(string text, Action<ParsingException> logger = null)
