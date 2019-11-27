@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     [Header("Camera preferences")]
     [SerializeField] private const float Y_ANGLE_MIN = 10.0f;
     [SerializeField] private const float Y_ANGLE_MAX = 75.0f;
-    [SerializeField] private const float INIT_CAM_OFFSET = 10.0f;
+    [SerializeField] private float INIT_CAM_OFFSET = 10.0f;
 
     [HideInInspector] public Transform camTransform;
     [HideInInspector] public float distance;
