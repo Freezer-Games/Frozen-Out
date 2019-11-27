@@ -43,7 +43,7 @@ namespace Assets.Scripts.Dialogue
                 variableName = AddLeading(variableName);
             }
 
-            SetValue(variableName, yarnValue);
+            SetValue(variableName, yarnValue: yarnValue);
         }
 
         public string AddLeading(string variableName)
@@ -51,10 +51,10 @@ namespace Assets.Scripts.Dialogue
             return "$" + variableName;
         }
 
-        public override void SetValue(string variableName, Yarn.Value value)
+        public override void SetValue(string variableName, Yarn.Value yarnValue)
         {
             // Copy this value into our list
-            variables[variableName] = value;
+            variables[variableName] = yarnValue;
         }
 
         public override Yarn.Value GetValue(string variableName)
