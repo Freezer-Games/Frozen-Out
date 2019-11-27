@@ -6657,9 +6657,9 @@ GameObject:
   - component: {fileID: 1995843918}
   - component: {fileID: 1995843916}
   - component: {fileID: 1995843915}
-  - component: {fileID: 1995843913}
   - component: {fileID: 1995843917}
   - component: {fileID: 1995843922}
+  - component: {fileID: 1995843914}
   m_Layer: 0
   m_Name: Polo4
   m_TagString: Untagged
@@ -6667,18 +6667,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1995843913
+--- !u!114 &1995843914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1995843912}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d82c2d3186e014a9f15ba13606eb22, type: 3}
+  m_Script: {fileID: 11500000, guid: 232984554bc75fe49894f1d001a8c364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterName: Guardia
+  talkToNode: Guardia
+  scriptToLoad: {fileID: 4900000, guid: b6866b492678fe14cb4c7774cbf97a46, type: 3}
 --- !u!195 &1995843915
 NavMeshAgent:
   m_ObjectHideFlags: 0
