@@ -37,6 +37,8 @@ namespace Assets.Scripts.Dialogue
         private GameManager gameManager;
         private DialogueRunner dialogueSystem;
         private DialogueSnippetSystem snippetSystem;
+        private VariableStorageBehaviour variableStorage => dialogueSystem?.variableStorage;
+
         private int currentLineNumber;
 
         void Start()
@@ -78,8 +80,17 @@ namespace Assets.Scripts.Dialogue
 
             if (snippetSystem != null)
             {
-                lineText = snippetSystem.ParseSnippets(lineText, RunLineLogger);
+                var snippets = snippetSystem.ParseSnippets(lineText, RunLineLogger);
+                foreach (var snippet in snippets)
+                {
+                    lineText = lineText.Replace(snippet.FullName, snippet.Value);
+                }
             }
+
+            //if (variableStorage != null)
+            //{
+            //    lineText = 
+            //}
 
             SeparateLine(lineText, out string characterName, out string characterDialogue);
 
