@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
+
             } else if (scene.buildIndex==1) {
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
