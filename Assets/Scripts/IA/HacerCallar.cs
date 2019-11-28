@@ -33,13 +33,12 @@ public class HacerCallar : MonoBehaviour
         List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;
         if (hablar) { dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode); hablar = false; }
-        if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") { agent.destination = visibles[0].position; }
-        else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") {
+        else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") { agent.destination = visibles[0].position; }
+        else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null) {
             print(dialogueSystemYarn.currentNodeName);
             dialogueSystemYarn.Stop();
-            dialogUI.dialogueBoxGUI.SetActive(false);
-            hablar = true;
-            
+            //dialogUI.dialogueBoxGUI.SetActive(false);
+            hablar = true;  
         }
         if (cercanos.Count == 2) { agent.destination = gameObject.transform.position; }
     }
