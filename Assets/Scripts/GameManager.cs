@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        //if (SceneManager.GetActiveScene().buildIndex == 1)
 
             if (scene.buildIndex == 0) {
 
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
-            } else if (scene.buildIndex == 1) {
+            } else if (scene.buildIndex == 2) {
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
