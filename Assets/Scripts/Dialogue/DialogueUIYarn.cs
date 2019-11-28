@@ -94,7 +94,14 @@ namespace Assets.Scripts.Dialogue
 
             SeparateLine(lineText, out string characterName, out string characterDialogue);
 
+            Tag selectedTextSizeTag = GetTextSizeTag(gameManager.TextSize);
+
             GetCurrentDialogueText(characterName);
+
+            // Cambiar text size al nombre del personaje
+            characterName = new DialogueTaggedText(selectedTextSizeTag, characterName).FullText;
+
+            currentNameText.text = characterName;
 
             currentDialogueText.gameObject.SetActive(true);
 
@@ -103,14 +110,6 @@ namespace Assets.Scripts.Dialogue
                 localDelay = letterDelay;
 
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, RunLineLogger);
-
-                TagOption selectedTextSizeStartTagOption
-                    = new TagOption($"size={gameManager.TextSize}", TagFormat.RichTextTagFormat, TagOptionPosition.start);
-
-                TagOption selectedTextSizeEndTagOption
-                    = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.end);
-
-                Tag selectedTextSizeTag = new Tag(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
 
                 completeCharacterDialogue = new DialogueTaggedText(selectedTextSizeTag, completeCharacterDialogue);
 
@@ -142,6 +141,18 @@ namespace Assets.Scripts.Dialogue
             }
         }
 
+        private Tag GetTextSizeTag(double textSize)
+        {
+            TagOption selectedTextSizeStartTagOption
+                                = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.start);
+
+            TagOption selectedTextSizeEndTagOption
+                = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.end);
+
+            Tag selectedTextSizeTag = new Tag(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
+            return selectedTextSizeTag;
+        }
+
         private string ParseSnippetSystem<T>(string lineText, DialogueSnippetSystem<T> snippetSystem) where T : class
         {
             var snippets = snippetSystem.ParseSnippets(lineText, RunLineLogger);
@@ -167,8 +178,6 @@ namespace Assets.Scripts.Dialogue
                 currentNameText = otherNameText;
                 currentDialogueText = otherDialogueText;
             }
-
-            currentNameText.text = characterName;
         }
 
         public override IEnumerator RunOptions(Yarn.Options optionsCollection, Yarn.OptionChooser optionChooser)
