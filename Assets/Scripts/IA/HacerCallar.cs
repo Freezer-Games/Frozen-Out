@@ -37,7 +37,7 @@ public class HacerCallar : MonoBehaviour
         else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null) {
             print(dialogueSystemYarn.currentNodeName);
             dialogueSystemYarn.Stop();
-            dialogUI.dialogueBoxGUI.SetActive(false);
+            //dialogUI.dialogueBoxGUI.SetActive(false);
             hablar = true;  
         }
         if (cercanos.Count == 2) { agent.destination = gameObject.transform.position; }
