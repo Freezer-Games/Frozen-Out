@@ -57,17 +57,19 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        //if (SceneManager.GetActiveScene().buildIndex == 1)
 
             if (scene.buildIndex == 0) {
 
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+                LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
+
             } else if (scene.buildIndex==1) {
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
-            } else if (scene.buildIndex == 1) {
+            } else if (scene.buildIndex == 2) {
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 

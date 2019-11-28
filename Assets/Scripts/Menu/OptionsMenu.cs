@@ -56,7 +56,7 @@ public class OptionsMenu : MonoBehaviour
 
     void SaveChanges()
     {
-        EditorUtility.DisplayDialog(LocalizationManager.instance.GetLocalizedValue("Confirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmText"), LocalizationManager.instance.GetLocalizedValue("ConfirmConfirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmCancel"));
+        //EditorUtility.DisplayDialog(LocalizationManager.instance.GetLocalizedValue("Confirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmText"), LocalizationManager.instance.GetLocalizedValue("ConfirmConfirm"), LocalizationManager.instance.GetLocalizedValue("ConfirmCancel"));
 
     }
 
