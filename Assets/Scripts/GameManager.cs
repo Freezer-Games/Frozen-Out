@@ -67,7 +67,12 @@ public class GameManager : MonoBehaviour
 
                 LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
 
-            } else {
+            } else if (scene.buildIndex == 1) {
+
+                LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+
+            }
+            else {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }

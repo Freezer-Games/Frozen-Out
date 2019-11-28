@@ -29,7 +29,7 @@ public class PatrullaCircular : MonoBehaviour
         Vector3 direction = center.forward;
         Vector3 destination = new Vector3(center.position.x+radius*direction.x,center.position.y, center.position.z + radius * direction.z);
         agent.destination = destination;
-        print(agent.destination);
+        //print(agent.destination);
 
     }
 
