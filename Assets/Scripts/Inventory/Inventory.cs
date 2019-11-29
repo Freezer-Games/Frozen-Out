@@ -43,7 +43,7 @@ namespace Assets.Scripts.Item
             ItemInfo inventoryItemInfo = GetInventoryItem(worldItem);
 
             inventoryItemInfo.gameObject.SetActive(true);
-            GameObject.Destroy(worldItem);
+            worldItem.SetActive(false);
 
             variableStorage.SetValue(inventoryItemInfo.variableName, true);
         }
