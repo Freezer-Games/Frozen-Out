@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     public event EventHandler Idle;
     private Animator animator;
 
+    private GameObject snow;
+
 
 
     // Use this for initialization
@@ -46,6 +48,12 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
+
+        try { 
+            snow = GameObject.Find("Snow");
+            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+        }
+        catch {}
     }
 
     // Update is called once per frame
@@ -77,6 +85,10 @@ public class PlayerController : MonoBehaviour
         }
         moveDir.y -= gravity * Time.deltaTime;
         characterController.Move(moveDir * Time.deltaTime);
+
+        try {
+            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+        } catch {}
     }
 
     private void MovementCalculation() {

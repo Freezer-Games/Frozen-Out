@@ -6,8 +6,7 @@ public class CameraCollision : MonoBehaviour
 {
     [Header("Ray start")]
     public Transform character;
-    public Transform leftRay;
-    public Transform rightRay;
+    public Transform auxCamPos;
 
     public Material transparencia;
 
@@ -98,8 +97,14 @@ public class CameraCollision : MonoBehaviour
     {
         newCamDistance = (hits[0].point  - characterPosition).magnitude;
 
-        cam.GetComponent<CameraController>().distance = newCamDistance + 3.0f;
-
+        if (newCamDistance <= 3f) 
+        {
+            cam.transform.position = auxCamPos.position;
+        }
+        else 
+        {
+            cam.GetComponent<CameraController>().distance = newCamDistance + 3.0f;
+        }
         viewcolisions.Add(objeto, pos);
         materiales.Add(objeto, pos.GetComponent<Renderer>().material);
         pos.GetComponent<MeshRenderer>().enabled = false;
