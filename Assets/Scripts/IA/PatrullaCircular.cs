@@ -13,7 +13,8 @@ public class PatrullaCircular : MonoBehaviour
     private NavMeshAgent agent;
     Vector3 direction;
     Vector3 destination;
-    string estado = "patrullando";
+    enum Estados {patrullando, perseguir, esperar}
+    Estados estado = Estados.patrullando;
     private DialogueRunner dialogueSystemYarn;
     bool hablar = false;
 
@@ -44,26 +45,27 @@ public class PatrullaCircular : MonoBehaviour
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;
         switch (estado) {
 
-            case "patrullando":
+            case Estados.patrullando:
                 if (!agent.pathPending && agent.remainingDistance < 1f)
                     GotoNextPoint();
-                if ((visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") || cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null)
-                { estado = "perseguir"; }
+                if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") && dialogueSystemYarn.currentNodeName != null)
+                { estado = Estados.perseguir; }
                 break;
 
-            case "perseguir":
+            case Estados.perseguir:
                 if (hablar)
                 {
                     dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
                     hablar = false;
-                    estado = "esperar";
+                    estado = Estados.esperar;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia")
                 {
                     agent.destination = visibles[0].position;
                 }
-                else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null)
+                else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null)
                 {
+                    agent.destination = gameObject.transform.position;
                     dialogueSystemYarn.Stop();
                     dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
                     hablar = true;
@@ -72,11 +74,11 @@ public class PatrullaCircular : MonoBehaviour
                 {
                     agent.destination = gameObject.transform.position;
                 }
-                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = "patrullando"; }
+                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = Estados.patrullando; }
                 break;
 
-            case "esperar":
-                if (cercanos.Count == 0 && visibles.Count == 0) { estado = "patrullar"; }
+            case Estados.esperar:
+                if (cercanos.Count == 0 && visibles.Count == 0) { estado = Estados.patrullando; }
                 break;
 
         }
