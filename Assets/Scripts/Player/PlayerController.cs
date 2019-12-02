@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
 
     [Header("Movement")]
-    public float Speed = 5.0f;
+    public float Speed = 7.5f;
     public float RotationSpeed = 240.0f;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 move;
