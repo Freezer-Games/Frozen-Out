@@ -40,7 +40,7 @@ namespace Assets.Scripts.Dialogue
             {
                 if(other.gameObject.tag == "NPC")
                 {
-                    if(Input.GetKeyDown(GameManager.instance.interact)){
+                    if(Input.GetKey(GameManager.instance.interact)){
                         promptText.text = "";
                         NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
                         if (target != null)

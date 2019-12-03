@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public CameraController cameraController; //hacer un cameraManager
     public GameObject playerObject;
     public PlayerManager playerManager;
+    private PlayerController playerController;
 
     void Awake()
     {
@@ -57,27 +58,30 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-        //if (SceneManager.GetActiveScene().buildIndex == 1)
+        if (scene.buildIndex == 0)
+        {
 
-            if (scene.buildIndex == 0) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
 
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
+        } else if (scene.buildIndex == 1)
+        {
 
-            } else if (scene.buildIndex==1) {
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            playerController = FindObjectOfType<PlayerController>();
 
-                LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+        } else if (scene.buildIndex == 2)
+        {
 
-            } else if (scene.buildIndex == 2) {
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            playerController = FindObjectOfType<PlayerController>();
 
-                LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
-
-            }
-            else {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+        }
 
     }
 
