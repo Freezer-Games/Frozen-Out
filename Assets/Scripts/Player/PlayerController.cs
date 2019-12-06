@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float h, v;
     private bool moving;
     public int closeRadius;
+    private const float movementDelay = 0.333f;
 
     [Header("Jump")]
     public float JumpForce = 10.0f;
@@ -56,7 +57,6 @@ public class PlayerController : MonoBehaviour
         catch {}
     }
 
-    // Update is called once per frame
     void Update()
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -66,6 +66,9 @@ public class PlayerController : MonoBehaviour
         if (characterController.isGrounded)
         {
             animator.SetBool("isMoving", moving);
+
+            StartCoroutine(MoveCoroutine(moving));
+
             moveDir = transform.forward * move.magnitude;
 
             sneaking = false;
@@ -139,6 +142,12 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("isSneakingOut");
         characterController.height = height;
         characterController.center = center;
+    }
+
+    IEnumerator MoveCoroutine(bool active)
+    {
+        if (active) yield return new WaitForSeconds(movementDelay);
+        yield return null;
     }
 
     private void SneakyMode() 
