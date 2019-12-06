@@ -35,10 +35,6 @@ public class PlayerController : MonoBehaviour
 
     private GameObject snow;
 
-
-
-    // Use this for initialization
-
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -66,7 +62,10 @@ public class PlayerController : MonoBehaviour
         if (characterController.isGrounded)
         {
             animator.SetBool("isMoving", moving);
+
+            
             moveDir = transform.forward * move.magnitude;
+            
 
             sneaking = false;
 
@@ -90,6 +89,7 @@ public class PlayerController : MonoBehaviour
             snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
         } catch {}
     }
+
 
     private void MovementCalculation() {
 
