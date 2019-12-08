@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetBool("isMoving", moving);
 
-            StartCoroutine(MoveCoroutine(moving));
+            
 
             moveDir = transform.forward * move.magnitude;
             
@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         moveDir.y -= gravity * Time.deltaTime;
+        StartCoroutine(MoveCoroutine(moving));
         characterController.Move(moveDir * Time.deltaTime);
 
         try {
