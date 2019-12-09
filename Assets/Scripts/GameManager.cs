@@ -43,8 +43,10 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         // Todas las referencias a objetos singleton deben hacerse como muy pronto desde el Start(),
         // porque los Awake() se ejecutan en orden aleatorio.
-        if (SceneManager.GetActiveScene().buildIndex == 1)
+        if (SceneManager.GetActiveScene().buildIndex != 0) {
             LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
+        }
 #endif
         SceneManager.sceneLoaded += OnSceneLoaded;
         Time.timeScale = 1;
@@ -69,6 +71,7 @@ public class GameManager : MonoBehaviour
         {
 
             LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             playerController = FindObjectOfType<PlayerController>();
@@ -77,6 +80,7 @@ public class GameManager : MonoBehaviour
         {
 
             LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             playerController = FindObjectOfType<PlayerController>();
