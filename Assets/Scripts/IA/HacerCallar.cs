@@ -8,38 +8,40 @@ using Assets.Scripts.Dialogue;
 public class HacerCallar : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
-    private DialogueUIYarn dialogUI;
     bool hablar = false;
+    string estado = "hola";
+    NavMeshAgent agent;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        PlayerController controller = FindObjectOfType<PlayerController>();
-        controller.Moving += Player_Moving;
-    }
-
-    private void Player_Moving(object sender, PlayerControllerEventArgs e)
-    {
-        if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
+        agent = GetComponent<NavMeshAgent>();
+        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        dialogUI = FindObjectOfType<DialogueUIYarn>();
-        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
         List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;
-        if (hablar) { dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode); hablar = false; }
-        else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") { agent.destination = visibles[0].position; }
-        else if (cercanos.Count == 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null) {
-            print(dialogueSystemYarn.currentNodeName);
-            dialogueSystemYarn.Stop();
-            //dialogUI.dialogueBoxGUI.SetActive(false);
-            hablar = true;  
+        if (hablar)
+        {
+            dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
+            hablar = false;
         }
-        if (cercanos.Count == 2) { agent.destination = gameObject.transform.position; }
+        else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia")
+        {
+            agent.destination = visibles[0].position;
+        }
+        else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null)
+        {
+            dialogueSystemYarn.Stop();
+            hablar = true;
+        }
+        if (cercanos.Count == 2)
+        {
+            agent.destination = gameObject.transform.position;
+        }
     }
 }

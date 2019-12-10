@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
 
     [Header("Movement")]
-    public float Speed = 5.0f;
+    public float Speed = 7.5f;
     public float RotationSpeed = 240.0f;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 move;
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float h, v;
     private bool moving;
     public int closeRadius;
+    private const float movementDelay = 0.333f;
 
     [Header("Jump")]
     public float JumpForce = 10.0f;
@@ -33,9 +34,7 @@ public class PlayerController : MonoBehaviour
     public event EventHandler Idle;
     private Animator animator;
 
-
-
-    // Use this for initialization
+    private GameObject snow;
 
     void Start()
     {
@@ -46,9 +45,14 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
+
+        try { 
+            snow = GameObject.Find("Snow");
+            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+        }
+        catch {}
     }
 
-    // Update is called once per frame
     void Update()
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
@@ -58,7 +62,11 @@ public class PlayerController : MonoBehaviour
         if (characterController.isGrounded)
         {
             animator.SetBool("isMoving", moving);
+
+            
+
             moveDir = transform.forward * move.magnitude;
+            
 
             sneaking = false;
 
@@ -76,8 +84,14 @@ public class PlayerController : MonoBehaviour
             }
         }
         moveDir.y -= gravity * Time.deltaTime;
+        StartCoroutine(MoveCoroutine(moving));
         characterController.Move(moveDir * Time.deltaTime);
+
+        try {
+            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+        } catch {}
     }
+
 
     private void MovementCalculation() {
 
@@ -127,6 +141,12 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("isSneakingOut");
         characterController.height = height;
         characterController.center = center;
+    }
+
+    IEnumerator MoveCoroutine(bool active)
+    {
+        if (active) yield return new WaitForSeconds(movementDelay);
+        yield return null;
     }
 
     private void SneakyMode() 
