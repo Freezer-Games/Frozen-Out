@@ -6,9 +6,8 @@ public class TuttiMomento : MonoBehaviour
 {
     public GameObject tutti;
 
-    public GameObject player;
+     GameObject player;
     public Transform initPos, finalPos;
-    public float tuttiVel = 5f;
 
     private bool repeated = false;
 
@@ -18,28 +17,21 @@ public class TuttiMomento : MonoBehaviour
             repeated = true;
 
             player = other.gameObject;
+            player.GetComponent<PlayerController>().enabled = false;
 
             StartCoroutine(WatchingTutti(player));
-            
-
             player.GetComponent<PlayerController>().enabled = true;
-            
-
-
         }
     }
 
     IEnumerator WatchingTutti(GameObject other)
     {
-        other.GetComponent<PlayerController>().enabled = false;
         Instantiate(tutti, initPos.position, initPos.rotation);
 
-        float step = tuttiVel * Time.deltaTime;
+        float step = (finalPos.position - initPos.position).magnitude;
 
-        while (tutti.transform.position != finalPos.position) {  
-            tutti.transform.position = Vector3.MoveTowards(tutti.transform.position, finalPos.position, step);
-        }
-
-        yield return null;
+        tutti.transform.position = Vector3.MoveTowards(tutti.transform.position, finalPos.position, step);
+        
+        yield return new WaitForSeconds(5.0f);
     }
 }
