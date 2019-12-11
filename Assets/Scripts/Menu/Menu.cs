@@ -67,7 +67,7 @@ public class Menu : MonoBehaviour
 
         MainCanvas.enabled = false;
         LoadCanvas.enabled = true;
-        StartCoroutine(LoadLevel(3));
+        StartCoroutine(LoadLevel(2));
 
     }
     void Options()
