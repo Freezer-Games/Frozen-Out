@@ -62,8 +62,6 @@ public class PlayerController : MonoBehaviour
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        MovementCalculation();
-
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
 
@@ -77,6 +75,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            MovementCalculation();
             RotatePlayer();
 
             if (characterController.isGrounded)
