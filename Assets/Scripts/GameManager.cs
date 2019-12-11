@@ -87,6 +87,16 @@ public class GameManager : MonoBehaviour
             playerController = FindObjectOfType<PlayerController>();
 
         }
+        else if (scene.buildIndex == 3)
+        {
+
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            playerController = FindObjectOfType<PlayerController>();
+
+        }
 
     }
 
