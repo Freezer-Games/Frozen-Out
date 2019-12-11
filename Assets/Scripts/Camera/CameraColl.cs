@@ -24,7 +24,7 @@ public class CameraColl : MonoBehaviour
 
         if (Physics.Linecast(transform.parent.position, desiredCamPos, out hit)) 
         {   
-            if (hit.collider.gameObject.tag != "Trigger")
+            if (hit.collider.gameObject.tag != "Trigger" || hit.collider.gameObject.tag != "NPC")
                 distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
         else 

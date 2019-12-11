@@ -25,7 +25,6 @@ public class CameraFollow : MonoBehaviour
     private float rotX = 0.0f;
     private float transitionSpeed = 1.0f;
     private Transform cinemaPos;
-    private Transform initPos;
     private Camera cam;
     //private Vector3 lastPos;
     private DialogueRunner dialogueSystemYarn;
@@ -36,7 +35,6 @@ public class CameraFollow : MonoBehaviour
     {
         cam = Camera.main;
         cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-        initPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
@@ -71,7 +69,6 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate() 
     {
         cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-        initPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
         if (GameManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
         {
             ChangeToCinematic();
