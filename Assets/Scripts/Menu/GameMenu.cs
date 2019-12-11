@@ -13,6 +13,7 @@ public class GameMenu : MonoBehaviour
     public Button ExitButton;
     public Canvas MenuCanvas;
     public Canvas LoadCanvas;
+    public Canvas LoadingCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +52,8 @@ public class GameMenu : MonoBehaviour
     void exit()
     {
         Time.timeScale = 1;
+        MenuCanvas.enabled = false;
+        LoadingCanvas.enabled = true;
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
     }
 
