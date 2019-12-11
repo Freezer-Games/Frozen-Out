@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Yarn.Unity;
+using Assets.Scripts.Dialogue;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,6 +40,8 @@ public class PlayerController : MonoBehaviour
     [System.NonSerialized]
     public bool canMove = true;
 
+    private DialogueRunner dialogueSystemYarn;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -47,6 +51,7 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
+        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
 
         try { 
             snow = GameObject.Find("Snow");
@@ -57,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (dialogueSystemYarn.isDialogueRunning) { canMove = false; } else { canMove = true; }
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
         MovementCalculation();
