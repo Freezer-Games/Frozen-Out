@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
 
-public class mineguard : MonoBehaviour
+public class Mineguard : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
-    private GameObject player;
     private bool hablado = false;
     // Start is called before the first frame update
     void Start()
     {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
-        player = GameObject.Find("POL");
     }
 
     // Update is called once per frame
@@ -23,7 +20,6 @@ public class mineguard : MonoBehaviour
         if (cercanos.Count > 0 && hablado == false)
         {
             hablado = true;
-            player.GetComponent<PlayerController>().canMove = false;
             dialogueSystemYarn.isDialogueWaiting = true;
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             dialogueSystemYarn.isDialogueWaiting = false;

@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
 
-public class hablar : MonoBehaviour
+public class Hablar : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
     private NavMeshAgent agent;
@@ -19,7 +17,6 @@ public class hablar : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.destination = player.position;
         dialogueSystemYarn.isDialogueWaiting = true;
-        player.gameObject.GetComponent<PlayerController>().canMove = false;
 
     }
 
