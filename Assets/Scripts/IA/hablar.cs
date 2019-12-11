@@ -18,7 +18,9 @@ public class hablar : MonoBehaviour
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent = GetComponent<NavMeshAgent>();
         agent.destination = player.position;
+        dialogueSystemYarn.isDialogueWaiting = true;
         player.gameObject.GetComponent<PlayerController>().canMove = false;
+
     }
 
     // Update is called once per frame
@@ -28,7 +30,7 @@ public class hablar : MonoBehaviour
         {
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
-            player.gameObject.GetComponent<PlayerController>().canMove = true;
+            dialogueSystemYarn.isDialogueWaiting = false;
         }
     }
 }
