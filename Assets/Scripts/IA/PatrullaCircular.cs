@@ -48,7 +48,7 @@ public class PatrullaCircular : MonoBehaviour
             case Estados.patrullando:
                 if (!agent.pathPending && agent.remainingDistance < 1f)
                     GotoNextPoint();
-                if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") && dialogueSystemYarn.currentNodeName != null)
+                if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
                 { estado = Estados.perseguir; }
                 break;
 
@@ -63,7 +63,7 @@ public class PatrullaCircular : MonoBehaviour
                 {
                     agent.destination = visibles[0].position;
                 }
-                else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null)
+                else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia" && dialogueSystemYarn.currentNodeName != null && !dialogueSystemYarn.currentNodeName.Contains("pensar"))
                 {
                     agent.destination = gameObject.transform.position;
                     dialogueSystemYarn.Stop();
