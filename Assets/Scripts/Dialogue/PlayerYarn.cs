@@ -71,8 +71,7 @@ namespace Assets.Scripts.Dialogue
                     else
                     {
                         ItemInfo itemInfo = other.gameObject.GetComponent<ItemInfo>();
-                        promptText.text = (LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("take") + " " + new DialogueTaggedText(tagNegrita, itemInfo.itemName).FullText);
-                        print(promptText.text);
+                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("take") + " " + new DialogueTaggedText(tagNegrita, itemInfo.itemName).FullText;
                     }
                 }
             }

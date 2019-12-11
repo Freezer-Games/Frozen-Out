@@ -53,11 +53,6 @@ public class PlayerController : MonoBehaviour
         {
             snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
         }
-
-        Moving += (s, e) =>
-        {
-            if (Input.GetKey(KeyCode.P)) e.Cancel = true;
-        };
     }
 
     void Update()
