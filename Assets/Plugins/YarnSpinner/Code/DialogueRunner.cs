@@ -70,6 +70,8 @@ namespace Yarn.Unity
         /// Tests to see if the dialogue is running
         public bool isDialogueRunning { get; private set; }
 
+        public bool isDialogueWaiting = false;
+
         public bool automaticCommands = true;
 
         /// Our conversation engine

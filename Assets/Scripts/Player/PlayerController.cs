@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (dialogueSystemYarn.isDialogueRunning) { canMove = false; } else { canMove = true; }
+        if (dialogueSystemYarn.isDialogueRunning) { canMove = false; } else if (!dialogueSystemYarn.isDialogueWaiting) { canMove = true; }
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
         MovementCalculation();
