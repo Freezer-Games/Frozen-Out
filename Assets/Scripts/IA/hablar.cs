@@ -11,12 +11,14 @@ public class hablar : MonoBehaviour
     private NavMeshAgent agent;
     public Transform player;
     private bool hablado = false;
+
     // Start is called before the first frame update
     void Start()
     {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent = GetComponent<NavMeshAgent>();
         agent.destination = player.position;
+        player.gameObject.GetComponent<PlayerController>().canMove = false;
     }
 
     // Update is called once per frame
@@ -26,6 +28,7 @@ public class hablar : MonoBehaviour
         {
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
+            player.gameObject.GetComponent<PlayerController>().canMove = true;
         }
     }
 }

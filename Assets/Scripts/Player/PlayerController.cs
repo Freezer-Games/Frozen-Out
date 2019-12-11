@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private GameObject snow;
+    [System.NonSerialized]
+    public bool canMove = true;
 
     void Start()
     {
@@ -94,45 +96,47 @@ public class PlayerController : MonoBehaviour
 
 
     private void MovementCalculation() {
-
-        h = 0;
-        v = 0;
-        if (Input.GetKey(GameManager.instance.forward)) { v++; }else if (Input.GetKey(GameManager.instance.backward)) { v--; }
-        //h = Input.GetAxis("Horizontal");
-        if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
-        //v = Input.GetAxis("Vertical");
-
-        move = v * camForward_Dir + h * Camera.main.transform.right;
-
-        if (move.magnitude > 1f) move.Normalize();
-
-        // Calculate the rotation for the player
-        move = transform.InverseTransformDirection(move);
-
-        // Get Euler angles
-        float turnAmount = Mathf.Atan2(move.x, move.z);
-
-        moving = move.magnitude > 0;
-
-        if (moving)
+        if (canMove)
         {
-            // Avisa de que se va a mover
-            PlayerControllerEventArgs e = OnMoving();
+            h = 0;
+            v = 0;
+            if (Input.GetKey(GameManager.instance.forward)) { v++; } else if (Input.GetKey(GameManager.instance.backward)) { v--; }
+            //h = Input.GetAxis("Horizontal");
+            if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
+            //v = Input.GetAxis("Vertical");
 
-            // Si alguien le ha dicho que cancele el movimiento, para
-            if (e.Cancel)
+            move = v * camForward_Dir + h * Camera.main.transform.right;
+
+            if (move.magnitude > 1f) move.Normalize();
+
+            // Calculate the rotation for the player
+            move = transform.InverseTransformDirection(move);
+
+            // Get Euler angles
+            float turnAmount = Mathf.Atan2(move.x, move.z);
+
+            moving = move.magnitude > 0;
+
+            if (moving)
             {
-                moveDir = Vector3.zero;
-                OnIdle();
-                return;
-            }
-        } 
-        else
-        {
-            OnIdle();
-        }
+                // Avisa de que se va a mover
+                PlayerControllerEventArgs e = OnMoving();
 
-        transform.Rotate(0, turnAmount *  RotationSpeed * Time.deltaTime, 0);
+                // Si alguien le ha dicho que cancele el movimiento, para
+                if (e.Cancel)
+                {
+                    moveDir = Vector3.zero;
+                    OnIdle();
+                    return;
+                }
+            }
+            else
+            {
+                OnIdle();
+            }
+
+            transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
+        }
     }
 
     private void NormalMode() 
