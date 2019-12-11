@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yarn.Unity;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -22,9 +23,16 @@ public class CameraFollow : MonoBehaviour
     public float smoothY;
     private float rotY = 0.0f;
     private float rotX = 0.0f;
+    private GameObject cinemaPos;
+    private GameObject initPos;
+    private Vector3 lastPos;
+    private DialogueRunner dialogueSystemYarn;
+    public const float normalFOV = 60f;
+    public const float dialogueFOV = 30f;
 
     void Start()
     {
+        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
@@ -46,6 +54,12 @@ public class CameraFollow : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
+
+        CameraDialogue();
+
+        if (GameManager.instance.inCinematic || Input.GetKey(KeyCode.C)) {
+            ChangeToCinematic();
+        }
     }
 
     void LateUpdate() 
@@ -59,5 +73,16 @@ public class CameraFollow : MonoBehaviour
 
         float step = CameraMoveSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+    }
+
+    void CameraDialogue() {
+        if (dialogueSystemYarn.isDialogueRunning) {
+            Camera.main.fieldOfView = dialogueFOV;
+            }
+        else { Camera.main.fieldOfView = normalFOV; }
+    }
+
+    void ChangeToCinematic() {
+        //Camera.main.transform.position = Vector3.Lerp
     }
 }

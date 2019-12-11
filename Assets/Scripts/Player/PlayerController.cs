@@ -154,12 +154,6 @@ public class PlayerController : MonoBehaviour
         characterController.center = center;
     }
 
-    IEnumerator MoveCoroutine(bool active)
-    {
-        if (active) yield return new WaitForSeconds(movementDelay);
-        yield return null;
-    }
-
     private void SneakyMode() 
     {
         sneaking = true;
@@ -186,6 +180,12 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
+    }
+
+    IEnumerator MoveCoroutine(bool active)
+    {
+        if (active) yield return new WaitForSeconds(movementDelay);
+        yield return null;
     }
 }
 

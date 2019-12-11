@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public PlayerManager playerManager;
     private PlayerController playerController;
 
+    public bool inCinematic = false;
+
     void Awake()
     {
         MakeSingleton();

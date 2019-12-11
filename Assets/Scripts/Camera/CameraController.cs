@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using Yarn.Unity;
 
 public class CameraController : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class CameraController : MonoBehaviour
     private Camera cam;
     private float currentX;
     private float currentY;
+    private DialogueRunner dialogueSystemYarn;
+
+    public const float normalFOV = 60f;
+    public const float dialogueFOV = 30f;
 
     void Start() {
         endOfRay = GameObject.Find("End of ray");
@@ -26,6 +31,7 @@ public class CameraController : MonoBehaviour
         camTransform = transform;
         cam = Camera.main;
         endOfRay.transform.position = cam.transform.position;
+        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
     }
 
     void Update() {
@@ -33,6 +39,10 @@ public class CameraController : MonoBehaviour
         currentY -= Input.GetAxis("Mouse Y");
 
         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+
+        if (dialogueSystemYarn.isDialogueRunning) Camera.main.fieldOfView = dialogueFOV;
+        else Camera.main.fieldOfView = normalFOV;
+
     }
 
     void LateUpdate() {
