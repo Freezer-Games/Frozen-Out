@@ -15,22 +15,21 @@ title: Historia2
 ---
 Pol: Buenos días.
 <<if visited("Historia2") is false>>
-	Alfrio: Donde te crees que vas? Esta es mi calle.
-	Pol: Que calle? Si es un pasillo de nieve.
-	Alfrio: Y encima me bacilas, ahora si que no dejo pasar a nadie más.
-	Pol: Como que a <i>nadie</i> más, quien ha pasado por aquí?
+	Alfrio: Adónde te crees que vas? Esta es mi calle.
+	Pol: ¿Qué calle? Si es un pasillo de nieve.
+	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
+	Pol: Cómo que a <i>nadie</i> más, ¿quién ha pasado por aquí?
 	Alfrio: Ahora te interesas, pues era un pequeño tutti.
 	Alfrio: Una pena que no puedas pasar para seguirlo...
 	Pol: (No creo que se mueva sin motivo)
 <<else>>
-	Alfrio: Ese tutti me ha dado hambre, pero claro no me puedo mover de aquí
+	Alfrio: Ese tutti me ha dado hambre, pero claro, no me puedo mover de aquí
 <<endif>>
 
 <<if $confitura>>
 	Pol: He pensado que esto te gustaría.
 	Alfrio: Pero si son...
-	Alfrio: Como lo has conseguido.. Me da igual, me voy a saborear esta delicia en el parque.
-	
+	Alfrio: ¿Cómo lo has conseguido...? Da igual, me voy al parque a saborear esta delicia.	
 <<endif>>
 ===
 title: Historia3
@@ -39,64 +38,64 @@ title: Historia3
 	Pol: Buenos días.
 	Pol: Huele muy bien por aquí.
 	Alof: Gracias, son mis confituras heladas.
-	Alof: Eso sí, no estan a la venta, son solo para mis nietos.
+	Alof: Eso sí, no están a la venta, son sólo para mis nietos.
 <<else>>
 	Pol: (Esas confituras pintan bien)
 <<endif>>
 
 <<if $confitura to true>>
 	Alof: Esa confitura es de una textura y calidad muy similar a la mía.
-	Alof: Alguien me está copiando la formula, chico?
+	Alof: ¿Acaso alguien me está copiando la fórmula, chico?
 	Pol: (...)
 <<endif>>
 	
 <<if visited("Historia2")>>
-	Pol: Quienes eran tus nietos, por cierto?
+	Pol: Quiénes eran tus nietos, por cierto?
 	Alof: Seguro que los has visto, mi Alfrio siempre anda en <i>su</i> calle.
-	Alof: Mi pequeño azul Fries siempre está metido en problemas, no se donde estará ahora.
+	Alof: Mi pequeño azul Fries siempre está metido en problemas, no sé donde estará ahora.
 <<endif>>
 ===
 title: Historia4
 ---
 <<if visited("Historia4") is false>>
-	Fries: Dejadme en paz, solo quería ir a ver a mis amigos.
-	Guardia: Vamos, dinos donde guardas tu comida.
+	Fries: Dejadme en paz, sólo quería ir a ver a mis amigos.
+	Guardia: Vamos, dinos dónde guardas tu comida.
 	Fries: No es vuestra, nunca os lo diré.
 <<endif>>
 
 <<if $fries_saved is false>>
-	Guardia: Tienes algun problema, rojito.
+	Guardia: ¿Tienes algun problema, rojito?.
 <<endif>>
 
 <<if visited("Guardia1") is false>>
 	Pol: No, no, nada, solo pasaba por aquí.
 <<else>>
-	Pol: La verdad es que parece que hay algun problema en la nevera...
+	Pol: La verdad es que parece que hay algún problema en la nevera...
 	Pol: Algo que ver con las <b>raciones</b>.
-	Guardia: Las raciones? Mis <b>raciones</b>?!
+	Guardia: ¿Las raciones? ¡¿Mis <b>raciones</b>?!
 	Guardia: Otra vez tocando mis cosas, se lo tengo dicho muchas veces.
 	Guardia: No os mováis de aquí, ahora vuelvo.
 	Pol: (Uff)
 	Fries: Gracias por quitármelo de encima.
 	Fries: Ya no puedo salir de casa con mis confituras sin que me moleste.
 	Fries: Las tengo bien guardadas, pero te voy a dar una por ayudarme.
-	Pol: De verdad, vaya, las dejas en buenas manos.
+	Pol: ¿De verdad? Vaya, gracias, las dejas en buenas manos.
 	<<set $fries_saved to true>>
 <<endif>>
 ===
 title: Guardia1
 ---
 <<if visited("Guardia1") is false>>
-	Pol: Buenos días, guardia. Alguna novedad?
+	Pol: Buenos días, guardia. ¿Alguna novedad?
 	Guardia: No que yo sepa.
-	Pol: Por casualidad ha visto pasar algun tutti por aquí?
-	Guardia: Un tutti dices, no quiero saber nada de ellos...
-	Pol: Que han hecho está vez?
-	Guardia: Porque crees que han hecho algo? Nuestras raciones estan sanas y salvo..
-	Guardia: Nunca las hemos perdido de vista
-	Guardia: Están por aquí, si, si...
+	Pol: ¿Por casualidad ha visto pasar a algún tutti por aquí?
+	Guardia: ¿Un tutti dices? No quiero saber nada de ellos...
+	Pol: ¿Qué han hecho esta vez?
+	Guardia: ¿Por qué crees que han hecho algo? Nuestras raciones están sanas y salvas...
+	Guardia: Nunca las hemos perdido de vista...
+	Guardia: Están por aquí, sí, sí...
 	Pol: (Esto huele a cubito encerrado)
 <<else>>
-	Guardia: No hemos perdido nada, y mucho menos nuestras raciones..
-	Pol: Nunca dudo de vuestras competencias, señor.
+	Guardia: No hemos perdido nada, y mucho menos nuestras raciones...
+	Pol: Nunca dudo de vuestra competencia, señor.
 <<endif>>
