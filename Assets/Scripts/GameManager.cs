@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public double TextSize { get; set; } = 14;
 
     public static GameManager instance;
-    public CameraController cameraController; //hacer un cameraManager
     public GameObject playerObject;
     public PlayerManager playerManager;
     private PlayerController playerController;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraCollision : MonoBehaviour
 {
-    [Header("Ray start")]
+    /*[Header("Ray start")]
     public Transform character;
     public Transform auxCamPos;
 
@@ -136,6 +136,6 @@ public class CameraCollision : MonoBehaviour
         viewcolisions[key].GetComponent<Renderer>().material = materiales[key];
         viewcolisions.Remove(key);
         materiales.Remove(key);
-    }
+    }*/
 }
 

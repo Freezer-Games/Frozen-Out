@@ -23,15 +23,20 @@ public class CameraFollow : MonoBehaviour
     public float smoothY;
     private float rotY = 0.0f;
     private float rotX = 0.0f;
-    private GameObject cinemaPos;
-    private GameObject initPos;
-    private Vector3 lastPos;
+    private float transitionSpeed = 1.0f;
+    private Transform cinemaPos;
+    private Transform initPos;
+    private Camera cam;
+    //private Vector3 lastPos;
     private DialogueRunner dialogueSystemYarn;
     public const float normalFOV = 60f;
     public const float dialogueFOV = 30f;
 
     void Start()
     {
+        cam = Camera.main;
+        cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
+        initPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
@@ -41,6 +46,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //para pillar controles de mando hay que crear un axis de esos, cosa easy si sabes la distribucion
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
@@ -57,14 +63,24 @@ public class CameraFollow : MonoBehaviour
 
         CameraDialogue();
 
-        if (GameManager.instance.inCinematic || Input.GetKey(KeyCode.C)) {
+        /*if (GameManager.instance.inCinematic || Input.GetKey(KeyCode.C)) {
             ChangeToCinematic();
-        }
+        }*/
     }
 
     void LateUpdate() 
     {
-        CameraUpdater();
+        cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
+        initPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
+        if (GameManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
+        {
+            ChangeToCinematic();
+        }
+        else 
+        {
+            CameraUpdater();
+        }
+        
     }
 
     void CameraUpdater() 
@@ -77,12 +93,15 @@ public class CameraFollow : MonoBehaviour
 
     void CameraDialogue() {
         if (dialogueSystemYarn.isDialogueRunning) {
-            Camera.main.fieldOfView = dialogueFOV;
+                Camera.main.fieldOfView = dialogueFOV;
             }
         else { Camera.main.fieldOfView = normalFOV; }
     }
 
-    void ChangeToCinematic() {
-        //Camera.main.transform.position = Vector3.Lerp
+    void ChangeToCinematic() 
+    {
+        Debug.Log("haciendo el cambio");
+        //cam.transform.position = Vector3.Lerp(cam.transform.position, cinemaPos.position, transitionSpeed*Time.deltaTime);
+        cam.transform.position = cinemaPos.position;
     }
 }

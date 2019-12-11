@@ -5,11 +5,10 @@ using UnityEngine;
 public class TuttiMomento : MonoBehaviour
 {
     public GameObject tutti;
-
-     GameObject player;
+    private GameObject player;
     public Transform initPos, finalPos;
-
     private bool repeated = false;
+    public GameObject blackBars;
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -19,9 +18,17 @@ public class TuttiMomento : MonoBehaviour
             player = other.gameObject;
             player.GetComponent<PlayerController>().enabled = false;
 
+            GameManager.instance.inCinematic = true;
+
+            blackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
+
             StartCoroutine(WatchingTutti(player));
-            player.GetComponent<PlayerController>().enabled = true;
+            //player.GetComponent<PlayerController>().enabled = true;
         }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        
     }
 
     IEnumerator WatchingTutti(GameObject other)
