@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private readonly float bendDiff = 0.4f;
     private bool sneaking;
 
+    public bool IsGrounded => characterController.isGrounded;
+
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
@@ -78,7 +80,7 @@ public class PlayerController : MonoBehaviour
             MovementCalculation();
             RotatePlayer();
 
-            if (characterController.isGrounded)
+            if (IsGrounded)
             {
                 animator.SetBool("isMoving", moving);
 
