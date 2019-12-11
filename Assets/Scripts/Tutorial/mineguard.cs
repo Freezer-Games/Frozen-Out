@@ -3,7 +3,7 @@ using UnityEngine;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
 
-public class Mineguard : MonoBehaviour
+public class mineguard : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
     private bool hablado = false;
