@@ -31,7 +31,10 @@ namespace Assets.Scripts.Dialogue
 
         private void Player_Moving(object sender, PlayerControllerEventArgs e)
         {
-            if (dialogueSystemYarn.isDialogueRunning) e.Cancel = true;
+            if (dialogueSystemYarn.isDialogueRunning || dialogueSystemYarn.isDialogueWaiting)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void OnTriggerStay(Collider other)
