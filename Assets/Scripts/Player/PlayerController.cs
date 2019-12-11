@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
         if (dialogueSystemYarn.isDialogueRunning) { canMove = false; } else if (!dialogueSystemYarn.isDialogueWaiting) { canMove = true; }
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
+        if (canMove)
         MovementCalculation();
         
         if (characterController.isGrounded)
@@ -101,48 +102,48 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void MovementCalculation() {
-        if (canMove)
+    private void MovementCalculation()
+    {
+
+        h = 0;
+        v = 0;
+        if (Input.GetKey(GameManager.instance.forward)) { v++; } else if (Input.GetKey(GameManager.instance.backward)) { v--; }
+        //h = Input.GetAxis("Horizontal");
+        if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
+        //v = Input.GetAxis("Vertical");
+
+        move = v * camForward_Dir + h * Camera.main.transform.right;
+
+        if (move.magnitude > 1f) move.Normalize();
+
+        // Calculate the rotation for the player
+        move = transform.InverseTransformDirection(move);
+
+        // Get Euler angles
+        float turnAmount = Mathf.Atan2(move.x, move.z);
+
+        moving = move.magnitude > 0;
+
+        if (moving)
         {
-            h = 0;
-            v = 0;
-            if (Input.GetKey(GameManager.instance.forward)) { v++; } else if (Input.GetKey(GameManager.instance.backward)) { v--; }
-            //h = Input.GetAxis("Horizontal");
-            if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
-            //v = Input.GetAxis("Vertical");
+            // Avisa de que se va a mover
+            PlayerControllerEventArgs e = OnMoving();
 
-            move = v * camForward_Dir + h * Camera.main.transform.right;
-
-            if (move.magnitude > 1f) move.Normalize();
-
-            // Calculate the rotation for the player
-            move = transform.InverseTransformDirection(move);
-
-            // Get Euler angles
-            float turnAmount = Mathf.Atan2(move.x, move.z);
-
-            moving = move.magnitude > 0;
-
-            if (moving)
+            // Si alguien le ha dicho que cancele el movimiento, para
+            if (e.Cancel)
             {
-                // Avisa de que se va a mover
-                PlayerControllerEventArgs e = OnMoving();
-
-                // Si alguien le ha dicho que cancele el movimiento, para
-                if (e.Cancel)
-                {
-                    moveDir = Vector3.zero;
-                    OnIdle();
-                    return;
-                }
-            }
-            else
-            {
+                moveDir = Vector3.zero;
                 OnIdle();
+                return;
             }
-
-            transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
         }
+        else
+        {
+            OnIdle();
+        }
+
+        transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
+
     }
 
     private void NormalMode() 
