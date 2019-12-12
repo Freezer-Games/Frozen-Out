@@ -19,6 +19,7 @@ public class AudioMenu : MonoBehaviour
         PlayerPrefs.SetFloat("volume", newVolume);
         AudioListener.volume = PlayerPrefs.GetFloat("volume");
         volumelevel.text = audioslider.value.ToString();
+        GameManager.instance.volume = newVolume;
     }
 
     // Update is called once per frame

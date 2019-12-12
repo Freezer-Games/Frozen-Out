@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public double TextSize { get; set; } = 14;
 
+    public float volume;
+
     public static GameManager instance;
     public GameObject playerObject;
     public PlayerManager playerManager;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
 #endif
         SceneManager.sceneLoaded += OnSceneLoaded;
         Time.timeScale = 1;
+        volume = PlayerPrefs.GetFloat("volume", 100);
 #if UNITY_EDITOR
         if (SceneManager.GetActiveScene().buildIndex != 0) {
             Cursor.visible = false;
