@@ -2801,6 +2801,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a261ef55dfa4c0d4f8f3c6cf7916fd74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 631646392}
+  tutcanvas: {fileID: 0}
+  tut: 0
 --- !u!1001 &255720797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3670,7 +3673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Alfrio
-  talkToNode: Historia2
+  talkToNode: Historia2_Guardia
   scriptToLoad: {fileID: 0}
 --- !u!54 &376287644
 Rigidbody:
@@ -4509,6 +4512,50 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1318aa79a02160445926ebf0f6105eeb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e58a8609eade348804d4c3f0291612, type: 3}
+--- !u!1 &486381840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 486381841}
+  - component: {fileID: 486381842}
+  m_Layer: 0
+  m_Name: Borde Mapa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &486381841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486381840}
+  m_LocalRotation: {x: -0, y: 0.27857384, z: -0, w: 0.96041477}
+  m_LocalPosition: {x: -380.96667, y: 56.98, z: -422.0443}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 868630881}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 32.350002, z: 0}
+--- !u!65 &486381842
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486381840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 161.3693, y: 41.560852, z: 16.4946}
+  m_Center: {x: -0.64313537, y: 2.076809, z: 7.7472987}
 --- !u!1 &487997038
 GameObject:
   m_ObjectHideFlags: 0
@@ -8435,6 +8482,7 @@ Transform:
   - {fileID: 537862167}
   - {fileID: 875426373}
   - {fileID: 1701567797}
+  - {fileID: 486381841}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10145,7 +10193,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8a668ef5cb9fa38428acd301d337db2e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35.30548
+      value: 41.56
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8a668ef5cb9fa38428acd301d337db2e,
         type: 3}
@@ -10155,7 +10203,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 8a668ef5cb9fa38428acd301d337db2e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.373749
+      value: 15.47
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 8a668ef5cb9fa38428acd301d337db2e,
         type: 3}
@@ -12743,11 +12791,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 6935580373926292825, guid: 6c8e4d70f5fab084489a3781a595640b,
-        type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 1058436467286961945, guid: 6c8e4d70f5fab084489a3781a595640b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12804,6 +12847,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 831192962779850612, guid: 6c8e4d70f5fab084489a3781a595640b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6935580373926292825, guid: 6c8e4d70f5fab084489a3781a595640b,
         type: 3}
       propertyPath: m_Layer
       value: 11
@@ -14921,7 +14969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
-  talkToNode: Historia4
+  talkToNode: Historia4_Guardia
   scriptToLoad: {fileID: 0}
 --- !u!54 &1439252794
 Rigidbody:

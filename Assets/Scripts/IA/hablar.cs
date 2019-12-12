@@ -10,7 +10,7 @@ public class Hablar : MonoBehaviour
     public Transform player;
     private bool hablado = false;
     public Canvas tutcanvas;
-    private bool tut = true;
+    public bool tut = true;
 
     // Start is called before the first frame update
     void Start()
