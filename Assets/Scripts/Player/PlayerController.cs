@@ -35,11 +35,13 @@ public class PlayerController : MonoBehaviour
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
+    private AudioSource steps;
 
     private GameObject snow;
 
     void Start()
     {
+        steps = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         height = characterController.height;
@@ -58,6 +60,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+
+        if(moving) steps.Play();
+        else if (steps.isPlaying && !moving) steps.Stop();
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
