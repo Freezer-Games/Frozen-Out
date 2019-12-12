@@ -9,8 +9,6 @@ public class hablar : MonoBehaviour
     private NavMeshAgent agent;
     public Transform player;
     private bool hablado = false;
-    public Canvas tutcanvas;
-    public bool tut = true;
 
     // Start is called before the first frame update
     void Start()
@@ -30,11 +28,6 @@ public class hablar : MonoBehaviour
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
             dialogueSystemYarn.isDialogueWaiting = false;
-        }
-        if (!dialogueSystemYarn.isDialogueWaiting && !dialogueSystemYarn.isDialogueRunning && tut)
-        {
-            tutcanvas.enabled = true;
-            tut = false;
         }
     }
 }
