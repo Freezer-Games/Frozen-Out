@@ -28,12 +28,14 @@ public class CameraFollow : MonoBehaviour
     private Camera cam;
     //private Vector3 lastPos;
     private DialogueRunner dialogueSystemYarn;
-    public const float normalFOV = 60f;
-    public const float dialogueFOV = 30f;
+    public const float NORMALFOV = 60f;
+    public const float DIALOGFOV = 30f;
+    private float currentFOV;
 
     void Start()
     {
         cam = Camera.main;
+        currentFOV = NORMALFOV;
         cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         Vector3 rot = transform.localRotation.eulerAngles;
@@ -89,10 +91,22 @@ public class CameraFollow : MonoBehaviour
     }
 
     void CameraDialogue() {
-        if (dialogueSystemYarn.isDialogueRunning) {
-                Camera.main.fieldOfView = dialogueFOV;
+        if (dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") 
+        {
+            if (currentFOV > DIALOGFOV) 
+            {
+                currentFOV -= 1;
             }
-        else { Camera.main.fieldOfView = normalFOV; }
+        }
+        else 
+        {
+            if (currentFOV < NORMALFOV)
+            {
+                currentFOV += 1;
+            }
+
+         }
+        Camera.main.fieldOfView = currentFOV;
     }
 
     void ChangeToCinematic() 
