@@ -4512,6 +4512,50 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1318aa79a02160445926ebf0f6105eeb, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e58a8609eade348804d4c3f0291612, type: 3}
+--- !u!1 &486381840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 486381841}
+  - component: {fileID: 486381842}
+  m_Layer: 0
+  m_Name: Borde Mapa
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &486381841
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486381840}
+  m_LocalRotation: {x: -0, y: 0.27857384, z: -0, w: 0.96041477}
+  m_LocalPosition: {x: -380.96667, y: 56.98, z: -422.0443}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 868630881}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 32.350002, z: 0}
+--- !u!65 &486381842
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486381840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 161.3693, y: 41.560852, z: 16.4946}
+  m_Center: {x: -0.64313537, y: 2.076809, z: 7.7472987}
 --- !u!1 &496141484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 13e58a8609eade348804d4c3f0291612,
@@ -8311,6 +8355,7 @@ Transform:
   - {fileID: 537862167}
   - {fileID: 875426373}
   - {fileID: 1701567797}
+  - {fileID: 486381841}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
