@@ -3,7 +3,7 @@ using UnityEngine.AI;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
 
-public class Hablar : MonoBehaviour
+public class hablar : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
     private NavMeshAgent agent;
