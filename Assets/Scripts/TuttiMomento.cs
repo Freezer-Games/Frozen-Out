@@ -5,12 +5,10 @@ using UnityEngine;
 public class TuttiMomento : MonoBehaviour
 {
     public GameObject tutti;
-
-    public GameObject player;
+    private GameObject player;
     public Transform initPos, finalPos;
-    public float tuttiVel = 5f;
-
     private bool repeated = false;
+    public GameObject blackBars;
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -18,28 +16,29 @@ public class TuttiMomento : MonoBehaviour
             repeated = true;
 
             player = other.gameObject;
+            player.GetComponent<PlayerController>().enabled = false;
+
+            GameManager.instance.inCinematic = true;
+
+            blackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
 
             StartCoroutine(WatchingTutti(player));
-            
-
-            player.GetComponent<PlayerController>().enabled = true;
-            
-
-
+            //player.GetComponent<PlayerController>().enabled = true;
         }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        
     }
 
     IEnumerator WatchingTutti(GameObject other)
     {
-        other.GetComponent<PlayerController>().enabled = false;
         Instantiate(tutti, initPos.position, initPos.rotation);
 
-        float step = tuttiVel * Time.deltaTime;
+        float step = (finalPos.position - initPos.position).magnitude;
 
-        while (tutti.transform.position != finalPos.position) {  
-            tutti.transform.position = Vector3.MoveTowards(tutti.transform.position, finalPos.position, step);
-        }
-
-        yield return null;
+        tutti.transform.position = Vector3.MoveTowards(tutti.transform.position, finalPos.position, step);
+        
+        yield return new WaitForSeconds(5.0f);
     }
 }

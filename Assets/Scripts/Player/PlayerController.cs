@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 move;
     private Vector3 camForward_Dir;
     private float h, v;
-    private bool moving;
+    private bool moving => move.magnitude > 0;
     public int closeRadius;
     private const float movementDelay = 0.333f;
 
@@ -30,14 +30,18 @@ public class PlayerController : MonoBehaviour
     private readonly float bendDiff = 0.4f;
     private bool sneaking;
 
+    public bool IsGrounded => characterController.isGrounded;
+
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
+    private AudioSource steps;
 
     private GameObject snow;
 
     void Start()
     {
+        steps = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         height = characterController.height;
@@ -46,58 +50,101 @@ public class PlayerController : MonoBehaviour
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
 
-        try { 
-            snow = GameObject.Find("Snow");
+        snow = GameObject.Find("Snow");
+        if (snow != null)
+        {
             snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
         }
-        catch {}
     }
 
     void Update()
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        MovementCalculation();
-        
-        if (characterController.isGrounded)
+        if(moving) steps.Play();
+        else if (steps.isPlaying && !moving) steps.Stop();
+
+        // Avisa de que se va a mover
+        PlayerControllerEventArgs e = OnMoving();
+
+        // Si alguien le ha dicho que cancele el movimiento, para
+        if (e.Cancel)
         {
-            animator.SetBool("isMoving", moving);
-
-            
-
-            moveDir = transform.forward * move.magnitude;
-            
-
+            moveDir = Vector3.zero;
             sneaking = false;
+            CheckSizeAndSpeed();
+            OnIdle();
+        }
+        else
+        {
+            MovementCalculation();
+            RotatePlayer();
 
-            if (Input.GetKey(GameManager.instance.crouch)) { //left control - va lento
-                SneakyMode();
-            }
-            else {
-                NormalMode();
-            }
-            moveDir.y = 0;
-
-            if (Input.GetKeyDown(GameManager.instance.jump))
+            if (IsGrounded)
             {
-                Jump();
+                animator.SetBool("isMoving", moving);
+
+                moveDir = transform.forward * move.magnitude;
+
+                CheckSneaking();
+                CheckSizeAndSpeed();
+
+                CheckJump();
             }
         }
+
         moveDir.y -= gravity * Time.deltaTime;
+
         StartCoroutine(MoveCoroutine(moving));
         characterController.Move(moveDir * Time.deltaTime);
 
-        try {
+        if (snow != null)
+        {
             snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
-        } catch {}
+        }
     }
 
+    private void CheckSneaking()
+    {
+        if (Input.GetKey(GameManager.instance.crouch)) //left control - va lento
+        {
+            sneaking = true;
+            animator.SetTrigger("isSneakingIn");
+        }
+        else if (sneaking)
+        {
+            animator.SetTrigger("isSneakingOut");
+            sneaking = false;
+        }
+    }
 
-    private void MovementCalculation() {
+    private void CheckSizeAndSpeed()
+    {
+        if (sneaking)
+        {
+            SneakyMode();
+        }
+        else
+        {
+            NormalMode();
+        }
+    }
 
+    private void CheckJump()
+    {
+        moveDir.y = 0;
+
+        if (Input.GetKeyDown(GameManager.instance.jump))
+        {
+            Jump();
+        }
+    }
+
+    private void MovementCalculation()
+    {
         h = 0;
         v = 0;
-        if (Input.GetKey(GameManager.instance.forward)) { v++; }else if (Input.GetKey(GameManager.instance.backward)) { v--; }
+        if (Input.GetKey(GameManager.instance.forward)) { v++; } else if (Input.GetKey(GameManager.instance.backward)) { v--; }
         //h = Input.GetAxis("Horizontal");
         if (Input.GetKey(GameManager.instance.left)) { h--; } else if (Input.GetKey(GameManager.instance.right)) { h++; }
         //v = Input.GetAxis("Vertical");
@@ -105,48 +152,24 @@ public class PlayerController : MonoBehaviour
         move = v * camForward_Dir + h * Camera.main.transform.right;
 
         if (move.magnitude > 1f) move.Normalize();
+    }
 
+    private void RotatePlayer()
+    {
         // Calculate the rotation for the player
         move = transform.InverseTransformDirection(move);
 
         // Get Euler angles
         float turnAmount = Mathf.Atan2(move.x, move.z);
 
-        moving = move.magnitude > 0;
-
-        if (moving)
-        {
-            // Avisa de que se va a mover
-            PlayerControllerEventArgs e = OnMoving();
-
-            // Si alguien le ha dicho que cancele el movimiento, para
-            if (e.Cancel)
-            {
-                moveDir = Vector3.zero;
-                OnIdle();
-                return;
-            }
-        } 
-        else
-        {
-            OnIdle();
-        }
-
-        transform.Rotate(0, turnAmount *  RotationSpeed * Time.deltaTime, 0);
+        transform.Rotate(0, turnAmount * RotationSpeed * Time.deltaTime, 0);
     }
 
     private void NormalMode() 
     {
         moveDir *= Speed;
-        animator.SetTrigger("isSneakingOut");
         characterController.height = height;
         characterController.center = center;
-    }
-
-    IEnumerator MoveCoroutine(bool active)
-    {
-        if (active) yield return new WaitForSeconds(movementDelay);
-        yield return null;
     }
 
     private void SneakyMode() 
@@ -155,7 +178,6 @@ public class PlayerController : MonoBehaviour
         moveDir *= bendSpeed;
         characterController.height = bendHeight;
         characterController.center = bendCenter;
-        animator.SetTrigger("isSneakingIn");
     }
 
     private void Jump() 
@@ -175,6 +197,12 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
+    }
+
+    IEnumerator MoveCoroutine(bool active)
+    {
+        if (active) yield return new WaitForSeconds(movementDelay);
+        yield return null;
     }
 }
 

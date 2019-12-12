@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
@@ -11,12 +9,17 @@ public class hablar : MonoBehaviour
     private NavMeshAgent agent;
     public Transform player;
     private bool hablado = false;
+    public Canvas tutcanvas;
+    public bool tut = true;
+
     // Start is called before the first frame update
     void Start()
     {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent = GetComponent<NavMeshAgent>();
         agent.destination = player.position;
+        dialogueSystemYarn.isDialogueWaiting = true;
+
     }
 
     // Update is called once per frame
@@ -26,6 +29,12 @@ public class hablar : MonoBehaviour
         {
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
+            dialogueSystemYarn.isDialogueWaiting = false;
+        }
+        if (!dialogueSystemYarn.isDialogueWaiting && !dialogueSystemYarn.isDialogueRunning && tut)
+        {
+            tutcanvas.enabled = true;
+            tut = false;
         }
     }
 }
