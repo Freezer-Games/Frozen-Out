@@ -16,6 +16,9 @@ public class perseguir : MonoBehaviour
         List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;
         if (visibles.Count>0 && cercanos.Count<2) { agent.destination = visibles[0].position; }
-        else if (cercanos.Count == 2) { agent.destination = gameObject.transform.position; dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode); }
+        else if (cercanos.Count == 2) {
+            agent.destination = gameObject.transform.position;
+            dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
+        }
     }
 }

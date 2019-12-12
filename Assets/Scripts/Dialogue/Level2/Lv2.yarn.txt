@@ -14,7 +14,7 @@ title: Historia1
 title: Historia2_Guardia
 ---
 Pol: Buenos días.
-<<if visited("Historia2") is false>>
+<<if visited("Historia2_Guardia") is false>>
 	Alfrio: Adónde te crees que vas? Esta es mi calle.
 	Pol: ¿Qué calle? Si es un pasillo de nieve.
 	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
@@ -30,6 +30,7 @@ Pol: Buenos días.
 	Pol: He pensado que esto te gustaría.
 	Alfrio: Pero si son...
 	Alfrio: ¿Cómo lo has conseguido...? Da igual, me voy al parque a saborear esta delicia.	
+	<<set $Guard_Moves to true>>
 <<endif>>
 ===
 title: Historia3
@@ -57,7 +58,7 @@ title: Historia3
 ===
 title: Historia4_Guardia
 ---
-<<if visited("Historia4") is false>>
+<<if visited("Historia4_Guardia") is false>>
 	Fries: Dejadme en paz, sólo quería ir a ver a mis amigos.
 	Guardia: Vamos, dinos dónde guardas tu comida.
 	Fries: No es vuestra, nunca os lo diré.
@@ -75,6 +76,7 @@ title: Historia4_Guardia
 	Guardia: ¿Las raciones? ¡¿Mis <b>raciones</b>?!
 	Guardia: Otra vez tocando mis cosas, se lo tengo dicho muchas veces.
 	Guardia: No os mováis de aquí, ahora vuelvo.
+	<<set $Bully_Moves to true>>
 	Pol: (Uff)
 	Fries: Gracias por quitármelo de encima.
 	Fries: Ya no puedo salir de casa con mis confituras sin que me moleste.
