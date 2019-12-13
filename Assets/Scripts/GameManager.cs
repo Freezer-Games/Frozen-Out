@@ -66,12 +66,18 @@ public class GameManager : MonoBehaviour
 
         if (scene.buildIndex == 0)
         {
-
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
 
-        } else if (scene.buildIndex == 1)
+        } else {
+            LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
+            LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            playerController = FindObjectOfType<PlayerController>();
+        }
+        /*else if (scene.buildIndex == 1)
         {
 
             LocalizationManager.instance.LoadLocalizedText("Trial_level_Default.json");
@@ -99,7 +105,7 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             playerController = FindObjectOfType<PlayerController>();
 
-        }
+        }*/
 
     }
 
