@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Yarn.Unity;
 
 public class TutorialMisions : MonoBehaviour
@@ -6,6 +7,8 @@ public class TutorialMisions : MonoBehaviour
     VariableStorageBehaviour variableStorageYarn;
     MissionsCanvas misiones;
     private bool mision1 = false;
+    private bool mision1p2 = false;
+    private Mision misiontut;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,13 +16,20 @@ public class TutorialMisions : MonoBehaviour
         misiones = GameObject.FindObjectOfType<MissionsCanvas>();
     }
 
-    void Añadir_Mision(int i)
+    void Añadir_Mision(int mision, int seccion)
     {
-        if (i == 1) {
-            Mision misiontut = new Mision();
+        if (mision == 1) {
+            List<string> Missiondescriptions = new List<string>();
+            misiontut = new Mision();
             misiontut.nombre = "Ir a trabajar";
-            misiontut.description = "Ir a la mina para trabajar";
-            misiones.Missions.Add(misiontut);
+            Missiondescriptions.Add("Ir a la mina para trabajar");
+            if (misiones.Missions.ContainsKey("mision1tutorial")) { misiones.Missions.Remove("mision1tutorial"); }
+            if (seccion == 1){} else if (seccion == 2)
+            {
+                Missiondescriptions.Add("Bajar a la mina a extraer hielo");
+            }
+            misiontut.descriptions = Missiondescriptions;
+            misiones.Missions.Add("mision1tutorial",misiontut);
             misiones.ActualizarMisiones();
         }
 
@@ -27,7 +37,8 @@ public class TutorialMisions : MonoBehaviour
 
     private void Update()
     {
-        if (variableStorageYarn.GetValue("$tutorial_mission") != Yarn.Value.NULL && !mision1) { Añadir_Mision(1); mision1 = true; }
+        if (variableStorageYarn.GetValue("$tutorial_mission") != Yarn.Value.NULL && !mision1) { Añadir_Mision(1,1); mision1 = true; }
+        if (variableStorageYarn.GetValue("$tutorial_missionp2") != Yarn.Value.NULL && !mision1p2) { Añadir_Mision(1, 2); mision1p2 = true; }
     }
 
 }

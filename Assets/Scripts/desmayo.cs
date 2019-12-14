@@ -10,7 +10,7 @@ public class desmayo : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         LoadingCanvas.enabled = true;
-        SceneManager.LoadScene(2, LoadSceneMode.Single);
+        SceneManager.LoadScene(3, LoadSceneMode.Single);
     }
 
 }

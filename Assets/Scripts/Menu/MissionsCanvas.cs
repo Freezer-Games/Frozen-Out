@@ -8,7 +8,8 @@ public class MissionsCanvas : MonoBehaviour
     public Canvas MisionsCanvas;
     public GameObject MisionsPanel;
     public GameObject DescriptionsPanel;
-    public List<Mision> Missions = new List<Mision>();
+    public Dictionary<string, Mision> Missions = new Dictionary<string, Mision>();
+    //public List<Mision> Missions = new List<Mision>();
     // Start is called before the first frame update
     void Start()
     {
@@ -26,21 +27,21 @@ public class MissionsCanvas : MonoBehaviour
     public void ActualizarMisiones()
     {
         VaciarMisiones();
-        for (int i = 0; i < Missions.Count; i++)
-        {
+        int i = 0;
+        foreach (string mision in Missions.Keys)
+        {            
             //Añadir Mision
             GameObject misiontitulo = new GameObject("myTextGO");
             misiontitulo.transform.SetParent(MisionsPanel.transform);
             misiontitulo.AddComponent<RectTransform>();
-            misiontitulo.GetComponent<RectTransform>().sizeDelta = new Vector2(300,80);
-            misiontitulo.transform.position = new Vector3(180, 850 - 70*i, 0);
-            int j = i;
-            misiontitulo.AddComponent<Button>().onClick.AddListener(() => { SeleccionarMision(misiontitulo, j); });
+            misiontitulo.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 80);
+            misiontitulo.transform.position = new Vector3(180, 850 - 70 * i, 0);
+            misiontitulo.AddComponent<Button>().onClick.AddListener(() => { SeleccionarMision(misiontitulo, mision); });
 
             Text myText = misiontitulo.AddComponent<Text>();
             myText.supportRichText = true;
             myText.color = new Color(255f, 255f, 255f);
-            myText.text = Missions[i].nombre;
+            myText.text = Missions[mision].nombre;
             Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
             myText.font = ArialFont;
             myText.fontSize = 30;
@@ -58,36 +59,45 @@ public class MissionsCanvas : MonoBehaviour
     }
 
 
-    void SeleccionarMision(GameObject misiontitulo, int i)
+    void SeleccionarMision(GameObject misiontitulo, string mision)
     {
         LimpiarDescripcion();
         Text tittext =  misiontitulo.GetComponent<Text>();
         tittext.text = "<color=blue>" + tittext.text + "</color>";
-        GameObject misiondescription = new GameObject("myTextGO");
-        misiondescription.transform.SetParent(DescriptionsPanel.transform);
-        misiondescription.AddComponent<RectTransform>();
-        misiondescription.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 2000);
-        misiondescription.transform.position = new Vector3(770, 850, 0);
+        int k = 0;
+        foreach (string desctiption in Missions[mision].descriptions) {
+            GameObject misiondescription = new GameObject("myTextGO");
+            misiondescription.transform.SetParent(DescriptionsPanel.transform);
+            misiondescription.AddComponent<RectTransform>();
+            misiondescription.GetComponent<RectTransform>().sizeDelta = new Vector2(1100, 100);
+            misiondescription.transform.position = new Vector3(1070, 850 - k*60, 0);
 
-        Text myText = misiondescription.AddComponent<Text>();
-        myText.color = new Color(255f, 255f, 255f);
-        myText.text = Missions[i].description;
-        Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        myText.font = ArialFont;
-        myText.fontSize = 25;
-        myText.alignment = TextAnchor.MiddleLeft;
+            Text myText = misiondescription.AddComponent<Text>();
+            myText.color = new Color(255f, 255f, 255f);
+            myText.text = Missions[mision].descriptions[k];
+            Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+            myText.font = ArialFont;
+            myText.fontSize = 25;
+            myText.alignment = TextAnchor.MiddleLeft;
+            k++;
+        }
+        
 
     }
 
     void LimpiarDescripcion()
     {
-        int i = 0;
+        List<Transform> children = new List<Transform>();
         foreach (Transform child in MisionsPanel.transform)
         {
-            child.gameObject.GetComponent<Text>().text = Missions[i].nombre;
+            children.Add(child);
+        }
+        int i = 0;
+        foreach (KeyValuePair<string, Mision> entry in Missions)
+        {
+            children[i].gameObject.GetComponent<Text>().text = entry.Value.nombre;
             i++;
         }
-
         foreach (Transform child in DescriptionsPanel.transform)
         {
             Destroy(child.gameObject);
@@ -101,6 +111,7 @@ public class MissionsCanvas : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             CloseOpenMenu();
+            LimpiarDescripcion();
         }
     }
 }
