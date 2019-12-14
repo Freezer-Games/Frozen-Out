@@ -27,17 +27,12 @@ public class Menu : MonoBehaviour
             LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
         } else if (Application.systemLanguage == SystemLanguage.Spanish) { language.value = 1;}
         else { language.value = 0; }
-        StartButton.onClick.AddListener(Lanzar_nivel);
+        StartButton.onClick.AddListener(() => { Lanzar_nivel(2); });
         OptionsButton.onClick.AddListener(Options);
         ExitButton.onClick.AddListener(Exit);
         ContinueButton.onClick.AddListener(continuegame);
         LoadButton.onClick.AddListener(loadgame);
-        pruebas.onClick.AddListener(lanzaprueba);
-
-    }
-    void lanzaprueba() {
-
-        StartCoroutine(LoadLevel(1));
+        pruebas.onClick.AddListener(() => { Lanzar_nivel(1); });
 
     }
 
@@ -58,16 +53,20 @@ public class Menu : MonoBehaviour
 
     IEnumerator LoadLevel(int level)
     {
-        yield return new WaitForSeconds(0);
-        SceneManager.LoadScene(level, LoadSceneMode.Single);
+        AsyncOperation async = SceneManager.LoadSceneAsync(level);
+
+        // While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
+        while (!async.isDone)
+        {
+            yield return null;
+        }
     }
 
-    void Lanzar_nivel()
+    void Lanzar_nivel(int nivel)
     {
-
         MainCanvas.enabled = false;
         LoadCanvas.enabled = true;
-        StartCoroutine(LoadLevel(2));
+        StartCoroutine(LoadLevel(nivel));
 
     }
     void Options()
