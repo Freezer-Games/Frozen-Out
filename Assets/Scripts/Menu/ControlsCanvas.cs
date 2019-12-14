@@ -35,6 +35,8 @@ public class ControlsCanvas : MonoBehaviour
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.crouch.ToString();
             }else if (menuPanel.GetChild(i).name == "InteractKey"){
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.interact.ToString();
+            }else if (menuPanel.GetChild(i).name == "MissionsKey"){
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.missions.ToString();
             }
 
         }
@@ -109,6 +111,11 @@ public class ControlsCanvas : MonoBehaviour
                 GameManager.instance.interact = newKey;
                 buttonText.text = GameManager.instance.interact.ToString();
                 PlayerPrefs.SetString("InteractKey", GameManager.instance.interact.ToString());
+                break;
+            case "missions":
+                GameManager.instance.missions = newKey;
+                buttonText.text = GameManager.instance.missions.ToString();
+                PlayerPrefs.SetString("MissionsKey", GameManager.instance.missions.ToString());
                 break;
 
         }

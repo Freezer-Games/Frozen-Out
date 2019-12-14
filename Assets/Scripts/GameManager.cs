@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public KeyCode left { get; set; }
     public KeyCode crouch { get; set; }
     public KeyCode interact { get; set; }
+    public KeyCode missions { get; set; }
 
     public double TextSize { get; set; } = 14;
 
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
         left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
         crouch = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("CrouchKey", "LeftControl"));
         interact = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("InteractKey", "F"));
+        missions = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("MissionsKey", "Tab"));
     }
     void Start()
     {
