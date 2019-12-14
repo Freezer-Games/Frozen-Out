@@ -26,6 +26,8 @@ public class TutorialMisions : MonoBehaviour
             if (misiones.Missions.ContainsKey("mision1tutorial")) { misiones.Missions.Remove("mision1tutorial"); }
             if (seccion == 1){} else if (seccion == 2)
             {
+                Missiondescriptions.Remove("Ir a la mina para trabajar");
+                Missiondescriptions.Add(StrikeThrough("Ir a la mina para trabajar"));
                 Missiondescriptions.Add("Bajar a la mina a extraer hielo");
             }
             misiontut.descriptions = Missiondescriptions;
@@ -33,6 +35,16 @@ public class TutorialMisions : MonoBehaviour
             misiones.ActualizarMisiones();
         }
 
+    }
+
+    public string StrikeThrough(string s)
+    {
+        string strikethrough = "";
+        foreach (char c in s)
+        {
+            strikethrough = strikethrough + c + '\u0336';
+        }
+        return strikethrough;
     }
 
     private void Update()
