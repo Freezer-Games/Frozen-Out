@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public KeyCode crouch { get; set; }
     public KeyCode interact { get; set; }
     public KeyCode missions { get; set; }
+    public bool menuopen;
 
     public double TextSize { get; set; } = 14;
 
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        menuopen = false;
         TextSize = PlayerPrefs.GetFloat("TextSize", 14);
 #if UNITY_EDITOR
         // Todas las referencias a objetos singleton deben hacerse como muy pronto desde el Start(),

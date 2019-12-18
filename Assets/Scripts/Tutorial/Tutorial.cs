@@ -25,7 +25,7 @@ public class Tutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (estado == estadotut.esperar && !dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.isDialogueWaiting)
+        if (estado == estadotut.esperar && GameObject.Find("PACO").GetComponent<HablarVista>().hablado && GameObject.Find("PACO").GetComponent<HablarVista>().movido && !dialogueSystemYarn.isDialogueRunning)
         {
             estado = estadotut.cam;
             canvas.enabled = true;

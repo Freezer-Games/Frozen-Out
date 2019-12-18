@@ -9,7 +9,6 @@ public class HacerCallar : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
     bool hablar = false;
-    string estado = "hola";
     NavMeshAgent agent;
 
 

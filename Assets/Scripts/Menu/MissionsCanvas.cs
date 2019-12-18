@@ -19,8 +19,9 @@ public class MissionsCanvas : MonoBehaviour
 
     void CloseOpenMenu()
     {
-        MisionsCanvas.enabled = !MisionsCanvas.enabled;
-        if (MisionsCanvas.enabled == true) { Time.timeScale = 0; Cursor.visible = true; Cursor.lockState = CursorLockMode.None; } else { Time.timeScale = 1; Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; } //ActualizarMisiones(); }
+        if (MisionsCanvas.enabled == false && !GameManager.instance.menuopen) { GameManager.instance.menuopen = true; MisionsCanvas.enabled = true; Time.timeScale = 0; Cursor.visible = true; Cursor.lockState = CursorLockMode.None; }
+        else if (MisionsCanvas.enabled == true && GameManager.instance.menuopen) { Time.timeScale = 1; Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; MisionsCanvas.enabled = false; GameManager.instance.menuopen = false; }
+        //if (MisionsCanvas.enabled == true) { Time.timeScale = 0; Cursor.visible = true; Cursor.lockState = CursorLockMode.None; } else { Time.timeScale = 1; Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; } //ActualizarMisiones(); }
 
     }
 
@@ -81,8 +82,6 @@ public class MissionsCanvas : MonoBehaviour
             myText.alignment = TextAnchor.MiddleLeft;
             k++;
         }
-        
-
     }
 
     void LimpiarDescripcion()
@@ -113,5 +112,6 @@ public class MissionsCanvas : MonoBehaviour
             CloseOpenMenu();
             LimpiarDescripcion();
         }
+        //Debug.Log(Missions.Count);
     }
 }

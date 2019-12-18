@@ -46,14 +46,16 @@ public class Menu : MonoBehaviour
     void continuegame()
     {
 
-        //load last savegame
+        GameObject.Find("GameInfo").GetComponent<Game>().LoadGame();//load last savegame
+        MainCanvas.enabled = false;
+        LoadCanvas.enabled = true;
 
     }
 
 
     IEnumerator LoadLevel(int level)
     {
-        AsyncOperation async = SceneManager.LoadSceneAsync(level);
+        AsyncOperation async = SceneManager.LoadSceneAsync(level, LoadSceneMode.Single);
 
         // While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
         while (!async.isDone)

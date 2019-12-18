@@ -12,6 +12,7 @@ public class perseguir : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        dialogueSystemYarn = GetComponent<DialogueRunner>();
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;

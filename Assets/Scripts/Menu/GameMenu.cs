@@ -22,6 +22,7 @@ public class GameMenu : MonoBehaviour
         LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
         MenuCanvas.enabled = false;
         LoadCanvas.enabled = false;
+        LoadingCanvas.enabled = false;
         ContinueButton.onClick.AddListener(CloseOpenMenu);
         SaveButton.onClick.AddListener(SaveGame);
         LoadButton.onClick.AddListener(LoadGame);
@@ -32,25 +33,41 @@ public class GameMenu : MonoBehaviour
 
     void Restart()
     {
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.menuopen = false;
+        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void SaveGame() {
+
+        GameObject.Find("GameInfo").GetComponent<Game>().SaveGame();
 
     }
 
-    void SaveGame() { }
-
     void LoadGame()
     {
+        GameManager.instance.menuopen = false;
+        GameObject.Find("GameInfo").GetComponent<Game>().LoadGame();//load last savegame
+        LoadingCanvas.enabled = true;
+    }
 
-        LoadCanvas.enabled = true;
+    IEnumerator LoadLevel(int level)
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(level);
+
+        // While the asynchronous operation to load the new scene is not yet complete, continue waiting until it's done.
+        while (!async.isDone)
+        {
+            yield return null;
+        }
 
     }
 
     void exit()
     {
+        GameManager.instance.menuopen = false;
         Time.timeScale = 1;
         MenuCanvas.enabled = false;
         LoadingCanvas.enabled = true;
@@ -61,8 +78,10 @@ public class GameMenu : MonoBehaviour
     void CloseOpenMenu()
     {
         
-        MenuCanvas.enabled = !MenuCanvas.enabled;
-        if (MenuCanvas.enabled == true) { Time.timeScale = 0; Cursor.visible = true; Cursor.lockState = CursorLockMode.None; } else { Time.timeScale = 1; Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; }
+        
+        if (MenuCanvas.enabled == false && !GameManager.instance.menuopen) { GameManager.instance.menuopen = true; MenuCanvas.enabled = true; Time.timeScale = 0; Cursor.visible = true; Cursor.lockState = CursorLockMode.None; }
+        else  if (MenuCanvas.enabled == true && GameManager.instance.menuopen) { Time.timeScale = 1; Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; MenuCanvas.enabled = false; GameManager.instance.menuopen = false; }
+
 
     }
 

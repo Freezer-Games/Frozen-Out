@@ -8,7 +8,7 @@ using Assets.Scripts.Dialogue;
 public class patrullar : MonoBehaviour
 {
     public Transform[] points;
-    private int destPoint = 0;
+    public int destPoint = 0;
     private NavMeshAgent agent;
     private DialogueRunner dialogueSystemYarn;
     enum Estados { patrullando, perseguir, esperar }

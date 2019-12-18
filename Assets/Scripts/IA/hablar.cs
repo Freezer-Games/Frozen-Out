@@ -2,32 +2,49 @@
 using UnityEngine.AI;
 using Yarn.Unity;
 using Assets.Scripts.Dialogue;
+using System.Collections;
 
 public class hablar : MonoBehaviour
 {
     private DialogueRunner dialogueSystemYarn;
     private NavMeshAgent agent;
-    public Transform player;
-    private bool hablado = false;
+    private bool hablado = true;
+    private Transform player;
 
     // Start is called before the first frame update
     void Start()
     {
-        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.destination = player.position;
-        dialogueSystemYarn.isDialogueWaiting = true;
-
+        if (Game.instance.loading == false)
+        {
+            player = GameObject.Find("POL").transform;
+            dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
+            hablado = !(GameObject.FindObjectOfType<MissionsCanvas>().Missions.Count == 0);
+            agent = GetComponent<NavMeshAgent>();
+            agent.destination = gameObject.transform.position - new Vector3(0, 0, agent.stoppingDistance);
+            if (hablado == false)
+            {
+                agent.destination = player.position;
+                dialogueSystemYarn.isDialogueWaiting = true;
+            }
+        }
+    
     }
+
+
+
+
 
     // Update is called once per frame
     void Update()
     {
-        if (agent.remainingDistance <= agent.stoppingDistance && hablado == false)
+        if (hablado == false)
         {
-            dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
-            hablado = true;
-            dialogueSystemYarn.isDialogueWaiting = false;
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
+                dialogueSystemYarn.isDialogueWaiting = false;
+                hablado = true;
+            }
         }
     }
 }
