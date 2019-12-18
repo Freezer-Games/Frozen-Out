@@ -312,7 +312,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5814267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc38b31069551a94b98decae05cf4639, type: 3}
   m_Name: 
@@ -352,7 +352,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5814267}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -1791,6 +1791,18 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia2
   scriptToLoad: {fileID: 4900000, guid: a1bc552f44007d24fbb81e71552bb5a7, type: 3}
+--- !u!114 &186814767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186814761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &194194538
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2922,7 +2934,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 251222922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a261ef55dfa4c0d4f8f3c6cf7916fd74, type: 3}
+  m_Script: {fileID: 11500000, guid: b29f8bfc21dc78e4c80f9c1919aef29b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puesto: {fileID: 2133076161}
+  comprobador: $introduccion_Completada
+--- !u!114 &251222930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251222922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc38b31069551a94b98decae05cf4639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewRadius: 0
+  closeRadius: 0
+  trueSightRadius: 10
+  viewAngle: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  visibleTargets: []
+  closeTargets: []
+--- !u!114 &251222931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251222922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eee6ad176f47fa48ae8ad313a7a3035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &255720797
@@ -4072,6 +4122,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destino: {fileID: 1968201707}
   ValueDialog: $Guard_Moves
+--- !u!114 &376287648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376287641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &377393852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4526,7 +4588,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ee34906397ca0fb4b86796f8a40e0b9d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee34906397ca0fb4b86796f8a40e0b9d,
         type: 3}
@@ -7395,6 +7457,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destino: {fileID: 1618897839}
   ValueDialog: $Bully_Moves
+--- !u!114 &674339439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674339434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &682626063
 GameObject:
   m_ObjectHideFlags: 0
@@ -8937,7 +9011,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 555b16a18e0ad604ab9706220f781892,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 555b16a18e0ad604ab9706220f781892,
         type: 3}
@@ -10384,6 +10458,18 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia3
   scriptToLoad: {fileID: 4900000, guid: 1d8d7364fccbbba4f9a3da742ab4ad23, type: 3}
+--- !u!114 &998853043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998853037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1001136582
 GameObject:
   m_ObjectHideFlags: 0
@@ -10413,16 +10499,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17d88c6757921c4c9464db35f9a30a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerpos: {fileID: 0}
-  camerapos: {fileID: 0}
-  auxcamerapos: {fileID: 0}
+  playerpos: {fileID: 631646392}
+  camerapos: {fileID: 734913474}
+  auxcamerapos: {fileID: 1158477539}
   ListaObjetos:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1761822756}
+  - {fileID: 186814761}
+  - {fileID: 998853037}
+  - {fileID: 376287641}
+  - {fileID: 674339434}
+  - {fileID: 251222922}
 --- !u!4 &1001136584
 Transform:
   m_ObjectHideFlags: 0
@@ -12232,7 +12318,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
@@ -13011,7 +13097,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
@@ -13835,7 +13921,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 42d67a9b6b50e0649903362eec2bf6a9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: -1.92
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -13918,6 +14004,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1312156377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312156368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1318735038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16717,6 +16815,7 @@ Transform:
   - {fileID: 1311938746}
   - {fileID: 1850402814}
   - {fileID: 1421116217}
+  - {fileID: 2133076161}
   - {fileID: 251222927}
   - {fileID: 1775929257}
   - {fileID: 1439252795}
@@ -16981,7 +17080,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
@@ -18093,6 +18192,18 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia4
   scriptToLoad: {fileID: 4900000, guid: 676c7b5566097de48ad2e89c05aa07d5, type: 3}
+--- !u!114 &1761822762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761822756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1765084925 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4137784520839161140, guid: 92f8197c6f0c17b45b631908d45e8480,
@@ -18838,7 +18949,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 33e397d6118851a44ac6d6414ebbea17,
         type: 3}
@@ -20356,7 +20467,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
@@ -21137,6 +21248,36 @@ RectTransform:
   m_AnchoredPosition: {x: -340, y: 140}
   m_SizeDelta: {x: 200, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2133076160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2133076161}
+  m_Layer: 0
+  m_Name: Puesto Paco
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2133076161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133076160}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -266.17072, y: 36.6, z: -400.47818}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1653088079}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2135587827
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21187,7 +21328,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 555b16a18e0ad604ab9706220f781892,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 555b16a18e0ad604ab9706220f781892,
         type: 3}

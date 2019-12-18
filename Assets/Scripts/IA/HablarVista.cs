@@ -30,7 +30,7 @@ public class HablarVista : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(storageYarn.GetValue(comprobador));
+        //print(storageYarn.GetValue(comprobador));
         if (storageYarn.GetValue(comprobador) == Yarn.Value.NULL)
         {
             List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
