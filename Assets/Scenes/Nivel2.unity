@@ -5134,7 +5134,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 487997038}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: dfa5320a78279474c9f1fa28f0476651, type: 3}
@@ -9341,6 +9341,7 @@ GameObject:
   - component: {fileID: 889012174}
   - component: {fileID: 889012173}
   - component: {fileID: 889012171}
+  - component: {fileID: 889012172}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -9365,6 +9366,14 @@ MonoBehaviour:
   smooth: 10
   dollyDirAdjusted: {x: 0, y: 0, z: 0}
   distance: 0
+--- !u!81 &889012172
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889012170}
+  m_Enabled: 1
 --- !u!20 &889012173
 Camera:
   m_ObjectHideFlags: 0
@@ -10513,7 +10522,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1002267668
 GameObject:
@@ -10730,6 +10739,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LITTLE1
       objectReference: {fileID: 0}
+    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 9ea03d0c406c39a4ba2dc888e649394d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -10790,11 +10804,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ed419b113e8857d46a9eee28f2d2429f, type: 2}
-    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ea03d0c406c39a4ba2dc888e649394d, type: 3}
 --- !u!4 &1034080389 stripped
@@ -12851,6 +12860,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LITTLE2
       objectReference: {fileID: 0}
+    - target: {fileID: -2286173497158236668, guid: 4f0acf237d80f804e9ed9285a9924a0f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4f0acf237d80f804e9ed9285a9924a0f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12904,11 +12918,6 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4f0acf237d80f804e9ed9285a9924a0f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -2286173497158236668, guid: 4f0acf237d80f804e9ed9285a9924a0f,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8009344145058269671, guid: 4f0acf237d80f804e9ed9285a9924a0f,
@@ -17105,6 +17114,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LITTLE1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 9ea03d0c406c39a4ba2dc888e649394d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17165,11 +17179,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ed419b113e8857d46a9eee28f2d2429f, type: 2}
-    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ea03d0c406c39a4ba2dc888e649394d, type: 3}
 --- !u!4 &1691165885 stripped
@@ -19000,6 +19009,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LITTLE1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 9ea03d0c406c39a4ba2dc888e649394d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19060,11 +19074,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ed419b113e8857d46a9eee28f2d2429f, type: 2}
-    - target: {fileID: 3185864544264634130, guid: 9ea03d0c406c39a4ba2dc888e649394d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ea03d0c406c39a4ba2dc888e649394d, type: 3}
 --- !u!4 &1836443798 stripped
