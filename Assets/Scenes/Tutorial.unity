@@ -266,10 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29f8bfc21dc78e4c80f9c1919aef29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movido: 0
-  hablado: 1
   puesto: {fileID: 353513480}
-  inicializar: 1
   comprobador: $reglas_leidas
 --- !u!195 &5814271
 NavMeshAgent:
@@ -1159,8 +1156,6 @@ MonoBehaviour:
   playerpos: {fileID: 1037871387}
   camerapos: {fileID: 1990731513}
   auxcamerapos: {fileID: 1235514105}
-  YarnKeys: []
-  YarnValues: []
   ListaObjetos:
   - {fileID: 1761822756}
   - {fileID: 186814761}
@@ -2926,10 +2921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29f8bfc21dc78e4c80f9c1919aef29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movido: 0
-  hablado: 1
   puesto: {fileID: 1980942083}
-  inicializar: 1
   comprobador: $tutorial_mission
 --- !u!114 &251222930
 MonoBehaviour:
@@ -10793,7 +10785,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1041055406}
   - component: {fileID: 1041055409}
-  - component: {fileID: 1041055408}
   - component: {fileID: 1041055407}
   m_Layer: 0
   m_Name: Camera
@@ -10833,14 +10824,6 @@ MonoBehaviour:
   smooth: 10
   dollyDirAdjusted: {x: 0, y: 0, z: 0}
   distance: 0
---- !u!81 &1041055408
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1041055405}
-  m_Enabled: 1
 --- !u!20 &1041055409
 Camera:
   m_ObjectHideFlags: 0
