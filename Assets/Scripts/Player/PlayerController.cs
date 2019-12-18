@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
     {
         camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        if(moving) steps.Play();
-        else if (steps.isPlaying && !moving) steps.Stop();
+        // Reproduce o para el sonido de pisadas
+        CheckAudio();
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
@@ -101,6 +101,25 @@ public class PlayerController : MonoBehaviour
         if (snow != null)
         {
             snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+        }
+    }
+
+    // Reproduce o para el sonido de pisadas según si se está moviendo o no
+    private void CheckAudio()
+    {
+        if (steps.isPlaying)
+        {
+            if (!moving)
+            {
+                steps.Stop();
+            }
+        }
+        else
+        {
+            if (moving)
+            {
+                steps.Play();
+            }
         }
     }
 
