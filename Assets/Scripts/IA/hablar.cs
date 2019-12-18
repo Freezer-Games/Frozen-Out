@@ -18,8 +18,6 @@ public class hablar : MonoBehaviour
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent = GetComponent<NavMeshAgent>();
         agent.destination = player.position;
-        dialogueSystemYarn.isDialogueWaiting = true;
-
     }
 
     // Update is called once per frame
@@ -29,9 +27,8 @@ public class hablar : MonoBehaviour
         {
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
-            dialogueSystemYarn.isDialogueWaiting = false;
         }
-        if (!dialogueSystemYarn.isDialogueWaiting && !dialogueSystemYarn.isDialogueRunning && tut)
+        if (!dialogueSystemYarn.isDialogueStarting && !dialogueSystemYarn.isDialogueRunning && tut)
         {
             tutcanvas.enabled = true;
             tut = false;

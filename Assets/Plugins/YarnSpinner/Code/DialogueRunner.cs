@@ -40,6 +40,27 @@ namespace Yarn.Unity
         public TextAsset[] stringFiles;
     }
 
+    [Serializable]
+    public class DialogueEventArgs : EventArgs
+    {
+        public string StartNode { get; }
+
+        public DialogueEventArgs(string startNode)
+        {
+            this.StartNode = startNode;
+        }
+    }
+
+    [Serializable]
+    public class DialogueStartingEventArgs : DialogueEventArgs
+    {
+        public bool Cancel { get; set; }
+
+        public DialogueStartingEventArgs(string startNode) : base(startNode)
+        {
+        }
+    }
+
     /// DialogueRunners act as the interface between your game and YarnSpinner.
     /** Make our menu item slightly nicer looking */
     [AddComponentMenu("Scripts/Yarn Spinner/Dialogue Runner")]
@@ -71,7 +92,7 @@ namespace Yarn.Unity
         /// Tests to see if the dialogue is running
         public bool isDialogueRunning { get; private set; }
 
-        public bool isDialogueWaiting = false;
+        public bool isDialogueStarting { get; private set; }
 
         public bool automaticCommands = true;
 
@@ -103,6 +124,38 @@ namespace Yarn.Unity
                 return _dialogue;
             }
         }
+
+        #region Events
+        // Events for dialog state changes (Start/Stop)
+        public event EventHandler<DialogueStartingEventArgs> Starting;
+        public event EventHandler<DialogueEventArgs> Started;
+        public event EventHandler Stopping, Stopped;
+
+        protected virtual void OnStarting(DialogueStartingEventArgs args)
+        {
+            isDialogueStarting = true;
+            Starting?.Invoke(this, args);
+        }
+
+        protected virtual void OnStarted(DialogueEventArgs args)
+        {
+            isDialogueStarting = false;
+            isDialogueRunning = true;
+            Started?.Invoke(this, args);
+        }
+
+        protected virtual void OnStopping()
+        {
+            Stopping?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnStopped()
+        {
+            isDialogueRunning = false;
+            Stopped?.Invoke(this, EventArgs.Empty);
+        } 
+        #endregion
+
 
         /// Start the dialogue
         void Start()
@@ -224,13 +277,24 @@ namespace Yarn.Unity
         /// Start the dialogue from a given node
         public void StartDialogue(string startNode)
         {
+            // Notify that a dialogue is starting
+            var startingArgs = new DialogueStartingEventArgs(startNode);
+            OnStarting(startingArgs);
 
-            // Stop any processes that might be running already
-            StopAllCoroutines();
-            dialogueUI.StopAllCoroutines();
+            // If it was not canceled by the event, continue
+            if (!startingArgs.Cancel)
+            {
+                // Stop any processes that might be running already
+                StopAllCoroutines();
+                dialogueUI.StopAllCoroutines();
 
-            // Get it going
-            StartCoroutine(RunDialogue(startNode));
+                // Get it going
+                StartCoroutine(RunDialogue(startNode));
+
+                // Notify that a dialogue has started
+                var startedArgs = new DialogueEventArgs(startNode);
+                OnStarted(startedArgs);
+            }
         }
 
         public IEnumerator RunDialogue(string startNode = "Start")
@@ -314,8 +378,12 @@ namespace Yarn.Unity
         /// Stop the dialogue
         public void Stop()
         {
+            OnStopping();
+
             isDialogueRunning = false;
             dialogue.Stop();
+
+            OnStopped();
         }
 
         /// Test to see if a node name exists
