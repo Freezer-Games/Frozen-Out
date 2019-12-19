@@ -36,7 +36,7 @@ namespace Assets.Scripts.Dialogue
 
         private void Player_Moving(object sender, PlayerControllerEventArgs e)
         {
-            if (dialogueSystemYarn.isDialogueRunning || dialogueSystemYarn.isDialogueWaiting)
+            if (dialogueSystemYarn.isDialogueRunning || dialogueSystemYarn.isDialogueStarting)
             {
                 e.Cancel = true;
             }

@@ -2,6 +2,12 @@
 using System.Collections;
 using UnityEngine;
 
+[Serializable]
+public class PlayerControllerEventArgs : EventArgs
+{
+    public bool Cancel { get; set; }
+}
+
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
@@ -223,9 +229,4 @@ public class PlayerController : MonoBehaviour
         if (active) yield return new WaitForSeconds(movementDelay);
         yield return null;
     }
-}
-
-public class PlayerControllerEventArgs : EventArgs
-{
-    public bool Cancel { get; set; }
 }

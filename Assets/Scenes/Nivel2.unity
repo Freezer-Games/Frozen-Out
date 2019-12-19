@@ -1433,7 +1433,6 @@ MonoBehaviour:
   dialogueUI: {fileID: 174668445}
   startNode: 
   startAutomatically: 0
-  isDialogueWaiting: 0
   automaticCommands: 1
 --- !u!4 &174668447
 Transform:
@@ -5132,6 +5131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 487997040}
   - component: {fileID: 487997039}
+  - component: {fileID: 487997041}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -5249,6 +5249,19 @@ Transform:
   m_Father: {fileID: 734913474}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &487997041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487997038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8dc4a52171df24e8b94cef85018154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VolumeReduceFactor: 0.4
 --- !u!1 &496141484 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 13e58a8609eade348804d4c3f0291612,

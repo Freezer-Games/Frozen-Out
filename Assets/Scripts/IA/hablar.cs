@@ -24,7 +24,6 @@ public class hablar : MonoBehaviour
             if (hablado == false)
             {
                 agent.destination = player.position;
-                dialogueSystemYarn.isDialogueWaiting = true;
             }
         }
     
@@ -39,10 +38,10 @@ public class hablar : MonoBehaviour
     {
         if (hablado == false)
         {
+
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
-                dialogueSystemYarn.isDialogueWaiting = false;
                 hablado = true;
             }
         }

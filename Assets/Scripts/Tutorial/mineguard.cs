@@ -23,9 +23,7 @@ public class mineguard : MonoBehaviour
         if (cercanos.Count > 0 && hablado == false && storageYarn.GetValue(comprobador) == Yarn.Value.NULL)
         {
             hablado = true;
-            dialogueSystemYarn.isDialogueWaiting = true;
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
-            dialogueSystemYarn.isDialogueWaiting = false;
         }
         Debug.Log(FindObjectOfType<Game>().ListaObjetos.Count);
     }
