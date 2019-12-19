@@ -114,10 +114,10 @@ public class Game : MonoBehaviour
         {
             Vector3 newpos = new Vector3(data.positions[i * 3], data.positions[i * 3 + 1], data.positions[i * 3 + 2]);
             float[] rotaciones = new float[4];
-            rotaciones[0] = data.positions[i * 4];
-            rotaciones[1] = data.positions[i * 4 + 1];
-            rotaciones[2] = data.positions[i * 4 + 2];
-            rotaciones[3] = data.positions[i * 4 + 3];
+            rotaciones[0] = data.rotations[i * 4];
+            rotaciones[1] = data.rotations[i * 4 + 1];
+            rotaciones[2] = data.rotations[i * 4 + 2];
+            rotaciones[3] = data.rotations[i * 4 + 3];
             GameObject.Find(data.nombres[i]).GetComponent<moveralcargar>().mover(newpos);
             GameObject.Find(data.nombres[i]).GetComponent<moveralcargar>().rotar(rotaciones);
             if (GameObject.Find(data.nombres[i]).GetComponent<patrullar>() != null) { GameObject.Find(data.nombres[i]).GetComponent<patrullar>().destPoint = data.nextpos[i]; }
