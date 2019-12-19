@@ -36,10 +36,8 @@ public class HablarVista : MonoBehaviour
             List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
             if (visibles.Count > 0 && movido == false)
             {
-                dialogueSystemYarn.isDialogueWaiting = true;
                 player = GameObject.Find("POL").transform;
                 agent.destination = player.position;
-                dialogueSystemYarn.isDialogueWaiting = true;
                 hablado = false;
                 movido = true;
             }
@@ -47,7 +45,6 @@ public class HablarVista : MonoBehaviour
         if (agent.remainingDistance <= agent.stoppingDistance && hablado == false)
         {
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
-            dialogueSystemYarn.isDialogueWaiting = false;
             hablado = true;
         }
         if (movido == true && hablado == true && !dialogueSystemYarn.isDialogueRunning) { agent.stoppingDistance = 0; agent.destination = puesto.position; }
