@@ -130,6 +130,7 @@ namespace Yarn.Unity
         public event EventHandler<DialogueStartingEventArgs> Starting;
         public event EventHandler<DialogueEventArgs> Started;
         public event EventHandler Stopping, Stopped;
+        public event EventHandler Completed, Ended;
 
         protected virtual void OnStarting(DialogueStartingEventArgs args)
         {
@@ -151,9 +152,21 @@ namespace Yarn.Unity
 
         protected virtual void OnStopped()
         {
-            isDialogueRunning = false;
+            OnEnded();
             Stopped?.Invoke(this, EventArgs.Empty);
-        } 
+        }
+
+        protected virtual void OnCompleted()
+        {
+            OnEnded();
+            Completed?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnEnded()
+        {
+            isDialogueRunning = false;
+            Ended?.Invoke(this, EventArgs.Empty);
+        }
         #endregion
 
 
@@ -355,6 +368,7 @@ namespace Yarn.Unity
             }
 
             // No more results! The dialogue is done.
+            OnCompleted();
             yield return StartCoroutine(dialogueUI.DialogueComplete());
 
             // Clear the 'is running' flag. We do this after DialogueComplete returns,
