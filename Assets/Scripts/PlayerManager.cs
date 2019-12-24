@@ -1,42 +1,52 @@
 ﻿using System;
 using UnityEngine;
 
-[Serializable]
-public class PlayerManager 
+public class PlayerManager : MonoBehaviour
 {
-    public Transform m_SpawnPoint;
-    public Transform m_checkPoint;
-    [HideInInspector] public GameObject m_Instance;
+    public static PlayerManager instance;
 
-    private PlayerController m_PlayerController;
+    public GameObject player;
+    public bool inCinematic = false;
+
+    void Awake() 
+    {
+        MakeSingleton();
+        try 
+        {
+            player = GameObject.Find("Pol");
+        } catch {}
+    }
+
+    public void DisableController()
+    {
+        player.GetComponent<Animator>().enabled = false;
+        player.GetComponent<PlayerController>().enabled = false;
+    }
+
+    public void EnableCopntroller()
+    {
+        player.GetComponent<Animator>().enabled = true;
+        player.GetComponent<PlayerController>().enabled = true;
+    }
+
     
-    public void Setup() {
-        m_PlayerController = m_Instance.GetComponent<PlayerController>();
+
+    public void goToCheckPoint(Transform trans)
+    {
+        Instantiate(player, trans.position, trans.rotation);
     }
 
-    public void DisableControl() 
+
+    protected void MakeSingleton()
     {
-        m_PlayerController.enabled = false;
-
-    }
-
-    public void EnableControl() 
-    {
-        m_PlayerController.enabled = true;
-    }
-
-    public void Reset() 
-    {
-        m_Instance.transform.position = m_SpawnPoint.position;
-        m_Instance.transform.rotation = m_SpawnPoint.rotation;
-
-        m_Instance.SetActive(false);
-        m_Instance.SetActive(true);
-    }
-
-    public void ResetOnCheckpoint()
-    {
-        m_Instance.transform.position = m_checkPoint.position;
-        m_Instance.transform.rotation = m_checkPoint.rotation;
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }

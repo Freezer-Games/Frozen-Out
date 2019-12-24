@@ -71,7 +71,7 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate() 
     {
         cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-        if (GameManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
+        if (PlayerManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
         {
             ChangeToCinematic();
         }

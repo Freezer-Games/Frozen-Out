@@ -12,26 +12,20 @@ public class TuttiMomento : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (!repeated && other.gameObject.tag == "Player") {
-            repeated = true;
-
-            player = other.gameObject;
-            player.GetComponent<PlayerController>().enabled = false;
-
-            GameManager.instance.inCinematic = true;
+        if (!repeated && other.gameObject.tag == "Player") 
+        {
+            PlayerManager.instance.DisableController();
+            PlayerManager.instance.inCinematic = true;
 
             blackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
 
-            StartCoroutine(WatchingTutti(player));
-            //player.GetComponent<PlayerController>().enabled = true;
+            repeated = true;
+        
+            WatchingTutti();
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        
-    }
-
-    IEnumerator WatchingTutti(GameObject other)
+    public void WatchingTutti()
     {
         Instantiate(tutti, initPos.position, initPos.rotation);
 
@@ -39,6 +33,5 @@ public class TuttiMomento : MonoBehaviour
 
         tutti.transform.position = Vector3.MoveTowards(tutti.transform.position, finalPos.position, step);
         
-        yield return new WaitForSeconds(5.0f);
     }
 }
