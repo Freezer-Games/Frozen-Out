@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Yarn.Unity;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -26,18 +25,11 @@ public class CameraFollow : MonoBehaviour
     private float transitionSpeed = 1.0f;
     private Transform cinemaPos;
     private Camera cam;
-    //private Vector3 lastPos;
-    private DialogueRunner dialogueSystemYarn;
-    public const float NORMALFOV = 60f;
-    public const float DIALOGFOV = 30f;
-    private float currentFOV;
 
     void Start()
     {
         cam = Camera.main;
-        currentFOV = NORMALFOV;
         cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-        dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
@@ -61,8 +53,6 @@ public class CameraFollow : MonoBehaviour
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
 
-        CameraDialogue();
-
         /*if (GameManager.instance.inCinematic || Input.GetKey(KeyCode.C)) {
             ChangeToCinematic();
         }*/
@@ -70,16 +60,7 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate() 
     {
-        cinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-        if (PlayerManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
-        {
-            ChangeToCinematic();
-        }
-        else 
-        {
-            CameraUpdater();
-        }
-        
+        CameraUpdater();
     }
 
     void CameraUpdater() 
@@ -88,31 +69,5 @@ public class CameraFollow : MonoBehaviour
 
         float step = CameraMoveSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-    }
-
-    void CameraDialogue() {
-        if (dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") 
-        {
-            if (currentFOV > DIALOGFOV) 
-            {
-                currentFOV -= 1;
-            }
-        }
-        else 
-        {
-            if (currentFOV < NORMALFOV)
-            {
-                currentFOV += 1;
-            }
-
-         }
-        Camera.main.fieldOfView = currentFOV;
-    }
-
-    void ChangeToCinematic() 
-    {
-        Debug.Log("haciendo el cambio");
-        //cam.transform.position = Vector3.Lerp(cam.transform.position, cinemaPos.position, transitionSpeed*Time.deltaTime);
-        cam.transform.position = cinemaPos.position;
     }
 }

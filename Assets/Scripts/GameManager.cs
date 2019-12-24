@@ -19,10 +19,9 @@ public class GameManager : MonoBehaviour
 
     public float volume;
 
-    
-
     public static GameManager instance;
-    public PlayerManager playerManager;
+
+    public GameObject blackBars;
 
     void Awake()
     {
@@ -30,7 +29,7 @@ public class GameManager : MonoBehaviour
         AssignKeys();
         try 
         {
-            playerManager.player = GameObject.Find("Pol");
+            PlayerManager.instance.player = GameObject.Find("Pol");
         } catch{}
     }
 
@@ -82,7 +81,7 @@ public class GameManager : MonoBehaviour
             LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            playerManager.player = GameObject.Find("Pol");
+            PlayerManager.instance.player = GameObject.Find("Pol");
         }
         /*else if (scene.buildIndex == 1)
         {

@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
-    private AudioSource steps;
+    public AudioSource steps;
 
     private GameObject snow;
 

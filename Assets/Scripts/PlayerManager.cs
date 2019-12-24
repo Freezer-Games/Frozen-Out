@@ -20,10 +20,11 @@ public class PlayerManager : MonoBehaviour
     public void DisableController()
     {
         player.GetComponent<Animator>().enabled = false;
+        player.GetComponent<PlayerController>().steps.Stop();
         player.GetComponent<PlayerController>().enabled = false;
     }
 
-    public void EnableCopntroller()
+    public void EnableController()
     {
         player.GetComponent<Animator>().enabled = true;
         player.GetComponent<PlayerController>().enabled = true;
@@ -31,7 +32,7 @@ public class PlayerManager : MonoBehaviour
 
     
 
-    public void goToCheckPoint(Transform trans)
+    public void ToCheckPoint(Transform trans)
     {
         Instantiate(player, trans.position, trans.rotation);
     }
