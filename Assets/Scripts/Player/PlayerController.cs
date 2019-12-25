@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float Speed = 7.5f;
     public float RotationSpeed = 240.0f;
-    public float moveDelay = 0.3f;
+    public float MOVEDELAY;
+    private float delay;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 move;
     private Vector3 camForward_Dir;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
+        delay = MOVEDELAY;
 
         snow = GameObject.Find("Snow");
         if (snow != null)
@@ -72,8 +74,8 @@ public class PlayerController : MonoBehaviour
         CheckAudio();
 
         // Compruba si hay algun input
-        if (CheckInput()) moveDelay -= Time.deltaTime;
-        else moveDelay = 0.3f;
+        if (CheckInput()) delay -= Time.deltaTime;
+        else delay = MOVEDELAY;
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour
 
         moveDir.y -= gravity * Time.deltaTime;
 
-        if (moveDelay <= 0f) 
+        if (delay <= 0f) 
             characterController.Move(moveDir * Time.deltaTime);
 
         if (snow != null)
