@@ -5,26 +5,28 @@ using UnityEngine;
 
 public class TuttiMovement : MonoBehaviour
 {
-    private Vector3 objective = Vector3.zero;
+    public Vector3 target = Vector3.zero;
     
     private const float SPEED = 5f;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (objective != Vector3.zero) {
+        if (target != Vector3.zero) {
             float step = SPEED * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, objective, step);
+            transform.position = Vector3.MoveTowards(transform.position, target, step);
+        }
+
+        if (Vector3.Distance(transform.position, target) < 0.001f)
+        {
+            GameManager.instance.blackBars.GetComponent<CinematicBars>().Hide(.3f);
+            PlayerManager.instance.EnableController();
+            CameraManager.instance.EnableController();
+            Destroy(gameObject);
         }
     }
 
-    public void SetPoints(Vector3 obj) {
-        objective = obj;
+    public void SetPoint(Vector3 obj) {
+        target = obj;
     }
 }

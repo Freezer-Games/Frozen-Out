@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float Speed = 7.5f;
     public float RotationSpeed = 240.0f;
+    public float MOVEDELAY;
+    private float delay;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 move;
     private Vector3 camForward_Dir;
@@ -41,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
-    private AudioSource steps;
+    public AudioSource steps;
 
     private GameObject snow;
 
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
+        delay = MOVEDELAY;
 
         snow = GameObject.Find("Snow");
         if (snow != null)
@@ -69,6 +72,10 @@ public class PlayerController : MonoBehaviour
 
         // Reproduce o para el sonido de pisadas
         CheckAudio();
+
+        // Compruba si hay algun input
+        if (CheckInput()) delay -= Time.deltaTime;
+        else delay = MOVEDELAY;
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
@@ -101,8 +108,8 @@ public class PlayerController : MonoBehaviour
 
         moveDir.y -= gravity * Time.deltaTime;
 
-        StartCoroutine(MoveCoroutine(moving));
-        characterController.Move(moveDir * Time.deltaTime);
+        if (delay <= 0f) 
+            characterController.Move(moveDir * Time.deltaTime);
 
         if (snow != null)
         {
@@ -165,6 +172,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool CheckInput() {
+        if (Input.GetKey(GameManager.instance.forward) ||
+            Input.GetKey(GameManager.instance.backward) ||
+            Input.GetKey(GameManager.instance.left) ||
+            Input.GetKey(GameManager.instance.right))
+            {
+                return true;
+            }
+        
+        return false;
+    }
+
     private void MovementCalculation()
     {
         h = 0;
@@ -222,11 +241,5 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
-    }
-
-    IEnumerator MoveCoroutine(bool active)
-    {
-        if (active) yield return new WaitForSeconds(movementDelay);
-        yield return null;
     }
 }

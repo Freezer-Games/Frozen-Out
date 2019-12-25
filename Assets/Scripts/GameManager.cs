@@ -20,16 +20,17 @@ public class GameManager : MonoBehaviour
     public float volume;
 
     public static GameManager instance;
-    public GameObject playerObject;
-    public PlayerManager playerManager;
-    private PlayerController playerController;
 
-    public bool inCinematic = false;
+    public GameObject blackBars;
 
     void Awake()
     {
         MakeSingleton();
         AssignKeys();
+        try 
+        {
+            PlayerManager.instance.player = GameObject.Find("Pol");
+        } catch{}
     }
 
     void AssignKeys()
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         interact = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("InteractKey", "F"));
         missions = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("MissionsKey", "Tab"));
     }
+
     void Start()
     {
         menuopen = false;
@@ -79,7 +81,7 @@ public class GameManager : MonoBehaviour
             LocalizationManagerMenuPausa.instance.LoadLocalizedText("Menu_pausa_Default.json");
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            playerController = FindObjectOfType<PlayerController>();
+            PlayerManager.instance.player = GameObject.Find("Pol");
         }
         /*else if (scene.buildIndex == 1)
         {
