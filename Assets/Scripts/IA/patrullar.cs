@@ -65,8 +65,7 @@ public class patrullar : MonoBehaviour
                     agent.destination = gameObject.transform.position;
                     hablar = true;
                 }
-                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = Estados.patrullando; Debug.Log("hola"); }
-                Debug.Log(agent.destination);
+                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = Estados.patrullando; }
                 break;
 
             case Estados.esperar:

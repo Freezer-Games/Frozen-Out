@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Yarn.Unity;
+using Assets.Scripts.Dialogue;
 
 public class Irse : MonoBehaviour
 {
@@ -13,17 +13,17 @@ public class Irse : MonoBehaviour
 
     [SerializeField]
     private string ValueDialog;
-    VariableStorageBehaviour variableStorageYarn;
+    VariableStorageYarn variableStorageYarn;
     
     void Start()
     {
-        variableStorageYarn = FindObjectOfType<VariableStorageBehaviour>();
+        variableStorageYarn = FindObjectOfType<VariableStorageYarn>();
         agent = gameObject.GetComponent<NavMeshAgent>();
     }
     
     void Update()
     {
-        if (!objetivo && variableStorageYarn.GetValue(ValueDialog) != Yarn.Value.NULL) {
+        if (!objetivo && variableStorageYarn.GetBoolValue(ValueDialog) == true) {
             agent.destination = destino.position;
             objetivo = true;
         }
