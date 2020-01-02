@@ -1,20 +1,7 @@
-title: Historia1
----
-<<if visited("Historia1") is false>>
-	Yell: Oye, se ha ido un tutti colina arriba.
-	Yell: Salía de tu cubitera, parecía ir con prisa.
-	Pol: De verdad? mm...
-	Pol: (Debería ver donde ha ido)
-	Pol: (sigue siendo mejor plan que ir a trabajar)
-<<else>>
-	Yell: No he visto mucho más, lo siento
-	Pol: (Debería ver donde ha ido)
-<<endif>>
-===
-title: Historia2_Guardia
+title: Alfrio
 ---
 Pol: Buenos días.
-<<if visited("Historia2_Guardia") is false>>
+<<if visited("Alfrio") is false>>
 	Alfrio: Adónde te crees que vas? Esta es mi calle.
 	Pol: ¿Qué calle? Si es un pasillo de nieve.
 	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
@@ -33,9 +20,9 @@ Pol: Buenos días.
 	<<set $Guard_Moves to true>>
 <<endif>>
 ===
-title: Historia3
+title: Alof
 ---
-<<if visited("Historia3") is false>>
+<<if visited("Alof") is false>>
 	Pol: Buenos días.
 	Pol: Huele muy bien por aquí.
 	Alof: Gracias, son mis confituras heladas.
@@ -50,27 +37,28 @@ title: Historia3
 	Pol: (...)
 <<endif>>
 	
-<<if visited("Historia2")>>
+<<if visited("Alfrio")>>
 	Pol: Quiénes eran tus nietos, por cierto?
-	Alof: Seguro que los has visto, mi Alfrio siempre anda en <i>su</i> calle.
-	Alof: Mi pequeño azul Fries siempre está metido en problemas, no sé donde estará ahora.
+	Alof: Seguro que los has visto, mi Alfrio siempre anda por <i>su</i> calle.
+	Alof: Mi pequeño azul Fries siempre está metido en problemas, no sé dónde estará ahora.
 <<endif>>
 ===
-title: Historia4_Guardia
+title: Fries
 ---
-<<if visited("Historia4_Guardia") is false>>
+<<if visited("Fries") is false>>
 	Fries: Dejadme en paz, sólo quería ir a ver a mis amigos.
 	Guardia: Vamos, dinos dónde guardas tu comida.
 	Fries: No es vuestra, nunca os lo diré.
 <<endif>>
 
 <<if $fries_saved is false>>
-	Guardia: ¿Tienes algun problema, rojito?.
+	Guardia: ¿Tienes algún problema, rojito?.
 <<endif>>
 
-<<if visited("Guardia1") is false>>
+<<if visited("GuardiaNevera") is false>>
 	Pol: No, no, nada, solo pasaba por aquí.
 <<else>>
+	<<set $fries_saved to true>>
 	Pol: La verdad es que parece que hay algún problema en la nevera...
 	Pol: Algo que ver con las <b>raciones</b>.
 	Guardia: ¿Las raciones? ¡¿Mis <b>raciones</b>?!
@@ -82,12 +70,11 @@ title: Historia4_Guardia
 	Fries: Ya no puedo salir de casa con mis confituras sin que me moleste.
 	Fries: Las tengo bien guardadas, pero te voy a dar una por ayudarme.
 	Pol: ¿De verdad? Vaya, gracias, las dejas en buenas manos.
-	<<set $fries_saved to true>>
 <<endif>>
 ===
-title: Guardia1
+title: GuardiaNevera
 ---
-<<if visited("Guardia1") is false>>
+<<if visited("GuardiaNevera") is false>>
 	Pol: Buenos días, guardia. ¿Alguna novedad?
 	Guardia: No que yo sepa.
 	Pol: ¿Por casualidad ha visto pasar a algún tutti por aquí?
@@ -101,3 +88,8 @@ title: Guardia1
 	Guardia: No hemos perdido nada, y mucho menos nuestras raciones...
 	Pol: Nunca dudo de vuestra competencia, señor.
 <<endif>>
+===
+title: Ele
+---
+Ele: ¡Vaya salto ha dado! No sabia que se podía hacer eso
+Pol: (Tendré que buscar otra forma de llegar al otro lado)

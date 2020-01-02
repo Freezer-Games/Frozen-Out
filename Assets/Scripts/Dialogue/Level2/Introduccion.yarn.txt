@@ -1,13 +1,40 @@
+title: Despertando
+---
+Pol: ¿Qué ha pasado? Apenas recuerdo nada...
+Pol: ¿Mmmm?
+Pol: ¡Eeh! ¿Quién eres? ¿Adonde vas?
+===
 title: Introduccion
 ---
-<<if $introduccion_Completada is true>>
-	Yell: No he visto mucho más, lo siento
-	Pol: (Debería ver dónde ha ido)
-<<else>>
+<<if visited("Introduccion") is false>>
+	<<set $Tutti_Escape1 to true>>
 	Yell: Oye, se ha ido un tutti colina arriba.
 	Yell: Salía de tu cubitera, parecía ir con prisa.
 	Pol: ¿De verdad? Mmm...
 	Pol: (Debería ver dónde ha ido)
 	Pol: (sigue siendo mejor plan que ir a trabajar)
 	<<set $introduccion_Completada to true>>
+<<else>>
+	Yell: No he visto mucho más, lo siento
+	Pol: (Debería ver dónde ha ido)
 <<endif>>
+===
+title: Albert
+---
+<<if visited("Albert") is false>>
+	Pol: Disculpe, ¿ha visto…?
+	Albert: ¿Que si he visto qué? No sé de qué me estás hablando.
+	Pol: Que si ha visto un polo…
+	Albert: ¿Un polo? Yo no sé de polos. Salvo que yo soy uno. O eso creo.
+	Albert: Deberías preguntarle a ese de ahí. Puede que sepa algo. O no.
+<<endif>>
+Pol: Emm.. gracias.
+===
+title: Ramon
+---
+<<if visited("Ramon") is false>>
+	Pol: Disculpe, ¿ha visto por casualidad a un polo blanco con tropezones de fruta pasar por aquí?
+	Ramón: Sí, iba con mucha prisa en esa dirección.
+	Ramón: Me pregunto qué le ocurrirá. Nunca lo había visto por aquí.
+<<endif>>
+Pol: Muchas gracias.
