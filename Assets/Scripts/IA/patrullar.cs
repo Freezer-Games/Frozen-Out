@@ -53,7 +53,7 @@ public class patrullar : MonoBehaviour
                     hablar = false;
                     estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia")
+                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia"))
                 {
                     agent.destination = visibles[0].position;
                 }
@@ -65,8 +65,7 @@ public class patrullar : MonoBehaviour
                     agent.destination = gameObject.transform.position;
                     hablar = true;
                 }
-                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = Estados.patrullando; Debug.Log("hola"); }
-                Debug.Log(agent.destination);
+                if (visibles.Count == 0 && agent.destination == gameObject.transform.position) { estado = Estados.patrullando; }
                 break;
 
             case Estados.esperar:

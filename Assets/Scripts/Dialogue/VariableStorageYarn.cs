@@ -63,7 +63,7 @@ namespace Assets.Scripts.Dialogue
             SetValue(variableName, yarnValue: yarnValue);
         }
 
-        public string AddLeading(string variableName)
+        private string AddLeading(string variableName)
         {
             return "$" + variableName;
         }
