@@ -25,6 +25,6 @@ public class mineguard : MonoBehaviour
             hablado = true;
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
         }
-        Debug.Log(FindObjectOfType<Game>().ListaObjetos.Count);
+        // Debug.Log(FindObjectOfType<Game>().ListaObjetos.Count);
     }
 }

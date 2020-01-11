@@ -63,11 +63,13 @@ namespace Assets.Scripts.Dialogue
 
             otherNameText.text = "";
             otherDialogueText.text = "";
+
+            continuePrompt.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("NextDialogueKey", "Space") + LocalizationManager.instance.GetLocalizedValue("continue");
         }
 
         void FixedUpdate()
         {
-            if (dialogueSystem.isDialogueRunning && Input.anyKey)
+            if (dialogueSystem.isDialogueRunning && Input.GetKey(GameManager.GetPlayerPrefsKey("NextDialogueKey", "Space")))
             {
                 localDelay /= localDelayMultiplier;
             }
@@ -126,7 +128,7 @@ namespace Assets.Scripts.Dialogue
                 continuePrompt.gameObject.SetActive(true);
             }
 
-            while (!Input.anyKeyDown)
+            while (!Input.GetKeyDown(GameManager.GetPlayerPrefsKey("NextDialogueKey", "Space")))
             {
                 yield return null;
             }

@@ -31,9 +31,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  bendSpeed: 2.5
   RotationSpeed: 240
+  MOVEDELAY: 0
+  closeRadius: 0
   JumpForce: 7
+  bendSpeed: 2.5
+  steps: {fileID: 0}
 --- !u!114 &1288863470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +54,20 @@ MonoBehaviour:
   PolPalo: {fileID: 846946049662625409}
   _brushSize: 2
   _brushStrength: 0.8
+--- !u!114 &6108938946683863843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4101384543429434634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf403578897a2c947af03bb3b4431057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 4101384543429434634}
+  inCinematic: 0
 --- !u!1001 &5461431027650839555
 PrefabInstance:
   m_ObjectHideFlags: 0

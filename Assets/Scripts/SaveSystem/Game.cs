@@ -29,6 +29,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
 
     public void SaveGame() {
@@ -124,7 +125,9 @@ public class Game : MonoBehaviour
         }
         loading2 = 1;
     }
-    private void OnLevelWasLoaded(int level)
+
+    // Alternativa a OnLevelWasLoaded(int), el cual esta en desuso
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (GameObject.Find("POL") != null)
         {

@@ -21,22 +21,41 @@ public class ControlsCanvas : MonoBehaviour
 
         for (int i = 0; i<menuPanel.childCount; i++)
         {
-            if (menuPanel.GetChild(i).name=="ForwardKey"){
+            if (menuPanel.GetChild(i).name == "ForwardKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.forward.ToString();
-            }else if (menuPanel.GetChild(i).name=="BackKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "BackKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.backward.ToString();
-            }else if (menuPanel.GetChild(i).name=="LeftKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "LeftKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.left.ToString();
-            }else if (menuPanel.GetChild(i).name=="RightKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "RightKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.right.ToString();
-            }else if (menuPanel.GetChild(i).name=="JumpKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "JumpKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.jump.ToString();
-            }else if (menuPanel.GetChild(i).name == "CrouchKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "CrouchKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.crouch.ToString();
-            }else if (menuPanel.GetChild(i).name == "InteractKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "InteractKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.interact.ToString();
-            }else if (menuPanel.GetChild(i).name == "MissionsKey"){
+            }
+            else if (menuPanel.GetChild(i).name == "MissionsKey")
+            {
                 menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.missions.ToString();
+            }
+            else if (menuPanel.GetChild(i).name == "NextDialogueKey")
+            {
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = GameManager.instance.nextDialogue.ToString();
             }
 
         }
@@ -59,7 +78,7 @@ public class ControlsCanvas : MonoBehaviour
         if(!waitingForKey){StartCoroutine(AssignKey(keyName));}
     }
 
-    public void sendText(Text text)
+    public void SendText(Text text)
     {
         buttonText = text;
     }
@@ -116,6 +135,11 @@ public class ControlsCanvas : MonoBehaviour
                 GameManager.instance.missions = newKey;
                 buttonText.text = GameManager.instance.missions.ToString();
                 PlayerPrefs.SetString("MissionsKey", GameManager.instance.missions.ToString());
+                break;
+            case "nextDialogue":
+                GameManager.instance.nextDialogue = newKey;
+                buttonText.text = GameManager.instance.nextDialogue.ToString();
+                PlayerPrefs.SetString("NextDialogueKey", GameManager.instance.missions.ToString());
                 break;
 
         }
