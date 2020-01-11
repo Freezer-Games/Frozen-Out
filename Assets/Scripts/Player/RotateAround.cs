@@ -33,7 +33,7 @@ public class RotateAround : MonoBehaviour
 
     void LateUpdate() 
     {
-        RotateUpdater();
+        RotateUpdater(); 
     }
 
     void RotateUpdater()
