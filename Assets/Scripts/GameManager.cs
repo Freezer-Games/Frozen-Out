@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public KeyCode left { get; set; }
     public KeyCode crouch { get; set; }
     public KeyCode interact { get; set; }
+    public KeyCode nextDialogue { get; set; }
     public KeyCode missions { get; set; }
     public bool menuopen;
 
@@ -35,14 +36,19 @@ public class GameManager : MonoBehaviour
 
     void AssignKeys()
     {
-        jump = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("jumpKey", "Space"));
-        forward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey", "W"));
-        backward = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("backwardKey", "S"));
-        right = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey", "D"));
-        left = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey", "A"));
-        crouch = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("CrouchKey", "LeftControl"));
-        interact = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("InteractKey", "F"));
-        missions = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("MissionsKey", "Tab"));
+        jump = GetPlayerPrefsKey("jumpKey", "Space");
+        forward = GetPlayerPrefsKey("forwardKey", "W");
+        backward = GetPlayerPrefsKey("backwardKey", "S");
+        right = GetPlayerPrefsKey("rightKey", "D");
+        left = GetPlayerPrefsKey("leftKey", "A");
+        crouch = GetPlayerPrefsKey("CrouchKey", "LeftControl");
+        interact = GetPlayerPrefsKey("InteractKey", "F");
+        nextDialogue = GetPlayerPrefsKey("NextDialogueKey", "Space");
+        missions = GetPlayerPrefsKey("MissionsKey", "Tab");
+    }
+
+    public static KeyCode GetPlayerPrefsKey(string name, string defaultValue) {
+        return (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(name, defaultValue));
     }
 
     void Start()
