@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
 
+    public ParticleSystem dust;
+
     [Header("Movement")]
     public float Speed = 7.5f;
     public float RotationSpeed = 240.0f;
@@ -186,6 +188,7 @@ public class PlayerController : MonoBehaviour
 
     private void MovementCalculation()
     {
+       
         h = 0;
         v = 0;
         if (Input.GetKey(GameManager.instance.forward)) { v++; } else if (Input.GetKey(GameManager.instance.backward)) { v--; }
@@ -232,6 +235,7 @@ public class PlayerController : MonoBehaviour
 
     protected virtual PlayerControllerEventArgs OnMoving()
     {
+        
         PlayerControllerEventArgs e = new PlayerControllerEventArgs();
         Moving?.Invoke(this, e);
         return e;
@@ -241,5 +245,9 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
+    }
+    void CreateDust(){
+        dust.Play();
+
     }
 }
