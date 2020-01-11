@@ -15,17 +15,19 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem dust;
 
     [Header("Movement")]
-    public float Speed = 7.5f;
+    public float Speed;
+    private const float MAX_SPEED = 7.5f;
+    private const float MIN_SPEED = 0.5f;
     public float RotationSpeed = 240.0f;
-    public float MOVEDELAY;
-    private float delay;
+    //public float MOVEDELAY;
+    //private float delay;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 move;
     private Vector3 camForward_Dir;
     private float h, v;
     private bool moving => move.magnitude > 0;
     public int closeRadius;
-    private const float movementDelay = 0.333f;
+    //private const float movementDelay = 0.333f;
 
     [Header("Jump")]
     public float JumpForce = 10.0f;
@@ -59,7 +61,8 @@ public class PlayerController : MonoBehaviour
         center = characterController.center;
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
-        delay = MOVEDELAY;
+        //delay = MOVEDELAY;
+        Speed = MIN_SPEED;
 
         snow = GameObject.Find("Snow");
         if (snow != null)
@@ -75,9 +78,13 @@ public class PlayerController : MonoBehaviour
         // Reproduce o para el sonido de pisadas
         CheckAudio();
 
-        // Comprueba si hay algun input
-        if (CheckInput()) delay -= Time.deltaTime;
-        else delay = MOVEDELAY;
+        // Compruba si hay algun input
+        if (CheckInput()) 
+        {
+            if (Speed > MAX_SPEED) Speed = MAX_SPEED;
+            Speed += 0.5f;
+        }
+        else Speed = MIN_SPEED;
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
@@ -110,8 +117,7 @@ public class PlayerController : MonoBehaviour
 
         moveDir.y -= gravity * Time.deltaTime;
 
-        if (delay <= 0f) 
-            characterController.Move(moveDir * Time.deltaTime);
+        characterController.Move(moveDir * Time.deltaTime);
 
         if (snow != null)
         {
