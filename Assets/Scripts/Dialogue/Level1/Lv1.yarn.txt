@@ -1,13 +1,6 @@
-title: PolDespierto
+title: Gnum
 ---
-Pol: <size=30>A</size><size=25>A</size><size=15>a</size><size=20>a</size><size>h, ¡qué bien he dormido!
-Pol: Qué bonito día. Vamos a ver qué se cuece.
-Pol: Espero que nadie…
-Pol: Je, je
-===
-title: Lore1
----
-<<if visited("Lore1") is false>>
+<<if visited("Gnum") is false>>
     Pol: ¡Buenos días!
 	Gnum: <i>Buenos</i> lo serán para ti.
 	Pol: (Oh, vaya...)
@@ -15,17 +8,17 @@ title: Lore1
     Pol: ¡Buenos...! <size=10>em...</size> (mejor lo dejo)
 <<endif>>
 ===
-title: Lore2
+title: Frig
 ---
-<<if visited("Lore2") is false>>
+<<if visited("Frig") is false>>
     Pol: ¡Buenos días!
     Frig: Hey, menudo <b><color=red>calor</color></b> que hace, ¿no?
     Frig: Debería volver adentro...
 <<endif>>
 ===
-title: Lore3
+title: Lor
 ---
-<<if visited("Lore3") is false>>
+<<if visited("Lor") is false>>
 	Pol: ¡Buenos días!
 	Lor: <size=25>Sí claro, ¿acaso has visto lo que el alcalde</size> ha…
 	Lor: (...)
@@ -36,15 +29,3 @@ title: Lore3
 <<else>>
 	Lor: Pues eso, que aquí no se puede hablar.
 <<endif>>
-===
-title: Lore4
----
-Pirulo: La comida escasea, nos estamos volviendo locos.
-Pirulo: como puede haber gente aprendiendo recetas exquisitas en estos momentos?
-
-<<if visited("Historia2") is false>>
-	Pol: Es todo muy esperpéntico
-<<else>>
-	Pol: (Espero que esté hablando de quien yo se)
-<<endif>>
-===

@@ -1,28 +1,29 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Yarn.Unity;
+using Assets.Scripts.Dialogue;
 
-public class irse1 : MonoBehaviour
+public class Irse : MonoBehaviour
 {
     public Transform destino;
     private NavMeshAgent agent;
+
     private bool objetivo = false;
+
     [SerializeField]
     private string ValueDialog;
-    VariableStorageBehaviour variableStorageYarn;
-    // Start is called before the first frame update
+    VariableStorageYarn variableStorageYarn;
+    
     void Start()
     {
-        variableStorageYarn = FindObjectOfType<VariableStorageBehaviour>();
+        variableStorageYarn = FindObjectOfType<VariableStorageYarn>();
         agent = gameObject.GetComponent<NavMeshAgent>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        if (variableStorageYarn.GetValue(ValueDialog) != Yarn.Value.NULL && !objetivo) {
+        if (!objetivo && variableStorageYarn.GetBoolValue(ValueDialog) == true) {
             agent.destination = destino.position;
             objetivo = true;
         }

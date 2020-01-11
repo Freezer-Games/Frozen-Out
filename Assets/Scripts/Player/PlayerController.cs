@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         snow = GameObject.Find("Snow");
         if (snow != null)
         {
-            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+            snow.transform.position = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z);
         }
     }
 
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         if (snow != null)
         {
-            snow.transform.position = new Vector3(transform.position.x, snow.transform.position.y, transform.position.z);
+            snow.transform.position = new Vector3(transform.position.x, transform.position.y + 10, transform.position.z);
         }
     }
 
