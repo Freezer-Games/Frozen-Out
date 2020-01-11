@@ -11,12 +11,13 @@ public class TuttiMomento : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (!repeated && other.gameObject.tag == "Player") 
+        if (/*!repeated &&*/ other.gameObject.CompareTag("Player")) 
         {
             PlayerManager.instance.DisableController();
-            CameraManager.instance.DisableController();
             PlayerManager.instance.inCinematic = true;
-
+            CameraManager.instance.DisableController();
+            
+            
             GameManager.instance.blackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
 
             repeated = true;

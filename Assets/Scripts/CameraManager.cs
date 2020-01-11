@@ -9,6 +9,8 @@ public class CameraManager : MonoBehaviour
     public GameObject cameraBase;
     public GameObject auxCamPos;
 
+    public Camera auxCam;
+
     private DialogueRunner dialogueSystemYarn;
     public const float NORMALFOV = 60f;
     public const float DIALOGFOV = 30f;
@@ -45,14 +47,9 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate() 
     {
-        cinematicPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
         if (PlayerManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
         {
             ChangeToCinematic();
-        }
-        else 
-        {
-            
         }
     }
 
@@ -71,19 +68,33 @@ public class CameraManager : MonoBehaviour
 
     void ChangeToCinematic() 
     {
-        Debug.Log("haciendo el cambio");
         //cam.transform.position = Vector3.Lerp(cam.transform.position, cinemaPos.position, transitionSpeed*Time.deltaTime);
-        cameraBase.transform.position = cinematicPos.position;
+        Camera.main.transform.position = cinematicPos.position;
+        auxCam = Instantiate(gameObject.AddComponent<Camera>(), Camera.main.transform.position, Camera.main.transform.rotation);
+        Camera.main.enabled = false;
+        try {
+            auxCam.transform.LookAt(GameObject.Find("TUTTI_EJEMPLO(Clone)").transform);
+        } catch {}
+
+    }
+
+    public void ChangeToNormal()
+    {
+        Camera.main.enabled = true;
+        auxCam.enabled = false;
+        Destroy(auxCam);
     }
 
     public void DisableController()
     {
         cameraBase.GetComponent<CameraFollow>().enabled = false;
+        auxCamPos.GetComponent<RotateAround>().enabled = false;
     }
 
     public void EnableController()
     {
         cameraBase.GetComponent<CameraFollow>().enabled = true;
+        auxCamPos.GetComponent<RotateAround>().enabled = true;
     }
 
     protected void MakeSingleton()
