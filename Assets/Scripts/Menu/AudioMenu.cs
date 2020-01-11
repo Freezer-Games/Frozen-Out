@@ -11,20 +11,17 @@ public class AudioMenu : MonoBehaviour
     void Start()
     {
         float volumen = PlayerPrefs.GetFloat("volume", 100);
-        audioslider.value = volumen;
+        ChangeVolume(volumen);
+
+        audioslider.value = volumen;  
+        audioslider.onValueChanged.AddListener(nuevoVolumen => ChangeVolume(nuevoVolumen));
     }
 
-    void changevolume(float newVolume)
+    private void ChangeVolume(float newVolume)
     {
         PlayerPrefs.SetFloat("volume", newVolume);
-        AudioListener.volume = PlayerPrefs.GetFloat("volume");
+        AudioListener.volume = Mathf.Clamp(PlayerPrefs.GetFloat("volume") / 100f, 0, 1);
         volumelevel.text = audioslider.value.ToString();
         GameManager.instance.volume = newVolume;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        changevolume(audioslider.value);
     }
 }
