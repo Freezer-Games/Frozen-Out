@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
         // Reproduce o para el sonido de pisadas
         CheckAudio();
 
-        // Compruba si hay algun input
+        // Comprueba si hay algun input
         if (CheckInput()) delay -= Time.deltaTime;
         else delay = MOVEDELAY;
 
