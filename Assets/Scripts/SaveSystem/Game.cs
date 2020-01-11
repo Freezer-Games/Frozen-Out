@@ -29,6 +29,7 @@ public class Game : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
 
     public void SaveGame() {
@@ -88,11 +89,11 @@ public class Game : MonoBehaviour
         string pathM = Application.persistentDataPath + "/Misions.sv";
         if (File.Exists(pathM))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(pathM, FileMode.Open);
-
-            Missions = formatter.Deserialize(stream) as Dictionary<string, Mision>;
-            stream.Close();
+            using (FileStream stream = new FileStream(pathM, FileMode.Open))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                Missions = formatter.Deserialize(stream) as Dictionary<string, Mision>;
+            }
             GameObject.FindObjectOfType<MissionsCanvas>().Missions = Missions;
             GameObject.FindObjectOfType<MissionsCanvas>().ActualizarMisiones();
         }
@@ -124,7 +125,9 @@ public class Game : MonoBehaviour
         }
         loading2 = 1;
     }
-    private void OnLevelWasLoaded(int level)
+
+    // Alternativa a OnLevelWasLoaded(int), el cual esta en desuso
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (GameObject.Find("POL") != null)
         {

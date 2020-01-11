@@ -81,9 +81,11 @@ public class Menu : MonoBehaviour
 
     private void Exit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.ExitPlaymode();
+#endif
         Application.Quit();
     }
-
 
     // Update is called once per frame
     void Update()

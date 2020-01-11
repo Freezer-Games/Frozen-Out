@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraColl : MonoBehaviour
 {
     public float minDistance = 1.0f;
-    public float maxDistance = 4.0f;
+    public float maxDistance = 10.0f;
     public float smooth = 10.0f;
     Vector3 dollyDir;
     public Vector3 dollyDirAdjusted;
@@ -24,7 +24,7 @@ public class CameraColl : MonoBehaviour
 
         if (Physics.Linecast(transform.parent.position, desiredCamPos, out hit)) 
         {   
-            if (hit.collider.gameObject.tag != "Trigger" || hit.collider.gameObject.tag != "NPC")
+            if (hit.collider.gameObject.CompareTag("Trigger") || hit.collider.gameObject.CompareTag("NPC"))
                 distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
         else 

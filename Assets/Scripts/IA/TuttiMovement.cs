@@ -20,8 +20,10 @@ public class TuttiMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, target) < 0.001f)
         {
             GameManager.instance.blackBars.GetComponent<CinematicBars>().Hide(.3f);
+            CameraManager.instance.ChangeToNormal();
             PlayerManager.instance.EnableController();
             CameraManager.instance.EnableController();
+            PlayerManager.instance.inCinematic = false;
             Destroy(gameObject);
         }
     }
