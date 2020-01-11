@@ -89,11 +89,11 @@ public class Game : MonoBehaviour
         string pathM = Application.persistentDataPath + "/Misions.sv";
         if (File.Exists(pathM))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(pathM, FileMode.Open);
-
-            Missions = formatter.Deserialize(stream) as Dictionary<string, Mision>;
-            stream.Close();
+            using (FileStream stream = new FileStream(pathM, FileMode.Open))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                Missions = formatter.Deserialize(stream) as Dictionary<string, Mision>;
+            }
             GameObject.FindObjectOfType<MissionsCanvas>().Missions = Missions;
             GameObject.FindObjectOfType<MissionsCanvas>().ActualizarMisiones();
         }
