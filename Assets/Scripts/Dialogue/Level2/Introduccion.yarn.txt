@@ -5,37 +5,49 @@ Pol: ¿Mmmm?
 Pol: ¡Eeh! ¿Quién eres? ¿Adonde vas?
 ===
 title: Introduccion
+animator_name: PACO
 ---
 <<if visited("Introduccion") is false>>
 	<<set $Tutti_Escape1 to true>>
+	<<setanim PACO Awaken>>
 	Yell: Oye, se ha ido un tutti colina arriba.
 	Yell: Salía de tu cubitera, parecía ir con prisa.
+	<<setanim PACO Agree_1>>
 	Pol: ¿De verdad? Mmm...
+	<<setanim PACO Agree_1>>
 	Pol: (Debería ver dónde ha ido)
 	Pol: (sigue siendo mejor plan que ir a trabajar)
 	<<set $introduccion_Completada to true>>
 <<else>>
+	<<setanim PACO Agree_2>>
 	Yell: No he visto mucho más, lo siento
 	Pol: (Debería ver dónde ha ido)
 <<endif>>
 ===
 title: Albert
+animator_name: ALBERT
 ---
-<<setanim ALBERT Awaken>>
 <<if visited("Albert") is false>>
 	Pol: Disculpe, ¿ha visto…?
+	<<setanim ALBERT Awaken>>
 	Albert: ¿Que si he visto qué? No sé de qué me estás hablando.
 	Pol: Que si ha visto un polo…
+	<<setanim ALBERT Denial_1>>
 	Albert: ¿Un polo? Yo no sé de polos. Salvo que yo soy uno. O eso creo.
+	<<setanim ALBERT Agree_1>>
 	Albert: Deberías preguntarle a ese de ahí. Puede que sepa algo. O no.
 <<endif>>
 Pol: Emm.. gracias.
 ===
 title: Ramon
+animator_name: RAMON
 ---
 <<if visited("Ramon") is false>>
 	Pol: Disculpe, ¿ha visto por casualidad a un polo blanco con tropezones de fruta pasar por aquí?
+	<<setanim RAMON Agree_2>>
 	Ramón: Sí, iba con mucha prisa en esa dirección.
+	<<setanim RAMON Denial_2>>
 	Ramón: Me pregunto qué le ocurrirá. Nunca lo había visto por aquí.
 <<endif>>
 Pol: Muchas gracias.
+<<setanim RAMON Awaken>>
