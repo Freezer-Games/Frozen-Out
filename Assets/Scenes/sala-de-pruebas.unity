@@ -4733,7 +4733,7 @@ ParticleSystem:
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -5352,7 +5352,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: -0.00000034046923, z: -1.078437}
+    m_Position: {x: 0, y: -0.0000003806357, z: -0.74149626}
     m_Rotation: {x: -0, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -12206,6 +12206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraBase: {fileID: 0}
   auxCamPos: {fileID: 0}
+  auxCam: {fileID: 0}
   normalPos: {fileID: 929607595}
   cinematicPos: {fileID: 1740881992}
 --- !u!4 &1811344963
@@ -12416,7 +12417,7 @@ ParticleSystemRenderer:
   m_GameObject: {fileID: 1842613861}
   m_Enabled: 1
   m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 0
@@ -12424,7 +12425,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6ed03fbff97393e439504298a83d98fe, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -12445,7 +12446,7 @@ ParticleSystemRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_RenderMode: 0
+  m_RenderMode: 3
   m_SortMode: 0
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.5
@@ -12658,7 +12659,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.7735849, g: 0.27367392, b: 0.27367392, a: 1}
+      maxColor: {r: 0.9433962, g: 0.22694907, b: 0.22694907, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -12720,7 +12721,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.15
+      scalar: 1.2
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13102,8 +13103,8 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Rotation: {x: -0, y: 0, z: 0}
+    m_Scale: {x: 0.90162426, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -13309,20 +13310,20 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 2
-          outSlope: 2
+          inSlope: 3.333752
+          outSlope: 3.333752
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.21078432
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: 0.09845598
+          outSlope: 0.09845598
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.2745098
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -13423,17 +13424,17 @@ ParticleSystem:
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
-          time: 1
-          value: 0.14864922
-          inSlope: 1.6676393
-          outSlope: 1.6676393
+          time: 0.5882263
+          value: 0
+          inSlope: 0.0000054042002
+          outSlope: 0.0000054042002
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.7130977
-          outWeight: 0.33333334
+          inWeight: 0.50704014
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
