@@ -279,6 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia
   talkToNode: Reglas
+  prefabIndicator: {fileID: 0}
 --- !u!65 &5814269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -693,85 +694,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32265662}
-  m_CullTransparentMesh: 0
---- !u!1 &37383212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 37383213}
-  - component: {fileID: 37383215}
-  - component: {fileID: 37383214}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &37383213
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37383212}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1063539816}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &37383214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37383212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 150
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 150
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: New Text
---- !u!222 &37383215
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 37383212}
   m_CullTransparentMesh: 0
 --- !u!1001 &47021970
 PrefabInstance:
@@ -1892,6 +1814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia
   talkToNode: Guardia2
+  prefabIndicator: {fileID: 0}
 --- !u!114 &186814767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3167,6 +3090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Paco
   talkToNode: Introduccion
+  prefabIndicator: {fileID: 0}
 --- !u!54 &251222926
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4362,6 +4286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Alfrio
   talkToNode: Alfrio
+  prefabIndicator: {fileID: 0}
 --- !u!54 &376287644
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10854,6 +10779,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia
   talkToNode: Guardia3
+  prefabIndicator: {fileID: 0}
 --- !u!114 &998853043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11785,118 +11711,6 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: f3597f242ce7d0c45849e8d959f2ab10, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25f050637a1b5d94da222a6229bc0d80, type: 3}
---- !u!1 &1063539815
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1063539816}
-  - component: {fileID: 1063539819}
-  - component: {fileID: 1063539818}
-  - component: {fileID: 1063539817}
-  - component: {fileID: 1063539820}
-  m_Layer: 5
-  m_Name: Indicador
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1063539816
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063539815}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 37383213}
-  m_Father: {fileID: 1850402814}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.5}
-  m_SizeDelta: {x: 3, y: 1}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1063539817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063539815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &1063539818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063539815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
---- !u!223 &1063539819
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063539815}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 1
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &1063539820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063539815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e375a05731c02499fdaf8d3bdf82ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1074085254
 GameObject:
   m_ObjectHideFlags: 0
@@ -14179,6 +13993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Alof
+  prefabIndicator: {fileID: 0}
 --- !u!4 &1311938746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 405454fc694383447b0e1baee97a0332,
@@ -17163,6 +16978,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Ramon
   talkToNode: Ramon
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
 --- !u!54 &1421116216
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17238,6 +17055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Fries
+  prefabIndicator: {fileID: 0}
 --- !u!54 &1439252794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19793,6 +19611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia
   talkToNode: Guardia4
+  prefabIndicator: {fileID: 0}
 --- !u!114 &1761822762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20161,6 +19980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia1
   talkToNode: GuardiaNevera
+  prefabIndicator: {fileID: 0}
 --- !u!65 &1787970191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20912,6 +20732,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Albert
   talkToNode: Albert
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
 --- !u!54 &1850402816
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22612,6 +22434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Ele
+  prefabIndicator: {fileID: 0}
 --- !u!1001 &2096421933
 PrefabInstance:
   m_ObjectHideFlags: 0

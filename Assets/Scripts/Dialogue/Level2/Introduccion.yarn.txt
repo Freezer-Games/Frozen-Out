@@ -11,6 +11,7 @@ animator_name: PACO
 	<<set $Tutti_Escape1 to true>>
 	<<setanim PACO Awaken>>
 	Yell: Oye, se ha ido un tutti colina arriba.
+	<<setanim PACO Awaken>>
 	Yell: Salía de tu cubitera, parecía ir con prisa.
 	<<setanim PACO Agree_1>>
 	Pol: ¿De verdad? Mmm...
@@ -19,8 +20,9 @@ animator_name: PACO
 	Pol: (sigue siendo mejor plan que ir a trabajar)
 	<<set $introduccion_Completada to true>>
 <<else>>
-	<<setanim PACO Agree_2>>
+	<<setanim PACO Awaken>>
 	Yell: No he visto mucho más, lo siento
+	<<setanim PACO Agree_2>>
 	Pol: (Debería ver dónde ha ido)
 <<endif>>
 ===

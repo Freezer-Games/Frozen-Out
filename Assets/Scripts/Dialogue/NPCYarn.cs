@@ -12,13 +12,15 @@ namespace Assets.Scripts.Dialogue
         public string characterName = "";
         public string talkToNode = "";
 		
+		public GameObject prefabIndicator;
+		
 		private Animator npcAnimator;
-		private Canvas indicator;
+		private GameObject indicator;
 		
 		void Start()
 		{
 			npcAnimator = GetComponent<Animator>();
-			indicator = GetComponentInChildren<Canvas>();
+			indicator = CreateIndicator();
 			
 			if(characterName.Equals("")) {
 				characterName = talkToNode;
@@ -27,6 +29,12 @@ namespace Assets.Scripts.Dialogue
 			DialogueRunner dialogueSystem = FindObjectOfType<DialogueRunner>();
             dialogueSystem.Started += HideIndicatorWhenStarted;
 			dialogueSystem.Ended += ShowIndicatorWhenEnded;
+		}
+		
+		GameObject CreateIndicator() {
+			
+			return GameObject.Instantiate(prefabIndicator, transform);
+			
 		}
 		
 		[YarnCommand("setanim")]
@@ -44,7 +52,7 @@ namespace Assets.Scripts.Dialogue
         {
             if (indicator != null)
             {
-                indicator.enabled = false;
+                indicator.SetActive(false);
             }
         }
 		
@@ -52,7 +60,7 @@ namespace Assets.Scripts.Dialogue
         {
             if (indicator != null)
             {
-                indicator.enabled = true;
+                indicator.SetActive(true);
             }
         }
 		
