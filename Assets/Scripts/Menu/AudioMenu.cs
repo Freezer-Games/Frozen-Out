@@ -11,9 +11,10 @@ public class AudioMenu : MonoBehaviour
     void Start()
     {
         float volumen = PlayerPrefs.GetFloat("volume", 100);
+        
+        audioslider.value = volumen;
         ChangeVolume(volumen);
 
-        audioslider.value = volumen;  
         audioslider.onValueChanged.AddListener(nuevoVolumen => ChangeVolume(nuevoVolumen));
     }
 
