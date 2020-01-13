@@ -14,6 +14,7 @@ public class patrullar : MonoBehaviour
     enum Estados { patrullando, perseguir, esperar }
     Estados estado;
     bool hablar = false;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class patrullar : MonoBehaviour
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent.autoBraking = false;
         estado = Estados.patrullando;
+        animator = gameObject.GetComponent<Animator>();
     }
 
     void GotoNextPoint()
@@ -37,23 +39,32 @@ public class patrullar : MonoBehaviour
     {
         List<Transform> visibles = gameObject.GetComponent<FieldOfView>().visibleTargets;
         List<Transform> cercanos = gameObject.GetComponent<FieldOfView>().closeTargets;
+        patrulla(visibles,cercanos);
+        
+    }
+    void patrulla(List<Transform> visibles, List<Transform> cercanos) {
         switch (estado)
         {
             case Estados.patrullando:
+                animator.SetBool("isTrooping", true);
                 if (!agent.pathPending && agent.remainingDistance < 1f)
-                    GotoNextPoint();
+                GotoNextPoint();
                 if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia") && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
-                { estado = Estados.perseguir;}
+                { animator.SetBool("isTrooping", false); animator.Play("Sorpresa"); estado = Estados.perseguir; }
                 break;
 
             case Estados.perseguir:
                 if (hablar)
                 {
+                    animator.SetBool("isTrooping", true);
                     dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
                     hablar = false;
                     estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia"))
+                else if (visibles.Count > 0 &&
+                    cercanos.Count < 2 &&
+                    dialogueSystemYarn.isDialogueRunning &&
+                    dialogueSystemYarn.currentNodeName.Contains("Guardia"))
                 {
                     agent.destination = visibles[0].position;
                 }
@@ -69,7 +80,10 @@ public class patrullar : MonoBehaviour
                 break;
 
             case Estados.esperar:
+                animator.SetBool("isTrooping", false);
                 if (cercanos.Count == 0 && visibles.Count == 0) { estado = Estados.patrullando; }
+                if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia") && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
+                { animator.Play("Sorpresa"); estado = Estados.perseguir; }
                 break;
         }
     }

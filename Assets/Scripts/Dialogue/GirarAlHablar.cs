@@ -7,13 +7,11 @@ using Assets.Scripts.Dialogue;
 
 public class GirarAlHablar : MonoBehaviour
 {
-    private NavMeshAgent agent;
     private DialogueRunner dialogueSystemYarn;
     private NPCYarn npcYarn;
 
     private void Start()
     {
-        agent = gameObject.GetComponent<NavMeshAgent>();
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
     }
 

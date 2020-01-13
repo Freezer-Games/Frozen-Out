@@ -17,6 +17,7 @@ public class PatrullaCircular : MonoBehaviour
     Estados estado = Estados.patrullando;
     private DialogueRunner dialogueSystemYarn;
     bool hablar = false;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class PatrullaCircular : MonoBehaviour
         center.LookAt(gameObject.transform.position);
         radius = Vector3.Distance(gameObject.transform.position, center.transform.position);
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
+        animator = gameObject.GetComponent<Animator>();
     }
 
     void GotoNextPoint()
@@ -49,7 +51,7 @@ public class PatrullaCircular : MonoBehaviour
                 if (!agent.pathPending && agent.remainingDistance < 1f)
                     GotoNextPoint();
                 if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia") && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
-                { estado = Estados.perseguir; }
+                { animator.Play("Sorpresa"); estado = Estados.perseguir; }
                 break;
 
             case Estados.perseguir:

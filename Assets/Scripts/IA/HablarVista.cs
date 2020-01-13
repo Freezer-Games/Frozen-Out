@@ -18,6 +18,7 @@ public class HablarVista : MonoBehaviour
     [SerializeField]
     private Transform puesto;
     public string comprobador;
+    //private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class HablarVista : MonoBehaviour
         storageYarn = FindObjectOfType<VariableStorageYarn>();
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         agent = GetComponent<NavMeshAgent>();
+        //animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
