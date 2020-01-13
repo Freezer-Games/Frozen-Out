@@ -7,15 +7,18 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager instance;
     public GameObject cameraBase;
-    public Camera cinematicCamera;
     public GameObject auxCamPos;
 
+    [Header("Cameras")]
+    public GameObject mainCamera;
+    public GameObject cinematicCamera;
+    
     private DialogueRunner dialogueSystemYarn;
-    public const float NORMALFOV = 60f;
-    public const float DIALOGFOV = 30f;
-    private float currentFOV;
 
+
+    [Header("Camera positions")]
     public Transform normalPos;
+    
     public Transform cinematicPos;
 
     void Awake()
@@ -25,43 +28,24 @@ public class CameraManager : MonoBehaviour
             cameraBase = GameObject.Find("CameraBase");
             auxCamPos = GameObject.Find("AuxCamPos");
             normalPos = auxCamPos.transform.GetChild(1);
-            cinematicPos = GameObject.Find("CinemaCamBase").transform.GetChild(0);
+            cinematicPos = auxCamPos.transform.GetChild(0);
         } catch {}
     }
 
     void Start()
     {
-        currentFOV = NORMALFOV;
         try 
         {
             dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
         } catch {}
     }
 
-    void Update() 
-    {
-        //CameraDialogue();
-    }
-
     void LateUpdate() 
     {
-        if (PlayerManager.instance.inCinematic) //Input.GetKey(KeyCode.C)
+        if (PlayerManager.instance.inCinematic)
         {
             ChangeToCinematic();
         }
-    }
-
-    void CameraDialogue() {
-        if (dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName != "Guardia") 
-        {
-            if (currentFOV > DIALOGFOV) currentFOV -= 1;
-        }
-        else 
-        {
-            if (currentFOV < NORMALFOV) currentFOV += 1;
-         }
-
-        Camera.main.fieldOfView = currentFOV;
     }
 
     void ChangeToCinematic() 
@@ -86,15 +70,16 @@ public class CameraManager : MonoBehaviour
         auxCamPos.GetComponent<RotateAround>().enabled = true;
     }
 
-    public void CreateTemporalCamera() 
+    public void ToNormalCamera()
     {
-        Instantiate(cinematicCamera, cinematicPos.position, cinematicPos.rotation);
+        mainCamera.SetActive(true);
+        cinematicCamera.SetActive(false);
     }
 
-    public void UnableTemporalCamera() 
+    public void ToCinemaCamera()
     {
-        cinematicCamera.enabled = false;
-        Debug.Log("desactivando");
+        mainCamera.SetActive(false);
+        cinematicCamera.SetActive(true);
     }
 
     protected void MakeSingleton()

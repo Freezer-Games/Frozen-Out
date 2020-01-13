@@ -6,14 +6,20 @@ public class CineCamAim : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform target;
+    public Transform pos;
 
     // Update is called once per frame
     void Update()
     {
+        transform.position = pos.position;
         try {
-            target = GameObject.FindGameObjectWithTag("Temporal").transform;
             transform.LookAt(target);
         } catch {}
+    }
+
+    public void SetTarget(Transform t) 
+    {
+        target = t;
     }
 
 }
