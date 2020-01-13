@@ -280,6 +280,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Reglas
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 1
 --- !u!65 &5814269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1907,6 +1908,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia2
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 1
 --- !u!114 &186814767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3321,7 +3323,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Paco
   talkToNode: Introduccion
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &251222926
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4633,7 +4637,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Alfrio
   talkToNode: Alfrio
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 1
 --- !u!54 &376287644
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8146,7 +8152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraBase: {fileID: 1713196809}
   auxCamPos: {fileID: 536274836}
-  mainCamera: {fileID: 279282063}
+  mainCamera: {fileID: 0}
   cinematicCamera: {fileID: 215649881}
   normalPos: {fileID: 579774892}
   cinematicPos: {fileID: 49557247}
@@ -8395,22 +8401,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     - target: {fileID: 1809609804301122794, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 42b217eeb63a7f44a9b90236697d794f, type: 2}
-    - target: {fileID: -7268518656192969154, guid: b501f838ab3db1d4e9fe4225e07dbd11,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 42b217eeb63a7f44a9b90236697d794f, type: 2}
-    - target: {fileID: -1024276332641837666, guid: b501f838ab3db1d4e9fe4225e07dbd11,
+    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8421,6 +8417,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 42b217eeb63a7f44a9b90236697d794f, type: 2}
     - target: {fileID: 9129740222928811953, guid: b501f838ab3db1d4e9fe4225e07dbd11,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
+    - target: {fileID: -7268518656192969154, guid: b501f838ab3db1d4e9fe4225e07dbd11,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 42b217eeb63a7f44a9b90236697d794f, type: 2}
+    - target: {fileID: -1024276332641837666, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -11150,6 +11156,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia3
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 1
 --- !u!114 &998853043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13023,16 +13030,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     - target: {fileID: 1809609804301122794, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3f7739f5b38456141a9f05a52c0dc8ce, type: 2}
+    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     - target: {fileID: -7268518656192969154, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -14287,7 +14294,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Alof
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 0.5
 --- !u!4 &1311938746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 405454fc694383447b0e1baee97a0332,
@@ -17289,6 +17298,7 @@ MonoBehaviour:
   talkToNode: Ramon
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0.25
 --- !u!54 &1421116216
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17364,7 +17374,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Fries
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &1439252794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19996,6 +20008,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia4
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 1
 --- !u!114 &1761822762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20408,7 +20421,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Guardia1
   talkToNode: GuardiaNevera
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 1
 --- !u!65 &1787970191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21193,6 +21208,7 @@ MonoBehaviour:
   talkToNode: Albert
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &1850402816
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22463,16 +22479,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     - target: {fileID: 1809609804301122794, guid: b501f838ab3db1d4e9fe4225e07dbd11,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7f42f418bfb810b44aa3ebd6e86e764d, type: 2}
+    - target: {fileID: -1504981713932161579, guid: b501f838ab3db1d4e9fe4225e07dbd11,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b501f838ab3db1d4e9fe4225e07dbd11, type: 3}
 --- !u!1001 &2056520867
@@ -22893,7 +22909,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   talkToNode: Ele
-  prefabIndicator: {fileID: 0}
+  prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
+    type: 3}
+  indicatorHeightOffset: 0
 --- !u!1001 &2096421933
 PrefabInstance:
   m_ObjectHideFlags: 0
