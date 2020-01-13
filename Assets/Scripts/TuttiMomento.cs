@@ -22,7 +22,10 @@ public class TuttiMomento : MonoBehaviour
             repeated = true;
         
             TuttiForScene();
-            CameraManager.instance.CreateTemporalCamera();
+            CameraManager.instance.ToCinemaCamera();
+            CameraManager.instance.cinematicCamera
+                    .GetComponent<CineCamAim>()
+                    .SetTarget(GameObject.FindGameObjectWithTag("Temporal").transform);
         }
     }
 
