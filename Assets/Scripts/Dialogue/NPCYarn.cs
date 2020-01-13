@@ -12,7 +12,9 @@ namespace Assets.Scripts.Dialogue
         public string characterName = "";
         public string talkToNode = "";
 		
+		[Header("Indicator")]
 		public GameObject prefabIndicator;
+		public float indicatorHeightOffset = 0.0f;
 		
 		private Animator npcAnimator;
 		private GameObject indicator;
@@ -21,24 +23,32 @@ namespace Assets.Scripts.Dialogue
 		{
 			npcAnimator = GetComponent<Animator>();
 			indicator = CreateIndicator();
+			HideIndicator();
 			
 			if(characterName.Equals("")) {
 				characterName = talkToNode;
 			}
-			
-			DialogueRunner dialogueSystem = FindObjectOfType<DialogueRunner>();
-            dialogueSystem.Started += HideIndicatorWhenStarted;
-			dialogueSystem.Ended += ShowIndicatorWhenEnded;
 		}
 		
-		GameObject CreateIndicator() {
+		GameObject CreateIndicator()
+		{
+			if(prefabIndicator != null){
+				GameObject prefabInstance = GameObject.Instantiate(prefabIndicator, transform);
+				if(talkToNode == "Albert") {
+					Debug.Log(prefabInstance.transform.position);
+				}
+				prefabInstance.transform.position += new Vector3(0, indicatorHeightOffset, 0);
+				//prefabInstance.transform.local = new Vector3(prefabInstance.transform.position.x, prefabInstance.transform.position.x + indicatorHeightOffset, prefabInstance.transform.position.z);
+				//Debug.Log(prefabInstance.transform.position.y);
+				return prefabInstance;
+			}
 			
-			return GameObject.Instantiate(prefabIndicator, transform);
-			
+			return null;
 		}
 		
 		[YarnCommand("setanim")]
-		public void TriggerAnimation(string animationName) {
+		public void TriggerAnimation(string animationName)
+		{
 			
 			if(npcAnimator != null) {				
 				animationName = "Anim_" + animationName;
@@ -48,21 +58,23 @@ namespace Assets.Scripts.Dialogue
 			
 		}
 		
-		private void HideIndicatorWhenStarted(object sender, DialogueEventArgs e)
-        {
-            if (indicator != null)
+		private void SetIndicator(bool active)
+		{
+			if (indicator != null)
             {
-                indicator.SetActive(false);
+                indicator.SetActive(active);
             }
-        }
+		}
 		
-		private void ShowIndicatorWhenEnded(object sender, EventArgs e)
-        {
-            if (indicator != null)
-            {
-                indicator.SetActive(true);
-            }
-        }
+		public void HideIndicator()
+		{
+			SetIndicator(false);
+		}
+		
+		public void ShowIndicator()
+		{
+			SetIndicator(true);
+		}
 		
     }
 }

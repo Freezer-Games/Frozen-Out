@@ -15,6 +15,8 @@ namespace Assets.Scripts.Dialogue
         private DialogueRunner dialogueSystemYarn;
         private PlayerController playerController;
         private Inventory inventory;
+		
+		private NPCYarn target;
 
         private static readonly Tag tagNegrita = new Tag("b", TagFormat.RichTextTagFormat);
 
@@ -48,17 +50,21 @@ namespace Assets.Scripts.Dialogue
             {
                 if(other.gameObject.CompareTag("NPC"))
                 {
+					target = other.gameObject.GetComponent<NPCYarn>();
+					
                     if(Input.GetKey(GameManager.instance.interact)){
-                        ClearPromptText();
-                        NPCYarn target = other.gameObject.GetComponent<NPCYarn>();
                         if (target != null)
                         {
+							target.HideIndicator();
                             dialogueSystemYarn.StartDialogue(target.talkToNode);
                         }
                     }
                     else
                     {
-                        promptText.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("InteractKey", "F") + LocalizationManager.instance.GetLocalizedValue("speak");
+                        if (target != null)
+                        {
+							target.ShowIndicator();
+						}
                     }
                 }
                 else if(other.gameObject.CompareTag("Item"))
@@ -85,6 +91,7 @@ namespace Assets.Scripts.Dialogue
         {
             if (other.gameObject.CompareTag("NPC") || other.gameObject.CompareTag("Item"))
             {
+				target.HideIndicator();
                 ClearPromptText();
             }
         }
