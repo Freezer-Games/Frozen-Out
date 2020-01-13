@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawTracksGood : MonoBehaviour
+public class SnowTracks : MonoBehaviour
 {
     public Shader drawShader;
 
@@ -39,7 +39,7 @@ public class DrawTracksGood : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<Collider>().bounds.size.y, layerMask))
+            if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y/2, layerMask))
             {
                 drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
                 drawMaterial.SetFloat("_Size", brushSize);
