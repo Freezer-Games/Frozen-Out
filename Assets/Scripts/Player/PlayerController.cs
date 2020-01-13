@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        camForward_Dir = Vector3.Scale(CameraManager.instance.mainCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
+        camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
         // Reproduce o para el sonido de pisadas
         CheckAudio();
