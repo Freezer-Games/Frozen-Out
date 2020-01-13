@@ -13,6 +13,7 @@ public class GirarAlHablar : MonoBehaviour
     private void Start()
     {
         dialogueSystemYarn = FindObjectOfType<DialogueRunner>();
+        npcYarn = GetComponent<NPCYarn>();
     }
 
     void Update()
