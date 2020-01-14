@@ -8,6 +8,8 @@ public class TuttiEscapeController : MonoBehaviour
 {
     public Transform firstDestino;
     public Transform secondDestino;
+	
+	public GameObject tuttiSinNavPrefab;
     
     private bool objetivo1 = false;
     private bool objetivo2 = false;
@@ -30,6 +32,9 @@ public class TuttiEscapeController : MonoBehaviour
 		if(transform.position == firstDestino.position || transform.position == secondDestino.position) {
 			tuttiAnimator.SetBool("isMoving", false);
 		}
+		if(objetivo3) {
+			agent.destination = transform.position;
+		}
 		
         if (!objetivo1 && variableStorageYarn.GetBoolValue("Tutti_Escape1") == true) {
 			tuttiAnimator.SetBool("isMoving", true);
@@ -46,11 +51,10 @@ public class TuttiEscapeController : MonoBehaviour
         }
         else if(!objetivo3 && variableStorageYarn.GetBoolValue("Tutti_Escape3") == true )
         {
-			agent.enabled = false;
-			tuttiAnimator.SetBool("isMoving", false);
-			tuttiAnimator.Play("Tutti_Escapando");
-            tuttiAnimator.enabled = true;
-            objetivo3 = true;
+			/*tuttiAnimator.SetTrigger("escapeSalto");
+			tuttiAnimator.Play("Tutti_Escapando");*/
+			GameObject.Instantiate(tuttiSinNavPrefab);
+			Destroy(gameObject);
         }
     }
 }

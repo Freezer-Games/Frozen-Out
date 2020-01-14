@@ -34,12 +34,7 @@ namespace Assets.Scripts.Dialogue
 		{
 			if(prefabIndicator != null){
 				GameObject prefabInstance = GameObject.Instantiate(prefabIndicator, transform);
-				if(talkToNode == "Albert") {
-					Debug.Log(prefabInstance.transform.position);
-				}
 				prefabInstance.transform.position += new Vector3(0, indicatorHeightOffset, 0);
-				//prefabInstance.transform.local = new Vector3(prefabInstance.transform.position.x, prefabInstance.transform.position.x + indicatorHeightOffset, prefabInstance.transform.position.z);
-				//Debug.Log(prefabInstance.transform.position.y);
 				return prefabInstance;
 			}
 			
