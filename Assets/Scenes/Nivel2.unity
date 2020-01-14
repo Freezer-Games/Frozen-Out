@@ -3268,6 +3268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puesto: {fileID: 2133076161}
   comprobador: $introduccion_Completada
+  animacion: isMoving
 --- !u!114 &251222930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3317,6 +3318,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: debc15b89b6ac5844bef1b116ac11994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &251222933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251222922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998b619e2684ed246af40609daaa0343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &251222934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 251222922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc8089ee04a894946a8941cc087ea9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 1680543530}
+  lookAtTargetPosition: {x: 0, y: 0, z: 0}
+  lookAtCoolTime: 0.2
+  lookAtHeatTime: 0.2
+  looking: 1
 --- !u!1001 &255720797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18723,6 +18753,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 74790edbf7265454b8d200498111d892, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33e397d6118851a44ac6d6414ebbea17, type: 3}
+--- !u!4 &1680543530 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8133985671257971221, guid: 33e397d6118851a44ac6d6414ebbea17,
+    type: 3}
+  m_PrefabInstance: {fileID: 1680543529}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1691165884
 PrefabInstance:
   m_ObjectHideFlags: 0
