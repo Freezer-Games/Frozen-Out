@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public event EventHandler<PlayerControllerEventArgs> Moving; 
     public event EventHandler Idle;
     private Animator animator;
-    public AudioSource steps;
+    private AudioSource steps;
 
     private GameObject snow;
 
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
         bendCenter = characterController.center;
         bendCenter.y -= (bendDiff / 2);
         //delay = MOVEDELAY;
-        Speed = MIN_SPEED;
+        //Speed = MIN_SPEED;
 
         snow = GameObject.Find("Snow");
         if (snow != null)
@@ -78,13 +78,13 @@ public class PlayerController : MonoBehaviour
         // Reproduce o para el sonido de pisadas
         CheckAudio();
 
-        // Compruba si hay algun input
-        if (CheckInput()) 
-        {
-            if (Speed > MAX_SPEED) Speed = MAX_SPEED;
-            Speed += 0.5f;
-        }
-        else Speed = MIN_SPEED;
+        // Comprueba si hay algun input
+        //if (CheckInput()) 
+        //{
+        //    if (Speed > MAX_SPEED) Speed = MAX_SPEED;
+        //    Speed += 0.5f;
+        //}
+        //else Speed = MIN_SPEED;
 
         // Avisa de que se va a mover
         PlayerControllerEventArgs e = OnMoving();
@@ -110,6 +110,12 @@ public class PlayerController : MonoBehaviour
 
                 CheckSneaking();
                 CheckSizeAndSpeed();
+
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    if (dust.isPlaying) StopDust();
+                    else CreateDust();
+                }
 
                 CheckJump();
             }
@@ -180,17 +186,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool CheckInput() {
-        if (Input.GetKey(GameManager.instance.forward) ||
-            Input.GetKey(GameManager.instance.backward) ||
-            Input.GetKey(GameManager.instance.left) ||
-            Input.GetKey(GameManager.instance.right))
-            {
-                return true;
-            }
-        
-        return false;
-    }
+    private bool CheckInput() => GameManager.instance.MovementKeys.Any(Input.GetKey);
 
     private void MovementCalculation()
     {
@@ -252,8 +248,8 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isMoving", false);
         Idle?.Invoke(this, EventArgs.Empty);
     }
-    void CreateDust(){
-        dust.Play();
 
-    }
+    private void CreateDust() => dust.Play();
+
+    private void StopDust() => dust.Stop();
 }

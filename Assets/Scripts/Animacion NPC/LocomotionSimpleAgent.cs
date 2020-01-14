@@ -40,8 +40,8 @@ public class LocomotionSimpleAgent : MonoBehaviour
 
         // Update animation parameters
         anim.SetBool("isTrooping", shouldMove);
-        anim.SetFloat("velx", velocity.x);
-        anim.SetFloat("vely", velocity.y);
+        //anim.SetFloat("velx", velocity.x);
+        //anim.SetFloat("vely", velocity.y);
 
         GetComponent<LookAt>().lookAtTargetPosition = agent.steeringTarget + transform.forward;
     }
