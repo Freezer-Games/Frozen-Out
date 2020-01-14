@@ -54,7 +54,7 @@ public class HablarVista : MonoBehaviour
         if (agent.remainingDistance <= agent.stoppingDistance && hablado == false)
         {
             animator.SetBool(animacion, false);
-            animator.Play("Respiración");
+            //animator.Play("Respiración");
             dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
             hablado = true;
         }
@@ -68,7 +68,7 @@ public class HablarVista : MonoBehaviour
         }
         if (agent.isStopped) {
             animator.SetBool(animacion, false);
-            animator.Play("Respiración"); 
+            //animator.Play("Respiración"); 
         }
     }
 }
