@@ -48,7 +48,6 @@ public class HablarVista : MonoBehaviour
                 agent.destination = player.position;
                 hablado = false;
                 movido = true;
-                
             }
         }
         if (agent.remainingDistance <= agent.stoppingDistance && hablado == false)
