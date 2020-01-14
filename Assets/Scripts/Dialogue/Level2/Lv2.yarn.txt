@@ -3,20 +3,30 @@ animator_name: ALFRIO
 ---
 Pol: Buenos días.
 <<if visited("Alfrio") is false>>
+	<<setanim ALFRIO Awaken>>
 	Alfrio: Adónde te crees que vas? Esta es mi calle.
+	<<setanim ALFRIO Awaken>>
 	Pol: ¿Qué calle? Si es un pasillo de nieve.
+	<<setanim ALFRIO Awaken>>
+	<<setanim ALFRIO Awaken>>
+	<<setanim ALFRIO Denial_1>>
 	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
 	Pol: Cómo que a <i>nadie</i> más, ¿quién ha pasado por aquí?
+	<<setanim ALFRIO Denial_1>>
 	Alfrio: Ahora te interesas, pues era un pequeño tutti.
+	<<setanim ALFRIO Duda>>
 	Alfrio: Una pena que no puedas pasar para seguirlo...
 	Pol: (No creo que se mueva sin motivo)
 <<else>>
+	<<setanim ALFRIO Duda>>
 	Alfrio: Ese tutti me ha dado hambre, pero claro, no me puedo mover de aquí
 <<endif>>
 
 <<if $confitura>>
 	Pol: He pensado que esto te gustaría.
+	<<setanim ALFRIO Agree_4>>
 	Alfrio: Pero si son...
+	<<setanim ALFRIO Agree_4>>
 	Alfrio: ¿Cómo lo has conseguido...? Da igual, me voy al parque a saborear esta delicia.	
 	<<set $Guard_Moves to true>>
 <<endif>>
@@ -25,23 +35,30 @@ title: Alof
 animator_name: ALOF
 ---
 <<if visited("Alof") is false>>
+	<<setanim ALOF Awaken>>
 	Pol: Buenos días.
 	Pol: Huele muy bien por aquí.
+	<<setanim ALOF Agree_1>>
 	Alof: Gracias, son mis confituras heladas.
+	<<setanim ALOF Awaken>>
 	Alof: Eso sí, no están a la venta, son sólo para mis nietos.
 <<else>>
 	Pol: (Esas confituras pintan bien)
 <<endif>>
 
 <<if $confitura to true>>
+	<<setanim ALOF Awaken>>
 	Alof: Esa confitura es de una textura y calidad muy similar a la mía.
+	<<setanim ALOF Duda>>
 	Alof: ¿Acaso alguien me está copiando la fórmula, chico?
 	Pol: (...)
 <<endif>>
 	
 <<if visited("Alfrio")>>
 	Pol: Quiénes eran tus nietos, por cierto?
+	<<setanim ALOF Agree_2>>
 	Alof: Seguro que los has visto, mi Alfrio siempre anda por <i>su</i> calle.
+	<<setanim ALOF Duda>>
 	Alof: Mi pequeño azul Fries siempre está metido en problemas, no sé dónde estará ahora.
 <<endif>>
 ===
@@ -49,9 +66,13 @@ title: Fries
 animator_name: FRIES
 ---
 <<if visited("Fries") is false>>
+	<<setanim FRIES Denial_1>>
 	Fries: Dejadme en paz, sólo quería ir a ver a mis amigos.
+	<<setanim FRIES Denial_1>>
 	Guardia: Vamos, dinos dónde guardas tu comida.
+	<<setanim FRIES Denial_1>>
 	Fries: No es vuestra, nunca os lo diré.
+	<<setanim FRIES Denial_1>>
 <<endif>>
 
 <<if $fries_saved is false>>
@@ -69,9 +90,13 @@ animator_name: FRIES
 	Guardia: No os mováis de aquí, ahora vuelvo.
 	<<set $Bully_Moves to true>>
 	Pol: (Uff)
+	<<setanim FRIES Agree_1>>
 	Fries: Gracias por quitármelo de encima.
+	<<setanim FRIES Agree_1>>
 	Fries: Ya no puedo salir de casa con mis confituras sin que me moleste.
+	<<setanim FRIES Agree_1>>
 	Fries: Las tengo bien guardadas, pero te voy a dar una por ayudarme.
+	<<setanim FRIES Agree_1>>
 	Pol: ¿De verdad? Vaya, gracias, las dejas en buenas manos.
 <<endif>>
 ===
@@ -80,21 +105,29 @@ animator_name: GUARDIANEVERA
 ---
 <<if visited("GuardiaNevera") is false>>
 	Pol: Buenos días, guardia. ¿Alguna novedad?
+	<<setanim GUARDIANEVERA Awaken>>
 	Guardia: No que yo sepa.
 	Pol: ¿Por casualidad ha visto pasar a algún tutti por aquí?
+	<<setanim GUARDIANEVERA Denial_2>>
 	Guardia: ¿Un tutti dices? No quiero saber nada de ellos...
 	Pol: ¿Qué han hecho esta vez?
+	<<setanim GUARDIANEVERA Awaken>>
 	Guardia: ¿Por qué crees que han hecho algo? Nuestras raciones están sanas y salvas...
+	<<setanim GUARDIANEVERA Awaken>>
 	Guardia: Nunca las hemos perdido de vista...
+	<<setanim GUARDIANEVERA Awaken>>
 	Guardia: Están por aquí, sí, sí...
 	Pol: (Esto huele a cubito encerrado)
 <<else>>
+	<<setanim GUARDIANEVERA Denial_1>>
 	Guardia: No hemos perdido nada, y mucho menos nuestras raciones...
+	<<setanim GUARDIANEVERA Denial_1>>
 	Pol: Nunca dudo de vuestra competencia, señor.
 <<endif>>
 ===
 title: Ele
 animator_name: ELE
 ---
+<<setanim ELE Awaken>>
 Ele: ¡Vaya salto ha dado! No sabia que se podía hacer eso
 Pol: (Tendré que buscar otra forma de llegar al otro lado)
