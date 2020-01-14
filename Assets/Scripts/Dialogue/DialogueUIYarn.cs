@@ -81,6 +81,7 @@ namespace Assets.Scripts.Dialogue
 
             string lineText = line.text;
 
+			//Replace snippets with real text
             if (snippetSystems != null && snippetSystems.Length > 0)
             {
                 foreach (var snippetSystem in snippetSystems)
@@ -88,7 +89,8 @@ namespace Assets.Scripts.Dialogue
                     lineText = ParseSnippetSystem(lineText, snippetSystem);
                 }
             }
-
+			
+			//Replace variables with real text
             if (variableSystem != null)
             {
                 lineText = ParseSnippetSystem(lineText, variableSystem);
@@ -103,6 +105,9 @@ namespace Assets.Scripts.Dialogue
             // Cambiar text size al nombre del personaje
             characterName = new DialogueTaggedText(selectedTextSizeTag, characterName).FullText;
 
+			//Reset text, so only talking character name is shown
+			mainNameText.text = "";
+			otherNameText.text = "";
             currentNameText.text = characterName;
 
             currentDialogueText.gameObject.SetActive(true);
