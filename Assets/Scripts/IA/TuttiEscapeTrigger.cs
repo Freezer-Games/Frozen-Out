@@ -15,6 +15,7 @@ public class TuttiEscapeTrigger : MonoBehaviour
         {
             entered = true;
             FindObjectOfType<VariableStorageYarn>().SetValue<bool>(valueField, true);
+            GameManager.instance.CinematicMode();
         }
     }
 }
