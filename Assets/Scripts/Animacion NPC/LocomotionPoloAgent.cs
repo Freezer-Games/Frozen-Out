@@ -1,16 +1,15 @@
-﻿// LocomotionSimpleAgent.cs
+﻿// LocomotionPoloAgent.cs
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Animator))]
-public class LocomotionSimpleAgent : MonoBehaviour
+public class LocomotionPoloAgent : MonoBehaviour
 {
     Animator anim;
     NavMeshAgent agent;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
-    public string animation;
 
     void Start()
     {
@@ -40,7 +39,7 @@ public class LocomotionSimpleAgent : MonoBehaviour
         bool shouldMove = velocity.magnitude > 0.5f && agent.remainingDistance > agent.radius;
 
         // Update animation parameters
-        anim.SetBool(animation, shouldMove);
+        anim.SetBool("isMoving", shouldMove);
         //anim.SetFloat("velx", velocity.x);
         //anim.SetFloat("vely", velocity.y);
 

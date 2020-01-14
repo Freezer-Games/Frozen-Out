@@ -72,6 +72,7 @@ public class patrullar : MonoBehaviour
                 {
                     agent.destination = gameObject.transform.position;
                     dialogueSystemYarn.Stop();
+                    animator.Play("Enfado_Entrada");
                     dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
                     agent.destination = gameObject.transform.position;
                     hablar = true;
