@@ -5,15 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public KeyCode jump { get; set; }
     public KeyCode forward { get; set; }
     public KeyCode backward { get; set; }
     public KeyCode right { get; set; }
     public KeyCode left { get; set; }
+
+    public KeyCode[] MovementKeys => new KeyCode[] { forward, backward, left, right };
+
+    public KeyCode jump { get; set; }
     public KeyCode crouch { get; set; }
+
     public KeyCode interact { get; set; }
     public KeyCode nextDialogue { get; set; }
     public KeyCode missions { get; set; }
+
     public bool menuopen;
 
     public double TextSize { get; set; } = 14;
