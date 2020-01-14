@@ -280,6 +280,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Reglas
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 0
 --- !u!65 &5814269
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1823,6 +1824,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia2
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 0
 --- !u!114 &186814767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3207,6 +3209,7 @@ MonoBehaviour:
   talkToNode: Introduccion
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &251222926
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4520,6 +4523,7 @@ MonoBehaviour:
   talkToNode: Alfrio
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &376287644
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4982,12 +4986,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &440801099 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5560189706283614597, guid: 6c8e4d70f5fab084489a3781a595640b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1312156367}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &443272288 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: dfb77ea7553607b4aafe92c15d7be7d8,
@@ -6072,7 +6070,7 @@ MonoBehaviour:
   RotateSpeed: 120
   ToFollowObj: {fileID: 817974561}
   sensitivity: 150
-  PlayerObj: {fileID: 0}
+  PlayerObj: {fileID: 1312156368}
   mouseX: 0
   finalInputX: 0
 --- !u!1 &537862163
@@ -11012,6 +11010,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia3
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 0
 --- !u!114 &998853043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14151,6 +14150,7 @@ MonoBehaviour:
   talkToNode: Alof
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!4 &1311938746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 405454fc694383447b0e1baee97a0332,
@@ -14519,9 +14519,9 @@ PrefabInstance:
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1288863469, guid: 6c8e4d70f5fab084489a3781a595640b, type: 3}
-      propertyPath: dust
-      value: 
-      objectReference: {fileID: 440801099}
+      propertyPath: JumpForce
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2240422543243103205, guid: 6c8e4d70f5fab084489a3781a595640b,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -17156,6 +17156,7 @@ MonoBehaviour:
   talkToNode: Ramon
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &1421116216
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17233,6 +17234,7 @@ MonoBehaviour:
   talkToNode: Fries
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &1439252794
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19155,8 +19157,8 @@ MonoBehaviour:
   CameraFollowObj: {fileID: 817974561}
   clampAngle: 66
   inputSensitivity: 150
-  CameraObj: {fileID: 817974561}
-  PlayerObj: {fileID: 0}
+  CameraObj: {fileID: 279282063}
+  PlayerObj: {fileID: 1312156368}
   camDistanceXTopPlayer: 0
   camDistanceYTopPlayer: 0
   camDistanceZTopPlayer: 0
@@ -19864,6 +19866,7 @@ MonoBehaviour:
   characterName: Guardia
   talkToNode: Guardia4
   prefabIndicator: {fileID: 0}
+  indicatorHeightOffset: 0
 --- !u!114 &1761822762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20278,6 +20281,7 @@ MonoBehaviour:
   talkToNode: GuardiaNevera
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!65 &1787970191
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21062,6 +21066,7 @@ MonoBehaviour:
   talkToNode: Albert
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!54 &1850402816
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -22764,6 +22769,7 @@ MonoBehaviour:
   talkToNode: Ele
   prefabIndicator: {fileID: 1406734383234196707, guid: b9dfb2034feeef54e9878a6e583d2194,
     type: 3}
+  indicatorHeightOffset: 0
 --- !u!1001 &2096421933
 PrefabInstance:
   m_ObjectHideFlags: 0
