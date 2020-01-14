@@ -40,12 +40,15 @@ public class TuttiEscapeController : MonoBehaviour
         else if (!objetivo2 && variableStorageYarn.GetBoolValue("Tutti_Escape2") == true )
         {
 			tuttiAnimator.SetBool("isMoving", true);
+			tuttiAnimator.Play("Caminado_Anticipacion");
             agent.destination = secondDestino.position;
             objetivo2 = true;
         }
         else if(!objetivo3 && variableStorageYarn.GetBoolValue("Tutti_Escape3") == true )
         {
-			tuttiAnimator.SetBool("isMoving", true);
+			agent.enabled = false;
+			tuttiAnimator.SetBool("isMoving", false);
+			tuttiAnimator.Play("Tutti_Escapando");
             tuttiAnimator.enabled = true;
             objetivo3 = true;
         }
