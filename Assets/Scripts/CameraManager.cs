@@ -7,9 +7,8 @@ public class CameraManager : MonoBehaviour
 {
     public static CameraManager instance;
     public GameObject cameraBase;
+    public Camera cinematicCamera;
     public GameObject auxCamPos;
-
-    public Camera auxCam;
 
     private DialogueRunner dialogueSystemYarn;
     public const float NORMALFOV = 60f;
@@ -26,8 +25,7 @@ public class CameraManager : MonoBehaviour
             cameraBase = GameObject.Find("CameraBase");
             auxCamPos = GameObject.Find("AuxCamPos");
             normalPos = auxCamPos.transform.GetChild(1);
-            cinematicPos = auxCamPos.transform.GetChild(0);
-
+            cinematicPos = GameObject.Find("CinemaCamBase").transform.GetChild(0);
         } catch {}
     }
 
@@ -42,7 +40,7 @@ public class CameraManager : MonoBehaviour
 
     void Update() 
     {
-        CameraDialogue();
+        //CameraDialogue();
     }
 
     void LateUpdate() 
@@ -68,21 +66,12 @@ public class CameraManager : MonoBehaviour
 
     void ChangeToCinematic() 
     {
-        //cam.transform.position = Vector3.Lerp(cam.transform.position, cinemaPos.position, transitionSpeed*Time.deltaTime);
         Camera.main.transform.position = cinematicPos.position;
-        auxCam = Instantiate(gameObject.AddComponent<Camera>(), Camera.main.transform.position, Camera.main.transform.rotation);
-        Camera.main.enabled = false;
-        try {
-            auxCam.transform.LookAt(GameObject.Find("TUTTI_EJEMPLO(Clone)").transform);
-        } catch {}
-
     }
 
     public void ChangeToNormal()
     {
-        Camera.main.enabled = true;
-        auxCam.enabled = false;
-        Destroy(auxCam);
+        Camera.main.transform.position = normalPos.position;
     }
 
     public void DisableController()
@@ -95,6 +84,17 @@ public class CameraManager : MonoBehaviour
     {
         cameraBase.GetComponent<CameraFollow>().enabled = true;
         auxCamPos.GetComponent<RotateAround>().enabled = true;
+    }
+
+    public void CreateTemporalCamera() 
+    {
+        Instantiate(cinematicCamera, cinematicPos.position, cinematicPos.rotation);
+    }
+
+    public void UnableTemporalCamera() 
+    {
+        cinematicCamera.enabled = false;
+        Debug.Log("desactivando");
     }
 
     protected void MakeSingleton()
