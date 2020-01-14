@@ -14,11 +14,13 @@ public class Irse : MonoBehaviour
     [SerializeField]
     private string ValueDialog;
     VariableStorageYarn variableStorageYarn;
+    private Animator animator;
     
     void Start()
     {
         variableStorageYarn = FindObjectOfType<VariableStorageYarn>();
         agent = gameObject.GetComponent<NavMeshAgent>();
+        animator = gameObject.GetComponent<Animator>();
     }
     
     void Update()
@@ -26,6 +28,12 @@ public class Irse : MonoBehaviour
         if (!objetivo && variableStorageYarn.GetBoolValue(ValueDialog) == true) {
             agent.destination = destino.position;
             objetivo = true;
+            animator.SetBool("isTrooping", true);
+            animator.Play("Marcha_Anticipacion");
+        }
+        if (agent.isStopped)
+        {
+            animator.SetBool("", false);
         }
     }
 }
