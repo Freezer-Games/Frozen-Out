@@ -30,7 +30,8 @@ public class TuttiEscapeController : MonoBehaviour
     void Update()
     {
 		if(transform.position == firstDestino.position || transform.position == secondDestino.position) {
-			tuttiAnimator.SetBool("isMoving", false);
+			GameManager.instance.NormalMode();
+            tuttiAnimator.SetBool("isMoving", false);
 		}
 		if(objetivo3) {
 			agent.destination = transform.position;

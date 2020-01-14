@@ -126,6 +126,29 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void CinematicMode() 
+    {
+        PlayerManager.instance.DisableController();
+        PlayerManager.instance.inCinematic = true;
+        CameraManager.instance.DisableController();
+            
+        GameManager.instance.blackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
+        CameraManager.instance.ToCinemaCamera();
+            CameraManager.instance.cinematicCamera
+                    .GetComponent<CineCamAim>()
+                    .SetTarget((GameObject.FindGameObjectWithTag("Temporal").transform));
+    }
+
+    public void NormalMode() 
+    {
+        GameManager.instance.blackBars.GetComponent<CinematicBars>().Hide(.3f); 
+            CameraManager.instance.ToNormalCamera(); 
+            PlayerManager.instance.EnableController();
+            CameraManager.instance.EnableController();
+            CameraManager.instance.ChangeToNormal();
+            PlayerManager.instance.inCinematic = false;
+    }
+
     protected void MakeSingleton()
     {
         if (instance != null)
