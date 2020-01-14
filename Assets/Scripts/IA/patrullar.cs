@@ -56,16 +56,13 @@ public class patrullar : MonoBehaviour
             case Estados.perseguir:
                 if (hablar)
                 {
-                    animator.SetBool("isTrooping", true);
                     dialogueSystemYarn.StartDialogue(gameObject.GetComponent<NPCYarn>().talkToNode);
                     hablar = false;
                     estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 &&
-                    cercanos.Count < 2 &&
-                    dialogueSystemYarn.isDialogueRunning &&
-                    dialogueSystemYarn.currentNodeName.Contains("Guardia"))
+                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia"))
                 {
+                    animator.SetBool("isTrooping", true);
                     agent.destination = visibles[0].position;
                 }
                 else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia") && dialogueSystemYarn.currentNodeName != null && !dialogueSystemYarn.currentNodeName.Contains("pensar"))

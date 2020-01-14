@@ -51,7 +51,7 @@ public class PatrullaCircular : MonoBehaviour
                 if (!agent.pathPending && agent.remainingDistance < 1f)
                     GotoNextPoint();
                 if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia") && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
-                { animator.Play("Sorpresa"); estado = Estados.perseguir; }
+                { animator.SetBool("isTrooping", false); animator.Play("Sorpresa"); estado = Estados.perseguir; }
                 break;
 
             case Estados.perseguir:
@@ -61,8 +61,9 @@ public class PatrullaCircular : MonoBehaviour
                     hablar = false;
                     estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia"))
+                else if (visibles.Count > 0 && cercanos.Count < 2 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia"))
                 {
+                    animator.SetBool("isTrooping", true);
                     agent.destination = visibles[0].position;
                 }
                 else if (cercanos.Count > 0 && dialogueSystemYarn.isDialogueRunning && dialogueSystemYarn.currentNodeName.Contains("Guardia") && dialogueSystemYarn.currentNodeName != null && !dialogueSystemYarn.currentNodeName.Contains("pensar"))
@@ -81,7 +82,10 @@ public class PatrullaCircular : MonoBehaviour
                 break;
 
             case Estados.esperar:
+                animator.SetBool("isTrooping", false);
                 if (cercanos.Count == 0 && visibles.Count == 0) { estado = Estados.patrullando; }
+                if ((visibles.Count > 0 && dialogueSystemYarn.isDialogueRunning && !dialogueSystemYarn.currentNodeName.Contains("Guardia") && !dialogueSystemYarn.currentNodeName.Contains("pensar")) && dialogueSystemYarn.currentNodeName != null)
+                { animator.Play("Sorpresa"); estado = Estados.perseguir; }
                 break;
 
         }
