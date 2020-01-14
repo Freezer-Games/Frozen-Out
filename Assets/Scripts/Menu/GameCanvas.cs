@@ -15,7 +15,7 @@ public class GameCanvas : MonoBehaviour
     void Start()
     {
         DropdownLanguage.onValueChanged.AddListener(ChangeLanguageF);
-        float size = PlayerPrefs.GetFloat("TextSize", 14);
+        float size = PlayerPrefs.GetFloat("TextSize", 20);
         sizeSlider.value = size;
         if (PlayerPrefs.HasKey("Language"))
         {
