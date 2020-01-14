@@ -8,20 +8,28 @@ public class PlayerManager : MonoBehaviour
     public GameObject player;
     public bool inCinematic = false;
 
+    private Animator animator;
+    private AudioSource steps;
+    private PlayerController playerController;
+
     void Awake() 
     {
         MakeSingleton();
-        try 
-        {
-            player = GameObject.Find("Pol");
-        } catch {}
+    }
+
+    void Start()
+    {
+        player = GameObject.Find("Pol");
+        steps = player.GetComponent<AudioSource>();
+        animator = player.GetComponent<Animator>();
+        playerController = player.GetComponent<PlayerController>();
     }
 
     public void DisableController()
     {
-        player.GetComponent<Animator>().enabled = false;
-        player.GetComponent<PlayerController>().steps.Stop();
-        player.GetComponent<PlayerController>().enabled = false;
+        animator.enabled = false;
+        steps.Stop();
+        playerController.enabled = false;
     }
 
     public void EnableController()
