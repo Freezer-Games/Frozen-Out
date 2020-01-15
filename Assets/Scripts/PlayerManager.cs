@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.Find("Pol");
+        player = GameObject.Find("POL");
         steps = player.GetComponent<AudioSource>();
         animator = player.GetComponent<Animator>();
         playerController = player.GetComponent<PlayerController>();
