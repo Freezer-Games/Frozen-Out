@@ -22,7 +22,6 @@ namespace Assets.Scripts.Dialogue
 
         //Place where name and dialogue will be contained
         public GameObject dialogueBoxGUI;
-        public Text continuePrompt;
 
         public float letterDelay = 0.1f;
 
@@ -53,18 +52,12 @@ namespace Assets.Scripts.Dialogue
             {
                 dialogueBoxGUI.SetActive(false);
             }
-            if (continuePrompt != null)
-            {
-                continuePrompt.gameObject.SetActive(false);
-            }
 
             mainNameText.text = "";
             mainDialogueText.text = "";
 
             otherNameText.text = "";
             otherDialogueText.text = "";
-
-            continuePrompt.text = LocalizationManager.instance.GetLocalizedValue("Press") + PlayerPrefs.GetString("NextDialogueKey", "Space") + LocalizationManager.instance.GetLocalizedValue("continue");
         }
 
         void FixedUpdate()
@@ -127,12 +120,6 @@ namespace Assets.Scripts.Dialogue
                 }
             }
 
-            // Show the 'press any key' prompt when done, if we have one
-            if (continuePrompt != null)
-            {
-                continuePrompt.gameObject.SetActive(true);
-            }
-
             while (!Input.GetKeyDown(GameManager.GetPlayerPrefsKey("NextDialogueKey", "Space")))
             {
                 yield return null;
@@ -142,10 +129,6 @@ namespace Assets.Scripts.Dialogue
 
             currentDialogueText.gameObject.SetActive(false);
 
-            if (continuePrompt != null)
-            {
-                continuePrompt.gameObject.SetActive(false);
-            }
         }
 
         private Tag GetTextSizeTag(double textSize)
