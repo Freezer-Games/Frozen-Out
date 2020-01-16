@@ -52,10 +52,6 @@ public class CameraFollow : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
-
-        /*if (GameManager.instance.inCinematic || Input.GetKey(KeyCode.C)) {
-            ChangeToCinematic();
-        }*/
     }
 
     void LateUpdate() 

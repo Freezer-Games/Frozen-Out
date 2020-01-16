@@ -34,6 +34,7 @@ public class TuttiEscapeController : MonoBehaviour
             tuttiAnimator.SetBool("isMoving", false);
 		}
 		if(objetivo3) {
+            GameManager.instance.NormalMode();
 			agent.destination = transform.position;
 		}
 		
@@ -45,6 +46,7 @@ public class TuttiEscapeController : MonoBehaviour
         }
         else if (!objetivo2 && variableStorageYarn.GetBoolValue("Tutti_Escape2") == true )
         {
+            //GameManager.instance.CinematicMode();
 			tuttiAnimator.SetBool("isMoving", true);
 			tuttiAnimator.Play("Caminado_Anticipacion");
             agent.destination = secondDestino.position;
@@ -54,6 +56,7 @@ public class TuttiEscapeController : MonoBehaviour
         {
 			/*tuttiAnimator.SetTrigger("escapeSalto");
 			tuttiAnimator.Play("Tutti_Escapando");*/
+            //GameManager.instance.CinematicMode();
 			GameObject.Instantiate(tuttiSinNavPrefab);
 			Destroy(gameObject);
         }

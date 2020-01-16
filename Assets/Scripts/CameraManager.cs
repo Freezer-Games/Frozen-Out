@@ -40,19 +40,6 @@ public class CameraManager : MonoBehaviour
         } catch {}
     }
 
-    void LateUpdate() 
-    {
-        if (PlayerManager.instance.inCinematic)
-        {
-            ChangeToCinematic();
-        }
-    }
-
-    void ChangeToCinematic() 
-    {
-        Camera.main.transform.position = cinematicPos.position;
-    }
-
     public void ChangeToNormal()
     {
         Camera.main.transform.position = normalPos.position;
