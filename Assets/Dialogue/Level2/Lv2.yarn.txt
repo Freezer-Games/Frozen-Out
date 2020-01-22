@@ -3,30 +3,28 @@ animator_name: ALFRIO
 ---
 Pol: Buenos días.
 <<if visited("Alfrio") is false>>
-	<<setanim ALFRIO Awaken>>
+	<<setanim ALFRIO Anger>>
 	Alfrio: Adónde te crees que vas? Esta es mi calle.
-	<<setanim ALFRIO Awaken>>
 	Pol: ¿Qué calle? Si es un pasillo de nieve.
-	<<setanim ALFRIO Awaken>>
-	<<setanim ALFRIO Awaken>>
-	<<setanim ALFRIO Denial_1>>
+	<<setanim ALFRIO Laugh_1>>
+	<<setanim ALFRIO Denial>>
 	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
 	Pol: Cómo que a <i>nadie</i> más, ¿quién ha pasado por aquí?
-	<<setanim ALFRIO Denial_1>>
+	<<setanim ALFRIO Surpise>>
 	Alfrio: Ahora te interesas, pues era un pequeño tutti.
-	<<setanim ALFRIO Duda>>
+	<<setanim ALFRIO Denial>>
 	Alfrio: Una pena que no puedas pasar para seguirlo...
 	Pol: (No creo que se mueva sin motivo)
 <<else>>
-	<<setanim ALFRIO Duda>>
+	<<setanim ALFRIO Laugh_1>>
 	Alfrio: Ese tutti me ha dado hambre, pero claro, no me puedo mover de aquí
 <<endif>>
 
 <<if $confitura>>
 	Pol: He pensado que esto te gustaría.
-	<<setanim ALFRIO Agree_4>>
+	<<setanim ALFRIO Surpise>>
 	Alfrio: Pero si son...
-	<<setanim ALFRIO Agree_4>>
+	<<setanim ALFRIO Surpise>>
 	Alfrio: ¿Cómo lo has conseguido...? Da igual, me voy al parque a saborear esta delicia.	
 	<<set $Guard_Moves to true>>
 <<endif>>
@@ -105,23 +103,23 @@ animator_name: GUARDIANEVERA
 ---
 <<if visited("GuardiaNevera") is false>>
 	Pol: Buenos días, guardia. ¿Alguna novedad?
-	<<setanim GUARDIANEVERA Awaken>>
+	<<setanim GUARDIANEVERA Denial>>
 	Guardia: No que yo sepa.
 	Pol: ¿Por casualidad ha visto pasar a algún tutti por aquí?
-	<<setanim GUARDIANEVERA Denial_2>>
+	<<setanim GUARDIANEVERA Anger>>
 	Guardia: ¿Un tutti dices? No quiero saber nada de ellos...
 	Pol: ¿Qué han hecho esta vez?
-	<<setanim GUARDIANEVERA Awaken>>
+	<<setanim GUARDIANEVERA Laugh_1>>
 	Guardia: ¿Por qué crees que han hecho algo? Nuestras raciones están sanas y salvas...
-	<<setanim GUARDIANEVERA Awaken>>
+	<<setanim GUARDIANEVERA Denial>>
 	Guardia: Nunca las hemos perdido de vista...
-	<<setanim GUARDIANEVERA Awaken>>
+	<<setanim GUARDIANEVERA Surpise>>
 	Guardia: Están por aquí, sí, sí...
 	Pol: (Esto huele a cubito encerrado)
 <<else>>
-	<<setanim GUARDIANEVERA Denial_1>>
+	<<setanim GUARDIANEVERA Denial>>
 	Guardia: No hemos perdido nada, y mucho menos nuestras raciones...
-	<<setanim GUARDIANEVERA Denial_1>>
+	<<setanim GUARDIANEVERA Denial>>
 	Pol: Nunca dudo de vuestra competencia, señor.
 <<endif>>
 ===
