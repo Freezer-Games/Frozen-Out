@@ -42,15 +42,47 @@ public class Snowtracks : MonoBehaviour
             //algunos personajes desaparecen, hay que comprobar que aun existen
             if (colliders[i] != null)
             {
-                if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y/2, layerMask))
+                if (colliders[i].name == "PaloPol")
                 {
-                    drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
-                    drawMaterial.SetFloat("_Size", brushSize);
-                    drawMaterial.SetFloat("_Strength", brushStrength);
-                    RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
-                    Graphics.Blit(trackMap, temp);
-                    Graphics.Blit(temp, trackMap, drawMaterial);
-                    RenderTexture.ReleaseTemporary(temp);
+                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y / 2, layerMask))
+                    {
+                        drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
+                        drawMaterial.SetFloat("_Size", brushSize);
+                        drawMaterial.SetFloat("_Strength", brushStrength);
+                        RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
+                        Graphics.Blit(trackMap, temp);
+                        Graphics.Blit(temp, trackMap, drawMaterial);
+                        RenderTexture.ReleaseTemporary(temp);
+                    }
+                }
+                else
+                {
+                    if (colliders[i].name == "Palo")
+                    {
+                        if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y / 3 * 2, layerMask))
+                        {
+                            drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
+                            drawMaterial.SetFloat("_Size", brushSize);
+                            drawMaterial.SetFloat("_Strength", brushStrength);
+                            RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
+                            Graphics.Blit(trackMap, temp);
+                            Graphics.Blit(temp, trackMap, drawMaterial);
+                            RenderTexture.ReleaseTemporary(temp);
+                        }
+                    }
+                    else
+                    {
+                        if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, layerMask))
+                        {
+                            drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
+                            drawMaterial.SetFloat("_Size", brushSize);
+                            drawMaterial.SetFloat("_Strength", brushStrength);
+                            RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
+                            Graphics.Blit(trackMap, temp);
+                            Graphics.Blit(temp, trackMap, drawMaterial);
+                            RenderTexture.ReleaseTemporary(temp);
+                        }
+                    }
                 }
             }
             
