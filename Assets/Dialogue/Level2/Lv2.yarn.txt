@@ -10,7 +10,7 @@ Pol: Buenos días.
 	<<setanim ALFRIO Denial>>
 	Alfrio: Y encima me vacilas, ahora sí que no dejo pasar a nadie más.
 	Pol: Cómo que a <i>nadie</i> más, ¿quién ha pasado por aquí?
-	<<setanim ALFRIO Surpise>>
+	<<setanim ALFRIO Surprise>>
 	Alfrio: Ahora te interesas, pues era un pequeño tutti.
 	<<setanim ALFRIO Denial>>
 	Alfrio: Una pena que no puedas pasar para seguirlo...
@@ -22,9 +22,9 @@ Pol: Buenos días.
 
 <<if $confitura>>
 	Pol: He pensado que esto te gustaría.
-	<<setanim ALFRIO Surpise>>
+	<<setanim ALFRIO Surprise>>
 	Alfrio: Pero si son...
-	<<setanim ALFRIO Surpise>>
+	<<setanim ALFRIO Surprise>>
 	Alfrio: ¿Cómo lo has conseguido...? Da igual, me voy al parque a saborear esta delicia.	
 	<<set $Guard_Moves to true>>
 <<endif>>
@@ -61,12 +61,14 @@ animator_name: ALOF
 <<endif>>
 ===
 title: Fries
-animator_name: FRIES
+animator_name: FRIES, GUARDIA
 ---
 <<if visited("Fries") is false>>
 	<<setanim FRIES Denial_1>>
+	<<setanim GUARDIA Laugh_1>>
 	Fries: Dejadme en paz, sólo quería ir a ver a mis amigos.
 	<<setanim FRIES Denial_1>>
+	<<setanim GUARDIA Laugh_2>>
 	Guardia: Vamos, dinos dónde guardas tu comida.
 	<<setanim FRIES Denial_1>>
 	Fries: No es vuestra, nunca os lo diré.
@@ -74,6 +76,7 @@ animator_name: FRIES
 <<endif>>
 
 <<if $fries_saved is false>>
+	<<setanim GUARDIA Surprise>>
 	Guardia: ¿Tienes algún problema, rojito?.
 <<endif>>
 
@@ -83,7 +86,9 @@ animator_name: FRIES
 	<<set $fries_saved to true>>
 	Pol: La verdad es que parece que hay algún problema en la nevera...
 	Pol: Algo que ver con las <b>raciones</b>.
+	<<setanim GUARDIA Surprise>>
 	Guardia: ¿Las raciones? ¡¿Mis <b>raciones</b>?!
+	<<setanim GUARDIA Anger>>
 	Guardia: Otra vez tocando mis cosas, se lo tengo dicho muchas veces.
 	Guardia: No os mováis de aquí, ahora vuelvo.
 	<<set $Bully_Moves to true>>
@@ -113,7 +118,7 @@ animator_name: GUARDIANEVERA
 	Guardia: ¿Por qué crees que han hecho algo? Nuestras raciones están sanas y salvas...
 	<<setanim GUARDIANEVERA Denial>>
 	Guardia: Nunca las hemos perdido de vista...
-	<<setanim GUARDIANEVERA Surpise>>
+	<<setanim GUARDIANEVERA Surprise>>
 	Guardia: Están por aquí, sí, sí...
 	Pol: (Esto huele a cubito encerrado)
 <<else>>
