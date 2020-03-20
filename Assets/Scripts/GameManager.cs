@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager
+public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance
@@ -19,5 +19,5 @@ public class GameManager
     {
         DontDestroyOnLoad(gameObject);
     }
-    
+
 }
