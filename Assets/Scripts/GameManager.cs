@@ -3,21 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+using Scripts.Level;
+using Scripts.Menu;
+using Scripts.Input;
+
+namespace Scripts
 {
-
-    public static GameManager Instance
+    public class GameManager : MonoBehaviour
     {
-        get
+
+        public static GameManager Instance
         {
-            return singleton;
+            get
+            {
+                return Singleton;
+            }
         }
-    }
-    private static readonly GameManager instance = new GameManager();
+        private static readonly GameManager Singleton = new GameManager();
 
-    private GameManager()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+        private GameManager()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
+        public ILevelManager CurrentLevelManager
+        {
+            private set;
+        }
+        public MenuManager MenuManager
+        {
+            private set;
+        }
+        public InputManager InputManager
+        {
+            private set;
+        }
+
+        private ILevelManager[] Levels;
+        private int CurrentLevel;
+
+        public void NextLevel()
+        {
+            // TODO
+        }
+
+    }
 }
