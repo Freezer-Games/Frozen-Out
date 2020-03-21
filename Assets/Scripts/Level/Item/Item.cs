@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scripts.Level.Item
 {
-    public class ItemInfo : MonoBehaviour
+    public class Item : MonoBehaviour
     {
         
         public string Name;

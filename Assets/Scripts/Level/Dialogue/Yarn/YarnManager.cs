@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 using Yarn.Unity;
 
@@ -38,7 +39,7 @@ namespace Scripts.Level.Dialogue
             return yarnValue.AsNumber;
         }
         
-        public void SetValue<T>(string variableName, T value, bool includeLeading = true)
+        public void SetVariable<T>(string variableName, T value, bool includeLeading = true)
         {
             Yarn.Value yarnValue = new Yarn.Value(value);
 

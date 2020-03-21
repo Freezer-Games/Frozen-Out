@@ -1,26 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Enum;
 using UnityEngine;
 
 namespace Scripts.Input
 {
-    public class InputManager : Monobehaviour
+    public class InputManager : MonoBehaviour
     {
         public KeyCode Forward
         {
+            get;
             private set;
         }
         public KeyCode Backward
         {
+            get;
             private set;
         }
         public KeyCode Right
         {
+            get;
             private set;
         }
         public KeyCode Left
         {
+            get;
             private set;
         }
 
@@ -28,23 +31,28 @@ namespace Scripts.Input
 
         public KeyCode Jump
         {
+            get;
             private set;
         }
         public KeyCode Crouch
         {
+            get;
             private set;
         }
 
         public KeyCode Interact
         {
+            get;
             private set;
         }
         public KeyCode NextDialogue
         {
+            get;
             private set;
         }
         public KeyCode Missions
         {
+            get;
             private set;
         }
 
@@ -69,7 +77,7 @@ namespace Scripts.Input
         private KeyCode GetPlayerPrefsKey(string name, string defaultValue)
         {
             string stringPref = PlayerPrefs.GetString(name, defaultValue);
-            KeyCode keyCode = (keyCode) Parse(typeof(KeyCode), stringPref);
+            KeyCode keyCode = (keyCode) System.Enum.Parse(typeof(KeyCode), stringPref);
             return keyCode;
         }
     }

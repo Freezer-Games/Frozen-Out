@@ -12,23 +12,27 @@ namespace Scripts.Level
     public class LevelManager : MonoBehaviour, ILevelManager
     {
 
-        private PlayerManager Player
+        public PlayerManager Player
         {
+            get;
             private set;
         }
         public IDialogueManager DialogueManager
         {
+            get;
             private set;
         }
         public AudioManager AudioManager
         {
+            get;
             private set;
         }
         public CameraManager CameraManager
         {
+            get;
             private set;
         }
-        private NPC[] NPCs;
+        private NPCManager[] NPCs;
         private Mission[] Missions;
 
         public void Load()

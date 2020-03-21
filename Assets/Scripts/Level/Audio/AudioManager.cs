@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scripts.Level.Audio
 {
-    public class AudioManager : Monobehaviour
+    public class AudioManager : MonoBehaviour
     {
         public AudioSource Steps;
         public AudioSource DialogueText;

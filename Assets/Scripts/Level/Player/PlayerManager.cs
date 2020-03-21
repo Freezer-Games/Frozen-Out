@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using Scripts.Level.Audio;
+
 namespace Scripts.Level.Player
 {
     public class PlayerManager : MonoBehaviour

@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using Yarn.Unity;
 
 using Scripts;
-using Scripts.Inventory;
+using Scripts.Level.Item;
 
 namespace Scripts.Level.Dialogue
 {

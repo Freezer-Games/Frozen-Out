@@ -28,14 +28,17 @@ namespace Scripts
 
         public ILevelManager CurrentLevelManager
         {
+            get;
             private set;
         }
         public MenuManager MenuManager
         {
+            get;
             private set;
         }
         public InputManager InputManager
         {
+            get;
             private set;
         }
 

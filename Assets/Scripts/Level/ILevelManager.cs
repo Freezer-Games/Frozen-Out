@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using Scripts.Level.Audio;
 using Scripts.Level.Dialogue;
 using Scripts.Level.Player;
+using Scripts.Level.Camera;
 
 namespace Scripts.Level
 {
     public interface ILevelManager
     {
 
-        public void Load();
+        void Load();
 
-        public PlayerManager GetPlayer();
-        public IDialogueManager GetDialogueManager();
-        public AudioManager GetAudioManager();
-        public CameraManager GetCameraManager();
+        PlayerManager GetPlayer();
+        IDialogueManager GetDialogueManager();
+        AudioManager GetAudioManager();
+        CameraManager GetCameraManager();
         // TODO
     }
 }
