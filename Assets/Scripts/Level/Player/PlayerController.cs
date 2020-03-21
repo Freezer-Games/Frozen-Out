@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-using Scripts.Input;
-using Scripts.Level.Audio;
+using Scripts.Settings;
+using Scripts.Level.Sound;
 
 [Serializable]
 public class PlayerControllerEventArgs : EventArgs
@@ -17,7 +17,7 @@ namespace Scripts.Level.Player
     {
         private CharacterController CharacterController;
 
-        public ParticleSystem dust;
+        public ParticleSystem Dust;
 
         [Header("Movement")]
         public float Speed;
@@ -40,7 +40,7 @@ namespace Scripts.Level.Player
 
         [Header("Bending")]
         public float BendSpeed = 2.5f;
-        private float Hheight, BbendHeight;
+        private float Height, BendHeight;
         private Vector3 Center, BendCenter;
         private float BendJumpForce => JumpForce * 0.3f;
         private readonly float BendDiff = 0.4f;
@@ -51,20 +51,20 @@ namespace Scripts.Level.Player
         public event EventHandler<PlayerControllerEventArgs> Moving; 
         public event EventHandler Idle;
         private Animator Animator;
-        private InputManager InputManager;
-        private AudioManager AudioManager;
+        private SettingsManager SettingsManager;
+        private SoundManager SoundManager;
 
         private GameObject Snow;
 
         void Start()
         {
-            InputManager = GameManager.Instance.InputManager;
-            AudioManager = GameManager.Instance.CurrentLevelManager.GetAudioManager();
+            SettingsManager = GameManager.Instance.SettingsManager;
+            SoundManager = GameManager.Instance.CurrentLevelManager.GetSoundManager();
 
             Animator = GetComponent<Animator>();
-            characterController = GetComponent<CharacterController>();
-            Hheight = CharacterController.height;
-            BendHeight = CharacterController.height - bendDiff;
+            CharacterController = GetComponent<CharacterController>();
+            Height = CharacterController.height;
+            BendHeight = CharacterController.height - BendDiff;
             Center = CharacterController.center;
             BendCenter = CharacterController.center;
             BendCenter.y -= (BendDiff / 2);
@@ -78,7 +78,7 @@ namespace Scripts.Level.Player
 
         void Update()
         {
-            CamForwardDirection = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            CamForwardDirection = Vector3.Scale(UnityEngine.Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
             // Reproduce o para el sonido de pisadas
             CheckAudio();
@@ -109,7 +109,7 @@ namespace Scripts.Level.Player
 
                 if (IsGrounded)
                 {
-                    Animator.SetBool("isMoving", Moving);
+                    Animator.SetBool("isMoving", IsMoving);
 
                     MoveDirection = transform.forward * Move.magnitude;
 
@@ -139,25 +139,25 @@ namespace Scripts.Level.Player
         // Reproduce o para el sonido de pisadas según si se está moviendo o no
         private void CheckAudio()
         {
-            if (AudioManager.Steps.isPlaying)
+            if (SoundManager.Steps.isPlaying)
             {
                 if (!IsMoving)
                 {
-                    AudioManager.Steps.Stop();
+                    SoundManager.Steps.Stop();
                 }
             }
             else
             {
-                if (Moving)
+                if (IsMoving)
                 {
-                    AudioManager.Steps.Play();
+                    SoundManager.Steps.Play();
                 }
             }
         }
 
         private void CheckSneaking()
         {
-            if (Input.GetKey(InputManager.Crouch)) //left control - va lento
+            if (Input.GetKey(SettingsManager.CrouchKey)) //left control - va lento
             {
                 IsSneaking = true;
                 Animator.SetTrigger("isSneakingIn");
@@ -185,37 +185,37 @@ namespace Scripts.Level.Player
         {
             MoveDirection.y = 0;
 
-            if (Input.GetKeyDown(InputManager.Jump))
+            if (Input.GetKeyDown(SettingsManager.JumpKey))
             {
                 Jump();
             }
         }
 
-        private bool CheckInput() => InputManager.MovementKeys.Any(Input.GetKey);
+        private bool CheckInput() => SettingsManager.MovementKeys.Any(Input.GetKey);
 
         private void MovementCalculation()
         {
             Horizontal = 0;
             Vertical = 0;
-            if (Input.GetKey(InputManager.Forward))
+            if (Input.GetKey(SettingsManager.ForwardKey))
             {
                 Vertical++;
             }
-            else if (Input.GetKey(InputManager.Backward))
+            else if (Input.GetKey(SettingsManager.BackwardKey))
             {
                 Vertical--;
             }
             
-            if (Input.GetKey(InputManager.Left))
+            if (Input.GetKey(SettingsManager.LeftKey))
             {
                 Horizontal--;
             }
-            else if (Input.GetKey(InputManager.Right))
+            else if (Input.GetKey(SettingsManager.RightKey))
             {
                 Horizontal++;
             }
 
-            Move = Vertical * CamForwardDirection + Horizontal * Camera.main.transform.right;
+            Move = Vertical * CamForwardDirection + Horizontal * UnityEngine.Camera.main.transform.right;
 
             if (Move.magnitude > 1f)
             {

@@ -1,33 +1,45 @@
 using System;
 using UnityEngine;
 
-using Scripts.Level.Audio;
+using Scripts.Level.Sound;
 
 namespace Scripts.Level.Player
 {
     public class PlayerManager : MonoBehaviour
     {
         
-        public bool inCinematic = false;
+        public bool InCinematic = false;
 
         private Animator Animator;
-        private AudioManager AudioManager;
+        private SoundManager SoundManager;
         private PlayerController Controller;
         private GameObject Player;
         
         void Start()
         {
-            AudioManager = GameManager.Instance.CurrentLevelManager.GetAudioManager();
+            SoundManager = GameManager.Instance.CurrentLevelManager.GetSoundManager();
             
             Player = GameObject.Find("POL");
-            Animator = player.GetComponent<Animator>();
-            Controller = player.GetComponent<PlayerController>();
+            Animator = Player.GetComponent<Animator>();
+            Controller = Player.GetComponent<PlayerController>();
+        }
+
+        public void ToNormal()
+        {
+            InCinematic = false;
+            EnableController();
+        }
+
+        public void ToCinematic()
+        {
+            InCinematic = true;
+            DisableController();
         }
 
         public void DisableController()
         {
             Animator.enabled = false;
-            AudioManager.Steps.Stop();
+            SoundManager.Steps.Stop();
             Controller.enabled = false;
         }
 

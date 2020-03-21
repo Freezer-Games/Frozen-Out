@@ -5,13 +5,15 @@ using UnityEngine.SceneManagement;
 
 using Scripts.Level;
 using Scripts.Menu;
-using Scripts.Input;
+using Scripts.Settings;
+using Scripts.Localisation;
 
 namespace Scripts
 {
     public class GameManager : MonoBehaviour
     {
 
+        #region Singleton
         public static GameManager Instance
         {
             get
@@ -19,36 +21,90 @@ namespace Scripts
                 return Singleton;
             }
         }
-        private static readonly GameManager Singleton = new GameManager();
-
-        private GameManager()
+        private static GameManager Singleton;
+        private void CheckSingleton()
         {
-            DontDestroyOnLoad(gameObject);
+            if (Singleton != null && Singleton != this)
+            {
+                Destroy(this.gameObject);
+            } else {
+                Singleton = this;
+                DontDestroyOnLoad(gameObject);
+            }
         }
-
+        #endregion
+        
         public ILevelManager CurrentLevelManager
         {
             get;
             private set;
         }
-        public MenuManager MenuManager
+        public MenuManager MenuManager;
+        public SettingsManager SettingsManager;
+        public LocalisationManager LocalisationManager;
+        public LocalisationManager MenuLocalisationManager;
+
+        private int CurrentLevel = 0;
+
+        void Awake()
         {
-            get;
-            private set;
-        }
-        public InputManager InputManager
-        {
-            get;
-            private set;
+            CheckSingleton();
         }
 
-        private ILevelManager[] Levels;
-        private int CurrentLevel;
-
-        public void NextLevel()
+        void Start()
         {
-            // TODO
+            MenuManager.Close();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            Time.timeScale = 1;
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            
+            if (scene.buildIndex == 0)
+            {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                LocalisationManager.LoadLocalisedText("Menu_Default.json");
+
+            } else {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                LocalisationManager.LoadLocalisedText("Trial_level_Default.json");
+                MenuLocalisationManager.LoadLocalisedText("Menu_pausa_Default.json");
+            }
+
+        }
+
+        public void LoadNextLevel()
+        {
+            LoadLevel(CurrentLevel + 1);
+        }
+
+        public void LoadLevel(int level)
+        {
+            CurrentLevelManager.Unload();
+
+            CurrentLevel = level;
+            SceneManager.LoadScene(CurrentLevel);
+
+            CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
+            CurrentLevelManager.Load();
+        }
+
+        public void CinematicMode()
+        {
+            CurrentLevelManager.GetPlayerManager().ToCinematic();
+            
+            CurrentLevelManager.GetCameraManager().ToCinematic();
+        }
+
+        public void NormalMode()
+        {
+            CurrentLevelManager.GetPlayerManager().ToNormal();
+
+            CurrentLevelManager.GetCameraManager().ToNormal();
         }
 
     }
 }
+

@@ -32,13 +32,13 @@ namespace Scripts.Level.Dialogue
             IsInitialized = false;
             Clear();
 
-            SetTextSizeValue();
-            SetInventoryValues();
+            //SetTextSizeValue();
+            //SetInventoryValues();
 
             OnInitialized(Variables);
         }
 
-        private void SetTextSizeValue()
+        /*private void SetTextSizeValue()
         {
             SetValue(gameManager.getTextSizeName(), gameManager.getTextSize());
         }
@@ -50,7 +50,7 @@ namespace Scripts.Level.Dialogue
 
                 SetValue(item.variableName, item.isInitiallyInInventory);
             }
-        }
+        }*/
 
         protected virtual void OnInitialized(ReadOnlyDictionary<string, Yarn.Value> variables)
         {

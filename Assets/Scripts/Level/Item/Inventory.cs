@@ -10,7 +10,7 @@ namespace Scripts.Level.Item
     public class Inventory : MonoBehaviour
     {
 
-        public List<Item> InventoryItems
+        public List<ItemInfo> InventoryItems
         {
             get;
             private set;
@@ -20,8 +20,8 @@ namespace Scripts.Level.Item
 
         void Awake()
         {
-            InventoryItems = new List<Item>(
-                this.gameObject.GetComponentsInChildren<Item>(true)
+            InventoryItems = new List<ItemInfo>(
+                this.gameObject.GetComponentsInChildren<ItemInfo>(true)
             );
         }
 
@@ -30,39 +30,39 @@ namespace Scripts.Level.Item
             DialogueManager = GameManager.Instance.CurrentLevelManager.GetDialogueManager();
         }
 
-        private Item GetInventoryItem(GameObject worldItem)
+        private ItemInfo GetInventoryItem(GameObject worldItem)
         {
-            string itemName = worldItem.GetComponent<Item>().Name;
+            string itemName = worldItem.GetComponent<ItemInfo>().Name;
 
-            Item attachedItem = InventoryItems.Find( tempItemInfo => tempItemInfo.Name == itemName);
+            ItemInfo attachedItem = InventoryItems.Find( tempItemInfo => tempItemInfo.Name == itemName);
 
             return attachedItem;
         }
 
         public void GetItem(GameObject worldItem)
         {
-            Item inventoryItemInfo = GetInventoryItem(worldItem);
+            ItemInfo inventoryItemInfo = GetInventoryItem(worldItem);
 
             inventoryItemInfo.gameObject.SetActive(true);
             worldItem.SetActive(false);
 
-            DialogueManager.SetVariable(inventoryItemInfo.VariableName, true);
+            DialogueManager.SetVariable<bool>(inventoryItemInfo.VariableName, true);
         }
 
-        public void UseInventoryItem(Item item)
+        public void UseInventoryItem(ItemInfo item)
         {
             item.gameObject.SetActive(false);
 
-            DialogueManager.SetVariable(item.VariableName, false);
-            DialogueManager.SetVariable(item.UsedVariableName, true);
+            DialogueManager.SetVariable<bool>(item.VariableName, false);
+            DialogueManager.SetVariable<bool>(item.UsedVariableName, true);
         }
 
-        public bool IsItemInInventory(Item item)
+        public bool IsItemInInventory(ItemInfo item)
         {
             return DialogueManager.GetBoolVariable(item.VariableName);
         }
 
-        public bool IsItemUsed(Item item)
+        public bool IsItemUsed(ItemInfo item)
         {
             return DialogueManager.GetBoolVariable(item.UsedVariableName);
         }

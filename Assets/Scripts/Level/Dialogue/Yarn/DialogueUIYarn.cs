@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using Yarn.Unity;
 
-using Scripts.Level.Audio;
+using Scripts.Level.Sound;
 
 namespace Scripts.Level.Dialogue
 {
@@ -34,13 +34,13 @@ namespace Scripts.Level.Dialogue
 
         private GameManager gameManager;
         private IDialogueManager DialogueManager;
-        private AudioManager AudioManager;
+        private SoundManager SoundManager;
         private int currentLineNumber;
 
         void Start()
         {
             gameManager = GameManager.Instance;
-            AudioManager = gameManager.CurrentLevelManager.GetAudioManager();
+            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
             DialogueManager = gameManager.CurrentLevelManager.GetDialogueManager();
 
             if (dialogueBoxGUI != null)
@@ -53,7 +53,7 @@ namespace Scripts.Level.Dialogue
 
         void FixedUpdate()
         {
-            if (dialogueManager.IsRunning() && Input.GetKey(gameManager.InputManager.NextDialogue))
+            if (DialogueManager.IsRunning() && Input.GetKey(gameManager.SettingsManager.NextDialogueKey))
             {
                 localDelay /= localDelayMultiplier;
             }
@@ -65,29 +65,9 @@ namespace Scripts.Level.Dialogue
 
             string lineText = line.text;
 
-			//Replace snippets with real text
-            if (snippetSystems != null && snippetSystems.Length > 0)
-            {
-                foreach (var snippetSystem in snippetSystems)
-                {
-                    lineText = ParseSnippetSystem(lineText, snippetSystem);
-                }
-            }
-			
-			//Replace variables with real text
-            if (variableSystem != null)
-            {
-                lineText = ParseSnippetSystem(lineText, variableSystem);
-            }
-
             SeparateLine(lineText, out string characterName, out string characterDialogue);
 
-            Tag selectedTextSizeTag = GetTextSizeTag(gameManager.TextSize);
-
             GetCurrentDialogueText(characterName);
-
-            // Cambiar text size al nombre del personaje
-            characterName = new DialogueTaggedText(selectedTextSizeTag, characterName).FullText;
 
 			//Reset text, so only talking character name is shown
 			mainNameText.text = "";
@@ -100,18 +80,14 @@ namespace Scripts.Level.Dialogue
             {
                 localDelay = letterDelay;
 
-                IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue, RunLineLogger);
-
-                completeCharacterDialogue = new DialogueTaggedText(selectedTextSizeTag, completeCharacterDialogue);
-
-                foreach (string currentText in completeCharacterDialogue.Parse())
+                /*foreach (string currentText in completeCharacterDialogue.Parse())
                 {
                     currentDialogueText.text = currentText;
                     yield return new WaitForSeconds(localDelay);
-                }
+                }*/
             }
 
-            while (!Input.GetKeyDown(gameManager.InputManager.NextDialogue))
+            while (!Input.GetKeyDown(gameManager.SettingsManager.NextDialogueKey))
             {
                 yield return null;
             }
@@ -120,34 +96,6 @@ namespace Scripts.Level.Dialogue
 
             currentDialogueText.gameObject.SetActive(false);
 
-        }
-
-        private Tag GetTextSizeTag(double textSize)
-        {
-            TagOption selectedTextSizeStartTagOption
-                                = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.start);
-
-            TagOption selectedTextSizeEndTagOption
-                = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.end);
-
-            Tag selectedTextSizeTag = new Tag(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
-            return selectedTextSizeTag;
-        }
-
-        private string ParseSnippetSystem<T>(string lineText, DialogueSnippetSystem<T> snippetSystem) where T : class
-        {
-            var snippets = snippetSystem.ParseSnippets(lineText, RunLineLogger);
-            foreach (var snippet in snippets)
-            {
-                lineText = lineText.Replace(snippet.FullName, snippet.Value.ToString());
-            }
-
-            return lineText;
-        }
-
-        private void RunLineLogger(ParsingException parsingException)
-        {
-            Debug.LogError($"Error: {parsingException.GetFullMessage(currentLineNumber)}");
         }
 
         private void GetCurrentDialogueText(string characterName)

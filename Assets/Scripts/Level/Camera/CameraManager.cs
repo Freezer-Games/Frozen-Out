@@ -21,6 +21,8 @@ namespace Scripts.Level.Camera
         
         public Transform CinematicPosition;
 
+        public GameObject BlackBars;
+
         void Start()
         {
             CameraBase = GameObject.Find("CameraBase");
@@ -29,9 +31,38 @@ namespace Scripts.Level.Camera
             CinematicPosition = AuxCamPos.transform.GetChild(0);
         }
 
-        public void ChangeToNormal()
+        public void ToNormal()
         {
-            Camera.main.transform.position = NormalPosition.position;
+            BlackBars.GetComponent<CinematicBars>().Hide(.3f);
+
+            ChangeToNormal();
+
+            EnableController();
+        }
+
+        public void ToCinematic()
+        {
+            DisableController();
+
+            ChangeToCinematic();
+
+            BlackBars.GetComponent<CinematicBars>().Show(150, 0.3f);
+
+            CinematicCamera.GetComponent<CineCamAim>()
+                .SetTarget((GameObject.FindGameObjectWithTag("Temporal").transform));
+        }
+
+        private void ChangeToNormal()
+        {
+            MainCamera.SetActive(true);
+            CinematicCamera.SetActive(false);
+            UnityEngine.Camera.main.transform.position = NormalPosition.position;
+        }
+
+        private void ChangeToCinematic()
+        {
+            MainCamera.SetActive(false);
+            CinematicCamera.SetActive(true);
         }
 
         public void DisableController()
@@ -44,18 +75,6 @@ namespace Scripts.Level.Camera
         {
             CameraBase.GetComponent<CameraFollow>().enabled = true;
             AuxCamPos.GetComponent<RotateAround>().enabled = true;
-        }
-
-        public void ToNormalCamera()
-        {
-            MainCamera.SetActive(true);
-            CinematicCamera.SetActive(false);
-        }
-
-        public void ToCinemaCamera()
-        {
-            MainCamera.SetActive(false);
-            CinematicCamera.SetActive(true);
         }
 
     }

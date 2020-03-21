@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Scripts.Level.Audio;
+using Scripts.Level.Sound;
 using Scripts.Level.Camera;
 using Scripts.Level.Dialogue;
 using Scripts.Level.Player;
+using Scripts.Level.Mission;
+using Scripts.Level.NPC;
 
 namespace Scripts.Level
 {
@@ -22,7 +24,7 @@ namespace Scripts.Level
             get;
             private set;
         }
-        public AudioManager AudioManager
+        public SoundManager SoundManager
         {
             get;
             private set;
@@ -32,15 +34,25 @@ namespace Scripts.Level
             get;
             private set;
         }
-        private NPCManager[] NPCs;
-        private Mission[] Missions;
+        private NPCInfo[] NPCs;
+        private MissionInfo[] Missions;
+
+        void Start()
+        {
+            DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
+            DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+        }
 
         public void Load()
         {
             // TODO
         }
+        public void Unload()
+        {
+            // TODO
+        }
 
-        public PlayerManager GetPlayer()
+        public PlayerManager GetPlayerManager()
         {
             return Player;
         }
@@ -48,9 +60,9 @@ namespace Scripts.Level
         {
             return DialogueManager;
         }
-        public AudioManager GetAudioManager()
+        public SoundManager GetSoundManager()
         {
-            return AudioManager;
+            return SoundManager;
         }
         public CameraManager GetCameraManager()
         {

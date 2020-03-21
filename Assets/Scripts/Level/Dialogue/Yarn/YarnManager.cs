@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 using Yarn.Unity;
@@ -13,12 +14,18 @@ namespace Scripts.Level.Dialogue
 
         void Awake()
         {
-            dialogueRunner = FindObjectOfType<DialogueRunner>();
+            DialogueRunner = FindObjectOfType<DialogueRunner>();
+            DialogueRunner.Starting += (sender, args) => OnStarting();
+            DialogueRunner.Started += (sender, args) => OnStarted();
+            DialogueRunner.Stopping += (sender, args) => OnStopping();
+            DialogueRunner.Stopped += (sender, args) => OnStopped();
+            DialogueRunner.Completed += (sender, args) => OnCompleted();
+            DialogueRunner.Ended += (sender, args) => OnEnded();
         }
 
         public bool IsRunning()
         {
-            return dialogueRunner.isDialogueRunning;
+            return DialogueRunner.isDialogueRunning;
         }
 
         public bool GetBoolVariable(string variableName, bool includeLeading = true)
@@ -48,7 +55,7 @@ namespace Scripts.Level.Dialogue
                 variableName = AddLeading(variableName);
             }
 
-            DialogueRunner.variableStorage.SetValue(variableName, yarnValue: yarnValue);
+            DialogueRunner.variableStorage.SetValue(variableName, yarnValue);
         }
 
         private Yarn.Value GetObjectValue(string variableName, bool includeLeading = true)
@@ -65,5 +72,42 @@ namespace Scripts.Level.Dialogue
         {
             return "$" + variableName;
         }
+
+        #region Events
+        public event EventHandler Starting, Started;
+        public event EventHandler Stopping, Stopped;
+        public event EventHandler Completed, Ended;
+
+        protected void OnStarting()
+        {
+            Starting?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnStarted()
+        {
+            Started?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnStopping()
+        {
+            Stopping?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnStopped()
+        {
+            Stopped?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnCompleted()
+        {
+            Completed?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnEnded()
+        {
+            Ended?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
+
     }
 }
