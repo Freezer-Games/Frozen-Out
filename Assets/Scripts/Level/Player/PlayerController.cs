@@ -5,12 +5,6 @@ using UnityEngine;
 using Scripts.Settings;
 using Scripts.Level.Sound;
 
-[Serializable]
-public class PlayerControllerEventArgs : EventArgs
-{
-    public bool Cancel { get; set; }
-}
-
 namespace Scripts.Level.Player
 {
     public class PlayerController : MonoBehaviour
@@ -272,5 +266,11 @@ namespace Scripts.Level.Player
         private void CreateDust() => Dust.Play();
 
         private void StopDust() => Dust.Stop();
+    }
+
+    [Serializable]
+    public class PlayerControllerEventArgs : EventArgs
+    {
+        public bool Cancel { get; set; }
     }
 }

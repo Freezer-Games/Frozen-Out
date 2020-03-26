@@ -4,10 +4,11 @@ using UnityEngine;
 
 using Scripts.Level.Sound;
 using Scripts.Level.Camera;
-using Scripts.Level.Dialogue;
 using Scripts.Level.Player;
+using Scripts.Level.Dialogue;
 using Scripts.Level.Mission;
 using Scripts.Level.NPC;
+using Scripts.Level.Item;
 
 namespace Scripts.Level
 {
@@ -19,7 +20,9 @@ namespace Scripts.Level
             get;
             private set;
         }
-        public IDialogueManager DialogueManager
+        //En cualquier otro lugar debería usarse IDialogueManager
+        //Unity no permite interfaces en el inspector, hay que usar una clase concreta aquí
+        public YarnManager DialogueManager
         {
             get;
             private set;
@@ -34,13 +37,25 @@ namespace Scripts.Level
             get;
             private set;
         }
-        private NPCInfo[] NPCs;
-        private MissionInfo[] Missions;
+        public Inventory Inventory
+        {
+            get;
+            private set;
+        }
+        public NPCInfo[] NPCs
+        {
+            get;
+            private set;
+        }
+        public MissionInfo[] Missions
+        {
+            get;
+            private set;
+        }
 
         void Start()
         {
-            DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
-            DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+            
         }
 
         public void Load()
@@ -67,6 +82,18 @@ namespace Scripts.Level
         public CameraManager GetCameraManager()
         {
             return CameraManager;
+        }
+        public Inventory GetInventory()
+        {
+            return Inventory;
+        }
+        public NPCInfo[] GetNPCs()
+        {
+            return NPCs;
+        }
+        public MissionInfo[] GetMissions()
+        {
+            return Missions;
         }
 
     }

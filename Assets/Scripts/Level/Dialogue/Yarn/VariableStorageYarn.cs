@@ -4,26 +4,46 @@ using System.Collections.ObjectModel;
 
 using Yarn.Unity;
 
-using Scripts;
-using Scripts.Level.Item;
-
 namespace Scripts.Level.Dialogue
 {
     public class VariableStorageYarn : VariableStorageBehaviour
     {
 
+        #region Singleton
+        public static VariableStorageYarn Instance
+        {
+            get
+            {
+                return Singleton;
+            }
+        }
+        private static VariableStorageYarn Singleton;
+        private void CheckSingleton()
+        {
+            if (Singleton != null && Singleton != this)
+            {
+                Destroy(this.gameObject);
+            } else {
+                Singleton = this;
+            }
+        }
+        #endregion
+
         public ReadOnlyDictionary<string, Yarn.Value> Variables => new ReadOnlyDictionary<string, Yarn.Value>(variables);
         private readonly Dictionary<string, Yarn.Value> variables = new Dictionary<string, Yarn.Value>();
 
-        public bool IsInitialized { get; private set; }
+        public bool IsInitialized {
+            get;
+            private set;
+        }
 
-        public event EventHandler<ReadOnlyDictionary<string, Yarn.Value>> Initialized;
-
-        private GameManager gameManager;
+        void Awake()
+        {
+            CheckSingleton();
+        }
 
         void Start()
         {
-            gameManager = GameManager.Instance;
             ResetToDefaults();
         }
 
@@ -31,31 +51,7 @@ namespace Scripts.Level.Dialogue
         {
             IsInitialized = false;
             Clear();
-
-            //SetTextSizeValue();
-            //SetInventoryValues();
-
-            OnInitialized(Variables);
-        }
-
-        /*private void SetTextSizeValue()
-        {
-            SetValue(gameManager.getTextSizeName(), gameManager.getTextSize());
-        }
-
-        private void SetInventoryValues()
-        {
-            Inventory inventory = gameManager.currentLevelManager.getInventory();
-            foreach (ItemInfo item in inventory.inventoryItems) {
-
-                SetValue(item.variableName, item.isInitiallyInInventory);
-            }
-        }*/
-
-        protected virtual void OnInitialized(ReadOnlyDictionary<string, Yarn.Value> variables)
-        {
             IsInitialized = true;
-            Initialized?.Invoke(this, variables);
         }
 
         public override void SetValue(string variableName, Yarn.Value yarnValue)

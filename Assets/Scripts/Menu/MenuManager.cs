@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Scripts.Localisation;
+
 namespace Scripts.Menu
 {
     public class MenuManager : MonoBehaviour
     {
+        public LocalisationManager LocalisationManager;
         
         public bool IsOpen
         {

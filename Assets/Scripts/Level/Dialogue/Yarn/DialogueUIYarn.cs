@@ -40,8 +40,8 @@ namespace Scripts.Level.Dialogue
         void Start()
         {
             gameManager = GameManager.Instance;
-            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
             DialogueManager = gameManager.CurrentLevelManager.GetDialogueManager();
+            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
 
             if (dialogueBoxGUI != null)
             {

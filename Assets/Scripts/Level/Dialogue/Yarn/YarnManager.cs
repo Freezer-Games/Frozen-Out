@@ -5,16 +5,23 @@ using UnityEngine;
 
 using Yarn.Unity;
 
+using Scripts;
+
 namespace Scripts.Level.Dialogue
 {
     public class YarnManager : MonoBehaviour, IDialogueManager
     {
 
-        private DialogueRunner DialogueRunner;
+        public DialogueRunner DialogueRunner;
+
+        private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
+        private DialogueUIBehaviour DialogueUI => DialogueRunner.dialogueUI;
 
         void Awake()
         {
             DialogueRunner = FindObjectOfType<DialogueRunner>();
+            DialogueRunner.variableStorage = VariableStorageYarn.Instance;
+
             DialogueRunner.Starting += (sender, args) => OnStarting();
             DialogueRunner.Started += (sender, args) => OnStarted();
             DialogueRunner.Stopping += (sender, args) => OnStopping();
@@ -55,7 +62,7 @@ namespace Scripts.Level.Dialogue
                 variableName = AddLeading(variableName);
             }
 
-            DialogueRunner.variableStorage.SetValue(variableName, yarnValue);
+            VariableStorage.SetValue(variableName, yarnValue);
         }
 
         private Yarn.Value GetObjectValue(string variableName, bool includeLeading = true)
@@ -65,7 +72,7 @@ namespace Scripts.Level.Dialogue
                 variableName = AddLeading(variableName);
             }
 
-            return DialogueRunner.variableStorage.GetValue(variableName);
+            return VariableStorage.GetValue(variableName);
         }
 
         private string AddLeading(string variableName)

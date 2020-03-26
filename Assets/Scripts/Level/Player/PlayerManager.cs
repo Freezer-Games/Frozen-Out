@@ -19,7 +19,7 @@ namespace Scripts.Level.Player
         {
             SoundManager = GameManager.Instance.CurrentLevelManager.GetSoundManager();
             
-            Player = GameObject.Find("POL");
+            Player = gameObject;
             Animator = Player.GetComponent<Animator>();
             Controller = Player.GetComponent<PlayerController>();
         }

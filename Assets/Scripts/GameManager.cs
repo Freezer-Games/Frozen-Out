@@ -7,6 +7,7 @@ using Scripts.Level;
 using Scripts.Menu;
 using Scripts.Settings;
 using Scripts.Localisation;
+using Scripts.Player;
 
 namespace Scripts
 {
@@ -29,7 +30,6 @@ namespace Scripts
                 Destroy(this.gameObject);
             } else {
                 Singleton = this;
-                DontDestroyOnLoad(gameObject);
             }
         }
         #endregion
@@ -41,8 +41,8 @@ namespace Scripts
         }
         public MenuManager MenuManager;
         public SettingsManager SettingsManager;
+        public PlayerInformation PlayerInformation;
         public LocalisationManager LocalisationManager;
-        public LocalisationManager MenuLocalisationManager;
 
         private int CurrentLevel = 0;
 
@@ -70,7 +70,6 @@ namespace Scripts
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 LocalisationManager.LoadLocalisedText("Trial_level_Default.json");
-                MenuLocalisationManager.LoadLocalisedText("Menu_pausa_Default.json");
             }
 
         }
@@ -87,7 +86,7 @@ namespace Scripts
             CurrentLevel = level;
             SceneManager.LoadScene(CurrentLevel);
 
-            CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
+            CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
             CurrentLevelManager.Load();
         }
 
