@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Scripts.Level;
-using Scripts.Menu;
+using Scripts.Menu.Pause;
 using Scripts.Settings;
 using Scripts.Localisation;
 using Scripts.Player;
+using Scripts.Save;
 
 namespace Scripts
 {
@@ -39,69 +40,87 @@ namespace Scripts
             get;
             private set;
         }
-        public MenuManager MenuManager;
+        public PauseMenuManager PauseMenuManager;
         public SettingsManager SettingsManager;
+        public SaveManager SaveManager;
         public PlayerInformation PlayerInformation;
         public LocalisationManager LocalisationManager;
 
-        private int CurrentLevel = 0;
+        private int CurrentLevelIndex = 0;
 
         void Awake()
         {
             CheckSingleton();
+
+            #if UNITY_EDITOR
+            CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+            CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
+            #endif
         }
 
         void Start()
         {
-            MenuManager.Close();
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            PauseMenuManager.Close();
             Time.timeScale = 1;
         }
 
-        void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        public void SaveGame()
+        {
+            SaveManager.Save();
+        }
+
+        public void LoadGame()
+        {
+            SaveManager.Load();
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
             
-            if (scene.buildIndex == 0)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                LocalisationManager.LoadLocalisedText("Menu_Default.json");
-
-            } else {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                LocalisationManager.LoadLocalisedText("Trial_level_Default.json");
-            }
-
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+            #endif
         }
 
         public void LoadNextLevel()
         {
-            LoadLevel(CurrentLevel + 1);
+            LoadLevel(CurrentLevelIndex + 1);
         }
 
-        public void LoadLevel(int level)
+        public void RestartLevel()
+        {
+            LoadLevel(CurrentLevelIndex); //TODO sin volver a buscar el LevelManager se debería poder reiniciar
+        }
+
+        public void LoadMainMenu()
+        {
+            CurrentLevelManager.Unload();
+            CurrentLevelManager = null;
+
+            CurrentLevelIndex = 0;
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+
+            PauseMenuManager.Disable();
+        }
+
+        public void LoadLevel(string levelName)
+        {
+            int levelIndex = SceneManager.GetSceneByName(levelName).buildIndex;
+            LoadLevel(levelIndex);
+        }
+
+        private void LoadLevel(int levelIndex)
         {
             CurrentLevelManager.Unload();
 
-            CurrentLevel = level;
-            SceneManager.LoadScene(CurrentLevel);
+            CurrentLevelIndex = levelIndex;
+            SceneManager.LoadScene(CurrentLevelIndex);
+
+            PauseMenuManager.Enable();
 
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
             CurrentLevelManager.Load();
-        }
-
-        public void CinematicMode()
-        {
-            CurrentLevelManager.GetPlayerManager().ToCinematic();
-            
-            CurrentLevelManager.GetCameraManager().ToCinematic();
-        }
-
-        public void NormalMode()
-        {
-            CurrentLevelManager.GetPlayerManager().ToNormal();
-
-            CurrentLevelManager.GetCameraManager().ToNormal();
         }
 
     }

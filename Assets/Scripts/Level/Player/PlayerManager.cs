@@ -8,18 +8,17 @@ namespace Scripts.Level.Player
     public class PlayerManager : MonoBehaviour
     {
         
+        public GameObject Player;
         public bool InCinematic = false;
 
         private Animator Animator;
         private SoundManager SoundManager;
         private PlayerController Controller;
-        private GameObject Player;
         
         void Start()
         {
             SoundManager = GameManager.Instance.CurrentLevelManager.GetSoundManager();
             
-            Player = gameObject;
             Animator = Player.GetComponent<Animator>();
             Controller = Player.GetComponent<PlayerController>();
         }

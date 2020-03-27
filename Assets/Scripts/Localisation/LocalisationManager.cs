@@ -20,7 +20,6 @@ namespace Scripts.Localisation
         {
             LocalizedText = new Dictionary<string, string>();
             string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-            print(Application.streamingAssetsPath);
 
             if (File.Exists(filePath))
             {
@@ -36,7 +35,7 @@ namespace Scripts.Localisation
             IsReady = true;
         }
 
-        public string GetLocalizedValue(string key)
+        public string GetLocalisedValue(string key)
         {
             string result = MissingTextString;
             if (LocalizedText.ContainsKey(key))

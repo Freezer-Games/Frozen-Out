@@ -55,6 +55,11 @@ namespace Scripts.Settings
             get;
             private set;
         }
+        public KeyCode PauseKey
+        {
+            get;
+            private set;
+        }
 
         public float MusicVolume
         {
@@ -82,15 +87,16 @@ namespace Scripts.Settings
 
         private void AssignKeys()
         {
-            JumpKey = GetPlayerPrefsKey("jumpKey", "Space");
-            ForwardKey = GetPlayerPrefsKey("forwardKey", "W");
-            BackwardKey = GetPlayerPrefsKey("backwardKey", "S");
-            RightKey = GetPlayerPrefsKey("rightKey", "D");
-            LeftKey = GetPlayerPrefsKey("leftKey", "A");
-            CrouchKey = GetPlayerPrefsKey("CrouchKey", "LeftControl");
-            InteractKey = GetPlayerPrefsKey("InteractKey", "F");
-            NextDialogueKey = GetPlayerPrefsKey("NextDialogueKey", "Space");
-            MissionsKey = GetPlayerPrefsKey("MissionsKey", "Tab");
+            JumpKey = GetPlayerPrefsKey(nameof(JumpKey), "Space");
+            ForwardKey = GetPlayerPrefsKey(nameof(ForwardKey), "W");
+            BackwardKey = GetPlayerPrefsKey(nameof(BackwardKey), "S");
+            RightKey = GetPlayerPrefsKey(nameof(RightKey), "D");
+            LeftKey = GetPlayerPrefsKey(nameof(LeftKey), "A");
+            CrouchKey = GetPlayerPrefsKey(nameof(CrouchKey), "LeftControl");
+            InteractKey = GetPlayerPrefsKey(nameof(InteractKey), "F");
+            NextDialogueKey = GetPlayerPrefsKey(nameof(NextDialogueKey), "Space");
+            MissionsKey = GetPlayerPrefsKey(nameof(MissionsKey), "Tab");
+            PauseKey = GetPlayerPrefsKey(nameof(PauseKey), "Escape");
         }
 
         private KeyCode GetPlayerPrefsKey(string name, string defaultValue)

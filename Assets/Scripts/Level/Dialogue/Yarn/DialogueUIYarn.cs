@@ -11,6 +11,8 @@ namespace Scripts.Level.Dialogue
 {
     public class DialogueUIYarn : DialogueUIBehaviour
     {
+        public DialogueRunner DialogueRunner;
+        
         private const string MAIN_NAME = "Pol";
         private const string LINE_SEPARATOR = ": ";
 
@@ -32,16 +34,14 @@ namespace Scripts.Level.Dialogue
         private float localDelay;
         private readonly float localDelayMultiplier = 1.5f;
 
-        private GameManager gameManager;
-        private IDialogueManager DialogueManager;
+        private GameManager GameManager;
         private SoundManager SoundManager;
         private int currentLineNumber;
 
         void Start()
         {
-            gameManager = GameManager.Instance;
-            DialogueManager = gameManager.CurrentLevelManager.GetDialogueManager();
-            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
+            GameManager = GameManager.Instance;
+            SoundManager = GameManager.CurrentLevelManager.GetSoundManager();
 
             if (dialogueBoxGUI != null)
             {
@@ -53,7 +53,7 @@ namespace Scripts.Level.Dialogue
 
         void FixedUpdate()
         {
-            if (DialogueManager.IsRunning() && Input.GetKey(gameManager.SettingsManager.NextDialogueKey))
+            if (DialogueRunner.isDialogueRunning && Input.GetKey(GameManager.SettingsManager.NextDialogueKey))
             {
                 localDelay /= localDelayMultiplier;
             }
@@ -87,7 +87,7 @@ namespace Scripts.Level.Dialogue
                 }*/
             }
 
-            while (!Input.GetKeyDown(gameManager.SettingsManager.NextDialogueKey))
+            while (!Input.GetKeyDown(GameManager.SettingsManager.NextDialogueKey))
             {
                 yield return null;
             }

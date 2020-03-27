@@ -15,43 +15,15 @@ namespace Scripts.Level
     public class LevelManager : MonoBehaviour, ILevelManager
     {
 
-        public PlayerManager Player
-        {
-            get;
-            private set;
-        }
+        public PlayerManager Player;
         //En cualquier otro lugar debería usarse IDialogueManager
         //Unity no permite interfaces en el inspector, hay que usar una clase concreta aquí
-        public YarnManager DialogueManager
-        {
-            get;
-            private set;
-        }
-        public SoundManager SoundManager
-        {
-            get;
-            private set;
-        }
-        public CameraManager CameraManager
-        {
-            get;
-            private set;
-        }
-        public Inventory Inventory
-        {
-            get;
-            private set;
-        }
-        public NPCInfo[] NPCs
-        {
-            get;
-            private set;
-        }
-        public MissionInfo[] Missions
-        {
-            get;
-            private set;
-        }
+        public YarnManager DialogueManager;
+        public SoundManager SoundManager;
+        public CameraManager CameraManager;
+        public Inventory Inventory;
+        public NPCInfo[] NPCs;
+        public MissionInfo[] Missions;
 
         void Start()
         {

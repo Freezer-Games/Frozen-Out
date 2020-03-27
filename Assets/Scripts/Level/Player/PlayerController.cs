@@ -9,7 +9,6 @@ namespace Scripts.Level.Player
 {
     public class PlayerController : MonoBehaviour
     {
-        private CharacterController CharacterController;
 
         public ParticleSystem Dust;
 
@@ -44,6 +43,7 @@ namespace Scripts.Level.Player
 
         public event EventHandler<PlayerControllerEventArgs> Moving; 
         public event EventHandler Idle;
+        private CharacterController CharacterController;
         private Animator Animator;
         private SettingsManager SettingsManager;
         private SoundManager SoundManager;
@@ -52,8 +52,9 @@ namespace Scripts.Level.Player
 
         void Start()
         {
-            SettingsManager = GameManager.Instance.SettingsManager;
-            SoundManager = GameManager.Instance.CurrentLevelManager.GetSoundManager();
+            GameManager gameManager = GameManager.Instance;
+            SettingsManager = gameManager.SettingsManager;
+            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
 
             Animator = GetComponent<Animator>();
             CharacterController = GetComponent<CharacterController>();
