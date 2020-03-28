@@ -61,9 +61,17 @@ namespace Scripts
         void Start()
         {
             PauseMenuManager.Close();
-            Time.timeScale = 1;
         }
 
+        #region SettingsManager
+        public void SetMusicVolume(float newVolume)
+        {
+            SettingsManager.SetMusicVolume(newVolume);
+            AudioListener.volume = Mathf.Clamp(newVolume / 100f, 0, 1);
+        }
+        #endregion
+
+        #region SaveManager
         public void SaveGame()
         {
             SaveManager.Save();
@@ -72,6 +80,35 @@ namespace Scripts
         public void LoadGame()
         {
             SaveManager.Load();
+        }
+
+        public void ContinueGame()
+        {
+            SaveManager.Load();
+            // TODO
+        }
+        #endregion
+
+        #region Load
+        public void StartGame()
+        {
+            LoadLevel(1);
+        }
+
+        public void LoadMainMenu()
+        {
+            CurrentLevelManager.Unload();
+            CurrentLevelManager = null;
+
+            CurrentLevelIndex = 0;
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+
+            PauseMenuManager.Disable();
+        }
+
+        public void LoadTestLevel()
+        {
+            LoadLevel("Test");
         }
 
         public void Quit()
@@ -93,17 +130,6 @@ namespace Scripts
             LoadLevel(CurrentLevelIndex); //TODO sin volver a buscar el LevelManager se debería poder reiniciar
         }
 
-        public void LoadMainMenu()
-        {
-            CurrentLevelManager.Unload();
-            CurrentLevelManager = null;
-
-            CurrentLevelIndex = 0;
-            SceneManager.LoadScene(0, LoadSceneMode.Single);
-
-            PauseMenuManager.Disable();
-        }
-
         public void LoadLevel(string levelName)
         {
             int levelIndex = SceneManager.GetSceneByName(levelName).buildIndex;
@@ -112,7 +138,7 @@ namespace Scripts
 
         private void LoadLevel(int levelIndex)
         {
-            CurrentLevelManager.Unload();
+            if(CurrentLevelManager != null) CurrentLevelManager.Unload();
 
             CurrentLevelIndex = levelIndex;
             SceneManager.LoadScene(CurrentLevelIndex);
@@ -122,7 +148,7 @@ namespace Scripts
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
             CurrentLevelManager.Load();
         }
+        #endregion
 
     }
 }
-

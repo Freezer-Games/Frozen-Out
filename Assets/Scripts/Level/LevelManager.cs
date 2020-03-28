@@ -25,15 +25,19 @@ namespace Scripts.Level
         public NPCInfo[] NPCs;
         public MissionInfo[] Missions;
 
+        private GameManager GameManager;
+
         void Start()
         {
-            
+            GameManager = GameManager.Instance;
         }
 
         public void Load()
         {
+            AudioListener.volume = Mathf.Clamp(GameManager.SettingsManager.MusicVolume / 100f, 0, 1);
             // TODO
         }
+
         public void Unload()
         {
             // TODO

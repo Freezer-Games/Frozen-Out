@@ -27,6 +27,7 @@ namespace Scripts.Menu.Pause
         {
             IsEnabled = true;
             IsOpen = false;
+
             LocalisationManager.LoadLocalisedText("Menu_pausa_Default.json");
         }
 
@@ -46,7 +47,7 @@ namespace Scripts.Menu.Pause
         {
             IsEnabled = true;
         }
-        // TODO
+        
     }
 
 }

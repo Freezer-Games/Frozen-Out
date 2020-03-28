@@ -11,7 +11,6 @@ namespace Scripts.Menu.Pause
         public PauseMenuManager PauseMenuManager;
 
         public Canvas PauseMenuCanvas;
-        public Canvas LoadCanvas;
         
         public Button ContinueButton;
         public Button SaveButton;
@@ -25,7 +24,6 @@ namespace Scripts.Menu.Pause
         {
             GameManager = GameManager.Instance;
             PauseMenuCanvas.enabled = false;
-            LoadCanvas.enabled = false;
 
             ContinueButton.onClick.AddListener(CloseOpenMenu);
             SaveButton.onClick.AddListener(SaveGame);
