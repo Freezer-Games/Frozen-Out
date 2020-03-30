@@ -10,6 +10,8 @@ namespace Scripts.Level.Player
     public class PlayerController : MonoBehaviour
     {
 
+        public PlayerManager PlayerManager;
+
         public ParticleSystem Dust;
 
         [Header("Movement")]
@@ -45,19 +47,14 @@ namespace Scripts.Level.Player
         public event EventHandler Idle;
         private CharacterController CharacterController;
         private Animator Animator;
-        private SettingsManager SettingsManager;
-        private SoundManager SoundManager;
 
         private GameObject Snow;
 
         void Start()
         {
-            GameManager gameManager = GameManager.Instance;
-            SettingsManager = gameManager.SettingsManager;
-            SoundManager = gameManager.CurrentLevelManager.GetSoundManager();
-
             Animator = GetComponent<Animator>();
             CharacterController = GetComponent<CharacterController>();
+
             Height = CharacterController.height;
             BendHeight = CharacterController.height - BendDiff;
             Center = CharacterController.center;
@@ -134,25 +131,25 @@ namespace Scripts.Level.Player
         // Reproduce o para el sonido de pisadas según si se está moviendo o no
         private void CheckAudio()
         {
-            if (SoundManager.Steps.isPlaying)
+            if (PlayerManager.IsStepsPlaying())
             {
                 if (!IsMoving)
                 {
-                    SoundManager.Steps.Stop();
+                    PlayerManager.StopSteps();
                 }
             }
             else
             {
                 if (IsMoving)
                 {
-                    SoundManager.Steps.Play();
+                    PlayerManager.PlaySteps();
                 }
             }
         }
 
         private void CheckSneaking()
         {
-            if (Input.GetKey(SettingsManager.CrouchKey)) //left control - va lento
+            if (Input.GetKey(PlayerManager.GetCrouchKey())) //left control - va lento
             {
                 IsSneaking = true;
                 Animator.SetTrigger("isSneakingIn");
@@ -180,32 +177,32 @@ namespace Scripts.Level.Player
         {
             MoveDirection.y = 0;
 
-            if (Input.GetKeyDown(SettingsManager.JumpKey))
+            if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
             {
                 Jump();
             }
         }
 
-        private bool CheckInput() => SettingsManager.MovementKeys.Any(Input.GetKey);
+        private bool CheckInput() => PlayerManager.GetMovementKeys().Any(Input.GetKey);
 
         private void MovementCalculation()
         {
             Horizontal = 0;
             Vertical = 0;
-            if (Input.GetKey(SettingsManager.ForwardKey))
+            if (Input.GetKey(PlayerManager.GetForwardKey()))
             {
                 Vertical++;
             }
-            else if (Input.GetKey(SettingsManager.BackwardKey))
+            else if (Input.GetKey(PlayerManager.GetBackKey()))
             {
                 Vertical--;
             }
             
-            if (Input.GetKey(SettingsManager.LeftKey))
+            if (Input.GetKey(PlayerManager.GetLeftKey()))
             {
                 Horizontal--;
             }
-            else if (Input.GetKey(SettingsManager.RightKey))
+            else if (Input.GetKey(PlayerManager.GetRightKey()))
             {
                 Horizontal++;
             }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+using Scripts.Settings;
+
 using Scripts.Localisation;
-using UnityEngine.UI;
-using System;
 
 namespace Scripts.Menu.Main
 {
@@ -16,6 +17,7 @@ namespace Scripts.Menu.Main
         public LocalisationManager LocalisationManager;
 
         private GameManager GameManager => GameManager.Instance;
+        private SettingsManager SettingsManager => GameManager.SettingsManager;
 
         void Start()
         {
@@ -60,7 +62,7 @@ namespace Scripts.Menu.Main
 
         public float GetMusicVolume()
         {
-            return GameManager.SettingsManager.MusicVolume;
+            return SettingsManager.MusicVolume;
         }
 
         public void SetMusicVolume(float newVolume)
@@ -70,22 +72,22 @@ namespace Scripts.Menu.Main
 
         public float GetTextSize()
         {
-            return GameManager.SettingsManager.TextSize;
+            return SettingsManager.TextSize;
         }
 
         public void SetTextSize(float newTextSize)
         {
-            GameManager.SettingsManager.SetTextSize(newTextSize);
+            SettingsManager.SetTextSize(newTextSize);
         }
 
         public string GetLanguage()
         {
-            return GameManager.SettingsManager.Language;
+            return SettingsManager.Language;
         }
 
         public void SetLanguage(string newLanguage)
         {
-            GameManager.SettingsManager.SetLanguage(newLanguage);
+            SettingsManager.SetLanguage(newLanguage);
             /*LocalisationManager.SetLanguage(newLanguage);
             
 
@@ -112,42 +114,42 @@ namespace Scripts.Menu.Main
 
         public List<string> GetSupportedLanguages()
         {
-            return GameManager.SettingsManager.SupportedLanguages;
+            return SettingsManager.SupportedLanguages;
         }
 
         public string GetAspectRatio()
         {
-            return GameManager.SettingsManager.AspectRatio;
+            return SettingsManager.AspectRatio;
         }
 
         public void SetAspectRatio(string newAspectRatio)
         {
-            GameManager.SettingsManager.SetAspectRatio(newAspectRatio);
+            SettingsManager.SetAspectRatio(newAspectRatio);
         }
 
         public List<string> GetSupportedAspectRatios()
         {
-            return GameManager.SettingsManager.SupportedAspectRatios;
+            return SettingsManager.SupportedAspectRatios;
         }
 
         public string GetScreenType()
         {
-            return GameManager.SettingsManager.ScreenType;
+            return SettingsManager.ScreenType;
         }
 
         public void SetScreenType(string newScreenType)
         {
-            GameManager.SettingsManager.SetScreenType(newScreenType);
+            SettingsManager.SetScreenType(newScreenType);
         }
 
         public List<string> GetSupportedScreenTypes()
         {
-            return GameManager.SettingsManager.SupportedScreenTypes;
+            return SettingsManager.SupportedScreenTypes;
         }
 
         public string GetResolution()
         {
-            return GameManager.SettingsManager.Resolution;
+            return SettingsManager.Resolution;
         }
 
         public void SetResolution(string newResolution, bool isFullscreen)
@@ -158,7 +160,7 @@ namespace Scripts.Menu.Main
             int resHeight = Int32.Parse(strlist[1]);
 
             Screen.SetResolution(resWidth, resHeight, isFullscreen);
-            GameManager.SettingsManager.SetResolution(newResolution);
+            SettingsManager.SetResolution(newResolution);
         }
 
         public List<string> GetSupportedResolutions()
@@ -169,120 +171,120 @@ namespace Scripts.Menu.Main
 
         public List<string> GetSupportedResolutions(string aspectRatio)
         {
-            return GameManager.SettingsManager.SupportedResolutions[aspectRatio];
+            return SettingsManager.SupportedResolutions[aspectRatio];
         }
 
         public string GetQuality()
         {
-            return GameManager.SettingsManager.Quality;
+            return SettingsManager.Quality;
         }
 
         public void SetLowQuality()
         {
             QualitySettings.masterTextureLimit = 8;
-            GameManager.SettingsManager.SetLowQuality();
+            SettingsManager.SetLowQuality();
         }
 
         public void SetMediumQuality()
         {
             QualitySettings.masterTextureLimit = 4;
-            GameManager.SettingsManager.SetMediumQuality();
+            SettingsManager.SetMediumQuality();
         }
 
         public void SetHighQuality()
         {
             QualitySettings.masterTextureLimit = 0;
-            GameManager.SettingsManager.SetHighQuality();
+            SettingsManager.SetHighQuality();
         }
 
         public KeyCode GetForwardKey()
         {
-            return GameManager.SettingsManager.ForwardKey;
+            return SettingsManager.ForwardKey;
         }
 
         public void SetForwardKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetForwardKey(keyCode);
+            SettingsManager.SetForwardKey(keyCode);
         }
 
         public KeyCode GetBackKey()
         {
-            return GameManager.SettingsManager.BackwardKey;
+            return SettingsManager.BackwardKey;
         }
 
         public void SetBackKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetBackwardKey(keyCode);
+            SettingsManager.SetBackwardKey(keyCode);
         }
 
         public KeyCode GetRightKey()
         {
-            return GameManager.SettingsManager.RightKey;
+            return SettingsManager.RightKey;
         }
 
         public void SetRightKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetRightKey(keyCode);
+            SettingsManager.SetRightKey(keyCode);
         }
 
         public KeyCode GetLeftKey()
         {
-            return GameManager.SettingsManager.LeftKey;
+            return SettingsManager.LeftKey;
         }
 
         public void SetLeftKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetLeftKey(keyCode);
+            SettingsManager.SetLeftKey(keyCode);
         }
 
         public KeyCode GetJumpKey()
         {
-            return GameManager.SettingsManager.JumpKey;
+            return SettingsManager.JumpKey;
         }
 
         public void SetJumpKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetJumpKey(keyCode);
+            SettingsManager.SetJumpKey(keyCode);
         }
 
         public KeyCode GetCrouchKey()
         {
-            return GameManager.SettingsManager.CrouchKey;
+            return SettingsManager.CrouchKey;
         }
 
         public void SetCrouchKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetCrouchKey(keyCode);
+            SettingsManager.SetCrouchKey(keyCode);
         }
 
         public KeyCode GetInteractKey()
         {
-            return GameManager.SettingsManager.InteractKey;
+            return SettingsManager.InteractKey;
         }
 
         public void SetInteractKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetInteractKey(keyCode);
+            SettingsManager.SetInteractKey(keyCode);
         }
 
         public KeyCode GetMissionsKey()
         {
-            return GameManager.SettingsManager.MissionsKey;
+            return SettingsManager.MissionsKey;
         }
 
         public void SetMissionsKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetMissionsKey(keyCode);
+            SettingsManager.SetMissionsKey(keyCode);
         }
 
         public KeyCode GetNextDialogueKey()
         {
-            return GameManager.SettingsManager.NextDialogueKey;
+            return SettingsManager.NextDialogueKey;
         }
 
         public void SetNextDialogueKey(KeyCode keyCode)
         {
-            GameManager.SettingsManager.SetNextDialogueKey(keyCode);
+            SettingsManager.SetNextDialogueKey(keyCode);
         }
 
     }

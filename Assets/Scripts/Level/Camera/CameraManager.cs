@@ -9,6 +9,8 @@ namespace Scripts.Level.Camera
     public class CameraManager : MonoBehaviour
     {
         
+        public LevelManager LevelManager;
+        
         public GameObject MainCamera;
 
         void Start()

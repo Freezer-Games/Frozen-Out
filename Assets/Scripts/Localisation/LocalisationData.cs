@@ -1,4 +1,5 @@
-namespace Scripts.Localisation{
+namespace Scripts.Localisation
+{
     [System.Serializable]
     public class LocalisationData
     {

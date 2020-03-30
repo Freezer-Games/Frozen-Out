@@ -7,18 +7,26 @@ namespace Scripts.Localisation
 {
     public class LocalisationManager : MonoBehaviour
     {
+
         public bool IsReady
         {
             get;
             private set;
-        } = false;
+        }
         
-        private Dictionary<string, string> LocalizedText;
+        private Dictionary<string, string> LocalisedText;
         private const string MissingTextString = "Localized text not found";
+
+        private GameManager GameManager => GameManager.Instance;
+
+        void start()
+        {
+            IsReady = false;
+        }
 
         public void LoadLocalisedText(string fileName)
         {
-            LocalizedText = new Dictionary<string, string>();
+            LocalisedText = new Dictionary<string, string>();
             string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
             if (File.Exists(filePath))
@@ -28,7 +36,7 @@ namespace Scripts.Localisation
 
                 for (int i = 0; i < loadedData.items.Length; i++)
                 {
-                    LocalizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
+                    LocalisedText.Add(loadedData.items[i].key, loadedData.items[i].value);
                 }
             }
 
@@ -38,13 +46,13 @@ namespace Scripts.Localisation
         public string GetLocalisedValue(string key)
         {
             string result = MissingTextString;
-            if (LocalizedText.ContainsKey(key))
+            if (LocalisedText.ContainsKey(key))
             {
-                result = LocalizedText[key];
+                result = LocalisedText[key];
             }
 
             return result;
-
         }
+
     }
 }

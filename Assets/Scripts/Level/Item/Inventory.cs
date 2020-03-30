@@ -9,6 +9,7 @@ namespace Scripts.Level.Item
 {
     public class Inventory : MonoBehaviour
     {
+        public LevelManager LevelManager;
 
         public List<ItemInfo> InventoryItems
         {
@@ -16,7 +17,7 @@ namespace Scripts.Level.Item
             private set;
         }
 
-        private IDialogueManager DialogueManager;
+        private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
 
         void Awake()
         {
@@ -27,7 +28,7 @@ namespace Scripts.Level.Item
 
         void Start()
         {
-            DialogueManager = GameManager.Instance.CurrentLevelManager.GetDialogueManager();
+            
         }
 
         private ItemInfo GetInventoryItem(GameObject worldItem)

@@ -6,13 +6,21 @@ namespace Scripts.Save
 {
     public class SaveManager : MonoBehaviour
     {
+
+        private GameManager GameManager => GameManager.Instance;
         
         //TODO
         public void Save()
         {
 
         }
-        public void Load()
+
+        public void Load(int loadIndex)
+        {
+            
+        }
+
+        public void LoadLastLevel()
         {
             
         }

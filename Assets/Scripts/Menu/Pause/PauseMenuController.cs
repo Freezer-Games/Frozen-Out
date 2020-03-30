@@ -18,11 +18,8 @@ namespace Scripts.Menu.Pause
         public Button RestartButton;
         public Button ExitButton;
 
-        private GameManager GameManager;
-
         void Start()
         {
-            GameManager = GameManager.Instance;
             PauseMenuCanvas.enabled = false;
 
             ContinueButton.onClick.AddListener(CloseOpenMenu);
@@ -34,7 +31,7 @@ namespace Scripts.Menu.Pause
 
         void Update()
         {
-            if (Input.GetKeyDown(GameManager.SettingsManager.PauseKey))
+            if (Input.GetKeyDown(PauseMenuManager.GetPauseKey()))
             {
                 CloseOpenMenu();
             }
@@ -44,26 +41,27 @@ namespace Scripts.Menu.Pause
         {
             Close();
 
-            GameManager.RestartLevel();
+            PauseMenuManager.RestartLevel();
         }
 
         void SaveGame()
         {
-            GameManager.SaveGame();
+            PauseMenuManager.SaveGame();
         }
 
         void LoadGame()
         {
             Close();
 
-            GameManager.LoadGame();
+            //TODO
+            //PauseMenuManager.LoadGame();
         }
 
         void Exit()
         {
             Close();
 
-            GameManager.LoadMainMenu();
+            PauseMenuManager.Exit();
         }
 
         private void Close()

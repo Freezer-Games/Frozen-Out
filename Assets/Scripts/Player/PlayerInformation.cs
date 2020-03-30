@@ -6,6 +6,8 @@ namespace Scripts.Player
 {
     public class PlayerInformation
     {
+
+        private GameManager GameManager => GameManager.Instance;
         //TODO
     }
 }

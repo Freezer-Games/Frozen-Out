@@ -6,6 +6,9 @@ namespace Scripts.Level.Sound
 {
     public class SoundManager : MonoBehaviour
     {
+        
+        public LevelManager LevelManager;
+
         public AudioSource Steps;
         public AudioSource DialogueText;
 

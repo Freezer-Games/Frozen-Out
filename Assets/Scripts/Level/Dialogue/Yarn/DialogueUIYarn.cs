@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 using Yarn.Unity;
 
-using Scripts.Level.Sound;
-
 namespace Scripts.Level.Dialogue
 {
     public class DialogueUIYarn : DialogueUIBehaviour
     {
-        public DialogueRunner DialogueRunner;
+        public YarnManager DialogueManager;
         
         private const string MAIN_NAME = "Pol";
         private const string LINE_SEPARATOR = ": ";
@@ -33,16 +31,10 @@ namespace Scripts.Level.Dialogue
 
         private float localDelay;
         private readonly float localDelayMultiplier = 1.5f;
-
-        private GameManager GameManager;
-        private SoundManager SoundManager;
         private int currentLineNumber;
 
         void Start()
         {
-            GameManager = GameManager.Instance;
-            SoundManager = GameManager.CurrentLevelManager.GetSoundManager();
-
             if (dialogueBoxGUI != null)
             {
                 dialogueBoxGUI.SetActive(false);
@@ -53,7 +45,7 @@ namespace Scripts.Level.Dialogue
 
         void FixedUpdate()
         {
-            if (DialogueRunner.isDialogueRunning && Input.GetKey(GameManager.SettingsManager.NextDialogueKey))
+            if (DialogueManager.IsRunning() && Input.GetKey(DialogueManager.GetNextDialogueKey()))
             {
                 localDelay /= localDelayMultiplier;
             }
@@ -87,7 +79,7 @@ namespace Scripts.Level.Dialogue
                 }*/
             }
 
-            while (!Input.GetKeyDown(GameManager.SettingsManager.NextDialogueKey))
+            while (!Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
             {
                 yield return null;
             }

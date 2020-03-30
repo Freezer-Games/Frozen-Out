@@ -5,17 +5,21 @@ using UnityEngine;
 
 using Yarn.Unity;
 
-using Scripts;
+using Scripts.Settings;
 
 namespace Scripts.Level.Dialogue
 {
     public class YarnManager : MonoBehaviour, IDialogueManager
     {
+        
+        public LevelManager LevelManager;
 
         public DialogueRunner DialogueRunner;
 
         private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
         private DialogueUIBehaviour DialogueUI => DialogueRunner.dialogueUI;
+
+        private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         void Awake()
         {
@@ -28,6 +32,11 @@ namespace Scripts.Level.Dialogue
             DialogueRunner.Stopped += (sender, args) => OnStopped();
             DialogueRunner.Completed += (sender, args) => OnCompleted();
             DialogueRunner.Ended += (sender, args) => OnEnded();
+        }
+
+        public KeyCode GetNextDialogueKey()
+        {
+            return SettingsManager.NextDialogueKey;
         }
 
         public bool IsRunning()

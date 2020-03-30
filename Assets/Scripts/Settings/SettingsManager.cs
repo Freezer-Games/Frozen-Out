@@ -27,7 +27,7 @@ namespace Scripts.Settings
             private set;
         }
 
-        public KeyCode[] MovementKeys => new KeyCode[] { ForwardKey, BackwardKey, LeftKey, RightKey };
+        public KeyCode [] MovementKeys => new KeyCode [] { ForwardKey, BackwardKey, LeftKey, RightKey };
 
         public KeyCode JumpKey
         {
@@ -126,6 +126,8 @@ namespace Scripts.Settings
             get;
             private set;
         }
+
+        private GameManager GameManager => GameManager.Instance;
 
         void Awake()
         {

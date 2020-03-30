@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Scripts.Settings;
+
 using Scripts.Level.Sound;
 using Scripts.Level.Camera;
 using Scripts.Level.Player;
@@ -15,7 +17,7 @@ namespace Scripts.Level
     public class LevelManager : MonoBehaviour, ILevelManager
     {
 
-        public PlayerManager Player;
+        public PlayerManager PlayerManager;
         //En cualquier otro lugar debería usarse IDialogueManager
         //Unity no permite interfaces en el inspector, hay que usar una clase concreta aquí
         public YarnManager DialogueManager;
@@ -25,16 +27,17 @@ namespace Scripts.Level
         public NPCInfo[] NPCs;
         public MissionInfo[] Missions;
 
-        private GameManager GameManager;
+        private GameManager GameManager => GameManager.Instance;
+        private SettingsManager SettingsManager => GameManager.SettingsManager;
 
         void Start()
         {
-            GameManager = GameManager.Instance;
+
         }
 
         public void Load()
         {
-            AudioListener.volume = Mathf.Clamp(GameManager.SettingsManager.MusicVolume / 100f, 0, 1);
+            AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
             // TODO
         }
 
@@ -43,9 +46,14 @@ namespace Scripts.Level
             // TODO
         }
 
+        public SettingsManager GetSettingsManager()
+        {
+            return SettingsManager;
+        }
+
         public PlayerManager GetPlayerManager()
         {
-            return Player;
+            return PlayerManager;
         }
         public IDialogueManager GetDialogueManager()
         {

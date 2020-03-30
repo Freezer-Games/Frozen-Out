@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Scripts.Settings;
+
 using Scripts.Level.Sound;
 using Scripts.Level.Player;
 using Scripts.Level.Dialogue;
@@ -17,6 +19,8 @@ namespace Scripts.Level
 
         void Load();
         void Unload();
+
+        SettingsManager GetSettingsManager();
 
         PlayerManager GetPlayerManager();
         IDialogueManager GetDialogueManager();

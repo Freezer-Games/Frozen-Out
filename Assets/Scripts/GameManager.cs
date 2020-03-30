@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 using Scripts.Level;
 using Scripts.Menu.Pause;
+using Scripts.Menu.Load;
 using Scripts.Settings;
 using Scripts.Localisation;
 using Scripts.Player;
@@ -14,6 +15,8 @@ namespace Scripts
 {
     public class GameManager : MonoBehaviour
     {
+        private int MainMenuIndex = 1;
+        private int StartingLevelIndex = 2;
 
         #region Singleton
         public static GameManager Instance
@@ -41,10 +44,10 @@ namespace Scripts
             private set;
         }
         public PauseMenuManager PauseMenuManager;
+        public LoadingScreenManager LoadingScreenManager;
         public SettingsManager SettingsManager;
         public SaveManager SaveManager;
         public PlayerInformation PlayerInformation;
-        public LocalisationManager LocalisationManager;
 
         private int CurrentLevelIndex = 0;
 
@@ -52,15 +55,15 @@ namespace Scripts
         {
             CheckSingleton();
 
-            #if UNITY_EDITOR
+            /*#if UNITY_EDITOR
             CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
-            #endif
+            #endif*/
         }
 
         void Start()
         {
-            PauseMenuManager.Close();
+            LoadMainMenu();
         }
 
         #region SettingsManager
@@ -77,14 +80,14 @@ namespace Scripts
             SaveManager.Save();
         }
 
-        public void LoadGame()
+        public void LoadGame(int loadIndex)
         {
-            SaveManager.Load();
+            SaveManager.Load(loadIndex);
         }
 
         public void ContinueGame()
         {
-            SaveManager.Load();
+            SaveManager.LoadLastLevel();
             // TODO
         }
         #endregion
@@ -92,18 +95,7 @@ namespace Scripts
         #region Load
         public void StartGame()
         {
-            LoadLevel(1);
-        }
-
-        public void LoadMainMenu()
-        {
-            CurrentLevelManager.Unload();
-            CurrentLevelManager = null;
-
-            CurrentLevelIndex = 0;
-            SceneManager.LoadScene(0, LoadSceneMode.Single);
-
-            PauseMenuManager.Disable();
+            LoadLevel(StartingLevelIndex);
         }
 
         public void LoadTestLevel()
@@ -136,17 +128,67 @@ namespace Scripts
             LoadLevel(levelIndex);
         }
 
+        public void LoadMainMenu()
+        {
+            BeforeLoadLevel();
+
+            CurrentLevelIndex = MainMenuIndex;
+            AsyncOperation asyncSceneLoading = SceneManager.LoadSceneAsync(CurrentLevelIndex);
+
+            asyncSceneLoading.completed += (var) => AfterLoadMainMenu();
+        }
+
         private void LoadLevel(int levelIndex)
         {
-            if(CurrentLevelManager != null) CurrentLevelManager.Unload();
+            BeforeLoadLevel();
 
             CurrentLevelIndex = levelIndex;
-            SceneManager.LoadScene(CurrentLevelIndex);
+            AsyncOperation asyncSceneLoading = SceneManager.LoadSceneAsync(CurrentLevelIndex);
 
+            asyncSceneLoading.completed += (var) => AfterLoadLevel();
+        }
+
+        private void BeforeLoadLevel()
+        {
+            if(CurrentLevelManager != null) CurrentLevelManager.Unload();
+            CurrentLevelManager = null;
+
+            LoadingScreenManager.ShowLoading();
+            PauseMenuManager.Disable();
+            PauseMenuManager.Close();
+        }
+        
+        private void AfterLoadLevel()
+        {
+            LoadingScreenManager.HideLoading();
             PauseMenuManager.Enable();
+            PauseMenuManager.Close();
 
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
             CurrentLevelManager.Load();
+        }
+
+        private void AfterLoadMainMenu()
+        {
+            LoadingScreenManager.HideLoading();
+            PauseMenuManager.Disable();
+            PauseMenuManager.Close();
+        }
+
+        private IEnumerator WaitForSceneLoading(int levelIndex)
+        {
+            BeforeLoadLevel();
+
+            AsyncOperation asyncSceneLoading = SceneManager.LoadSceneAsync(levelIndex);
+
+            yield return new WaitForSeconds(3);
+
+            while(!asyncSceneLoading.isDone)
+            {
+                yield return null;
+            }
+
+            AfterLoadLevel();
         }
         #endregion
 
