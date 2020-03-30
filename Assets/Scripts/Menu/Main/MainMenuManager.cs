@@ -37,7 +37,7 @@ namespace Scripts.Menu.Main
 
         public void StartGame()
         {
-            GameManager.StartGame();
+            GameManager.StartNewGame();
         }
 
         public void Quit()

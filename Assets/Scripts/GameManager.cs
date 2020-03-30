@@ -15,8 +15,6 @@ namespace Scripts
 {
     public class GameManager : MonoBehaviour
     {
-        private int MainMenuIndex = 1;
-        private int StartingLevelIndex = 2;
 
         #region Singleton
         public static GameManager Instance
@@ -50,20 +48,27 @@ namespace Scripts
         public PlayerInformation PlayerInformation;
 
         private int CurrentLevelIndex = 0;
+        
+        private int MainMenuIndex = 1;
+        private int StartingLevelIndex = 2;
 
         void Awake()
         {
             CheckSingleton();
 
-            /*#if UNITY_EDITOR
+            #if UNITY_EDITOR
             CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
-            #endif*/
+            LoadingScreenManager.HideIntro();
+            LoadingScreenManager.HideLoading();
+            #endif
         }
 
         void Start()
         {
-            LoadMainMenu();
+            #if !UNITY_EDITOR
+            StartGame();
+            #endif
         }
 
         #region SettingsManager
@@ -93,7 +98,12 @@ namespace Scripts
         #endregion
 
         #region Load
-        public void StartGame()
+        private void StartGame()
+        {
+            LoadingScreenManager.ShowIntro();
+            LoadMainMenu();
+        }
+        public void StartNewGame()
         {
             LoadLevel(StartingLevelIndex);
         }
@@ -171,6 +181,7 @@ namespace Scripts
         private void AfterLoadMainMenu()
         {
             LoadingScreenManager.HideLoading();
+            LoadingScreenManager.HideIntro();
             PauseMenuManager.Disable();
             PauseMenuManager.Close();
         }

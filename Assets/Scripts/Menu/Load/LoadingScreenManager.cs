@@ -8,7 +8,6 @@ namespace Scripts.Menu.Load
     {
 
         public Canvas LoadCanvas;
-
         public Canvas IntroCanvas;
 
         public bool IsLoading
