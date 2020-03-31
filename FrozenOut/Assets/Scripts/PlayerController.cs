@@ -21,6 +21,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce = 5f;
 
+    public GameObject pico;
+    public Transform toolPoint;
+    public GameObject obstacleAtFront;
+    public bool hasPickaxe;
+
     Vector2 input;
     Vector3 movement, camForward, camRight;
 
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
         moveState = MoveMode.Stopped;
         moveSpeed = NORMAL_SPEED;
         formChanged = false;
+        hasPickaxe = false;
     }
 
     void Update()
@@ -96,6 +102,27 @@ public class PlayerController : MonoBehaviour
         if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
         {
             isGrounded = true;
+        }
+
+        if (other.gameObject.CompareTag("Pickaxe"))
+        {
+            GameObject tool = Instantiate(pico, toolPoint.position, Quaternion.Euler(0f, 0f, 180f));
+            tool.transform.parent = toolPoint.transform;
+            hasPickaxe = true;
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            obstacleAtFront = other.gameObject;
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            obstacleAtFront = null;
         }
     }
 

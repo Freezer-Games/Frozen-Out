@@ -6,6 +6,7 @@ public class Stalactite : MonoBehaviour
 {
     Rigidbody rb;
     [SerializeField] private MoveMode reactTo;
+    public LayerMask whatIsGround;
 
     void Awake()
     {
@@ -15,7 +16,7 @@ public class Stalactite : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer == 8 && rb.isKinematic == true)
+        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
         {
             rb.Sleep();
             Debug.Log("Colision suelo");
