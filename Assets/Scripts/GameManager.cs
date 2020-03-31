@@ -7,7 +7,6 @@ using Scripts.Level;
 using Scripts.Menu.Pause;
 using Scripts.Menu.Load;
 using Scripts.Settings;
-using Scripts.Localisation;
 using Scripts.Player;
 using Scripts.Save;
 
@@ -45,7 +44,7 @@ namespace Scripts
         public LoadingScreenManager LoadingScreenManager;
         public SettingsManager SettingsManager;
         public SaveManager SaveManager;
-        public PlayerInformation PlayerInformation;
+        public PlayerInfo PlayerInfo;
 
         private int CurrentLevelIndex = 0;
         

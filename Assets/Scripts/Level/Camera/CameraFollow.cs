@@ -25,7 +25,6 @@ namespace Scripts.Level.Camera
         public float SmoothY;
         private float RotationY = 0.0f;
         private float RotationX = 0.0f;
-        private float TransitionSpeed = 1.0f;
         private Transform CinemaPos;
         private UnityEngine.Camera Camera;
 
@@ -33,6 +32,7 @@ namespace Scripts.Level.Camera
         {
             Camera = UnityEngine.Camera.main;
             CinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
+
             Vector3 rot = transform.localRotation.eulerAngles;
             RotationY = rot.y;
             RotationX = rot.x;
@@ -69,5 +69,6 @@ namespace Scripts.Level.Camera
             float step = CameraMoveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target.position, step);
         }
+        
     }
 }

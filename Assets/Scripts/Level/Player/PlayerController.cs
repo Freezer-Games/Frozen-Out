@@ -7,6 +7,8 @@ using Scripts.Level.Sound;
 
 namespace Scripts.Level.Player
 {
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(CharacterController))]
     public class PlayerController : MonoBehaviour
     {
 

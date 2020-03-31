@@ -8,6 +8,7 @@ using Scripts.Level.Sound;
 using Scripts.Level.Camera;
 using Scripts.Level.Player;
 using Scripts.Level.Dialogue;
+using Scripts.Level.Dialogue.YarnSpinner;
 using Scripts.Level.Mission;
 using Scripts.Level.NPC;
 using Scripts.Level.Item;
@@ -38,6 +39,9 @@ namespace Scripts.Level
         public void Load()
         {
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
+            
+            DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
+            DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
             // TODO
         }
 

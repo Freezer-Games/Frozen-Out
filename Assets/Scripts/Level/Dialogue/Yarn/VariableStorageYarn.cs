@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue
+namespace Scripts.Level.Dialogue.YarnSpinner
 {
     public class VariableStorageYarn : VariableStorageBehaviour
     {

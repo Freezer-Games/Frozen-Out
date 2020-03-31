@@ -7,6 +7,7 @@ using Scripts.Level.Sound;
 
 namespace Scripts.Level.Player
 {
+    [RequireComponent(typeof(Animator))]
     public class PlayerManager : MonoBehaviour
     {
         public LevelManager LevelManager;

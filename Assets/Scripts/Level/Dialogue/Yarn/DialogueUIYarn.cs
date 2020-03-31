@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue
+namespace Scripts.Level.Dialogue.YarnSpinner
 {
     public class DialogueUIYarn : DialogueUIBehaviour
     {

@@ -41,23 +41,24 @@ namespace Yarn.Unity
     }
 
     [Serializable]
-    public class DialogueEventArgs : EventArgs
+    public class YarnDialogueEventArgs : EventArgs
     {
         public string StartNode { get; }
 
-        public DialogueEventArgs(string startNode)
+        public YarnDialogueEventArgs(string startNode)
         {
             this.StartNode = startNode;
         }
     }
 
     [Serializable]
-    public class DialogueStartingEventArgs : DialogueEventArgs
+    public class YarnDialogueStartingEventArgs : YarnDialogueEventArgs
     {
         public bool Cancel { get; set; }
 
-        public DialogueStartingEventArgs(string startNode) : base(startNode)
+        public YarnDialogueStartingEventArgs(string startNode) : base(startNode)
         {
+
         }
     }
 
@@ -91,7 +92,8 @@ namespace Yarn.Unity
 
         /// Tests to see if the dialogue is running
         public bool isDialogueRunning { get; private set; }
-
+        
+        /// Tests to see if the dialogue is starting
         public bool isDialogueStarting { get; private set; }
 
         public bool automaticCommands = true;
@@ -127,18 +129,18 @@ namespace Yarn.Unity
 
         #region Events
         // Events for dialog state changes (Start/Stop)
-        public event EventHandler<DialogueStartingEventArgs> Starting;
-        public event EventHandler<DialogueEventArgs> Started;
+        public event EventHandler<YarnDialogueStartingEventArgs> Starting;
+        public event EventHandler<YarnDialogueEventArgs> Started;
         public event EventHandler Stopping, Stopped;
         public event EventHandler Completed, Ended;
 
-        protected virtual void OnStarting(DialogueStartingEventArgs args)
+        protected virtual void OnStarting(YarnDialogueStartingEventArgs args)
         {
             isDialogueStarting = true;
             Starting?.Invoke(this, args);
         }
 
-        protected virtual void OnStarted(DialogueEventArgs args)
+        protected virtual void OnStarted(YarnDialogueEventArgs args)
         {
             isDialogueStarting = false;
             isDialogueRunning = true;
@@ -291,7 +293,7 @@ namespace Yarn.Unity
         public void StartDialogue(string startNode)
         {
             // Notify that a dialogue is starting
-            var startingArgs = new DialogueStartingEventArgs(startNode);
+            YarnDialogueStartingEventArgs startingArgs = new YarnDialogueStartingEventArgs(startNode);
             OnStarting(startingArgs);
 
             // If it was not canceled by the event, continue
@@ -305,7 +307,7 @@ namespace Yarn.Unity
                 StartCoroutine(RunDialogue(startNode));
 
                 // Notify that a dialogue has started
-                var startedArgs = new DialogueEventArgs(startNode);
+                YarnDialogueEventArgs startedArgs = new YarnDialogueEventArgs(startNode);
                 OnStarted(startedArgs);
             }
         }

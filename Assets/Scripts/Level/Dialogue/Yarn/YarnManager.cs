@@ -7,7 +7,7 @@ using Yarn.Unity;
 
 using Scripts.Settings;
 
-namespace Scripts.Level.Dialogue
+namespace Scripts.Level.Dialogue.YarnSpinner
 {
     public class YarnManager : MonoBehaviour, IDialogueManager
     {
@@ -26,12 +26,7 @@ namespace Scripts.Level.Dialogue
             DialogueRunner = FindObjectOfType<DialogueRunner>();
             DialogueRunner.variableStorage = VariableStorageYarn.Instance;
 
-            DialogueRunner.Starting += (sender, args) => OnStarting();
-            DialogueRunner.Started += (sender, args) => OnStarted();
-            DialogueRunner.Stopping += (sender, args) => OnStopping();
-            DialogueRunner.Stopped += (sender, args) => OnStopped();
-            DialogueRunner.Completed += (sender, args) => OnCompleted();
-            DialogueRunner.Ended += (sender, args) => OnEnded();
+            SetEvents();
         }
 
         public KeyCode GetNextDialogueKey()
@@ -42,6 +37,16 @@ namespace Scripts.Level.Dialogue
         public bool IsRunning()
         {
             return DialogueRunner.isDialogueRunning;
+        }
+
+        public bool IsStarting()
+        {
+            return DialogueRunner.isDialogueStarting;
+        }
+
+        public void SetLanguage()
+        {
+            //TODO
         }
 
         public bool GetBoolVariable(string variableName, bool includeLeading = true)
@@ -90,18 +95,32 @@ namespace Scripts.Level.Dialogue
         }
 
         #region Events
-        public event EventHandler Starting, Started;
+        public event EventHandler<DialogueStartingEventArgs> Starting;
+        public event EventHandler<DialogueEventArgs> Started;
         public event EventHandler Stopping, Stopped;
         public event EventHandler Completed, Ended;
 
-        protected void OnStarting()
+        private void SetEvents()
         {
-            Starting?.Invoke(this, EventArgs.Empty);
+            DialogueRunner.Starting += (sender, args) => OnStarting(args);
+            DialogueRunner.Started += (sender, args) => OnStarted(args);
+            DialogueRunner.Stopping += (sender, args) => OnStopping();
+            DialogueRunner.Stopped += (sender, args) => OnStopped();
+            DialogueRunner.Completed += (sender, args) => OnCompleted();
+            DialogueRunner.Ended += (sender, args) => OnEnded();
         }
 
-        protected void OnStarted()
+        private void OnStarting(YarnDialogueStartingEventArgs yarnStartingArgs)
         {
-            Started?.Invoke(this, EventArgs.Empty);
+            DialogueStartingEventArgs startingArgs = new DialogueStartingEventArgs(yarnStartingArgs.StartNode);
+            startingArgs.Canceling += (sender, args) => yarnStartingArgs.Cancel = true;
+            Starting?.Invoke(this, startingArgs);
+        }
+
+        protected void OnStarted(YarnDialogueEventArgs yarnStartedArgs)
+        {
+            DialogueEventArgs startedArgs = new DialogueEventArgs(yarnStartedArgs.StartNode);
+            Started?.Invoke(this, startedArgs);
         }
 
         protected void OnStopping()

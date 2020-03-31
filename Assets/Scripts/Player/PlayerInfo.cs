@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scripts.Player
 {
-    public class PlayerInformation
+    public class PlayerInfo : MonoBehaviour
     {
 
         private GameManager GameManager => GameManager.Instance;
