@@ -23,7 +23,7 @@ ModelImporter:
     second: Agachado_Anticipacion
   - first:
       74: 7772024208039253584
-    second: Agachado_Movimiento
+    second: Agachado_Ciclo1
   - first:
       74: 3121806056735292868
     second: Agachado_Frenada
@@ -42,7 +42,28 @@ ModelImporter:
   - first:
       74: 8556510945761399507
     second: Respirando
-  externalObjects: {}
+  - first:
+      74: 6485766690235871273
+    second: Agachado_Ciclo2
+  - first:
+      74: 3222681734896727589
+    second: "Sorbete_Anticipaci\xF3n"
+  - first:
+      74: 6513494184075779496
+    second: Sorbete_Ciclo1
+  - first:
+      74: -6053379685557902752
+    second: Sorbete_Ciclo2
+  - first:
+      74: 511518478174071775
+    second: Derretirse
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1.003
+    second: {fileID: 5561349426305759274, guid: 053c66b7641962842a35b802b2d02aaa,
+      type: 3}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -62,7 +83,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -74,8 +95,8 @@ ModelImporter:
       name: Caminado_Anticipacion
       takeName: Take 001
       internalID: 1827226128182048838
-      firstFrame: -4
-      lastFrame: 4
+      firstFrame: 0
+      lastFrame: 8
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -103,8 +124,8 @@ ModelImporter:
       name: Caminado_Ciclo1
       takeName: Take 001
       internalID: -2682154317161348504
-      firstFrame: 5
-      lastFrame: 14
+      firstFrame: 9
+      lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -132,8 +153,8 @@ ModelImporter:
       name: Caminado_Ciclo2
       takeName: Take 001
       internalID: 4836786447632040918
-      firstFrame: 15
-      lastFrame: 24
+      firstFrame: 19
+      lastFrame: 28
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -161,8 +182,8 @@ ModelImporter:
       name: Caminado_Frenada
       takeName: Take 001
       internalID: -8175285351281398120
-      firstFrame: 25
-      lastFrame: 40
+      firstFrame: 29
+      lastFrame: 44
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -190,8 +211,8 @@ ModelImporter:
       name: Agachado_Anticipacion
       takeName: Take 001
       internalID: -4777538830912397511
-      firstFrame: 45
-      lastFrame: 50
+      firstFrame: 50
+      lastFrame: 53
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -216,10 +237,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Agachado_Movimiento
+      name: Agachado_Ciclo1
       takeName: Take 001
       internalID: 7772024208039253584
-      firstFrame: 51
+      firstFrame: 54
       lastFrame: 69
       wrapMode: 0
       orientationOffsetY: 0
@@ -248,8 +269,8 @@ ModelImporter:
       name: Agachado_Frenada
       takeName: Take 001
       internalID: 3121806056735292868
-      firstFrame: 80
-      lastFrame: 89
+      firstFrame: 84
+      lastFrame: 93
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -277,8 +298,8 @@ ModelImporter:
       name: Salto_Anticipacion
       takeName: Take 001
       internalID: -5471942805572544691
-      firstFrame: 96
-      lastFrame: 100
+      firstFrame: 100
+      lastFrame: 104
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -306,8 +327,8 @@ ModelImporter:
       name: Salto
       takeName: Take 001
       internalID: -7809416946527185901
-      firstFrame: 101
-      lastFrame: 116
+      firstFrame: 105
+      lastFrame: 120
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -335,8 +356,124 @@ ModelImporter:
       name: Salto_Frenada
       takeName: Take 001
       internalID: 6497943985522619590
-      firstFrame: 117
-      lastFrame: 127
+      firstFrame: 121
+      lastFrame: 131
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Agachado_Ciclo2
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 64
+      lastFrame: 73
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: "Sorbete_Anticipaci\xF3n"
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 230
+      lastFrame: 239
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Sorbete_Ciclo1
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 240
+      lastFrame: 252
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Sorbete_Ciclo2
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 253
+      lastFrame: 269
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -377,7 +514,7 @@ ModelImporter:
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    preserveHierarchy: 0
+    preserveHierarchy: 1
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
@@ -412,7 +549,7 @@ ModelImporter:
     globalScale: 30
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
