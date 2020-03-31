@@ -182,16 +182,6 @@ namespace Yarn.Unity
                 return;
             }
 
-            // And that we have our variable storage object
-            if (variableStorage == null)
-            {
-                Debug.LogError("Variable storage was not set! Can't run the dialogue!");
-                return;
-            }
-
-            // Ensure that the variable storage has the right stuff in it
-            variableStorage.ResetToDefaults();
-
             // Load all scripts
             if (sourceText != null)
             {

@@ -8763,6 +8763,7 @@ GameObject:
   - component: {fileID: 415088436541555616}
   - component: {fileID: 415088436541555620}
   - component: {fileID: 415088436541555623}
+  - component: {fileID: 9129526738961246902}
   m_Layer: 5
   m_Name: SelectLoadCanvas
   m_TagString: Untagged
@@ -8890,6 +8891,23 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &9129526738961246902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415088436541555618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5e20c04b66ed847bf5bd0f2cc02e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainMenuController: {fileID: 415088437169792271}
+  SelectLoadCanvas: {fileID: 415088436541555622}
+  LoadButton: {fileID: 415088435090156715}
+  CancelButton: {fileID: 415088436933020941}
+  LoadsScrollbar: {fileID: 415088436339952691}
 --- !u!1 &415088436546306136
 GameObject:
   m_ObjectHideFlags: 0
@@ -14001,6 +14019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainMenuManager: {fileID: 415088437112133895}
+  SelectLoadController: {fileID: 9129526738961246902}
   MainCanvas: {fileID: 415088437169792258}
   StartButton: {fileID: 415088435595204095}
   ContinueButton: {fileID: 415088437153351825}

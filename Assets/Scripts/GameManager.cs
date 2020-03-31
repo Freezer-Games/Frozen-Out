@@ -49,27 +49,36 @@ namespace Scripts
         private int CurrentLevelIndex = 0;
         
         private int MainMenuIndex = 1;
-        private int StartingLevelIndex = 2;
+        private int FirstLevelIndex = 2;
 
         void Awake()
         {
             CheckSingleton();
-
-            #if UNITY_EDITOR
-            CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex;
-            CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
-            LoadingScreenManager.HideIntro();
-            LoadingScreenManager.HideLoading();
-            #endif
         }
 
         void Start()
         {
-            #if !UNITY_EDITOR
+            #if UNITY_EDITOR
+            CurrentLevelIndex = SceneManager.GetAllScenes()[0].buildIndex; //Obtener index de la otra escena
+            Debug.Log(CurrentLevelIndex);
+            if(CurrentLevelIndex == 0)
+            {
+                StartGame();
+            }
+            else if(CurrentLevelIndex == MainMenuIndex)
+            {
+                AfterLoadMainMenu();
+            }
+            else if (CurrentLevelIndex >= FirstLevelIndex)
+            {
+                AfterLoadLevel();
+            }
+            LoadingScreenManager.HideIntro();
+            #else
             StartGame();
             #endif
         }
-
+        
         #region SettingsManager
         public void SetMusicVolume(float newVolume)
         {
@@ -104,7 +113,7 @@ namespace Scripts
         }
         public void StartNewGame()
         {
-            LoadLevel(StartingLevelIndex);
+            LoadLevel(FirstLevelIndex);
         }
 
         public void LoadTestLevel()

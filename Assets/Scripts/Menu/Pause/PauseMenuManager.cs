@@ -10,16 +10,11 @@ namespace Scripts.Menu.Pause
     public class PauseMenuManager : MonoBehaviour
     {
 
+        public PauseMenuController PauseMenuController;
         public LocalisationManager LocalisationManager;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
-        
-        public bool IsOpen
-        {
-            get;
-            private set;
-        }
 
         public bool IsEnabled
         {
@@ -34,12 +29,12 @@ namespace Scripts.Menu.Pause
 
         public void Open()
         {
-            IsOpen = true;
+            PauseMenuController.Open();
         }
 
         public void Close()
         {
-            IsOpen = false;
+            PauseMenuController.Close();
         }
 
         public void Disable()

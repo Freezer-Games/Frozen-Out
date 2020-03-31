@@ -19,6 +19,11 @@ namespace Scripts.Level.Item
 
         void Start()
         {
+            SetVisibility();
+        }
+
+        private void SetVisibility()
+        {
             bool startVisible = true;
             if(transform.parent.name == "Inventory")
             {

@@ -6,6 +6,10 @@ namespace Scripts.Level.Mission
 {
     public class MissionInfo : MonoBehaviour
     {
-        // TODO
+        
+        public string Nombre;
+        public string Description;
+        public List<string> SubObjectives;
+
     }
 }

@@ -42,6 +42,9 @@ namespace Scripts.Level
             
             DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
             DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+
+            Inventory.CloseMenu();
+            Inventory.CloseUsePrompt();
             // TODO
         }
 
@@ -59,26 +62,32 @@ namespace Scripts.Level
         {
             return PlayerManager;
         }
+
         public IDialogueManager GetDialogueManager()
         {
             return DialogueManager;
         }
+
         public SoundManager GetSoundManager()
         {
             return SoundManager;
         }
+        
         public CameraManager GetCameraManager()
         {
             return CameraManager;
         }
+
         public Inventory GetInventory()
         {
             return Inventory;
         }
+
         public NPCInfo[] GetNPCs()
         {
             return NPCs;
         }
+
         public MissionInfo[] GetMissions()
         {
             return Missions;

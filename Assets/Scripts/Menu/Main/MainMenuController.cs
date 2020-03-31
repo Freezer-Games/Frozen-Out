@@ -10,6 +10,8 @@ namespace Scripts.Menu.Main
         
         public MainMenuManager MainMenuManager;
 
+        public SelectLoadController SelectLoadController;
+
         public Canvas MainCanvas;
 
         public Button StartButton;
@@ -23,7 +25,7 @@ namespace Scripts.Menu.Main
         {
             StartButton.onClick.AddListener(StartGame);
             ContinueButton.onClick.AddListener(ContinueGame);
-            LoadButton.onClick.AddListener(LoadGame);
+            LoadButton.onClick.AddListener(OpenSelectLoad);
             OptionsButton.onClick.AddListener(OpenOptionsMenu);
             ExitButton.onClick.AddListener(Exit);
             TestButton.onClick.AddListener(LoadTestLevel);
@@ -32,6 +34,7 @@ namespace Scripts.Menu.Main
         public void Open()
         {
             MainCanvas.enabled = true;
+            SelectLoadController.Close();
         }
 
         public void Close()
@@ -54,9 +57,9 @@ namespace Scripts.Menu.Main
             MainMenuManager.StartGame();
         }
 
-        private void LoadGame()
+        private void OpenSelectLoad()
         {
-            //TODO
+            SelectLoadController.Open();
         }
 
         private void ContinueGame()

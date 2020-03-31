@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Scripts.Level;
+using Scripts.Settings;
 using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.Item
@@ -10,6 +10,9 @@ namespace Scripts.Level.Item
     public class Inventory : MonoBehaviour
     {
         public LevelManager LevelManager;
+        
+        public InventoryMenuController InventoryMenuController;
+        public InventoryUseMenuController InventoryUseMenuController;
 
         public List<ItemInfo> InventoryItems
         {
@@ -18,6 +21,7 @@ namespace Scripts.Level.Item
         }
 
         private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
+        private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         void Awake()
         {
@@ -29,6 +33,31 @@ namespace Scripts.Level.Item
         void Start()
         {
             
+        }
+
+        public void OpenMenu()
+        {
+            InventoryMenuController.Open();
+        }
+
+        public void CloseMenu()
+        {
+            InventoryMenuController.Close();
+        }
+
+        public void OpenUsePrompt(ItemInfo usableItem)
+        {
+            InventoryUseMenuController.Open(usableItem);
+        }
+
+        public void CloseUsePrompt()
+        {
+            InventoryUseMenuController.Close();
+        }
+
+        public KeyCode GetInteractKey()
+        {
+            return SettingsManager.InteractKey;
         }
 
         private ItemInfo GetInventoryItem(GameObject worldItem)
@@ -67,5 +96,6 @@ namespace Scripts.Level.Item
         {
             return DialogueManager.GetBoolVariable(item.UsedVariableName);
         }
+        
     }
 }

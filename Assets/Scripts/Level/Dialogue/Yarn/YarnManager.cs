@@ -23,10 +23,12 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void Awake()
         {
-            DialogueRunner = FindObjectOfType<DialogueRunner>();
-            DialogueRunner.variableStorage = VariableStorageYarn.Instance;
-
             SetEvents();
+        }
+
+        void Start()
+        {
+            DialogueRunner.variableStorage = VariableStorageYarn.Instance;
         }
 
         public KeyCode GetNextDialogueKey()

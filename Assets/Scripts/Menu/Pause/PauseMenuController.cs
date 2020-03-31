@@ -11,6 +11,7 @@ namespace Scripts.Menu.Pause
         public PauseMenuManager PauseMenuManager;
 
         public Canvas PauseMenuCanvas;
+        private bool IsOpen => PauseMenuCanvas.enabled;
         
         public Button ContinueButton;
         public Button SaveButton;
@@ -20,8 +21,6 @@ namespace Scripts.Menu.Pause
 
         void Start()
         {
-            PauseMenuCanvas.enabled = false;
-
             ContinueButton.onClick.AddListener(CloseOpenMenu);
             SaveButton.onClick.AddListener(SaveGame);
             LoadButton.onClick.AddListener(LoadGame);
@@ -64,18 +63,16 @@ namespace Scripts.Menu.Pause
             PauseMenuManager.Exit();
         }
 
-        private void Close()
+        public void Close()
         {
-            PauseMenuManager.Close();
             PauseMenuCanvas.enabled = false;
             Time.timeScale = 1;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        private void Open()
+        public void Open()
         {
-            PauseMenuManager.Open();
             PauseMenuCanvas.enabled = true;
             Time.timeScale = 0;
             Cursor.visible = true;
@@ -85,11 +82,11 @@ namespace Scripts.Menu.Pause
         void CloseOpenMenu()
         {
             
-            if (PauseMenuManager.IsEnabled && !PauseMenuManager.IsOpen)
+            if (PauseMenuManager.IsEnabled && !IsOpen)
             {
                 Open();
             }
-            else if (PauseMenuManager.IsEnabled && PauseMenuManager.IsOpen)
+            else if (PauseMenuManager.IsEnabled && IsOpen)
             {
                 Close();
             }
