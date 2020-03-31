@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Stalactite : MonoBehaviour
 {
-    private Rigidbody rb;
+    Rigidbody rb;
     [SerializeField] private MoveMode reactTo;
-    [SerializeField] private LayerMask layer;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.Sleep();
-        reactTo = MoveMode.Normal;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 8 && rb.isKinematic == true)
+        {
+            rb.Sleep();
+            Debug.Log("Colision suelo");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -25,14 +32,6 @@ public class Stalactite : MonoBehaviour
             {
                 rb.WakeUp();
             }
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.layer == 8)
-        {
-            rb.Sleep();
         }
     }
 }

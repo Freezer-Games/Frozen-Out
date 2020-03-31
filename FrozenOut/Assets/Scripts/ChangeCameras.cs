@@ -5,15 +5,15 @@ using Cinemachine;
 
 public class ChangeCameras : MonoBehaviour
 {
-    public CinemachineVirtualCamera trackCamera;
-    public CinemachineVirtualCamera levelCamera;
+    public CinemachineVirtualCamera currentCamera;
+    public CinemachineVirtualCamera nextCamera;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            trackCamera.Priority = -10;
-            levelCamera.Priority = 12;
+            currentCamera.Priority = -10;
+            nextCamera.Priority = 12;
             gameObject.SetActive(false);
         }
     }

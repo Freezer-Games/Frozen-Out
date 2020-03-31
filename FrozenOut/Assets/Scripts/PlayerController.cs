@@ -6,40 +6,47 @@ public enum MoveMode { Stopped, Stealth, Normal, Running }
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody playerRb;
-    public Animator playerAnim;
+    const float STEALTH_SPEED = 6.5f;
+    const float NORMAL_SPEED = 8f;
+    const float RUN_SPEED = 10f;
+
+    [Header("Features")]
+    Rigidbody playerRb;
+    Animator playerAnim;
+    [SerializeField] bool formChanged;
+    [SerializeField] bool isGrounded;
+    [SerializeField] private MoveMode moveState;
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce = 10f;
-    [SerializeField] private const float STEALTH_SPEED = 6.5f;
-    [SerializeField] private const float NORMAL_SPEED = 8f;
-    [SerializeField] private const float RUN_SPEED = 10f;
-    private Vector2 input;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float jumpForce = 5f;
 
-    [Header("Camera values")]
-    private Vector3 camForward = Vector3.zero;
-    private Vector3 camRight = Vector3.zero;
+    Vector2 input;
+    Vector3 movement, camForward, camRight;
 
-    private Vector3 movement;
-
-    [Header("Move state")]
-    [SerializeField] private MoveMode moveState;
+    public LayerMask whatIsGround;
+    
+    void Awake()
+    {
+        playerRb = GetComponent<Rigidbody>();
+        playerAnim = GetComponent<Animator>();
+    }
 
     void Start()
     {
         moveState = MoveMode.Stopped;
         moveSpeed = NORMAL_SPEED;
+        formChanged = false;
     }
 
     void Update()
-    {   
+    {
         input = new Vector2(
         Input.GetAxis("Horizontal"),
         Input.GetAxis("Vertical"));
         input.Normalize();
 
-        playerAnim.SetBool("walking", movement != Vector3.zero);
+        //playerAnim.SetBool("walking", movement != Vector3.zero);
 
         //Check there is an input
         if (movement != Vector3.zero)
@@ -62,21 +69,37 @@ public class PlayerController : MonoBehaviour
         else
         {
             MoveStateManage(MoveMode.Stopped);
+
+            //Form change only if stopped
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                formChanged = !formChanged;
+                playerAnim.SetBool("changeForm", formChanged);
+            }
         }
-        CameraVectors(); 
+
+        CameraVectors();
     }
 
     void FixedUpdate()
     {
-        Move();
-
-        if (Input.GetButton("Jump") && playerRb.velocity.y == 0f)
+        if (Input.GetButton("Jump") && isGrounded)
         {
             Jump();
         }
+
+        Move();
     }
 
-    private void Move()
+    void OnCollisionEnter(Collision other)
+    {
+        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        {
+            isGrounded = true;
+        }
+    }
+
+    void Move()
     {
         movement = input.x * camRight + input.y * camForward;
         movement.Normalize();
@@ -84,12 +107,13 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(movement * moveSpeed);
     }
 
-    private void Jump()
+    void Jump()
     {
-        playerRb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        isGrounded = false;
     }
 
-    private void MoveStateManage(MoveMode mode)
+    void MoveStateManage(MoveMode mode)
     {
         if (mode != moveState)
         {
@@ -125,13 +149,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void FaceMovement()
+    void FaceMovement()
     {
         transform.rotation = 
             Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement.normalized), 0.2f);
     }
 
-    private void CameraVectors()
+    void CameraVectors()
     {
         camForward = Camera.main.transform.forward;
         camRight = Camera.main.transform.right;
