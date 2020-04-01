@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Scripts.Settings;
-using Scripts.Localisation;
 
 namespace Scripts.Menu.Pause
 {
@@ -11,7 +10,6 @@ namespace Scripts.Menu.Pause
     {
 
         public PauseMenuController PauseMenuController;
-        public LocalisationManager LocalisationManager;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
@@ -24,7 +22,7 @@ namespace Scripts.Menu.Pause
 
         void Start()
         {
-            LocalisationManager.LoadLocalisedText("Menu_pausa_Default.json");
+            
         }
 
         public void Open()

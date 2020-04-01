@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Scripts.Settings
 {
     public class SettingsManager : MonoBehaviour
     {
+
+        public event EventHandler Ready;
+
         public KeyCode ForwardKey
         {
             get;
@@ -82,7 +87,7 @@ namespace Scripts.Settings
             get;
             private set;
         }
-        public List<string> SupportedLanguages
+        public List<Locale> SupportedLocales
         {
             get;
             private set;
@@ -137,104 +142,128 @@ namespace Scripts.Settings
             MusicVolume = PlayerPrefs.GetFloat(nameof(MusicVolume), 100);
             SoundVolume = PlayerPrefs.GetFloat(nameof(SoundVolume), 100);
 
-            AssignLanguages();
             AssignGraphics();
+        }
+
+        IEnumerator Start()
+        {
+            //Wait for Localisation to load
+            yield return LocalizationSettings.InitializationOperation;
+
+            AssignLanguages();
+
+            Ready?.Invoke(this, EventArgs.Empty);
+        }
+
+        public List<string> GetSupportedLocalesName()
+        {
+            List<string> supportedLanguages = new List<string>();
+
+            foreach(Locale locale in SupportedLocales)
+            {
+                supportedLanguages.Add(locale.name);
+            }
+            
+            return supportedLanguages;
         }
 
         public void SetForwardKey(KeyCode keyCode)
         {
             ForwardKey = keyCode;
-            SetPlayerPrefsKey(nameof(ForwardKey), keyCode);
+            SetPlayerPrefsKey(nameof(ForwardKey), ForwardKey);
         }
 
         public void SetBackwardKey(KeyCode keyCode)
         {
             BackwardKey = keyCode;
-            SetPlayerPrefsKey(nameof(BackwardKey), keyCode);
+            SetPlayerPrefsKey(nameof(BackwardKey), BackwardKey);
         }
 
         public void SetRightKey(KeyCode keyCode)
         {
             RightKey = keyCode;
-            SetPlayerPrefsKey(nameof(RightKey), keyCode);
+            SetPlayerPrefsKey(nameof(RightKey), RightKey);
         }
 
         public void SetLeftKey(KeyCode keyCode)
         {
             LeftKey = keyCode;
-            SetPlayerPrefsKey(nameof(LeftKey), keyCode);
+            SetPlayerPrefsKey(nameof(LeftKey), LeftKey);
         }
 
         public void SetJumpKey(KeyCode keyCode)
         {
             JumpKey = keyCode;
-            SetPlayerPrefsKey(nameof(JumpKey), keyCode);
+            SetPlayerPrefsKey(nameof(JumpKey), JumpKey);
         }
 
         public void SetCrouchKey(KeyCode keyCode)
         {
             CrouchKey = keyCode;
-            SetPlayerPrefsKey(nameof(CrouchKey), keyCode);
+            SetPlayerPrefsKey(nameof(CrouchKey), CrouchKey);
         }
 
         public void SetInteractKey(KeyCode keyCode)
         {
             InteractKey = keyCode;
-            SetPlayerPrefsKey(nameof(InteractKey), keyCode);
+            SetPlayerPrefsKey(nameof(InteractKey), InteractKey);
         }
 
         public void SetMissionsKey(KeyCode keyCode)
         {
             MissionsKey = keyCode;
-            SetPlayerPrefsKey(nameof(MissionsKey), keyCode);
+            SetPlayerPrefsKey(nameof(MissionsKey), MissionsKey);
         }
 
         public void SetNextDialogueKey(KeyCode keyCode)
         {
             NextDialogueKey = keyCode;
-            SetPlayerPrefsKey(nameof(NextDialogueKey), keyCode);
+            SetPlayerPrefsKey(nameof(NextDialogueKey), NextDialogueKey);
         }
 
         public void SetMusicVolume(float newVolume)
         {
             MusicVolume = newVolume;
-            PlayerPrefs.SetFloat(nameof(MusicVolume), newVolume);
+            PlayerPrefs.SetFloat(nameof(MusicVolume), MusicVolume);
         }
 
         public void SetSoundVolume(float newVolume)
         {
             SoundVolume = newVolume;
-            PlayerPrefs.SetFloat(nameof(SoundVolume), newVolume);
+            PlayerPrefs.SetFloat(nameof(SoundVolume), SoundVolume);
         }
 
         public void SetTextSize(float newTextSize)
         {
             TextSize = newTextSize;
-            PlayerPrefs.SetFloat(nameof(TextSize), newTextSize);
+            PlayerPrefs.SetFloat(nameof(TextSize), TextSize);
         }
 
-        public void SetLanguage(string newLanguage)
+        public void SetLanguage(int localeIndex)
         {
-            Language = newLanguage;
-            PlayerPrefs.SetString(nameof(Language), newLanguage);
+            Locale selectedLocale = LocalizationSettings.AvailableLocales.Locales[localeIndex];
+            LocalizationSettings.SelectedLocale = selectedLocale;
+
+            Language = selectedLocale.name;
+            PlayerPrefs.SetString(nameof(Language), Language);
         }
 
         public void SetAspectRatio(string newAspectRatio)
         {
             AspectRatio = newAspectRatio;
-            PlayerPrefs.SetString(nameof(AspectRatio), newAspectRatio);
+            PlayerPrefs.SetString(nameof(AspectRatio), AspectRatio);
         }
 
         public void SetResolution(string newResolution)
         {
             Resolution = newResolution;
-            PlayerPrefs.SetString(nameof(Resolution), newResolution);
+            PlayerPrefs.SetString(nameof(Resolution), Resolution);
         }
 
         public void SetScreenType(string newScreenType)
         {
             ScreenType = newScreenType;
-            PlayerPrefs.SetString(nameof(ScreenType), newScreenType);
+            PlayerPrefs.SetString(nameof(ScreenType), ScreenType);
         }
 
         public void SetLowQuality()
@@ -255,16 +284,14 @@ namespace Scripts.Settings
         private void SetQuality(string newQuality)
         {
             Quality = newQuality;
-            PlayerPrefs.SetString(nameof(Quality), newQuality);
+            PlayerPrefs.SetString(nameof(Quality), Quality);
         }
 
         private void AssignLanguages()
         {
-            SupportedLanguages = new List<string>();
-            SupportedLanguages.Add(SystemLanguage.Spanish.ToString());
-            SupportedLanguages.Add(SystemLanguage.English.ToString());
-
-            Language = PlayerPrefs.GetString(nameof(Language), SupportedLanguages[0]);
+            SupportedLocales = LocalizationSettings.AvailableLocales.Locales;
+            
+            Language = LocalizationSettings.AvailableLocales.Locales[0].name;
         }
 
         private void AssignGraphics()

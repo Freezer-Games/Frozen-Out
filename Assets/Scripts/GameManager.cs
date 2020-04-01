@@ -58,25 +58,17 @@ namespace Scripts
 
         void Start()
         {
-            #if UNITY_EDITOR
-            CurrentLevelIndex = SceneManager.GetAllScenes()[0].buildIndex; //Obtener index de la otra escena
-            Debug.Log(CurrentLevelIndex);
-            if(CurrentLevelIndex == 0)
-            {
-                StartGame();
-            }
-            else if(CurrentLevelIndex == MainMenuIndex)
-            {
-                AfterLoadMainMenu();
-            }
-            else if (CurrentLevelIndex >= FirstLevelIndex)
-            {
-                AfterLoadLevel();
-            }
-            LoadingScreenManager.HideIntro();
-            #else
-            StartGame();
-            #endif
+            ShowOnlyIntro();
+            //Wait for Settings to be Ready
+            SettingsManager.Ready += (var, args) => StartGame();
+        }
+
+        private void ShowOnlyIntro()
+        {
+            LoadingScreenManager.ShowIntro();
+            LoadingScreenManager.HideLoading();
+            PauseMenuManager.Disable();
+            PauseMenuManager.Close();
         }
         
         #region SettingsManager
@@ -108,8 +100,24 @@ namespace Scripts
         #region Load
         private void StartGame()
         {
-            LoadingScreenManager.ShowIntro();
+            #if UNITY_EDITOR
+            CurrentLevelIndex = SceneManager.GetAllScenes()[0].buildIndex; //Obtener index de la otra escena
+            if(CurrentLevelIndex == 0)
+            {
+                LoadMainMenu();
+            }
+            else if(CurrentLevelIndex == MainMenuIndex)
+            {
+                AfterLoadMainMenu();
+            }
+            else if (CurrentLevelIndex >= FirstLevelIndex)
+            {
+                AfterLoadLevel();
+            }
+            LoadingScreenManager.HideIntro();
+            #else
             LoadMainMenu();
+            #endif
         }
         public void StartNewGame()
         {

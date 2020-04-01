@@ -40,8 +40,7 @@ namespace Scripts.Menu.Main
 
         private void ChangeLanguage(int languageIndex)
         {
-            string language = MainMenuManager.GetSupportedLanguages()[languageIndex];
-            MainMenuManager.SetLanguage(language);
+            MainMenuManager.SetLanguage(languageIndex);
         }
 
         private void ChangeTextSize(float newTextSize)

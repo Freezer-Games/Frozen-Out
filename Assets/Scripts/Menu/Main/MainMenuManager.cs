@@ -5,8 +5,6 @@ using UnityEngine;
 
 using Scripts.Settings;
 
-using Scripts.Localisation;
-
 namespace Scripts.Menu.Main
 {
     public class MainMenuManager : MonoBehaviour
@@ -14,7 +12,6 @@ namespace Scripts.Menu.Main
         
         public MainMenuController MainMenuController;
         public OptionsMenuController OptionsMenuController;
-        public LocalisationManager LocalisationManager;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
@@ -26,8 +23,6 @@ namespace Scripts.Menu.Main
 
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-
-            LocalisationManager.LoadLocalisedText("Menu_Default.json");
         }
         
         public void ContinueGame()
@@ -85,36 +80,14 @@ namespace Scripts.Menu.Main
             return SettingsManager.Language;
         }
 
-        public void SetLanguage(string newLanguage)
+        public void SetLanguage(int newLanguageIndex)
         {
-            SettingsManager.SetLanguage(newLanguage);
-            /*LocalisationManager.SetLanguage(newLanguage);
-            
-
-        //TODO
-
-    void ChangeLanguageF(int selection)
-    {
-        print(Application.streamingAssetsPath + "Menu_Default.json");
-        if (selection == 0) {
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Menu_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Menu_En.json"));
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Trial_level_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Trial_level_En.json"));
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Menu_pausa_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Menu_pausa_En.json"));
-            PlayerPrefs.SetString("Language", "En");
-        }else if (selection == 1) {
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Menu_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Menu_Es.json"));
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Trial_level_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Trial_level_Es.json"));
-            File.WriteAllBytes(Application.streamingAssetsPath + "/Menu_pausa_Default.json", File.ReadAllBytes(Application.streamingAssetsPath + "/Menu_pausa_Es.json"));
-            PlayerPrefs.SetString("Language", "Es");
-        }
-        LocalizationManager.instance.LoadLocalizedText("Menu_Default.json");
-    }
-            */
+            SettingsManager.SetLanguage(newLanguageIndex);
         }
 
         public List<string> GetSupportedLanguages()
         {
-            return SettingsManager.SupportedLanguages;
+            return SettingsManager.GetSupportedLocalesName();
         }
 
         public string GetAspectRatio()

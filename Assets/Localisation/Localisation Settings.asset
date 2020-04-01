@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5602893790100822940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0677a1bc6a9163745955e732ad12992f, type: 3}
+  m_Name: System Locale Selector
+  m_EditorClassIdentifier: 
+--- !u!114 &-3667506407798546154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00211f76d6dd01a4b8ee4d8c38f294bc, type: 3}
+  m_Name: Asset Database
+  m_EditorClassIdentifier: 
+  m_DefaultTableName: 
+--- !u!114 &-2666670859903835705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191ba231ae3bc4a77ae57c1218ffa02d, type: 3}
+  m_Name: String Database
+  m_EditorClassIdentifier: 
+  m_DefaultTableName: 
+  m_NoTranslationFoundFormat: No translation found for '{0}'
+--- !u!114 &-1785291657375249280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e87b7deaf11df7449ed2f6ebf26255b, type: 3}
+  m_Name: Command Line Locale Selector
+  m_EditorClassIdentifier: 
+  m_CommandLineArgument: -language =
+--- !u!114 &-1520156363017581947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8548788adcad074458eeba3ef70291f4, type: 3}
+  m_Name: Locale Selector Collection
+  m_EditorClassIdentifier: 
+  m_StartupSelectors:
+  - {fileID: -1785291657375249280}
+  - {fileID: -5602893790100822940}
+  - {fileID: 4796018578766526078}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07b5cd0b1b829245bc8c4b6978793e8, type: 3}
+  m_Name: Localisation Settings
+  m_EditorClassIdentifier: 
+  m_PreloadBehavior: 1
+  m_LocaleSelector: {fileID: -1520156363017581947}
+  m_AvailableLocales: {fileID: 6581471551133998705}
+  m_AssetDatabase: {fileID: -3667506407798546154}
+  m_StringDatabase: {fileID: -2666670859903835705}
+--- !u!114 &4796018578766526078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c27b7a97ae7cd47ac063fc4ede4bf9, type: 3}
+  m_Name: Default Locale Selector
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+--- !u!114 &6581471551133998705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1864ecc299aa57d439a91544702d03b9, type: 3}
+  m_Name: Locales Provider
+  m_EditorClassIdentifier: 
