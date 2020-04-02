@@ -181,14 +181,12 @@ namespace Scripts
 
             LoadingScreenManager.ShowLoading();
             PauseMenuManager.Disable();
-            PauseMenuManager.Close();
         }
         
         private void AfterLoadLevel()
         {
             LoadingScreenManager.HideLoading();
             PauseMenuManager.Enable();
-            PauseMenuManager.Close();
 
             CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
             CurrentLevelManager.Load();
@@ -199,23 +197,6 @@ namespace Scripts
             LoadingScreenManager.HideLoading();
             LoadingScreenManager.HideIntro();
             PauseMenuManager.Disable();
-            PauseMenuManager.Close();
-        }
-
-        private IEnumerator WaitForSceneLoading(int levelIndex)
-        {
-            BeforeLoadLevel();
-
-            AsyncOperation asyncSceneLoading = SceneManager.LoadSceneAsync(levelIndex);
-
-            yield return new WaitForSeconds(3);
-
-            while(!asyncSceneLoading.isDone)
-            {
-                yield return null;
-            }
-
-            AfterLoadLevel();
         }
         #endregion
 

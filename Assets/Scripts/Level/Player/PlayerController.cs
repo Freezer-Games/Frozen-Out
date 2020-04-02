@@ -77,14 +77,6 @@ namespace Scripts.Level.Player
             // Reproduce o para el sonido de pisadas
             CheckAudio();
 
-            // Comprueba si hay algun input
-            //if (CheckInput()) 
-            //{
-            //    if (Speed > MAX_SPEED) Speed = MAX_SPEED;
-            //    Speed += 0.5f;
-            //}
-            //else Speed = MIN_SPEED;
-
             // Avisa de que se va a mover
             PlayerControllerEventArgs controllerEvent = OnMoving();
 
@@ -271,6 +263,10 @@ namespace Scripts.Level.Player
     [Serializable]
     public class PlayerControllerEventArgs : EventArgs
     {
-        public bool Cancel { get; set; }
+        public bool Cancel
+        {
+            get;
+            set;
+        }
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -8,6 +8,8 @@ namespace Scripts.Save
     {
 
         private GameManager GameManager => GameManager.Instance;
+
+        public SaveSystem SaveSystem;
         
         //TODO
         public void Save()
@@ -23,6 +25,11 @@ namespace Scripts.Save
         public void LoadLastLevel()
         {
             
+        }
+
+        public List<string> GetSaves()
+        {
+            throw new NotImplementedException();
         }
 
     }

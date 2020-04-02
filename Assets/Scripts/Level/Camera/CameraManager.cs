@@ -18,5 +18,10 @@ namespace Scripts.Level.Camera
 
         }
 
+        public GameObject GetPlayerObject()
+        {
+            return LevelManager.GetPlayerManager().Player;
+        }
+
     }
 }

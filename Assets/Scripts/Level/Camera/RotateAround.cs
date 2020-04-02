@@ -6,15 +6,16 @@ namespace Scripts.Level.Camera
 {
     public class RotateAround : MonoBehaviour
     {
-        public float RotateSpeed = 120f;
-        public GameObject ToFollowObj;
-        Vector3 FollowPos;
-        public float Sensitivity = 150f;
-        public GameObject PlayerObj;
-        public float MouseX;
-        public float FinalInputX;
+        public CameraManager CameraManager;
 
+        public float RotateSpeed = 120f;
+        public float Sensitivity = 150f;
+
+        private float MouseX;
+        private float FinalInputX;
         private float RotationY = 0.0f;
+
+        private GameObject ToFollowObj => CameraManager.GetPlayerObject();
 
         void Start()
         {
