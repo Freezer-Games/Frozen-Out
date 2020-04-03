@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
@@ -14,10 +15,12 @@ namespace Scripts.Level.Dialogue
 
         bool IsRunning();
         bool IsStarting();
+        bool IsReady();
 
         void SetLanguage();
 
         void StartDialogue(string startNode);
+        KeyCode GetInteractKey();
         
         bool GetBoolVariable(string variableName, bool includeLeading = true);
         string GetStringVariable(string variableName, bool includeLeading = true);

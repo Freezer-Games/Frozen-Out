@@ -6,7 +6,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 {
     public class TriggerDialogueYarn : MonoBehaviour
     {
-        public YarnManager DialogueManager;
+        private IDialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
         void Start()
         {
@@ -24,7 +24,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void OnTriggerStay(Collider other)
         {
-            if(other.CompareTag("NPC") && DialogueManager.IsPlayerReady() && Input.GetKey(DialogueManager.GetInteractKey()))
+            if(other.CompareTag("NPC") && DialogueManager.IsReady() && Input.GetKey(DialogueManager.GetInteractKey()))
             {
                 DialogueTalker target = other.GetComponent<DialogueTalker>();
                 DialogueIndicator indicator = other.GetComponent<DialogueIndicator>();

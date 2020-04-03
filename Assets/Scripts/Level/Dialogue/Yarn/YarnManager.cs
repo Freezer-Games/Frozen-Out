@@ -51,9 +51,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return DialogueRunner.isDialogueStarting;
         }
 
-        public bool IsPlayerReady()
+        public bool IsReady()
         {
-            return LevelManager.GetPlayerManager().IsGrounded;
+            return !IsRunning() && LevelManager.GetPlayerManager().IsGrounded;
         }
 
         public void StartDialogue(string startNode)
