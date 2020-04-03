@@ -45,8 +45,6 @@ namespace Scripts.Level.Player
 
         public bool IsGrounded => CharacterController.isGrounded;
 
-        public event EventHandler<PlayerControllerEventArgs> Moving; 
-        public event EventHandler Idle;
         private CharacterController CharacterController;
         private Animator Animator;
 
@@ -78,17 +76,10 @@ namespace Scripts.Level.Player
             CheckAudio();
 
             // Avisa de que se va a mover
-            PlayerControllerEventArgs controllerEvent = OnMoving();
+            PlayerManager.OnMoving();
 
             // Si alguien le ha dicho que cancele el movimiento, para
-            if (controllerEvent.Cancel)
-            {
-                MoveDirection = Vector3.zero;
-                IsSneaking = false;
-                CheckSizeAndSpeed();
-                OnIdle();
-            }
-            else
+            if (PlayerManager.IsEnabled)
             {
                 MovementCalculation();
                 RotatePlayer();
@@ -110,6 +101,14 @@ namespace Scripts.Level.Player
 
                     CheckJump();
                 }
+            }
+            else
+            {
+                MoveDirection = Vector3.zero;
+                IsSneaking = false;
+                CheckSizeAndSpeed();
+                Animator.SetBool("isMoving", false);
+                PlayerManager.OnIdle();
             }
 
             MoveDirection.y -= Gravity * Time.deltaTime;
@@ -241,32 +240,9 @@ namespace Scripts.Level.Player
             Animator.SetTrigger("isJumping");
         }
 
-        protected virtual PlayerControllerEventArgs OnMoving()
-        {
-            
-            PlayerControllerEventArgs controllerEvent = new PlayerControllerEventArgs();
-            Moving?.Invoke(this, controllerEvent);
-            return controllerEvent;
-        }
-
-        protected virtual void OnIdle()
-        {
-            Animator.SetBool("isMoving", false);
-            Idle?.Invoke(this, EventArgs.Empty);
-        }
-
         private void CreateDust() => Dust.Play();
 
         private void StopDust() => Dust.Stop();
-    }
-
-    [Serializable]
-    public class PlayerControllerEventArgs : EventArgs
-    {
-        public bool Cancel
-        {
-            get;
-            set;
-        }
+        
     }
 }

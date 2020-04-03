@@ -45,6 +45,11 @@ namespace Scripts.Level
 
             Inventory.CloseMenu();
             Inventory.CloseUsePrompt();
+
+            PlayerManager.Enable();
+
+            DialogueManager.Started += (sender, args) => PlayerManager.Disable();
+            DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
             // TODO
         }
 

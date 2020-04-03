@@ -11,22 +11,38 @@ namespace Scripts.Level.Player
     public class PlayerManager : MonoBehaviour
     {
         public LevelManager LevelManager;
+
+        public PlayerController PlayerController;
         
         public GameObject Player;
         public GameObject CameraPoint;
         public bool InCinematic = false;
 
         private Animator Animator;
-        private PlayerController Controller;
-
+        public bool IsEnabled
+        {
+            get;
+            private set;
+        }
         
         private SoundManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
+        public event EventHandler<PlayerControllerEventArgs> Moving; 
+        public event EventHandler Idle;
         
         void Start()
-        {   
+        {
             Animator = Player.GetComponent<Animator>();
-            Controller = Player.GetComponent<PlayerController>();
+        }
+
+        public void Enable()
+        {
+            IsEnabled = true;
+        }
+
+        public void Disable()
+        {
+            IsEnabled = false;
         }
 
         public bool IsStepsPlaying()
@@ -95,18 +111,40 @@ namespace Scripts.Level.Player
         {
             Animator.enabled = false;
             SoundManager.Steps.Stop();
-            Controller.enabled = false;
+            PlayerController.enabled = false;
         }
 
         public void EnableController()
         {
             Animator.enabled = true;
-            Controller.enabled = true;
+            PlayerController.enabled = true;
         }
 
         public void ToCheckPoint(Transform transform)
         {
             Instantiate(Player, transform.position, transform.rotation);
+        }
+
+        public void OnMoving()
+        {
+            PlayerControllerEventArgs controllerEvent = new PlayerControllerEventArgs();
+            Moving?.Invoke(this, controllerEvent);
+        }
+
+        public void OnIdle()
+        {
+            Idle?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    
+
+    [Serializable]
+    public class PlayerControllerEventArgs : EventArgs
+    {
+        public bool Cancel
+        {
+            get;
+            set;
         }
     }
 }
