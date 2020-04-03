@@ -11,7 +11,7 @@ namespace Scripts.Level.Camera
         
         public LevelManager LevelManager;
         
-        public GameObject MainCamera;
+        public UnityEngine.Camera MainCamera;
 
         void Start()
         {
@@ -21,6 +21,16 @@ namespace Scripts.Level.Camera
         public GameObject GetPlayerObject()
         {
             return LevelManager.GetPlayerManager().Player;
+        }
+
+        public UnityEngine.Camera GetMainCamera()
+        {
+            return MainCamera;
+        }
+
+        public GameObject GetPlayerCameraPointObject()
+        {
+            return LevelManager.GetPlayerManager().CameraPoint;
         }
 
     }

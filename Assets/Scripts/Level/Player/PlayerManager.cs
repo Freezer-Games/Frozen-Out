@@ -13,6 +13,7 @@ namespace Scripts.Level.Player
         public LevelManager LevelManager;
         
         public GameObject Player;
+        public GameObject CameraPoint;
         public bool InCinematic = false;
 
         private Animator Animator;

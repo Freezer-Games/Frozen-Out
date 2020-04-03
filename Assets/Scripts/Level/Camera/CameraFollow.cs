@@ -6,36 +6,27 @@ namespace Scripts.Level.Camera
 {
     public class CameraFollow : MonoBehaviour
     {
-
+        public CameraManager CameraManager;
+        
         public float CameraMoveSpeed = 120.0f;
-        public GameObject CameraFollowObj;
-        Vector3 FollowPos;
         public float ClampAngle = 80.0f;
         public float InputSensitivity = 150.0f;
-        public GameObject CameraObj;
-        public GameObject PlayerObj;
-        public float CamDistanceXTopPlayer;
-        public float CamDistanceYTopPlayer;
-        public float CamDistanceZTopPlayer;
         public float MouseX;
         public float MouseY;
         public float FinalInputX;
         public float FinalInputZ;
-        public float SmoothX;
-        public float SmoothY;
+
         private float RotationY = 0.0f;
         private float RotationX = 0.0f;
-        private Transform CinemaPos;
-        private UnityEngine.Camera Camera;
+
+        private GameObject PlayerCameraPointObject => CameraManager.GetPlayerCameraPointObject();
+        private UnityEngine.Camera Camera => CameraManager.GetMainCamera();
 
         void Start()
         {
-            Camera = UnityEngine.Camera.main;
-            CinemaPos = GameObject.Find("AuxCamPos").transform.GetChild(0);
-
-            Vector3 rot = transform.localRotation.eulerAngles;
-            RotationY = rot.y;
-            RotationX = rot.x;
+            Vector3 rotation = transform.localRotation.eulerAngles;
+            RotationY = rotation.y;
+            RotationX = rotation.x;
         }
 
         // Update is called once per frame
@@ -64,7 +55,7 @@ namespace Scripts.Level.Camera
 
         void CameraUpdater() 
         {
-            Transform target = CameraFollowObj.transform;
+            Transform target = PlayerCameraPointObject.transform;
 
             float step = CameraMoveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, target.position, step);
