@@ -36,6 +36,11 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return SettingsManager.NextDialogueKey;
         }
 
+        public KeyCode GetInteractKey()
+        {
+            return SettingsManager.InteractKey;
+        }
+
         public bool IsRunning()
         {
             return DialogueRunner.isDialogueRunning;
@@ -44,6 +49,16 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public bool IsStarting()
         {
             return DialogueRunner.isDialogueStarting;
+        }
+
+        public bool IsPlayerReady()
+        {
+            return LevelManager.GetPlayerManager().IsGrounded;
+        }
+
+        public void StartDialogue(string startNode)
+        {
+            DialogueRunner.StartDialogue(startNode);
         }
 
         public void SetLanguage()

@@ -1,13 +1,16 @@
-/*using UnityEngine;
-using UnityEngine.UI;
+using System;
+using UnityEngine;
 
-using Scripts.Level;
-using Scripts.Level.Dialogue;
-
-namespace Assets.Scripts.Dialogue
+namespace Scripts.Level.Dialogue
 {
-    public class TriggerDialogueYarn : MonoBehaviour
+    public class DialogueTalker : MonoBehaviour
     {
+
+        public string talkToNode = "";
+
+    }
+}
+/*
         private LevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 
         private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
@@ -44,6 +47,7 @@ namespace Assets.Scripts.Dialogue
                     {
                         if (target != null)
                         {
+
 							target.ShowIndicator();
 						}
                     }

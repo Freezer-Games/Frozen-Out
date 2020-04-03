@@ -16,6 +16,8 @@ namespace Scripts.Level.Dialogue
         bool IsStarting();
 
         void SetLanguage();
+
+        void StartDialogue(string startNode);
         
         bool GetBoolVariable(string variableName, bool includeLeading = true);
         string GetStringVariable(string variableName, bool includeLeading = true);

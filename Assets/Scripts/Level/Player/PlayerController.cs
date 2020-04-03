@@ -18,16 +18,18 @@ namespace Scripts.Level.Player
 
         [Header("Movement")]
         public float Speed;
+        public float RotationSpeed = 240.0f;
         private const float MAX_SPEED = 7.5f;
         private const float MIN_SPEED = 0.5f;
-        public float RotationSpeed = 240.0f;
+        
+        public bool IsMoving => Move.magnitude > 0;
+        public bool IsGrounded => CharacterController.isGrounded;
 
         private Vector3 MoveDirection = Vector3.zero;
         private Vector3 Move;
         private Vector3 CamForwardDirection;
         private float Horizontal;
         private float Vertical;
-        private bool IsMoving => Move.magnitude > 0;
         public int CloseRadius;
 
         [Header("Jump")]
@@ -42,8 +44,6 @@ namespace Scripts.Level.Player
         private float BendJumpForce => JumpForce * 0.3f;
         private readonly float BendDiff = 0.4f;
         private bool IsSneaking;
-
-        public bool IsGrounded => CharacterController.isGrounded;
 
         private CharacterController CharacterController;
         private Animator Animator;

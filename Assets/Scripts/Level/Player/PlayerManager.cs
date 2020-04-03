@@ -15,15 +15,21 @@ namespace Scripts.Level.Player
         public PlayerController PlayerController;
         
         public GameObject Player;
-        public GameObject CameraPoint;
-        public bool InCinematic = false;
-
-        private Animator Animator;
+        //public GameObject CameraPoint;
+        public bool InCinematic
+        {
+            get;
+            private set;
+        } = false;
         public bool IsEnabled
         {
             get;
             private set;
         }
+        public bool IsGrounded => PlayerController.IsGrounded;
+        public bool IsMoving => PlayerController.IsMoving;
+
+        private Animator Animator;
         
         private SoundManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();

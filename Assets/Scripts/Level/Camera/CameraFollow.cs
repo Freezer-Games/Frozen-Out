@@ -19,9 +19,6 @@ namespace Scripts.Level.Camera
         private float RotationY = 0.0f;
         private float RotationX = 0.0f;
 
-        private GameObject PlayerCameraPointObject => CameraManager.GetPlayerCameraPointObject();
-        private UnityEngine.Camera Camera => CameraManager.GetMainCamera();
-
         void Start()
         {
             Vector3 rotation = transform.localRotation.eulerAngles;
@@ -32,7 +29,6 @@ namespace Scripts.Level.Camera
         // Update is called once per frame
         void Update()
         {
-            
             //para pillar controles de mando hay que crear un axis de esos, cosa easy si sabes la distribucion
             MouseX = Input.GetAxis("Mouse X");
             MouseY = Input.GetAxis("Mouse Y");
@@ -55,10 +51,20 @@ namespace Scripts.Level.Camera
 
         void CameraUpdater() 
         {
-            Transform target = PlayerCameraPointObject.transform;
+            Vector3 target = GetCameraPoint();
 
             float step = CameraMoveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+            transform.position = Vector3.MoveTowards(transform.position, target, step);
+        }
+
+        Vector3 GetCameraPoint()
+        {
+            GameObject player = CameraManager.GetPlayerObject();
+            
+            Vector3 playerPosition = player.transform.position;
+            Vector3 cameraPointPosition = new Vector3(playerPosition.x, playerPosition.y + 1.75f, playerPosition.z);
+
+            return cameraPointPosition;
         }
         
     }

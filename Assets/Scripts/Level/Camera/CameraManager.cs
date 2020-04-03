@@ -28,10 +28,5 @@ namespace Scripts.Level.Camera
             return MainCamera;
         }
 
-        public GameObject GetPlayerCameraPointObject()
-        {
-            return LevelManager.GetPlayerManager().CameraPoint;
-        }
-
     }
 }

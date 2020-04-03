@@ -6,7 +6,7 @@ using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.NPC
 {
-    public class NPCInfo : MonoBehaviour, ITalker
+    public class NPCInfo : MonoBehaviour
     {
         // TODO
     }
