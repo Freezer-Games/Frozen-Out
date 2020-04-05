@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 using Scripts.Settings;
@@ -20,7 +21,11 @@ namespace Scripts.Level.Item
             get;
             private set;
         }
-        private ItemInfo EquippedItem;
+        public ItemInfo EquippedItem
+        {
+            get;
+            private set;
+        }
 
         private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
@@ -75,22 +80,23 @@ namespace Scripts.Level.Item
             return SettingsManager.InventoryKey;
         }
 
-        public bool EquipItem(ItemInfo item)
+        /// Equipa el item si no estaba equipado, no hace nada si ya lo estaba
+        public void EquipItem(ItemInfo item)
         {
             if(IsItemInInventory(item) && item.IsEquippable)
             {
-                if(IsItemEquipped(item))
-                {
-                    EquippedItem = null;
-                    return false;
-                }
-                else
-                {
-                    EquippedItem = item;
-                    return true;
-                }
+                EquippedItem = item;
+
+                OnItemEquipped(item);
             }
-            return false;
+        }
+
+        /// Desequipa el item equipado
+        public void UnequipItem()
+        {
+            EquippedItem = null;
+
+            OnItemUnequipped();
         }
 
         public void PickItem(ItemInfo pickedItem)
@@ -129,6 +135,8 @@ namespace Scripts.Level.Item
             DialogueManager.SetVariable<bool>(item.VariableName, true);
 
             Items.Add(item);
+
+            OnItemAdded(item);
         }
 
         private void UpdateItem(ItemInfo item)
@@ -151,6 +159,8 @@ namespace Scripts.Level.Item
             DialogueManager.SetVariable<float>(consumableItem.QuantityVariableName, 0);
 
             Items.Remove(consumableItem);
+
+            OnItemRemoved(consumableItem);
         }
 
         private void UseEquippedItem()
@@ -172,6 +182,52 @@ namespace Scripts.Level.Item
         {
             return DialogueManager.GetBoolVariable(item.UsedVariableName);
         }
+
+        #region Events
+        public event EventHandler<ItemEventArgs> ItemAdded;
+        public event EventHandler<ItemEventArgs> ItemRemoved;
+        public event EventHandler<ItemEventArgs> ItemEquipped;
+        public event EventHandler ItemUnequipped;
+
+        private void OnItemAdded(ItemInfo itemAdded)
+        {
+            ItemEventArgs itemEventArgs = new ItemEventArgs(itemAdded);
+            ItemAdded?.Invoke(this, itemEventArgs);
+        }
+
+        private void OnItemRemoved(ItemInfo itemRemoved)
+        {
+            ItemEventArgs itemEventArgs = new ItemEventArgs(itemRemoved);
+            ItemRemoved?.Invoke(this, itemEventArgs);
+        }
+
+        private void OnItemEquipped(ItemInfo item)
+        {
+            ItemEventArgs itemEventArgs = new ItemEventArgs(item);
+            ItemEquipped?.Invoke(this, itemEventArgs);
+        }
+
+        private void OnItemUnequipped()
+        {
+            ItemUnequipped?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
         
+    }
+
+    [Serializable]
+    public class ItemEventArgs : EventArgs
+    {
+
+        public ItemInfo Item
+        {
+            get;
+        }
+
+        public ItemEventArgs(ItemInfo itemInfo)
+        {
+            this.Item = itemInfo;
+        }
+
     }
 }

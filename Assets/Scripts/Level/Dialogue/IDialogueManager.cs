@@ -7,12 +7,6 @@ namespace Scripts.Level.Dialogue
 {
     public interface IDialogueManager
     {
-
-        event EventHandler<DialogueStartingEventArgs> Starting;
-        event EventHandler<DialogueEventArgs> Started;
-        event EventHandler Stopping, Stopped;
-        event EventHandler Completed, Ended;
-
         bool IsRunning();
         bool IsStarting();
         bool IsReady();
@@ -28,6 +22,11 @@ namespace Scripts.Level.Dialogue
         string GetStringVariable(string variableName, bool includeLeading = true);
         float GetNumberVariable(string variableName, bool includeLeading = true);
         void SetVariable<T>(string variableName, T value, bool includeLeading = true);
+
+        event EventHandler<DialogueStartingEventArgs> Starting;
+        event EventHandler<DialogueEventArgs> Started;
+        event EventHandler Stopping, Stopped;
+        event EventHandler Completed, Ended;
     }
 
     [Serializable]

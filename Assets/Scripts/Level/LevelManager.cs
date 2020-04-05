@@ -58,6 +58,16 @@ namespace Scripts.Level
             // TODO
         }
 
+        public void EnablePauseMenu()
+        {
+            GameManager.PauseMenuManager.Enable();
+        }
+
+        public void DisablePauseMenu()
+        {
+            GameManager.PauseMenuManager.Disable();
+        }
+
         public SettingsManager GetSettingsManager()
         {
             return SettingsManager;
