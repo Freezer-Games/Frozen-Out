@@ -6,18 +6,18 @@ using Yarn.Unity;
 
 namespace Scripts.Level.Dialogue.YarnSpinner
 {
-    public class VariableStorageYarn : VariableStorageBehaviour
+    public class YarnVariableStorage : VariableStorageBehaviour
     {
 
         #region Singleton
-        public static VariableStorageYarn Instance
+        public static YarnVariableStorage Instance
         {
             get
             {
                 return Singleton;
             }
         }
-        private static VariableStorageYarn Singleton;
+        private static YarnVariableStorage Singleton;
         private void CheckSingleton()
         {
             if (Singleton != null && Singleton != this)

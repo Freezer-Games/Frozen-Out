@@ -12,22 +12,22 @@ namespace Scripts.Level.Item
         public LevelManager LevelManager;
         
         public InventoryMenuController InventoryMenuController;
-        public InventoryUseMenuController InventoryUseMenuController;
+        public ItemPickPromptController ItemPickPromptController;
+        public ItemUsePromptController ItemUsePromptController;
 
-        public List<ItemInfo> InventoryItems
+        public List<ItemInfo> Items
         {
             get;
             private set;
         }
+        private ItemInfo EquippedItem;
 
         private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         void Awake()
         {
-            InventoryItems = new List<ItemInfo>(
-                this.gameObject.GetComponentsInChildren<ItemInfo>(true)
-            );
+            Items = new List<ItemInfo>();
         }
 
         void Start()
@@ -47,12 +47,22 @@ namespace Scripts.Level.Item
 
         public void OpenUsePrompt(ItemInfo usableItem)
         {
-            InventoryUseMenuController.Open(usableItem);
+            ItemUsePromptController.Open(usableItem);
         }
 
         public void CloseUsePrompt()
         {
-            InventoryUseMenuController.Close();
+            ItemUsePromptController.Close();
+        }
+
+        public void OpenPickPrompt(ItemInfo item)
+        {
+            ItemPickPromptController.Open(item);
+        }
+
+        public void ClosePickPrompt()
+        {
+            ItemPickPromptController.Close();
         }
 
         public KeyCode GetInteractKey()
@@ -60,36 +70,102 @@ namespace Scripts.Level.Item
             return SettingsManager.InteractKey;
         }
 
-        private ItemInfo GetInventoryItem(GameObject worldItem)
+        public KeyCode GetInventoryKey()
         {
-            string itemName = worldItem.GetComponent<ItemInfo>().Name;
-
-            ItemInfo attachedItem = InventoryItems.Find( tempItemInfo => tempItemInfo.Name == itemName);
-
-            return attachedItem;
+            return SettingsManager.InventoryKey;
         }
 
-        public void GetItem(GameObject worldItem)
+        public bool EquipItem(ItemInfo item)
         {
-            ItemInfo inventoryItemInfo = GetInventoryItem(worldItem);
-
-            inventoryItemInfo.gameObject.SetActive(true);
-            worldItem.SetActive(false);
-
-            DialogueManager.SetVariable<bool>(inventoryItemInfo.VariableName, true);
+            if(IsItemInInventory(item) && item.IsEquippable)
+            {
+                if(IsItemEquipped(item))
+                {
+                    EquippedItem = null;
+                    return false;
+                }
+                else
+                {
+                    EquippedItem = item;
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void UseInventoryItem(ItemInfo item)
+        public void PickItem(ItemInfo pickedItem)
         {
-            item.gameObject.SetActive(false);
+            pickedItem.OnPickup();
+            if(IsItemInInventory(pickedItem))
+            {
+                UpdateItem(pickedItem);
+            }
+            else
+            {
+                AddItem(pickedItem);
+            }
+        }
 
-            DialogueManager.SetVariable<bool>(item.VariableName, false);
-            DialogueManager.SetVariable<bool>(item.UsedVariableName, true);
+        public void UseItem(ItemInfo usedItem)
+        {
+            if(IsItemInInventory(usedItem))
+            {
+                if(usedItem.IsEquippable)
+                {
+                    if(IsItemEquipped(usedItem))
+                    {
+                        UseEquippedItem();
+                    }
+                }
+                else
+                {
+                    UseConsumableItem(usedItem);
+                }
+            }
+        }
+
+        private void AddItem(ItemInfo item)
+        {
+            DialogueManager.SetVariable<bool>(item.VariableName, true);
+
+            Items.Add(item);
+        }
+
+        private void UpdateItem(ItemInfo item)
+        {
+            if(item.Quantity > 0)
+            {
+                int currentQuantity = (int) DialogueManager.GetNumberVariable(item.QuantityVariableName);
+                int newQuantity = currentQuantity + item.Quantity;
+
+                DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
+                ItemInfo temp = Items.Find( tempItemInfo => tempItemInfo.Name == item.Name);
+                temp.Quantity = newQuantity;
+            }
+        }
+
+        private void UseConsumableItem(ItemInfo consumableItem)
+        {
+            DialogueManager.SetVariable<bool>(consumableItem.VariableName, false);
+            DialogueManager.SetVariable<bool>(consumableItem.UsedVariableName, true);
+            DialogueManager.SetVariable<float>(consumableItem.QuantityVariableName, 0);
+
+            Items.Remove(consumableItem);
+        }
+
+        private void UseEquippedItem()
+        {
+            //TODO
         }
 
         public bool IsItemInInventory(ItemInfo item)
         {
             return DialogueManager.GetBoolVariable(item.VariableName);
+        }
+
+        public bool IsItemEquipped(ItemInfo item)
+        {
+            return EquippedItem != null && item.Name == EquippedItem.Name;
         }
 
         public bool IsItemUsed(ItemInfo item)

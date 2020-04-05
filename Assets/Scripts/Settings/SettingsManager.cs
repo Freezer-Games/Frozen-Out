@@ -65,6 +65,11 @@ namespace Scripts.Settings
             get;
             private set;
         }
+        public KeyCode InventoryKey
+        {
+            get;
+            private set;
+        }
 
         public float MusicVolume
         {
@@ -356,6 +361,7 @@ namespace Scripts.Settings
             NextDialogueKey = GetPlayerPrefsKey(nameof(NextDialogueKey), "Space");
             MissionsKey = GetPlayerPrefsKey(nameof(MissionsKey), "Tab");
             PauseKey = GetPlayerPrefsKey(nameof(PauseKey), "Escape");
+            InventoryKey = GetPlayerPrefsKey(nameof(InventoryKey), "Tab");
         }
 
         private KeyCode GetPlayerPrefsKey(string name, string defaultValue)

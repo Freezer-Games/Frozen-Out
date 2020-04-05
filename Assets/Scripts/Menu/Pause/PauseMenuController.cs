@@ -7,7 +7,6 @@ namespace Scripts.Menu.Pause
 {
     public class PauseMenuController : MonoBehaviour
     {
-
         public PauseMenuManager PauseMenuManager;
 
         public Canvas PauseMenuCanvas;
@@ -36,19 +35,19 @@ namespace Scripts.Menu.Pause
             }
         }
 
-        void Restart()
+        private void Restart()
         {
             Close();
 
             PauseMenuManager.RestartLevel();
         }
 
-        void SaveGame()
+        private void SaveGame()
         {
             PauseMenuManager.SaveGame();
         }
 
-        void LoadGame()
+        private void LoadGame()
         {
             Close();
 
@@ -56,19 +55,11 @@ namespace Scripts.Menu.Pause
             //PauseMenuManager.LoadGame();
         }
 
-        void Exit()
+        private void Exit()
         {
             Close();
 
             PauseMenuManager.Exit();
-        }
-
-        public void Close()
-        {
-            PauseMenuCanvas.enabled = false;
-            Time.timeScale = 1;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public void Open()
@@ -79,19 +70,27 @@ namespace Scripts.Menu.Pause
             Cursor.lockState = CursorLockMode.None;
         }
 
-        void CloseOpenMenu()
+        public void Close()
         {
-            
-            if (PauseMenuManager.IsEnabled && !IsOpen)
-            {
-                Open();
-            }
-            else if (PauseMenuManager.IsEnabled && IsOpen)
-            {
-                Close();
-            }
+            PauseMenuCanvas.enabled = false;
+            Time.timeScale = 1;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
-
+        private void CloseOpenMenu()
+        {
+            if(PauseMenuManager.IsEnabled)
+            {
+                if(IsOpen)
+                {
+                    Close();
+                }
+                else
+                {
+                    Open();
+                }
+            }
         }
 
     }

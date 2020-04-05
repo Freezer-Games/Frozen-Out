@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Scripts.Level;
-
 namespace Scripts.Level.Item
 {
-    public class TriggerUseItem : MonoBehaviour
+    public class TriggerPickItem : MonoBehaviour
     {   
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
@@ -18,18 +16,20 @@ namespace Scripts.Level.Item
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("Player"))
+            if(other.CompareTag("Item"))
             {
                 ItemInfo targetItem = other.GetComponent<ItemInfo>();
-                Inventory.OpenUsePrompt(targetItem);
+                Inventory.OpenPickPrompt(targetItem);
+
+                Debug.Log("Item: " + targetItem.Name);
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag("Player"))
+            if(other.CompareTag("Item"))
             {
-                Inventory.CloseUsePrompt();
+                Inventory.ClosePickPrompt();
             }
         }
 

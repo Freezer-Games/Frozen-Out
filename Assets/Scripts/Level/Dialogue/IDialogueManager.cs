@@ -19,8 +19,10 @@ namespace Scripts.Level.Dialogue
 
         void SetLanguage();
 
-        void StartDialogue(string startNode);
-        KeyCode GetInteractKey();
+        void StartDialogue(DialogueTalker talker);
+        void StopDialogue();
+        void OpenTalkPrompt(DialogueTalker dialogueTalker);
+        void CloseTalkPrompt();
         
         bool GetBoolVariable(string variableName, bool includeLeading = true);
         string GetStringVariable(string variableName, bool includeLeading = true);

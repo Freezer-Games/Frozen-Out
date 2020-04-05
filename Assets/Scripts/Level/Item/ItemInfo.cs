@@ -7,7 +7,14 @@ namespace Scripts.Level.Item
     public class ItemInfo : MonoBehaviour
     {
         
-        public string Name;
+        public string Name = "";
+        public string Description = "";
+        public bool IsEquippable = false;
+        public int Quantity = 0;
+        public Sprite Sprite;
+        public Sprite EquippedSprite;
+        public string PickupAnimation;
+        public string UseAnimation;
         public string VariableName;
         public string UsedVariableName
         {
@@ -15,22 +22,27 @@ namespace Scripts.Level.Item
                 return "used_" + VariableName;
             }
         }
-        public bool IsInitiallyInInventory = false;
-
-        void Start()
+        public string QuantityVariableName
         {
-            SetVisibility();
+            get{
+                return "quantity_" + VariableName;
+            }
         }
 
-        private void SetVisibility()
+        public void OnPickup()
         {
-            bool startVisible = true;
-            if(transform.parent.name == "Inventory")
-            {
-                startVisible = IsInitiallyInInventory;
-            }
+            gameObject.SetActive(false);
+            //TODO
+        }
 
-            this.gameObject.SetActive(startVisible);
+        public void OnPlayerClose()
+        {
+            //TODO glow?
+        }
+
+        public void OnPlayerAway()
+        {
+            //TODO
         }
 
     }

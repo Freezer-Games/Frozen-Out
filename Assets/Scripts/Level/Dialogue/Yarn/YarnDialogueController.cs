@@ -7,12 +7,14 @@ using Yarn.Unity;
 
 namespace Scripts.Level.Dialogue.YarnSpinner
 {
-    public class DialogueUIYarn : DialogueUIBehaviour
+    public class YarnDialogueController : DialogueUIBehaviour
     {
         public YarnManager DialogueManager;
         
         private const string MAIN_NAME = "Pol";
         private const string LINE_SEPARATOR = ": ";
+
+        public Canvas DialogueCanvas;
 
         //Where name of character will be displayed
         public Text mainNameText;
@@ -22,7 +24,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public Text otherDialogueText;
 
         //Place where name and dialogue will be contained
-        public GameObject dialogueBoxGUI;
 
         public float letterDelay = 0.1f;
 
@@ -31,16 +32,22 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         private float localDelay;
         private readonly float localDelayMultiplier = 1.5f;
-        private int currentLineNumber;
 
         void Start()
         {
-            if (dialogueBoxGUI != null)
-            {
-                dialogueBoxGUI.SetActive(false);
-            }
+            Close();
 
             ClearTexts();
+        }
+
+        public void Open()
+        {
+            DialogueCanvas.enabled = true;
+        }
+
+        public void Close()
+        {
+            DialogueCanvas.enabled = false;
         }
 
         void FixedUpdate()
@@ -53,8 +60,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         public override IEnumerator RunLine(Yarn.Line line)
         {
-            currentLineNumber++;
-
             string lineText = line.text;
 
             SeparateLine(lineText, out string characterName, out string characterDialogue);
@@ -113,25 +118,17 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         public override IEnumerator DialogueStarted()
         {
-            // Enable the dialogue controls.
-            if (dialogueBoxGUI != null)
-            {
-                dialogueBoxGUI.SetActive(true);
-            }
+            Open();
 
             mainNameText.text = "";
             otherNameText.text = "";
-
-            currentLineNumber = 0;
 
             yield break;
         }
 
         public override IEnumerator DialogueComplete()
         {
-            // Hide the dialogue interface.
-            if (dialogueBoxGUI != null)
-                dialogueBoxGUI.SetActive(false);
+            Close();
 
             yield break;
         }

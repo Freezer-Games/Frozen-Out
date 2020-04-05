@@ -15,6 +15,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public LevelManager LevelManager;
 
         public DialogueRunner DialogueRunner;
+        public YarnDialoguePromptController DialoguePromptController;
 
         private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
         private DialogueUIBehaviour DialogueUI => DialogueRunner.dialogueUI;
@@ -28,7 +29,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void Start()
         {
-            DialogueRunner.variableStorage = VariableStorageYarn.Instance;
+            DialogueRunner.variableStorage = YarnVariableStorage.Instance;
         }
 
         public KeyCode GetNextDialogueKey()
@@ -39,6 +40,16 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public KeyCode GetInteractKey()
         {
             return SettingsManager.InteractKey;
+        }
+
+        public void OpenTalkPrompt(DialogueTalker dialogueTalker)
+        {
+            DialoguePromptController.Open(dialogueTalker);
+        }
+
+        public void CloseTalkPrompt()
+        {
+            DialoguePromptController.Close();
         }
 
         public bool IsRunning()
@@ -56,9 +67,15 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return !IsRunning() && LevelManager.GetPlayerManager().IsGrounded;
         }
 
-        public void StartDialogue(string startNode)
+        public void StartDialogue(DialogueTalker talker)
         {
-            DialogueRunner.StartDialogue(startNode);
+            talker.onStartTalk();
+            DialogueRunner.StartDialogue(talker.TalkToNode);
+        }
+
+        public void StopDialogue()
+        {
+            DialogueRunner.Stop();
         }
 
         public void SetLanguage()
