@@ -133,6 +133,10 @@ namespace Scripts.Level.Item
         private void AddItem(ItemInfo item)
         {
             DialogueManager.SetVariable<bool>(item.VariableName, true);
+            if(item.Quantity > 0)
+            {
+                DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
+            }
 
             Items.Add(item);
 
@@ -147,8 +151,10 @@ namespace Scripts.Level.Item
                 int newQuantity = currentQuantity + item.Quantity;
 
                 DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
-                ItemInfo temp = Items.Find( tempItemInfo => tempItemInfo.Name == item.Name);
-                temp.Quantity = newQuantity;
+                ItemInfo inventoryItem = Items.Find( tempItemInfo => tempItemInfo.Name == item.Name);
+                inventoryItem.Quantity = newQuantity;
+
+                OnItemUpdated(inventoryItem);
             }
         }
 
@@ -186,6 +192,7 @@ namespace Scripts.Level.Item
         #region Events
         public event EventHandler<ItemEventArgs> ItemAdded;
         public event EventHandler<ItemEventArgs> ItemRemoved;
+        public event EventHandler<ItemEventArgs> ItemUpdated;
         public event EventHandler<ItemEventArgs> ItemEquipped;
         public event EventHandler ItemUnequipped;
 
@@ -199,6 +206,12 @@ namespace Scripts.Level.Item
         {
             ItemEventArgs itemEventArgs = new ItemEventArgs(itemRemoved);
             ItemRemoved?.Invoke(this, itemEventArgs);
+        }
+
+        private void OnItemUpdated(ItemInfo itemUpdated)
+        {
+            ItemEventArgs itemEventArgs = new ItemEventArgs(itemUpdated);
+            ItemUpdated?.Invoke(this, itemEventArgs);
         }
 
         private void OnItemEquipped(ItemInfo item)

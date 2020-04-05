@@ -23,7 +23,15 @@ namespace Scripts.Level.Item
 
         void Start()
         {
+            // Quitar cualquier elmento que se haya quedado
+            foreach(Transform itemObject in ItemsGroup.transform)
+            {
+                Destroy(itemObject.gameObject);
+            }
 
+            Inventory.ItemAdded += (sender, args) => AddItemImage(args.Item);
+            Inventory.ItemRemoved += (sender, args) => RemoveItemImage(args.Item);
+            Inventory.ItemUpdated += (sender, args) => UpdateItemImage(args.Item);
         }
 
         void Update()
@@ -35,8 +43,6 @@ namespace Scripts.Level.Item
 
             if(IsOpen)
             {
-                // Tiene que llamarse desde Update porque no se actualiza al inicio por culpa de Time.timeScale = 0
-                UpdateArrow();
                 if(SelectedItemIndex >= 0 && Input.GetKeyDown(Inventory.GetInteractKey()))
                 {
                     EquipUnequipSelectedItem();
@@ -52,22 +58,42 @@ namespace Scripts.Level.Item
             }
         }
 
-        private void LoadItems()
+        private void AddItemImage(ItemInfo itemAdded)
         {
-            foreach(Transform itemObject in ItemsGroup.transform)
+            GameObject itemElement = GameObject.Instantiate(ItemImagePrefab, ItemsGroup.transform);
+            Image itemImage = itemElement.GetComponent<Image>();
+            itemImage.sprite = itemAdded.Sprite;
+            if(Inventory.IsItemEquipped(itemAdded))
             {
-                Destroy(itemObject.gameObject);
+                itemImage.sprite = itemAdded.EquippedSprite;
             }
-            foreach(ItemInfo item in Inventory.Items)
+            if(itemAdded.Quantity > 0)
             {
-                GameObject itemElement = GameObject.Instantiate(ItemImagePrefab, ItemsGroup.transform);
-                Image itemImage = itemElement.GetComponent<Image>();
-                itemImage.sprite = item.Sprite;
-                if(Inventory.IsItemEquipped(item))
-                {
-                    itemImage.sprite = item.EquippedSprite;
-                }
+                UpdateImageQuantity(itemImage, itemAdded.Quantity);
             }
+        }
+
+        private void UpdateItemImage(ItemInfo itemUpdated)
+        {
+            Image itemImage = GetItemImage(Inventory.Items.IndexOf(itemUpdated));
+            if(itemUpdated.Quantity > 0)
+            {
+                UpdateImageQuantity(itemImage, itemUpdated.Quantity);
+            }
+        }
+
+        private void UpdateImageQuantity(Image itemImage, int newQuantity)
+        {
+            Text itemQuantityText = itemImage.GetComponentInChildren<Text>();
+            itemQuantityText.enabled = true;
+            itemQuantityText.text = "x" + newQuantity.ToString();
+        }
+
+        private void RemoveItemImage(ItemInfo itemRemoved)
+        {
+            Image itemImage = GetItemImage(Inventory.Items.IndexOf(itemRemoved));
+
+            Destroy(itemImage.gameObject);
         }
 
         private void ChangeSelectedItem(int newIndex)
@@ -80,6 +106,7 @@ namespace Scripts.Level.Item
 
             SelectedItemIndex = clampedIndex;
             UpdateTexts();
+            UpdateArrow();
         }
 
         private void UpdateTexts()
@@ -96,14 +123,16 @@ namespace Scripts.Level.Item
 
         private void UpdateArrow()
         {
+            Arrow.SetActive(false);
             if(SelectedItemIndex >= 0)
             {
+                Arrow.SetActive(true);
+
                 Image selectedItemImage = GetItemImage(SelectedItemIndex);
                 Transform arrowPoint = selectedItemImage.transform.GetChild(0).transform;
 
                 Transform arrowTransform = Arrow.transform;
                 Vector3 newArrowPosition = arrowPoint.position;
-                Debug.Log(newArrowPosition);
                 arrowTransform.position = newArrowPosition;
             }
         }
@@ -159,7 +188,6 @@ namespace Scripts.Level.Item
             InventoryMenuCanvas.enabled = true;
             Time.timeScale = 0;
 
-            LoadItems();
             ChangeSelectedItem(0);
         }
 

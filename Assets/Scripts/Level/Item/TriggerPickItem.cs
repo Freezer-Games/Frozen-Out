@@ -20,8 +20,6 @@ namespace Scripts.Level.Item
             {
                 ItemInfo targetItem = other.GetComponent<ItemInfo>();
                 Inventory.OpenPickPrompt(targetItem);
-
-                Debug.Log("Item: " + targetItem.Name);
             }
         }
 
