@@ -22,9 +22,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 5f;
 
     public GameObject pico;
+    public Transform rayOrigin;
     public Transform toolPoint;
     public GameObject obstacleAtFront;
     public bool hasPickaxe;
+
+    private float distToGround = 1.2f;
 
     Vector2 input;
     Vector3 movement, camForward, camRight;
@@ -89,7 +92,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Jump") && isGrounded)
+        
+
+        if (Input.GetButton("Jump"))
         {
             Jump();
         }
@@ -99,10 +104,10 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        /*if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
         {
             isGrounded = true;
-        }
+        }*/
 
         if (other.gameObject.CompareTag("Pickaxe"))
         {
@@ -136,8 +141,28 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
-        playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        isGrounded = false;
+        if (CheckGround())
+        {
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        
+    }
+
+    bool CheckGround()
+    {
+        RaycastHit hit;
+        
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, distToGround, 2))
+        {
+            Debug.DrawLine(transform.position, hit.transform.position, Color.green);
+            return true;
+        } 
+        else
+        {
+            Debug.DrawLine(transform.position, hit.transform.position, Color.green);
+            return false;
+        }
     }
 
     void MoveStateManage(MoveMode mode)
