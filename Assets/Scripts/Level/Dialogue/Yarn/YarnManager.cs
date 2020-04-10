@@ -23,6 +23,8 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
+        private DialogueTalker CurrentTalker;
+
         void Awake()
         {
             DialogueRunner.variableStorage = YarnVariableStorage.Instance;
@@ -66,7 +68,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         public void StartDialogue(DialogueTalker talker)
         {
-            talker.onStartTalk();
+            CurrentTalker = talker;
             DialogueRunner.StartDialogue(talker.TalkToNode);
         }
 
@@ -134,6 +136,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         {
             DialogueController.DialogueStarted.AddListener(OnStarted);
             DialogueController.DialogueEnded.AddListener(OnEnded);
+
+            Started += OnStartDialogue;
+            Ended += OnEndDialogue;
         }
 
         private void OnStarted()
@@ -154,6 +159,17 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         private void OnEnded()
         {
             Ended?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnStartDialogue(object sender, EventArgs args)
+        {
+            CurrentTalker?.OnStartTalk();
+        }
+
+        private void OnEndDialogue(object sender, EventArgs args)
+        {
+            CurrentTalker?.OnEndTalk();
+            CurrentTalker = null;
         }
         #endregion
 

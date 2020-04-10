@@ -24,20 +24,19 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             if(IsOpen && DialogueManager.IsReady() && Input.GetKey(DialogueManager.GetInteractKey()))
             {
                 DialogueManager.StartDialogue(CandidateTalker);
-                Close();
             }
         }
 
         public void Open(DialogueTalker talker)
         {
             CandidateTalker = talker;
-            //enable canvas
+            // Enable potential canvas
         }
 
         public void Close()
         {
             CandidateTalker = null;
-            //disable canvas
+            // Disable potential canvas
         }
 
     }
