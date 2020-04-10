@@ -18,7 +18,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             }
         }
         private static YarnVariableStorage Singleton;
-        private void CheckSingleton()
+        private void CreateSingleton()
         {
             if (Singleton != null && Singleton != this)
             {
@@ -39,7 +39,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void Awake()
         {
-            CheckSingleton();
+            CreateSingleton();
         }
 
         void Start()
@@ -51,6 +51,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         {
             IsInitialized = false;
             Clear();
+            // Reset to defaults
             IsInitialized = true;
         }
 

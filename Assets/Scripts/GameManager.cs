@@ -24,7 +24,7 @@ namespace Scripts
             }
         }
         private static GameManager Singleton;
-        private void CheckSingleton()
+        private void CreateSingleton()
         {
             if (Singleton != null && Singleton != this)
             {
@@ -53,7 +53,7 @@ namespace Scripts
 
         void Awake()
         {
-            CheckSingleton();
+            CreateSingleton();
         }
 
         void Start()
@@ -112,7 +112,9 @@ namespace Scripts
             }
             else if (CurrentLevelIndex >= FirstLevelIndex)
             {
-                AfterLoadLevel();
+                Debug.LogWarning("Reloading - Ignore previous console messages");
+                Debug.ClearDeveloperConsole();
+                RestartLevel(); // Reload everything to properly load GameManager before Level
             }
             LoadingScreenManager.HideIntro();
             #else
@@ -145,7 +147,7 @@ namespace Scripts
 
         public void RestartLevel()
         {
-            LoadLevel(CurrentLevelIndex); //TODO sin volver a buscar el LevelManager se debería poder reiniciar
+            LoadLevel(CurrentLevelIndex);
         }
 
         public void LoadLevel(string levelName)

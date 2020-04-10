@@ -10,34 +10,30 @@ namespace Scripts.Level.Dialogue.YarnSpinner
     public class YarnDialogueController : DialogueUIBehaviour
     {
         public YarnManager DialogueManager;
-        
-        private const string MAIN_NAME = "Pol";
-        private const string LINE_SEPARATOR = ": ";
 
         public Canvas DialogueCanvas;
 
-        //Where name of character will be displayed
-        public Text mainNameText;
-        //Where current dialogue will be displayed
-        public Text mainDialogueText;
-        public Text otherNameText;
-        public Text otherDialogueText;
+        private const string LINE_SEPARATOR = ":";
 
-        //Place where name and dialogue will be contained
+        private float LetterDelay = 0.1f;
+        private bool UserRequestedAllLine = false;
+        private bool UserRequestedNextLine = false;
 
-        public float letterDelay = 0.1f;
-
-        private Text currentNameText;
-        private Text currentDialogueText;
-
-        private float localDelay;
-        private readonly float localDelayMultiplier = 1.5f;
-
-        void Start()
+        void Awake()
         {
             Close();
+        }
 
-            ClearTexts();
+        void FixedUpdate()
+        {
+            if (DialogueManager.IsRunning() && Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
+            {
+                if(UserRequestedAllLine)
+                {
+                    UserRequestedNextLine = true;
+                }
+                UserRequestedAllLine = true;
+            }
         }
 
         public void Open()
@@ -50,104 +46,138 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             DialogueCanvas.enabled = false;
         }
 
-        void FixedUpdate()
+        public override void DialogueStart()
         {
-            if (DialogueManager.IsRunning() && Input.GetKey(DialogueManager.GetNextDialogueKey()))
-            {
-                localDelay /= localDelayMultiplier;
-            }
+            Open();
+
+            OnDialogueStart();
         }
 
-        public override IEnumerator RunLine(Yarn.Line line)
+        public override void DialogueComplete()
         {
-            string lineText = line.text;
+            OnDialogueEnd();
 
-            SeparateLine(lineText, out string characterName, out string characterDialogue);
+            Close();
+        }
 
-            GetCurrentDialogueText(characterName);
+        public override Yarn.Dialogue.HandlerExecutionType RunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, System.Action onLineComplete)
+        {
+            StartCoroutine(DoRunLine(line, localisationProvider, onLineComplete));
+            return Yarn.Dialogue.HandlerExecutionType.PauseExecution;
+        }
 
-			//Reset text, so only talking character name is shown
-			mainNameText.text = "";
-			otherNameText.text = "";
-            currentNameText.text = characterName;
+        private IEnumerator DoRunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, System.Action onComplete)
+        {
+            OnLineStart();
 
-            currentDialogueText.gameObject.SetActive(true);
+            UserRequestedAllLine = false;
 
-            if (letterDelay > 0.0f)
-            {
-                localDelay = letterDelay;
+            string text = localisationProvider.GetLocalisedTextForLine(line);
 
-                /*foreach (string currentText in completeCharacterDialogue.Parse())
-                {
-                    currentDialogueText.text = currentText;
-                    yield return new WaitForSeconds(localDelay);
-                }*/
+            // Sanity check
+            if (text == null) {
+                Debug.LogWarning($"Line {line.ID} doesn't have any localised text.\nQuick, go localise it!");
+                text = line.ID;
             }
 
-            while (!Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
+            SeparateNameAndDialogue(text, out string dialogueName, out string dialogueText);
+
+            OnNameLineUpdate(dialogueName);
+
+            if (LetterDelay > 0.0f)
+            {
+                StringBuilder dialogueBuilder = new StringBuilder();
+
+                foreach(char c in dialogueText)
+                {
+                    dialogueBuilder.Append(c);
+                    OnDialogueLineUpdate(dialogueBuilder.ToString());
+                    if(UserRequestedAllLine)
+                    {
+                        OnDialogueLineUpdate(dialogueText);
+                        break;
+                    }
+
+                    yield return new WaitForSeconds(LetterDelay);
+                }
+            }
+            else
+            {
+                OnDialogueLineUpdate(dialogueText);
+            }
+
+            UserRequestedNextLine = false;
+
+            OnLineFinishDisplaying();
+
+            while(!UserRequestedNextLine)
             {
                 yield return null;
             }
 
             yield return new WaitForEndOfFrame();
 
-            currentDialogueText.gameObject.SetActive(false);
+            OnLineEnd();
 
+            onComplete();
         }
 
-        private void GetCurrentDialogueText(string characterName)
+        public override void RunOptions(Yarn.OptionSet optionSet, ILineLocalisationProvider localisationProvider, System.Action<int> onOptionSelected)
         {
-            currentNameText = mainNameText;
-            currentDialogueText = mainDialogueText;
-            if (characterName != MAIN_NAME)
-            {
-                currentNameText = otherNameText;
-                currentDialogueText = otherDialogueText;
-            }
+            
         }
 
-        public override IEnumerator RunOptions(Yarn.Options optionsCollection, Yarn.OptionChooser optionChooser)
+        public override Yarn.Dialogue.HandlerExecutionType RunCommand(Yarn.Command command, System.Action onCommandComplete)
         {
-            yield return null;
+            return Yarn.Dialogue.HandlerExecutionType.ContinueExecution;
         }
 
-        public override IEnumerator RunCommand(Yarn.Command command)
-        {
-            yield return null;
-        }
-
-        public override IEnumerator DialogueStarted()
-        {
-            Open();
-
-            mainNameText.text = "";
-            otherNameText.text = "";
-
-            yield break;
-        }
-
-        public override IEnumerator DialogueComplete()
-        {
-            Close();
-
-            yield break;
-        }
-
-        private void ClearTexts()
-        {
-            mainNameText.text = "";
-            mainDialogueText.text = "";
-
-            otherNameText.text = "";
-            otherDialogueText.text = "";
-        }
-
-        public void SeparateLine(string text, out string name, out string dialogue)
+        private void SeparateNameAndDialogue(string text, out string name, out string dialogue)
         {
             int indexOfNameSeparator = text.IndexOf(LINE_SEPARATOR);
             name = text.Substring(0, indexOfNameSeparator);
             dialogue = text.Substring(indexOfNameSeparator + 2);
         }
+
+        #region Events
+        public DialogueRunner.StringUnityEvent LineNameUpdated;
+        public DialogueRunner.StringUnityEvent LineDialogueUpdated;
+
+        private void OnDialogueStart()
+        {
+            DialogueStarted?.Invoke();
+        }
+
+        private void OnDialogueEnd()
+        {
+            DialogueEnded?.Invoke();
+        }
+
+        private void OnLineStart()
+        {
+            LineStarted?.Invoke();
+        }
+
+        private void OnNameLineUpdate(string nameToDisplay)
+        {
+            LineNameUpdated?.Invoke(nameToDisplay);
+        }
+
+        private void OnDialogueLineUpdate(string dialogueToDisplay)
+        {
+            LineDialogueUpdated?.Invoke(dialogueToDisplay);
+        }
+
+        private void OnLineEnd()
+        {
+            LineEnded?.Invoke();
+        }
+
+        private void OnLineFinishDisplaying()
+        {
+            LineFinishDisplaying?.Invoke();
+        }
+        #endregion
     }
 
     public enum TagOptionPosition { start, end }

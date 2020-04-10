@@ -38,6 +38,9 @@ namespace Scripts.Level
 
         public void Load()
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
             
             DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
