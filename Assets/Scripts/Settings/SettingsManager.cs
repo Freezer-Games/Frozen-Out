@@ -87,12 +87,12 @@ namespace Scripts.Settings
             private set;
         }
 
-        public string Language
+        public Locale Locale
         {
             get;
             private set;
         }
-        public List<Locale> SupportedLocales
+        public List<Locale> SupportedLanguages
         {
             get;
             private set;
@@ -164,7 +164,7 @@ namespace Scripts.Settings
         {
             List<string> supportedLanguages = new List<string>();
 
-            foreach(Locale locale in SupportedLocales)
+            foreach(Locale locale in SupportedLanguages)
             {
                 supportedLanguages.Add(locale.name);
             }
@@ -249,8 +249,8 @@ namespace Scripts.Settings
             Locale selectedLocale = LocalizationSettings.AvailableLocales.Locales[localeIndex];
             LocalizationSettings.SelectedLocale = selectedLocale;
 
-            Language = selectedLocale.name;
-            PlayerPrefs.SetString(nameof(Language), Language);
+            Locale = selectedLocale;
+            PlayerPrefs.SetString(nameof(Locale), Locale.name);
         }
 
         public void SetAspectRatio(string newAspectRatio)
@@ -294,9 +294,9 @@ namespace Scripts.Settings
 
         private void AssignLanguages()
         {
-            SupportedLocales = LocalizationSettings.AvailableLocales.Locales;
+            SupportedLanguages = LocalizationSettings.AvailableLocales.Locales;
             
-            Language = LocalizationSettings.AvailableLocales.Locales[0].name;
+            Locale = LocalizationSettings.AvailableLocales.Locales[0];
         }
 
         private void AssignGraphics()

@@ -43,17 +43,3 @@ animator_name: ALBERT
 <<endif>>
 Pol: Emm.. gracias. #line:0416979
 ===
-
-title: Ramon
-animator_name: RAMON
----
-<<if visited("Ramon") is false>>
-	Pol: Disculpe, ¿ha visto por casualidad a un polo blanco con tropezones de fruta pasar por aquí? #line:006f3e2
-	<<setanim RAMON Agree_2>>
-	Ramón: Sí, iba con mucha prisa en esa dirección. #line:004e9d7
-	<<setanim RAMON Denial_2>>
-	Ramón: Me pregunto qué le ocurrirá. Nunca lo había visto por aquí. #line:0aadab1
-<<endif>>
-Pol: Muchas gracias. #line:0789bc5
-<<setanim RAMON Awaken>>
-===

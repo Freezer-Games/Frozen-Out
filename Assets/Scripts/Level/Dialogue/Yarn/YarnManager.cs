@@ -28,6 +28,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         void Awake()
         {
             DialogueRunner.variableStorage = YarnVariableStorage.Instance;
+            SetLanguage();
         }
         
         void Start()
@@ -79,7 +80,8 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         public void SetLanguage()
         {
-            //TODO
+            DialogueRunner.textLanguage = SettingsManager.Locale.Identifier.Code;
+            Debug.Log(SettingsManager.Locale.Identifier.Code);
         }
 
         public bool GetBoolVariable(string variableName, bool includeLeading = true)

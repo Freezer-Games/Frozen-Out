@@ -77,7 +77,7 @@ namespace Scripts.Menu.Main
 
         public string GetLanguage()
         {
-            return SettingsManager.Language;
+            return SettingsManager.Locale.name;
         }
 
         public void SetLanguage(int newLanguageIndex)
