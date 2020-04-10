@@ -6,9 +6,9 @@ public enum MoveMode { Stopped, Stealth, Normal, Running }
 
 public class PlayerController : MonoBehaviour
 {
-    const float STEALTH_SPEED = 6.5f;
-    const float NORMAL_SPEED = 8f;
-    const float RUN_SPEED = 10f;
+    const float STEALTH_SPEED = 3.75f;
+    const float NORMAL_SPEED = 4f;
+    const float RUN_SPEED = 6.5f;
 
     [Header("Features")]
     Rigidbody playerRb;
@@ -19,15 +19,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
-    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float jumpForce = 3f;
 
     public GameObject pico;
-    public Transform rayOrigin;
     public Transform toolPoint;
     public GameObject obstacleAtFront;
     public bool hasPickaxe;
-
-    private float distToGround = 1.2f;
 
     Vector2 input;
     Vector3 movement, camForward, camRight;
@@ -46,6 +43,7 @@ public class PlayerController : MonoBehaviour
         moveSpeed = NORMAL_SPEED;
         formChanged = false;
         hasPickaxe = false;
+        isGrounded = false;
     }
 
     void Update()
@@ -85,30 +83,30 @@ public class PlayerController : MonoBehaviour
                 formChanged = !formChanged;
                 playerAnim.SetBool("changeForm", formChanged);
             }
-        }
+        }   
+    }
 
+    void LateUpdate()
+    {
         CameraVectors();
     }
 
     void FixedUpdate()
     {
-        
-
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && isGrounded)
         {
             Jump();
         }
 
-        Move();
+        //if (input != Vector2.zero)
+       // {
+            Move();
+        //}
+        
     }
 
     void OnCollisionEnter(Collision other)
     {
-        /*if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
-        {
-            isGrounded = true;
-        }*/
-
         if (other.gameObject.CompareTag("Pickaxe"))
         {
             GameObject tool = Instantiate(pico, toolPoint.position, Quaternion.Euler(0f, 0f, 180f));
@@ -131,38 +129,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        {
+            isGrounded = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        {
+            isGrounded = false;
+        }
+    }
+
     void Move()
     {
         movement = input.x * camRight + input.y * camForward;
         movement.Normalize();
+        movement *= moveSpeed;
 
-        playerRb.AddForce(movement * moveSpeed);
+        playerRb.velocity = new Vector3(movement.x, playerRb.velocity.y, movement.z);
     }
 
     void Jump()
     {
-        if (CheckGround())
-        {
-            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-        
-    }
-
-    bool CheckGround()
-    {
-        RaycastHit hit;
-        
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, distToGround, 2))
-        {
-            Debug.DrawLine(transform.position, hit.transform.position, Color.green);
-            return true;
-        } 
-        else
-        {
-            Debug.DrawLine(transform.position, hit.transform.position, Color.green);
-            return false;
-        }
+        playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     void MoveStateManage(MoveMode mode)
