@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
+    [SerializeField] float currentSpeed;
     [SerializeField] float jumpForce = 3f;
+    [SerializeField] float acceleration = 1.5f;
 
     public GameObject pico;
     public Transform toolPoint;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         moveState = MoveMode.Stopped;
         moveSpeed = NORMAL_SPEED;
+        currentSpeed = 0;
         formChanged = false;
         hasPickaxe = false;
         isGrounded = false;
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         if (movement != Vector3.zero)
         {
             FaceMovement();
+            currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, acceleration);
 
             if (Input.GetButton("Run"))
             {
@@ -76,6 +80,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             MoveStateManage(MoveMode.Stopped);
+
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, acceleration);
 
             //Form change only if stopped
             if (Input.GetKeyDown(KeyCode.K))
@@ -97,12 +103,8 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-
-        //if (input != Vector2.zero)
-       // {
-            Move();
-        //}
         
+        Move(); 
     }
 
     void OnCollisionEnter(Collision other)
@@ -149,9 +151,11 @@ public class PlayerController : MonoBehaviour
     {
         movement = input.x * camRight + input.y * camForward;
         movement.Normalize();
-        movement *= moveSpeed;
 
-        playerRb.velocity = new Vector3(movement.x, playerRb.velocity.y, movement.z);
+        playerRb.velocity = new Vector3(
+            movement.x * currentSpeed,
+            playerRb.velocity.y,
+            movement.z * currentSpeed);
     }
 
     void Jump()
