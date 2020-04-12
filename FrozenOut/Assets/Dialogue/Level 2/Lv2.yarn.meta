@@ -1,0 +1,129 @@
+fileFormatVersion: 2
+guid: 93470400da8f1194792f5ae90555316f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: es
+  stringIDs:
+  - line:0ce2873
+  - line:085810d
+  - line:0a73d15
+  - line:03fbea7
+  - line:0b247be
+  - line:0a1453b
+  - line:0a1f9f8
+  - line:0a3f2df
+  - line:081f9c6
+  - line:07bb98b
+  - line:0541d96
+  - line:05e33d3
+  - line:05cbaba
+  - line:071eb8c
+  - line:0db8fc7
+  - line:04f47b9
+  - line:030690b
+  - line:092a3e0
+  - line:071b0a7
+  - line:0dba937
+  - line:048ad47
+  - line:066a48f
+  - line:0732327
+  - line:036fd9f
+  - line:0661946
+  - line:0d90f30
+  - line:0c7061f
+  - line:059ad0b
+  - line:01b008a
+  - line:0e2a96b
+  - line:03ad173
+  - line:0ecd666
+  - line:017d6f2
+  - line:0ce62fc
+  - line:0e7adc3
+  - line:02d4545
+  - line:0984195
+  - line:000ecd0
+  - line:094d97e
+  - line:0253dad
+  - line:0840704
+  - line:09d769a
+  - line:084fa1c
+  - line:089304b
+  - line:056bd1b
+  - line:01a67f2
+  - line:02fd95b
+  - line:0361dd5
+  - line:092dbe2
+  - line:0a9e83e
+  - line:0fc0906
+  compilationStatus: 0
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: "Error on line 47 at position 17:\nmismatched input 'to'
+    expecting EXPRESSION_COMMAND_END\r\n<<if $confitura to true>>\r\r\n               
+    ^^\n\nTokens:\n1:0 ID \"title\"\n1:5 HEADER_DELIMITER \": \"\n1:7 REST_OF_LINE
+    \"Alfrio\"\n2:0 HEADER_NEWLINE \"\r\n\"\n2:0 ID \"animator_name\"\n2:13 HEADER_DELIMITER
+    \": \"\n2:15 REST_OF_LINE \"ALFRIO\"\n3:0 HEADER_NEWLINE \"\r\n\"\n3:0 '---'
+    \"---\"\n4:0 TEXT \"Pol: Buenos d\xEDas.\"\n5:0 TEXT_NEWLINE \"\r\n\"\n5:0 COMMAND_START
+    \"<<\"\n5:2 COMMAND_IF \"if \"\n5:5 FUNC_ID \"visited\"\n5:12 '(' \"(\"\n5:13
+    STRING \"\"Alfrio\"\"\n5:21 ')' \")\"\n5:23 OPERATOR_LOGICAL_EQUALS \"is\"\n5:26
+    'false' \"false\"\n5:31 EXPRESSION_COMMAND_END \">>\"\n6:1 INDENT \"\t\"\n6:1
+    COMMAND_START \"<<\"\n6:3 COMMAND_TEXT \"setanim ALFRIO Anger\"\n6:23 COMMAND_TEXT_END
+    \">>\"\n7:1 TEXT \"Alfrio: Ad\xF3nde te crees que vas? Esta es mi calle.\"\n8:1
+    TEXT_NEWLINE \"\n\t\"\n8:1 TEXT \"Pol: \xBFQu\xE9 calle? Si es un pasillo de
+    nieve.\"\n9:1 TEXT_NEWLINE \"\n\t\"\n9:1 COMMAND_START \"<<\"\n9:3 COMMAND_TEXT
+    \"setanim ALFRIO Laugh_1\"\n9:25 COMMAND_TEXT_END \">>\"\n10:1 COMMAND_START
+    \"<<\"\n10:3 COMMAND_TEXT \"setanim ALFRIO Denial\"\n10:24 COMMAND_TEXT_END \">>\"\n11:1
+    TEXT \"Alfrio: Y encima me vacilas, ahora s\xED que no dejo pasar a nadie m\xE1s.\"\n12:1
+    TEXT_NEWLINE \"\n\t\"\n12:1 TEXT \"Pol: C\xF3mo que a <i>nadie</i> m\xE1s, \xBFqui\xE9n
+    ha pasado por aqu\xED?\"\n13:1 TEXT_NEWLINE \"\n\t\"\n13:1 COMMAND_START \"<<\"\n13:3
+    COMMAND_TEXT \"setanim ALFRIO Surprise\"\n13:26 COMMAND_TEXT_END \">>\"\n14:1
+    TEXT \"Alfrio: Ahora te interesas, pues era un peque\xF1o tutti.\"\n15:1 TEXT_NEWLINE
+    \"\n\t\"\n15:1 COMMAND_START \"<<\"\n15:3 COMMAND_TEXT \"setanim ALFRIO Denial\"\n15:24
+    COMMAND_TEXT_END \">>\"\n16:1 TEXT \"Alfrio: Una pena que no puedas pasar para
+    seguirlo...\"\n17:1 TEXT_NEWLINE \"\n\t\"\n17:1 TEXT \"Pol: (No creo que se mueva
+    sin motivo)\"\n18:0 TEXT_NEWLINE \"\r\n\"\n17:0 DEDENT \"\n\"\n18:0 COMMAND_START
+    \"<<\"\n18:2 COMMAND_ELSE \"else\"\n18:6 COMMAND_END \">>\"\n19:1 INDENT \"\t\"\n19:1
+    COMMAND_START \"<<\"\n19:3 COMMAND_TEXT \"setanim ALFRIO Laugh_1\"\n19:25 COMMAND_TEXT_END
+    \">>\"\n20:1 TEXT \"Alfrio: Ese tutti me ha dado hambre, pero claro, no me puedo
+    mover de aqu\xED\"\n21:0 TEXT_NEWLINE \"\r\n\"\n20:0 DEDENT \"\n\"\n21:0 COMMAND_START
+    \"<<\"\n21:2 'endif' \"endif\"\n21:7 COMMAND_END \">>\"\n23:0 COMMAND_START \"<<\"\n23:2
+    COMMAND_IF \"if \"\n23:5 VAR_ID \"$confitura\"\n23:15 EXPRESSION_COMMAND_END
+    \">>\"\n24:1 INDENT \"\t\"\n24:1 TEXT \"Pol: He pensado que esto te gustar\xEDa.\"\n25:1
+    TEXT_NEWLINE \"\n\t\"\n25:1 COMMAND_START \"<<\"\n25:3 COMMAND_TEXT \"setanim
+    ALFRIO Surprise\"\n25:26 COMMAND_TEXT_END \">>\"\n26:1 TEXT \"Alfrio: Pero si
+    son...\"\n27:1 TEXT_NEWLINE \"\n\t\"\n27:1 COMMAND_START \"<<\"\n27:3 COMMAND_TEXT
+    \"setanim ALFRIO Surprise\"\n27:26 COMMAND_TEXT_END \">>\"\n28:1 TEXT \"Alfrio:
+    \xBFC\xF3mo lo has conseguido...? Da igual, me voy al parque a saborear esta
+    delicia.\t\"\n29:1 TEXT_NEWLINE \"\n\t\"\n29:1 COMMAND_START \"<<\"\n29:3 COMMAND_SET
+    \"set \"\n29:7 VAR_ID \"$Guard_Moves\"\n29:20 OPERATOR_ASSIGNMENT \"to\"\n29:23
+    'true' \"true\"\n29:27 EXPRESSION_COMMAND_END \">>\"\n29:0 DEDENT \"\n\"\n30:0
+    COMMAND_START \"<<\"\n30:2 'endif' \"endif\"\n30:7 COMMAND_END \">>\"\n31:0 '==='
+    \"===\"\n32:0 ID \"title\"\n32:5 HEADER_DELIMITER \": \"\n32:7 REST_OF_LINE \"Alof\"\n33:0
+    HEADER_NEWLINE \"\r\n\"\n33:0 ID \"animator_name\"\n33:13 HEADER_DELIMITER \":
+    \"\n33:15 REST_OF_LINE \"ALOF\"\n34:0 HEADER_NEWLINE \"\r\n\"\n34:0 '---' \"---\"\n35:0
+    COMMAND_START \"<<\"\n35:2 COMMAND_IF \"if \"\n35:5 FUNC_ID \"visited\"\n35:12
+    '(' \"(\"\n35:13 STRING \"\"Alof\"\"\n35:19 ')' \")\"\n35:21 OPERATOR_LOGICAL_EQUALS
+    \"is\"\n35:24 'false' \"false\"\n35:29 EXPRESSION_COMMAND_END \">>\"\n36:1 INDENT
+    \"\t\"\n36:1 COMMAND_START \"<<\"\n36:3 COMMAND_TEXT \"setanim ALOF Awaken\"\n36:22
+    COMMAND_TEXT_END \">>\"\n37:1 TEXT \"Pol: Buenos d\xEDas.\"\n38:1 TEXT_NEWLINE
+    \"\n\t\"\n38:1 TEXT \"Pol: Huele muy bien por aqu\xED.\"\n39:1 TEXT_NEWLINE \"\n\t\"\n39:1
+    COMMAND_START \"<<\"\n39:3 COMMAND_TEXT \"setanim ALOF Agree_1\"\n39:23 COMMAND_TEXT_END
+    \">>\"\n40:1 TEXT \"Alof: Gracias, son mis confituras heladas.\"\n41:1 TEXT_NEWLINE
+    \"\n\t\"\n41:1 COMMAND_START \"<<\"\n41:3 COMMAND_TEXT \"setanim ALOF Awaken\"\n41:22
+    COMMAND_TEXT_END \">>\"\n42:1 TEXT \"Alof: Eso s\xED, no est\xE1n a la venta,
+    son s\xF3lo para mis nietos.\"\n43:0 TEXT_NEWLINE \"\r\n\"\n42:0 DEDENT \"\n\"\n43:0
+    COMMAND_START \"<<\"\n43:2 COMMAND_ELSE \"else\"\n43:6 COMMAND_END \">>\"\n44:1
+    INDENT \"\t\"\n44:1 TEXT \"Pol: (Esas confituras pintan bien)\"\n45:0 TEXT_NEWLINE
+    \"\r\n\"\n44:0 DEDENT \"\n\"\n45:0 COMMAND_START \"<<\"\n45:2 'endif' \"endif\"\n45:7
+    COMMAND_END \">>\"\n47:0 COMMAND_START \"<<\"\n47:2 COMMAND_IF \"if \"\n47:5
+    VAR_ID \"$confitura\"\n47:16 OPERATOR_ASSIGNMENT \"to\"\n47:19 'true' \"true\""
+  baseLanguage: {fileID: 7128917941130120860, guid: 93470400da8f1194792f5ae90555316f,
+    type: 3}
+  localizations:
+  - languageName: en
+    text: {fileID: 4900000, guid: 8d6697e77b99ef14eb1b5a344c8ac84e, type: 3}
