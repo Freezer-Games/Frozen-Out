@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class GraphicsSectionController : MonoBehaviour
+    public class GraphicsSectionController : UIController
     {
         public OptionsMenuController OptionsMenuController;
         private MainMenuManager MainMenuManager => OptionsMenuController.MainMenuManager;
-
-        public Canvas GraphicsSectionCanvas;
 
         public Dropdown ResolutionDropdown;
         public Dropdown AspectRatioDropdown;
@@ -43,14 +41,14 @@ namespace Scripts.Menu.Main
             ApplyButton.onClick.AddListener(ApplySettings);
         }
 
-        public void Open()
+        public override void Open()
         {
-            GraphicsSectionCanvas.enabled = true;
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            GraphicsSectionCanvas.enabled = false;
+            base.Close();
         }
 
         private void UpdateResolutions(int aspectRatioIndex)

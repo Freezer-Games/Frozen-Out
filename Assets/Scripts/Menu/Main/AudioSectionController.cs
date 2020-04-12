@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class AudioSectionController : MonoBehaviour
+    public class AudioSectionController : UIController
     {
         public OptionsMenuController OptionsMenuController;
         private MainMenuManager MainMenuManager => OptionsMenuController.MainMenuManager;
-
-        public Canvas AudioSectionCanvas;
 
         public Slider AudioSlider;
         public Text VolumeText;
@@ -22,14 +20,14 @@ namespace Scripts.Menu.Main
             AudioSlider.onValueChanged.AddListener(ChangeMusicVolume);
         }
 
-        public void Open()
+        public override void Open()
         {
-            AudioSectionCanvas.enabled = true;
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            AudioSectionCanvas.enabled = false;
+            base.Close();
         }
 
         private void ChangeMusicVolume(float newVolume)

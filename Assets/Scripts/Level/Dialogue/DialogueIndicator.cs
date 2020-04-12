@@ -13,10 +13,13 @@ namespace Scripts.Level.Dialogue
         
 		void Start()
 		{
-
 			Indicator = CreateIndicator();
 			HideIndicator();
+		}
 
+		void Update()
+		{
+        	Indicator.transform.rotation = Quaternion.LookRotation(transform.position - UnityEngine.Camera.main.transform.position);
 		}
         
         public void HideIndicator()

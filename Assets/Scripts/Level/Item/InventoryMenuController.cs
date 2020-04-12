@@ -5,12 +5,9 @@ using UnityEngine.UI;
 
 namespace Scripts.Level.Item
 {
-    public class InventoryMenuController : MonoBehaviour
+    public class InventoryMenuController : UIController
     {
         public Inventory Inventory;
-
-        public Canvas InventoryMenuCanvas;
-        private bool IsOpen => InventoryMenuCanvas.enabled;
 
         public Text NameText;
         public Text DescriptionText;
@@ -56,6 +53,25 @@ namespace Scripts.Level.Item
                     ChangeSelectedItem(SelectedItemIndex - 1);
                 }
             }
+        }
+
+        public override void Open()
+        {
+            base.Open();
+
+            Inventory.LevelManager.DisablePauseMenu();
+            Time.timeScale = 0;
+
+            ChangeSelectedItem(0);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            Inventory.LevelManager.EnablePauseMenu();
+            Time.timeScale = 1;
+            //TODO activate animation of equipped
         }
 
         private void AddItemImage(ItemInfo itemAdded)
@@ -180,23 +196,6 @@ namespace Scripts.Level.Item
             Image itemImage = itemObject.GetComponent<Image>();
 
             return itemImage;
-        }
-
-        public void Open()
-        {
-            Inventory.LevelManager.DisablePauseMenu();
-            InventoryMenuCanvas.enabled = true;
-            Time.timeScale = 0;
-
-            ChangeSelectedItem(0);
-        }
-
-        public void Close()
-        {
-            Inventory.LevelManager.EnablePauseMenu();
-            InventoryMenuCanvas.enabled = false;
-            Time.timeScale = 1;
-            //TODO activate animation of equipped
         }
 
         private void CloseOpenMenu()

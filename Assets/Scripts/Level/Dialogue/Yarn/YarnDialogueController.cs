@@ -7,11 +7,13 @@ using Yarn.Unity;
 
 namespace Scripts.Level.Dialogue.YarnSpinner
 {
+    [RequireComponent(typeof(Canvas))]
     public class YarnDialogueController : DialogueUIBehaviour
     {
         public YarnManager DialogueManager;
 
         public Canvas DialogueCanvas;
+        private bool IsOpen => DialogueCanvas.enabled;
 
         private const string LINE_SEPARATOR = ":";
 

@@ -9,7 +9,7 @@ namespace Scripts.Menu.Pause
     public class PauseMenuManager : MonoBehaviour
     {
 
-        public PauseMenuController PauseMenuController;
+        public UIController PauseMenuController;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;

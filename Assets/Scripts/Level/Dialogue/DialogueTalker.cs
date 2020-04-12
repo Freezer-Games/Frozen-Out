@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
+    [RequireComponent(typeof(DialogueIndicator))]
     public class DialogueTalker : MonoBehaviour
     {
 
@@ -10,6 +11,8 @@ namespace Scripts.Level.Dialogue
         public string TalkToNode = "";
 
         private DialogueIndicator Indicator;
+
+        private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 
         void Start()
         {
@@ -19,6 +22,7 @@ namespace Scripts.Level.Dialogue
         public void OnStartTalk()
         {
             Indicator.HideIndicator();
+            transform.LookAt(LevelManager.GetPlayerManager().Player.transform);
         }
 
         public void OnEndTalk()

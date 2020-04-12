@@ -5,15 +5,9 @@ using UnityEngine.UI;
 
 namespace Scripts.Level.Item
 {
-    public class ItemPickPromptController : MonoBehaviour
+    public class ItemPickPromptController : InventoryUIController
     {
-
         public Inventory Inventory;
-
-        public Canvas ItemPickPromptCanvas;
-        private bool IsOpen => ItemPickPromptCanvas.enabled && PickableItem != null;
-
-        private ItemInfo PickableItem;
 
         void Start()
         {
@@ -24,21 +18,9 @@ namespace Scripts.Level.Item
         {
             if(IsOpen && Input.GetKey(Inventory.GetInteractKey()))
             {
-                Inventory.PickItem(PickableItem);
+                Inventory.PickItem(StoredItem);
                 Close();
             }
-        }
-
-        public void Open(ItemInfo item)
-        {
-            PickableItem = item;
-            ItemPickPromptCanvas.enabled = true;
-        }
-
-        public void Close()
-        {
-            PickableItem = null;
-            ItemPickPromptCanvas.enabled = false;
         }
 
     }

@@ -60,7 +60,7 @@ namespace Scripts
         {
             ShowOnlyIntro();
             //Wait for Settings to be Ready
-            SettingsManager.Ready += (var, args) => StartGame();
+            SettingsManager.Ready += (sender, args) => StartGame();
         }
 
         private void ShowOnlyIntro()

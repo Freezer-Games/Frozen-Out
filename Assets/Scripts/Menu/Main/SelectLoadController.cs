@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class SelectLoadController : MonoBehaviour
+    public class SelectLoadController : UIController
     {
 
-        public MainMenuController MainMenuController;
-
-        public Canvas SelectLoadCanvas;
+        public UIController MainMenuController;
         
         public Button LoadButton;
         public Button CancelButton;
@@ -22,14 +20,14 @@ namespace Scripts.Menu.Main
             CancelButton.onClick.AddListener(Cancel);
         }
 
-        public void Open()
+        public override void Open()
         {
-            SelectLoadCanvas.enabled = true;
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            SelectLoadCanvas.enabled = false;
+            base.Close();
         }
 
         private void Cancel()

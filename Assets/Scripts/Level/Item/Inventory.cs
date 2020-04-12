@@ -12,9 +12,9 @@ namespace Scripts.Level.Item
     {
         public LevelManager LevelManager;
         
-        public InventoryMenuController InventoryMenuController;
-        public ItemPickPromptController ItemPickPromptController;
-        public ItemUsePromptController ItemUsePromptController;
+        public UIController InventoryMenuController;
+        public InventoryUIController ItemPickPromptController;
+        public InventoryUIController ItemUsePromptController;
 
         public List<ItemInfo> Items
         {

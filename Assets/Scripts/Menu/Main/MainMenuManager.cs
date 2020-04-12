@@ -10,8 +10,8 @@ namespace Scripts.Menu.Main
     public class MainMenuManager : MonoBehaviour
     {
         
-        public MainMenuController MainMenuController;
-        public OptionsMenuController OptionsMenuController;
+        public UIController MainMenuController;
+        public UIController OptionsMenuController;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;

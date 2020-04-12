@@ -5,12 +5,9 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Pause
 {
-    public class PauseMenuController : MonoBehaviour
+    public class PauseMenuController : UIController
     {
         public PauseMenuManager PauseMenuManager;
-
-        public Canvas PauseMenuCanvas;
-        private bool IsOpen => PauseMenuCanvas.enabled;
         
         public Button ContinueButton;
         public Button SaveButton;
@@ -62,17 +59,19 @@ namespace Scripts.Menu.Pause
             PauseMenuManager.Exit();
         }
 
-        public void Open()
+        public override void Open()
         {
-            PauseMenuCanvas.enabled = true;
+            base.Open();
+
             Time.timeScale = 0;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
-        public void Close()
+        public override void Close()
         {
-            PauseMenuCanvas.enabled = false;
+            base.Close();
+
             Time.timeScale = 1;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;

@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class ControlsSectionController : MonoBehaviour
+    public class ControlsSectionController : UIController
     {
         public OptionsMenuController OptionsMenuController;
         private MainMenuManager MainMenuManager => OptionsMenuController.MainMenuManager;
-
-        public Canvas ControlsSectionCanvas;
 
         public Button ForwardKey;
         public Button BackKey;
@@ -51,14 +49,14 @@ namespace Scripts.Menu.Main
             NextDialogueKey.onClick.AddListener(() => StartAssignment(nameof(NextDialogueKey)));
         }
 
-        public void Open()
+        public override void Open()
         {
-            ControlsSectionCanvas.enabled = true;
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            ControlsSectionCanvas.enabled = false;
+            base.Close();
         }
 
         private void StartAssignment(string keyName)
@@ -68,8 +66,6 @@ namespace Scripts.Menu.Main
                 StartCoroutine(AssignKey(keyName));
             }
         }
-
-        //TODO
         
         void OnGUI()
         {

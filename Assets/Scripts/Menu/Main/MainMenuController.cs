@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class MainMenuController : MonoBehaviour
+    public class MainMenuController : UIController
     {
         
         public MainMenuManager MainMenuManager;
 
-        public SelectLoadController SelectLoadController;
-
-        public Canvas MainCanvas;
+        public UIController SelectLoadController;
 
         public Button StartButton;
         public Button ContinueButton;
@@ -31,15 +29,16 @@ namespace Scripts.Menu.Main
             TestButton.onClick.AddListener(LoadTestLevel);
         }
 
-        public void Open()
+        public override void Open()
         {
-            MainCanvas.enabled = true;
+            base.Open();
+
             SelectLoadController.Close();
         }
 
-        public void Close()
+        public override void Close()
         {
-            MainCanvas.enabled = false;
+            base.Close();
         }
 
         private void LoadTestLevel()

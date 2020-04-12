@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class GameSectionController : MonoBehaviour
+    public class GameSectionController : UIController
     {
         public OptionsMenuController OptionsMenuController;
         private MainMenuManager MainMenuManager => OptionsMenuController.MainMenuManager;
-
-        public Canvas GameSectionCanvas;
 
         public Dropdown LanguageDropdown;
         public Slider SizeSlider;
@@ -28,14 +26,14 @@ namespace Scripts.Menu.Main
             SizeSlider.onValueChanged.AddListener(ChangeTextSize);
         }
 
-        public void Open()
+        public override void Open()
         {
-            GameSectionCanvas.enabled = true;
+            base.Open();
         }
 
-        public void Close()
+        public override void Close()
         {
-            GameSectionCanvas.enabled = false;
+            base.Close();
         }
 
         private void ChangeLanguage(int languageIndex)

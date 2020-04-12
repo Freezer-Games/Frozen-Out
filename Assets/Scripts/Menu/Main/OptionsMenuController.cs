@@ -5,19 +5,17 @@ using UnityEngine.UI;
 
 namespace Scripts.Menu.Main
 {
-    public class OptionsMenuController : MonoBehaviour
+    public class OptionsMenuController : UIController
     {
         public MainMenuManager MainMenuManager;
 
-        public GameSectionController GameSectionController;
-        public AudioSectionController AudioSectionController;
-        public GraphicsSectionController GraphicsSectionController;
-        public ControlsSectionController ControlsSectionController;
+        public UIController GameSectionController;
+        public UIController AudioSectionController;
+        public UIController GraphicsSectionController;
+        public UIController ControlsSectionController;
 
         public Button ConfirmButton;
         public Button CancelButton;
-        
-        public Canvas OptionsCanvas;
 
         public Button GameSectionButton;
         public Button AudioSectionButton;
@@ -43,15 +41,16 @@ namespace Scripts.Menu.Main
             }
         }
 
-        public void Open()
+        public override void Open()
         {
-            OptionsCanvas.enabled = true;
+            base.Open();
+
             OpenGameSection();
         }
 
-        public void Close()
+        public override void Close()
         {
-            OptionsCanvas.enabled = false;
+            base.Close();
         }
 
         private void OpenGameSection()
@@ -91,12 +90,10 @@ namespace Scripts.Menu.Main
             Close();
             MainMenuManager.OpenMainMenu();
         }
-
-        //TODO
+        
         void Confirm()
         {
             OpenMainMenu();
-            //GraphicsCanvas.GetComponent<GraphicsMenu>().apply_settings();
         }
 
     }
