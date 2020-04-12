@@ -81,7 +81,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public void SetLanguage()
         {
             DialogueRunner.textLanguage = SettingsManager.Locale.Identifier.Code;
-            Debug.Log(SettingsManager.Locale.Identifier.Code);
         }
 
         public bool GetBoolVariable(string variableName, bool includeLeading = true)
