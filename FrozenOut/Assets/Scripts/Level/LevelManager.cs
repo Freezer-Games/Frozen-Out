@@ -43,16 +43,24 @@ namespace Scripts.Level
 
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
             
-            DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
-            DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+            if(DialogueManager != null)
+            {
+                DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
+                DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+                DialogueManager.Started += (sender, args) => PlayerManager.Disable();
+                DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
+            }
 
-            Inventory.CloseMenu();
-            Inventory.CloseUsePrompt();
+            if(Inventory != null)
+            {
+                Inventory.CloseMenu();
+                Inventory.CloseUsePrompt();
+            }
 
-            PlayerManager.Enable();
-
-            DialogueManager.Started += (sender, args) => PlayerManager.Disable();
-            DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
+            if(PlayerManager != null)
+            {
+                PlayerManager.Enable();
+            }
             // TODO
         }
 

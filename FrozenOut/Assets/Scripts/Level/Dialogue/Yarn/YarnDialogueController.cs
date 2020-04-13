@@ -18,6 +18,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         private const string LINE_SEPARATOR = ":";
 
         private float LetterDelay = 0.1f;
+        private float NextDialogueDelay = 0.3f;
         private bool UserRequestedAllLine = false;
         private bool UserRequestedNextLine = false;
 
@@ -28,13 +29,10 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void FixedUpdate()
         {
-            if (DialogueManager.IsRunning() && Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
+            if (DialogueManager.IsRunning() && Input.GetKey(DialogueManager.GetNextDialogueKey()))
             {
-                if(UserRequestedAllLine)
-                {
-                    UserRequestedNextLine = true;
-                }
                 UserRequestedAllLine = true;
+                UserRequestedNextLine = true;
             }
         }
 
@@ -108,9 +106,11 @@ namespace Scripts.Level.Dialogue.YarnSpinner
                 OnDialogueLineUpdate(dialogueText);
             }
 
-            UserRequestedNextLine = false;
-
             OnLineFinishDisplaying();
+
+            yield return new WaitForSeconds(NextDialogueDelay);
+
+            UserRequestedNextLine = false;
 
             while(!UserRequestedNextLine)
             {
