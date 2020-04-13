@@ -231,7 +231,6 @@ namespace Scripts.Level.Item
     [Serializable]
     public class ItemEventArgs : EventArgs
     {
-
         public ItemInfo Item
         {
             get;
@@ -241,6 +240,5 @@ namespace Scripts.Level.Item
         {
             this.Item = itemInfo;
         }
-
     }
 }

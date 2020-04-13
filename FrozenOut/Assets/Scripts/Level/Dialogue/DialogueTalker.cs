@@ -16,6 +16,10 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
+            if(Name.Equals(""))
+            {
+                Name = gameObject.name;
+            }
             Indicator = GetComponent<DialogueIndicator>();
         }
 

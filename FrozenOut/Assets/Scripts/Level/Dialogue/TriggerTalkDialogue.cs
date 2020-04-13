@@ -4,32 +4,34 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
+    [RequireComponent(typeof(DialogueTalker))]
     public class TriggerTalkDialogue : MonoBehaviour
     {
         private IDialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
+        private String PLayerTag = "Player";
+        private DialogueTalker Talker;
+
         void Start()
         {
-            
+            Talker = GetComponent<DialogueTalker>();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("NPC"))
+            if(other.CompareTag(PLayerTag))
             {
-                DialogueTalker targetDialogue = other.GetComponent<DialogueTalker>();
-                targetDialogue.OnPlayerClose();
+                Talker.OnPlayerClose();
                 
-                DialogueManager.OpenTalkPrompt(targetDialogue);
+                DialogueManager.OpenTalkPrompt(Talker);
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag("NPC"))
+            if(other.CompareTag(PLayerTag))
             {
-                DialogueTalker targetDialogue = other.GetComponent<DialogueTalker>();
-                targetDialogue.OnPlayerAway();
+                Talker.OnPlayerAway();
                 
                 DialogueManager.CloseTalkPrompt();
             }

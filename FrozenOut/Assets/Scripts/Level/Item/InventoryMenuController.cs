@@ -15,7 +15,7 @@ namespace Scripts.Level.Item
         public HorizontalLayoutGroup ItemsGroup;
         public GameObject ItemImagePrefab;
         public GameObject Arrow;
-        [SerializeField]
+        
         private int SelectedItemIndex;
 
         void Start()
