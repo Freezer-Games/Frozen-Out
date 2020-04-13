@@ -1,0 +1,9 @@
+title: Introduccion
+---
+<<if $tutorial_mission is true>>
+	Yell: ¿¿Que haces aqui aún??
+<<else>>
+	Yell: Por fin te despiertas, Deberias ir a trabajar, antes de que te caiga una penalización.
+	Pol: Si. No quiero que haya ningún problema
+	<<set $tutorial_mission to true>>
+<<endif>>

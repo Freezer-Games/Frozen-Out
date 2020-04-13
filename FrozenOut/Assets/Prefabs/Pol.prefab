@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 909652796386767384}
   - component: {fileID: 909652796386767390}
   - component: {fileID: 909652796386767391}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,50 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &909652797138602774
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 909652797138602773}
-  - component: {fileID: 909652797138602772}
-  m_Layer: 0
-  m_Name: Tool
-  m_TagString: Untagged
-  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &909652797138602773
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909652797138602774}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.409, y: 0.6, z: -0.573}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3428639200007657653}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &909652797138602772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909652797138602774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a2a5ffd02f63349bf544158c6ee934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1859882154464996027}
 --- !u!1 &909652797197477118
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 909652797197477117}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Camera Point
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -162,7 +118,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3428639200007657653}
-  - component: {fileID: 1859882154464996027}
   - component: {fileID: 1859882154464996005}
   - component: {fileID: 1859882154464996026}
   - component: {fileID: 1859882154464996004}
@@ -181,7 +136,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859882154464996006}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.096, y: 2.089, z: -4.406}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 566988940976981341}
@@ -189,34 +144,9 @@ Transform:
   - {fileID: 8745158348590125815}
   - {fileID: 2031270465269576674}
   - {fileID: 909652797197477117}
-  - {fileID: 909652797138602773}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1859882154464996027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859882154464996006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec3632e1ed93268418478505fcf1dfec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  formChanged: 0
-  isGrounded: 0
-  moveState: 0
-  moveSpeed: 0
-  jumpForce: 6
-  pico: {fileID: 350471563119107864, guid: 8949d4be48933a149a12547d8c047b46, type: 3}
-  toolPoint: {fileID: 909652797138602773}
-  obstacleAtFront: {fileID: 0}
-  hasPickaxe: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!95 &1859882154464996005
 Animator:
   serializedVersion: 3
@@ -258,7 +188,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859882154464996006}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -276,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 566988940976981341}
   - component: {fileID: 3047415688765381736}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sorbete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +290,7 @@ GameObject:
   - component: {fileID: 2031270465269576674}
   - component: {fileID: 3482394877409771181}
   - component: {fileID: 8745268228063875981}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Helado
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +369,7 @@ GameObject:
   - component: {fileID: 8745158348590125815}
   - component: {fileID: 371446649099422830}
   - component: {fileID: 1304484454607194968}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Palo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
