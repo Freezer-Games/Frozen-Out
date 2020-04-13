@@ -8,9 +8,9 @@ namespace Scripts.Level.Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        private const float STEALTH_SPEED = 3.75f;
-        private const float NORMAL_SPEED = 4f;
-        private const float RUN_SPEED = 6.5f;
+        const float STEALTH_SPEED = 3.75f;
+        const float NORMAL_SPEED = 4f;
+        const float RUN_SPEED = 6.5f;
 
         public PlayerManager PlayerManager;
 
@@ -18,8 +18,8 @@ namespace Scripts.Level.Player
         public bool IsMoving => MoveState != MoveMode.Stopped; //TODO
 
         [Header("Features")]
-        private Rigidbody Rigidbody;
-        private Animator Animator;
+        Rigidbody Rigidbody;
+        Animator Animator;
         [SerializeField]
         private bool IsFormChanged;
         [SerializeField]
@@ -29,14 +29,18 @@ namespace Scripts.Level.Player
         [SerializeField]
         private float MoveSpeed;
         [SerializeField]
+        private float CurrentSpeed;
+        [SerializeField]
         private float JumpForce = 3f;
+        [SerializeField]
+        private float Acceleration = 1.5f;
 
         public GameObject Pickaxe;
         public Transform ToolPoint;
         public GameObject ObstacleAtFront;
-        public bool HasPickaxe;
+        public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
 
-        private Vector2 MovementInput;
+        private Vector2 MoveInput;
         private Vector3 Movement;
         private Vector3 CamForward;
         private Vector3 CamRight;
@@ -53,8 +57,9 @@ namespace Scripts.Level.Player
         {
             MoveState = MoveMode.Stopped;
             MoveSpeed = NORMAL_SPEED;
+            CurrentSpeed = 0;
             IsFormChanged = false;
-            HasPickaxe = false; //Coger de PlayerManager, que lo cogerá de Inventory
+            HasPickaxe = false;
             IsGrounded = false;
         }
 
@@ -62,10 +67,11 @@ namespace Scripts.Level.Player
         {
             if(PlayerManager.IsEnabled)
             {
-                MovementInput = new Vector2(
-                UnityEngine.Input.GetAxis("Horizontal"),
-                UnityEngine.Input.GetAxis("Vertical"));
-                MovementInput.Normalize();
+                MoveInput = new Vector2(
+                    Input.GetAxis("Horizontal"),
+                    Input.GetAxis("Vertical")
+                );
+                MoveInput.Normalize();
 
                 //playerAnim.SetBool("walking", movement != Vector3.zero);
 
@@ -73,12 +79,13 @@ namespace Scripts.Level.Player
                 if (Movement != Vector3.zero)
                 {
                     FaceMovement();
+                    CurrentSpeed = Mathf.Lerp(CurrentSpeed, MoveSpeed, Acceleration);
 
                     if (Input.GetButton("Run"))
                     {
                         MoveStateManage(MoveMode.Running);
                     }
-                    else if (Input.GetKey(PlayerManager.GetCrouchKey()))
+                    else if (Input.GetButton("Crouch"))
                     {
                         MoveStateManage(MoveMode.Stealth);
                     }
@@ -90,6 +97,8 @@ namespace Scripts.Level.Player
                 else
                 {
                     MoveStateManage(MoveMode.Stopped);
+
+                    CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Acceleration);
 
                     //Form change only if stopped
                     if (Input.GetKeyDown(KeyCode.K))
@@ -114,10 +123,8 @@ namespace Scripts.Level.Player
                 {
                     Jump();
                 }
-                
                 Move();
             }
-            
         }
 
         void OnCollisionEnter(Collision other)
@@ -162,11 +169,13 @@ namespace Scripts.Level.Player
 
         void Move()
         {
-            Movement = MovementInput.x * CamRight + MovementInput.y * CamForward;
+            Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
             Movement.Normalize();
-            Movement *= MoveSpeed;
 
-            Rigidbody.velocity = new Vector3(Movement.x, Rigidbody.velocity.y, Movement.z);
+            Rigidbody.velocity = new Vector3(
+                Movement.x * CurrentSpeed,
+                Rigidbody.velocity.y,
+                Movement.z * CurrentSpeed);
         }
 
         void Jump()
