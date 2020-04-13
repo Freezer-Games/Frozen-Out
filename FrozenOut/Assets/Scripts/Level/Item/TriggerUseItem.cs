@@ -10,24 +10,30 @@ namespace Scripts.Level.Item
     {   
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
+        private string PlayerTag = "Player";
+        private ItemUser ItemUser;
+
         void Start()
         {
-
+            ItemUser = GetComponent<ItemUser>();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("Player"))
+            if(other.CompareTag(PlayerTag))
             {
-                ItemInfo targetItem = other.GetComponent<ItemInfo>();
-                Inventory.OpenUsePrompt(targetItem);
+                ItemUser.OnPlayerClose();
+
+                Inventory.OpenUsePrompt(ItemUser);
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag("Player"))
+            if(other.CompareTag(PlayerTag))
             {
+                ItemUser.OnPlayerAway();
+
                 Inventory.CloseUsePrompt();
             }
         }

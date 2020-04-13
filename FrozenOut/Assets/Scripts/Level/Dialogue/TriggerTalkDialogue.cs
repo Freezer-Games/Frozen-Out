@@ -9,7 +9,7 @@ namespace Scripts.Level.Dialogue
     {
         private IDialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
-        private String PLayerTag = "Player";
+        private String PlayerTag = "Player";
         private DialogueTalker Talker;
 
         void Start()
@@ -19,7 +19,7 @@ namespace Scripts.Level.Dialogue
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag(PLayerTag))
+            if(other.CompareTag(PlayerTag))
             {
                 Talker.OnPlayerClose();
                 
@@ -29,7 +29,7 @@ namespace Scripts.Level.Dialogue
 
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag(PLayerTag))
+            if(other.CompareTag(PlayerTag))
             {
                 Talker.OnPlayerAway();
                 

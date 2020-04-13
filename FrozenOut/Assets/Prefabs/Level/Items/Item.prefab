@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 627858321994691610}
   - component: {fileID: 2963894008411950338}
-  - component: {fileID: 2645895838742481201}
+  - component: {fileID: 4537953471492365767}
   - component: {fileID: 830693938284043859}
   m_Layer: 0
   m_Name: Item
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,7 +46,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2645895838742481201
+--- !u!114 &4537953471492365767
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,18 +55,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8396225623942142245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f5a3d425c503974dbbcdbe83b441cda, type: 3}
+  m_Script: {fileID: 11500000, guid: ed8f0d3c4cb0322429203e1330465ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
-  IsEquippable: 0
-  Quantity: 0
-  Sprite: {fileID: 0}
-  EquippedSprite: {fileID: 0}
+  ItemName: 
+  ItemQuantity: 0
   PickupAnimation: 
-  UseAnimation: 
-  VariableName: 
 --- !u!114 &830693938284043859
 MonoBehaviour:
   m_ObjectHideFlags: 0

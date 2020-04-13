@@ -6,7 +6,6 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueIndicator))]
     public class DialogueTalker : MonoBehaviour
     {
-
         public string Name = "";
         public string TalkToNode = "";
 

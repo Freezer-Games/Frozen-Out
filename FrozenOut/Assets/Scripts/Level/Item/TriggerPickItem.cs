@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace Scripts.Level.Item
 {
-    [RequireComponent(typeof(ItemInfo))]
+    [RequireComponent(typeof(ItemPicker))]
     public class TriggerPickItem : MonoBehaviour
     {   
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
         private string PlayerTag = "Player";
-        private ItemInfo ItemInfo;
+        private ItemPicker ItemPicker;
 
         void Start()
         {
-            ItemInfo = GetComponent<ItemInfo>();
+            ItemPicker = GetComponent<ItemPicker>();
         }
 
         void OnTriggerEnter(Collider other)
         {
             if(other.CompareTag(PlayerTag))
             {
-                ItemInfo.OnPlayerClose();
+                ItemPicker.OnPlayerClose();
 
-                Inventory.OpenPickPrompt(ItemInfo);
+                Inventory.OpenPickPrompt(ItemPicker);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Scripts.Level.Item
         {
             if(other.CompareTag(PlayerTag))
             {
-                ItemInfo.OnPlayerAway();
+                ItemPicker.OnPlayerAway();
 
                 Inventory.ClosePickPrompt();
             }

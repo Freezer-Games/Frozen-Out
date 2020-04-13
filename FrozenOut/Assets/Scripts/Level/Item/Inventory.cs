@@ -13,8 +13,10 @@ namespace Scripts.Level.Item
         public LevelManager LevelManager;
         
         public UIController InventoryMenuController;
-        public InventoryUIController ItemPickPromptController;
-        public InventoryUIController ItemUsePromptController;
+        public ItemPickPromptController ItemPickPromptController;
+        public ItemUsePromptController ItemUsePromptController;
+
+        public List<ItemInfo> LevelItems;
 
         public List<ItemInfo> Items
         {
@@ -50,9 +52,9 @@ namespace Scripts.Level.Item
             InventoryMenuController.Close();
         }
 
-        public void OpenUsePrompt(ItemInfo usableItem)
+        public void OpenUsePrompt(ItemUser user)
         {
-            ItemUsePromptController.Open(usableItem);
+            ItemUsePromptController.Open(user);
         }
 
         public void CloseUsePrompt()
@@ -60,9 +62,9 @@ namespace Scripts.Level.Item
             ItemUsePromptController.Close();
         }
 
-        public void OpenPickPrompt(ItemInfo item)
+        public void OpenPickPrompt(ItemPicker picker)
         {
-            ItemPickPromptController.Open(item);
+            ItemPickPromptController.Open(picker);
         }
 
         public void ClosePickPrompt()
@@ -99,60 +101,67 @@ namespace Scripts.Level.Item
             OnItemUnequipped();
         }
 
-        public void PickItem(ItemInfo pickedItem)
+        public void PickItem(ItemPicker picker)
         {
-            pickedItem.OnPickup();
-            if(IsItemInInventory(pickedItem))
+            picker.OnPickup();
+
+            if(IsItemInInventory(picker.ItemName))
             {
-                UpdateItem(pickedItem);
+                UpdateItem(picker);
             }
             else
             {
-                AddItem(pickedItem);
+                AddItem(picker);
             }
         }
 
-        public void UseItem(ItemInfo usedItem)
+        public void UseItem(ItemUser user)
         {
-            if(IsItemInInventory(usedItem))
+            if(IsItemInInventory(user.ItemName))
             {
-                if(usedItem.IsEquippable)
+                user.OnUse();
+                //Pasarlo a ItemInfo del inventario
+                ItemInfo inventoryItem = Items.Find( temp => temp.Name == user.ItemName );
+
+                if(inventoryItem.IsEquippable)
                 {
-                    if(IsItemEquipped(usedItem))
+                    if(IsItemEquipped(inventoryItem))
                     {
                         UseEquippedItem();
                     }
                 }
                 else
                 {
-                    UseConsumableItem(usedItem);
+                    UseConsumableItem(inventoryItem);
                 }
             }
         }
 
-        private void AddItem(ItemInfo item)
+        private void AddItem(ItemPicker picker)
         {
-            DialogueManager.SetVariable<bool>(item.VariableName, true);
-            if(item.Quantity > 0)
-            {
-                DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
-            }
+            //Pasarlo a ItemInfo del nivel
+            ItemInfo item = LevelItems.Find( temp => temp.Name == picker.ItemName );
+            item.Quantity = picker.ItemQuantity;
 
             Items.Add(item);
+            DialogueManager.SetVariable<bool>(item.VariableName, true);
+            DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
 
             OnItemAdded(item);
         }
 
-        private void UpdateItem(ItemInfo item)
+        private void UpdateItem(ItemPicker picker)
         {
-            if(item.Quantity > 0)
+            if(picker.ItemQuantity > 0)
             {
-                int currentQuantity = (int) DialogueManager.GetNumberVariable(item.QuantityVariableName);
-                int newQuantity = currentQuantity + item.Quantity;
+                //Pasarlo a ItemInfo del inventario
+                ItemInfo inventoryItem = Items.Find( temp => temp.Name == picker.ItemName );
 
-                DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
-                ItemInfo inventoryItem = Items.Find( tempItemInfo => tempItemInfo.Name == item.Name);
+                int currentQuantity = inventoryItem.Quantity;
+                int newQuantity = currentQuantity + picker.ItemQuantity;
+
                 inventoryItem.Quantity = newQuantity;
+                DialogueManager.SetVariable<float>(inventoryItem.QuantityVariableName, newQuantity);
 
                 OnItemUpdated(inventoryItem);
             }
@@ -160,11 +169,11 @@ namespace Scripts.Level.Item
 
         private void UseConsumableItem(ItemInfo consumableItem)
         {
+            Items.Remove(consumableItem);
+
             DialogueManager.SetVariable<bool>(consumableItem.VariableName, false);
             DialogueManager.SetVariable<bool>(consumableItem.UsedVariableName, true);
             DialogueManager.SetVariable<float>(consumableItem.QuantityVariableName, 0);
-
-            Items.Remove(consumableItem);
 
             OnItemRemoved(consumableItem);
         }
@@ -176,7 +185,11 @@ namespace Scripts.Level.Item
 
         public bool IsItemInInventory(ItemInfo item)
         {
-            return DialogueManager.GetBoolVariable(item.VariableName);
+            return Items.Contains(item);
+        }
+        public bool IsItemInInventory(string itemName)
+        {
+            return Items.Exists( temp => temp.Name == itemName );
         }
 
         public bool IsItemEquipped(ItemInfo item)
