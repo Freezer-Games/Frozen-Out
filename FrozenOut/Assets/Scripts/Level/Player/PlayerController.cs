@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Scripts.Level.Player
 {
-    [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
@@ -50,7 +49,7 @@ namespace Scripts.Level.Player
         void Awake()
         {
             Rigidbody = GetComponent<Rigidbody>();
-            Animator = GetComponent<Animator>();
+            Animator = GetComponentInChildren<Animator>();
         }
 
         void Start()
@@ -73,7 +72,7 @@ namespace Scripts.Level.Player
                 );
                 MoveInput.Normalize();
 
-                //playerAnim.SetBool("walking", movement != Vector3.zero);
+                Animator.SetBool("walking", Movement != Vector3.zero);
 
                 //Check there is an input
                 if (Movement != Vector3.zero)
