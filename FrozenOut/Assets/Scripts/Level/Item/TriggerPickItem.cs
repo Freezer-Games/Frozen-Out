@@ -1,32 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Scripts.Level.Item
 {
+    [RequireComponent(typeof(ItemPicker))]
     public class TriggerPickItem : MonoBehaviour
     {   
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
+        private string PlayerTag = "Player";
+        private ItemPicker ItemPicker;
+
         void Start()
         {
-
+            ItemPicker = GetComponent<ItemPicker>();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("Item"))
+            if(other.CompareTag(PlayerTag))
             {
-                ItemInfo targetItem = other.GetComponent<ItemInfo>();
-                Inventory.OpenPickPrompt(targetItem);
+                ItemPicker.OnPlayerClose();
+
+                Inventory.OpenPickPrompt(ItemPicker);
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag("Item"))
+            if(other.CompareTag(PlayerTag))
             {
+                ItemPicker.OnPlayerAway();
+
                 Inventory.ClosePickPrompt();
             }
         }

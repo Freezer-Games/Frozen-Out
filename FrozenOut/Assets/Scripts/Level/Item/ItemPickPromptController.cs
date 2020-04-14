@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 namespace Scripts.Level.Item
 {
-    public class ItemPickPromptController : InventoryUIController
+    public class ItemPickPromptController : UIController<ItemPicker>
     {
         public Inventory Inventory;
+
+        protected override bool IsOpen => base.IsOpen && CandidatePicker != null;
+        protected ItemPicker CandidatePicker;
 
         void Start()
         {
@@ -18,10 +21,28 @@ namespace Scripts.Level.Item
         {
             if(IsOpen && Input.GetKey(Inventory.GetInteractKey()))
             {
-                Inventory.PickItem(StoredItem);
+                Inventory.PickItem(CandidatePicker);
                 Close();
             }
         }
+        
+        public override void Open()
+        {
+            Open(null);
+        }
+        
+        public override void Open(ItemPicker passingItem)
+        {
+            base.Open();
 
+            CandidatePicker = passingItem;
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            CandidatePicker = null;
+        }
     }
 }
