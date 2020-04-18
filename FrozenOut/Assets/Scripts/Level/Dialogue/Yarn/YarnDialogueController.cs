@@ -81,7 +81,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
             // Sanity check
             if (text == null) {
-                Debug.LogWarning($"Line {line.ID} doesn't have any localised text.\nQuick, go localise it!");
+                Debug.LogWarning($"Line {line.ID} doesn't have any localised text.");
                 text = line.ID;
             }
 
@@ -89,13 +89,10 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
             OnNameLineUpdate(characterName);
 
-            //TagType textSizeTag = GetTextSizeTag();
-
             if (LetterDelay > 0.0f)
             {
+                // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue);
-
-                //completeCharacterDialogue = new DialogueTaggedText(textSizeTag, completeCharacterDialogue);
 
                 foreach(string currentText in completeCharacterDialogue.Parse())
                 {
@@ -148,20 +145,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             int indexOfNameSeparator = text.IndexOf(LINE_SEPARATOR);
             name = text.Substring(0, indexOfNameSeparator);
             dialogue = text.Substring(indexOfNameSeparator + 2);
-        }
-
-        private TagType GetTextSizeTag()
-        {
-            float textSize = DialogueManager.GetTextSize();
-
-            TagOption selectedTextSizeStartTagOption
-                                = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
-
-            TagOption selectedTextSizeEndTagOption
-                = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.End);
-
-            TagType selectedTextSizeTag = new TagType(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
-            return selectedTextSizeTag;
         }
 
         #region Events

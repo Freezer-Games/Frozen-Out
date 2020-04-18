@@ -28,6 +28,10 @@ namespace Scripts.Level.Dialogue.Text
             this.Text += dialogueText.ToString();
         }
 
+        /// <summary>
+        /// Devuelve el texto letra a letra
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<string> Parse()
         {
             string currentText = "";

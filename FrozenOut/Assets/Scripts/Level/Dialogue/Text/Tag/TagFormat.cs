@@ -103,6 +103,7 @@ namespace Scripts.Level.Dialogue.Text.Tag
             // remainigText -> linea</size>
             remainingText = remainingTextWithStart.Substring(endIndex);
 
+            // Devuelve el tag option interno
             return new TagOption(tagOption, this, tagOptionPosition);
         }
     }

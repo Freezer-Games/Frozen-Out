@@ -35,6 +35,8 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         {
             SetEvents();
             DialogueFunctions.Load();
+
+            SetInitialVariables();
         }
 
         public KeyCode GetNextDialogueKey()
@@ -131,6 +133,11 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         private string AddLeading(string variableName)
         {
             return "$" + variableName;
+        }
+
+        private void SetInitialVariables()
+        {
+            SetVariable<float>("textSize", GetTextSize());
         }
 
         #region Events

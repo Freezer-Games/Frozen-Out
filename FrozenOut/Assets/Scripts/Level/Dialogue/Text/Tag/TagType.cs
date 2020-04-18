@@ -58,6 +58,7 @@ namespace Scripts.Level.Dialogue.Text.Tag
 
         public IEnumerable<string> Parse(Func<IEnumerable<string>> textFeeder)
         {
+            // Declare an IEnumerable, NOT executing it
             IEnumerable<string> FormattedTextFeeder()
             {
                 foreach (string nextText in textFeeder())
@@ -79,7 +80,7 @@ namespace Scripts.Level.Dialogue.Text.Tag
 
         private IEnumerable<string> ParseFull(Func<IEnumerable<string>> textFeeder)
         {
-            foreach (string nextText in textFeeder())
+            foreach (string nextText in textFeeder()) // foreach character given, it'll enclose it in the tag
             {
                 yield return GetTaggedText(nextText);
             }
