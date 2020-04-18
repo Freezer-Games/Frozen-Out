@@ -54,13 +54,15 @@ public class TestPlayerController : MonoBehaviour
         input.Normalize();
 
         playerAnim.SetBool("isMoving", movement != Vector3.zero);
+        playerAnim.SetFloat("VelX", input.x);
+        playerAnim.SetFloat("VelY", input.y);
 
         if (Input.GetKeyDown(KeyCode.K)) playerAnim.SetTrigger("isChanging");
 
         //Check there is an input
         if (movement != Vector3.zero)
         {
-            FaceMovement();
+            //FaceMovement();
 
             if (Input.GetButton("Run"))
             {
