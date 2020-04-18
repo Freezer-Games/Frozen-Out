@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 using Yarn.Unity;
 
+using Scripts.Level.Dialogue.Text;
+using Scripts.Level.Dialogue.Text.Tag;
+
 namespace Scripts.Level.Dialogue.YarnSpinner
 {
     [RequireComponent(typeof(Canvas))]
@@ -33,6 +36,8 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             {
                 UserRequestedAllLine = true;
                 UserRequestedNextLine = true;
+
+                //localDelay /= localDelayMultiplier;
             }
         }
 
@@ -80,21 +85,25 @@ namespace Scripts.Level.Dialogue.YarnSpinner
                 text = line.ID;
             }
 
-            SeparateNameAndDialogue(text, out string dialogueName, out string dialogueText);
+            SeparateNameAndDialogue(text, out string characterName, out string characterDialogue);
 
-            OnNameLineUpdate(dialogueName);
+            OnNameLineUpdate(characterName);
+
+            //TagType textSizeTag = GetTextSizeTag();
 
             if (LetterDelay > 0.0f)
             {
-                StringBuilder dialogueBuilder = new StringBuilder();
+                IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue);
 
-                foreach(char c in dialogueText)
+                //completeCharacterDialogue = new DialogueTaggedText(textSizeTag, completeCharacterDialogue);
+
+                foreach(string currentText in completeCharacterDialogue.Parse())
                 {
-                    dialogueBuilder.Append(c);
-                    OnDialogueLineUpdate(dialogueBuilder.ToString());
-                    if(UserRequestedAllLine)
+                    OnDialogueLineUpdate(currentText);
+
+                    if (UserRequestedAllLine)
                     {
-                        OnDialogueLineUpdate(dialogueText);
+                        OnDialogueLineUpdate(characterDialogue);
                         break;
                     }
 
@@ -103,7 +112,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             }
             else
             {
-                OnDialogueLineUpdate(dialogueText);
+                OnDialogueLineUpdate(characterDialogue);
             }
 
             OnLineFinishDisplaying();
@@ -139,6 +148,20 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             int indexOfNameSeparator = text.IndexOf(LINE_SEPARATOR);
             name = text.Substring(0, indexOfNameSeparator);
             dialogue = text.Substring(indexOfNameSeparator + 2);
+        }
+
+        private TagType GetTextSizeTag()
+        {
+            float textSize = DialogueManager.GetTextSize();
+
+            TagOption selectedTextSizeStartTagOption
+                                = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
+
+            TagOption selectedTextSizeEndTagOption
+                = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.End);
+
+            TagType selectedTextSizeTag = new TagType(selectedTextSizeStartTagOption, selectedTextSizeEndTagOption);
+            return selectedTextSizeTag;
         }
 
         #region Events
@@ -181,6 +204,4 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         }
         #endregion
     }
-
-    public enum TagOptionPosition { start, end }
 }

@@ -47,6 +47,11 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return SettingsManager.InteractKey;
         }
 
+        public float GetTextSize()
+        {
+            return LevelManager.GetSettingsManager().TextSize;
+        }
+
         public void OpenTalkPrompt(DialogueTalker dialogueTalker)
         {
             DialoguePromptController.Open(dialogueTalker);
