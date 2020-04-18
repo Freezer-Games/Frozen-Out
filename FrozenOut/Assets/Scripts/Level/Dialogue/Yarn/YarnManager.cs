@@ -17,6 +17,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public DialogueRunner DialogueRunner;
         public YarnDialoguePromptController DialoguePromptController;
         public YarnDialogueFunctions DialogueFunctions;
+        public YarnInitialTextVariables InitialTextVariables;
 
         private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
         private DialogueUIBehaviour DialogueController => DialogueRunner.dialogueUI;
@@ -138,6 +139,8 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         private void SetInitialVariables()
         {
             SetVariable<float>("textSize", GetTextSize());
+
+            InitialTextVariables.SetInitialVariables();
         }
 
         #region Events
@@ -185,6 +188,5 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             CurrentTalker = null;
         }
         #endregion
-
     }
 }

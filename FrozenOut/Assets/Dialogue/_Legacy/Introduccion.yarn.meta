@@ -20,6 +20,15 @@ ScriptedImporter:
   - line:01b8985
   - line:0b5d637
   - line:0b2c653
+  - line:0421c99
+  - line:0a24eb9
+  - line:0060dc0
+  - line:0570fcf
+  - line:0962446
+  - line:07a869f
+  - line:0258860
+  - line:0914cfe
+  - line:0db9f85
   - line:03f7eaa
   - line:040ab77
   - line:047213d
@@ -56,8 +65,8 @@ ScriptedImporter:
     OPERATOR_ASSIGNMENT \"to\"\n21:35 'true' \"true\"\n21:39 EXPRESSION_COMMAND_END
     \">>\"\n21:0 DEDENT \"\n\"\n22:0 COMMAND_START \"<<\"\n22:2 COMMAND_ELSE \"else\"\n22:6
     COMMAND_END \">>\"\n23:1 INDENT \"\t\"\n23:1 COMMAND_START \"<<\"\n23:3 COMMAND_TEXT
-    \"setanim PACO Awaken\"\n23:22 COMMAND_TEXT_END \">>\"\n24:1 TEXT \"Yell: No he
-    visto mucho m\xE1s, lo siento\"\n25:1 TEXT_NEWLINE \"\n\t\"\n25:1 COMMAND_START
+    \"setanim PACO Awaken\"\n23:22 COMMAND_TEXT_END \">>\"\n24:1 TEXT \"Yell: No
+    he visto mucho m\xE1s, lo siento\"\n25:1 TEXT_NEWLINE \"\n\t\"\n25:1 COMMAND_START
     \"<<\"\n25:3 COMMAND_TEXT \"setanim PACO Agree_2\"\n25:23 COMMAND_TEXT_END \">>\"\n26:1
     TEXT \"Pol: (Deber\xEDa ver d\xF3nde ha ido)\"\n27:0 TEXT_NEWLINE \"\r\n\"\n26:0
     DEDENT \"\n\"\n27:0 COMMAND_START \"<<\"\n27:2 'endif' \"endif\"\n27:7 COMMAND_END
@@ -75,28 +84,29 @@ ScriptedImporter:
     \"\n\t\"\n37:1 COMMAND_START \"<<\"\n37:3 COMMAND_TEXT \"setanim ALBERT Denial_1\"\n37:26
     COMMAND_TEXT_END \">>\"\n38:1 TEXT \"Albert: \xBFUn polo? Yo no s\xE9 de polos.
     Salvo que yo soy uno. O eso creo.\"\n39:1 TEXT_NEWLINE \"\n\t\"\n39:1 COMMAND_START
-    \"<<\"\n39:3 COMMAND_TEXT \"setanim ALBERT Agree_1\"\n39:25 COMMAND_TEXT_END \">>\"\n40:1
-    TEXT \"Albert: Deber\xEDas preguntarle a ese de ah\xED. Puede que sepa algo. O
-    no.\"\n41:0 TEXT_NEWLINE \"\r\n\"\n40:0 DEDENT \"\n\"\n41:0 COMMAND_START \"<<\"\n41:2
-    'endif' \"endif\"\n41:7 COMMAND_END \">>\"\n42:0 TEXT \"Pol: Emm.. gracias.\"\n43:0
-    TEXT_NEWLINE \"\r\n\"\n43:0 '===' \"===\"\n44:0 ID \"title\"\n44:5 HEADER_DELIMITER
-    \": \"\n44:7 REST_OF_LINE \"Ramon\"\n45:0 HEADER_NEWLINE \"\r\n\"\n45:0 ID \"animator_name\"\n45:13
-    HEADER_DELIMITER \": \"\n45:15 REST_OF_LINE \"RAMON\"\n46:0 HEADER_NEWLINE \"\r\n\"\n46:0
-    '---' \"---\"\n47:0 COMMAND_START \"<<\"\n47:2 COMMAND_IF \"if \"\n47:5 FUNC_ID
-    \"visited\"\n47:12 '(' \"(\"\n47:13 STRING \"\"Ramon\"\"\n47:20 ')' \")\"\n47:22
-    OPERATOR_LOGICAL_EQUALS \"is\"\n47:25 'false' \"false\"\n47:30 EXPRESSION_COMMAND_END
-    \">>\"\n48:1 INDENT \"\t\"\n48:1 TEXT \"Pol: Disculpe, \xBFha visto por casualidad
-    a un polo blanco con tropezones de fruta pasar por aqu\xED?\"\n49:1 TEXT_NEWLINE
-    \"\n\t\"\n49:1 COMMAND_START \"<<\"\n49:3 COMMAND_TEXT \"setanim RAMON Agree_2\"\n49:24
-    COMMAND_TEXT_END \">>\"\n50:1 TEXT \"Ram\xF3n: S\xED, iba con mucha prisa en esa
-    direcci\xF3n.\"\n51:1 TEXT_NEWLINE \"\n\t\"\n51:1 COMMAND_START \"<<\"\n51:3 COMMAND_TEXT
-    \"setanim RAMON Denial_2\"\n51:25 COMMAND_TEXT_END \">>\"\n52:1 TEXT \"Ram\xF3n:
-    Me pregunto qu\xE9 le ocurrir\xE1. Nunca lo hab\xEDa visto por aqu\xED.\"\n53:0
-    TEXT_NEWLINE \"\r\n\"\n52:0 DEDENT \"\n\"\n53:0 COMMAND_START \"<<\"\n53:2 'endif'
-    \"endif\"\n53:7 COMMAND_END \">>\"\n54:0 TEXT \"Pol: Muchas gracias.\"\n55:0 TEXT_NEWLINE
-    \"\r\n\"\n55:0 COMMAND_START \"<<\"\n55:2 COMMAND_TEXT \"setanim RAMON Awaken\"\n55:22
-    COMMAND_TEXT_END \">>\"\n56:0 EOF \"<EOF>\""
-  baseLanguage: {instanceID: 0}
+    \"<<\"\n39:3 COMMAND_TEXT \"setanim ALBERT Agree_1\"\n39:25 COMMAND_TEXT_END
+    \">>\"\n40:1 TEXT \"Albert: Deber\xEDas preguntarle a ese de ah\xED. Puede que
+    sepa algo. O no.\"\n41:0 TEXT_NEWLINE \"\r\n\"\n40:0 DEDENT \"\n\"\n41:0 COMMAND_START
+    \"<<\"\n41:2 'endif' \"endif\"\n41:7 COMMAND_END \">>\"\n42:0 TEXT \"Pol: Emm..
+    gracias.\"\n43:0 TEXT_NEWLINE \"\r\n\"\n43:0 '===' \"===\"\n44:0 ID \"title\"\n44:5
+    HEADER_DELIMITER \": \"\n44:7 REST_OF_LINE \"Ramon\"\n45:0 HEADER_NEWLINE \"\r\n\"\n45:0
+    ID \"animator_name\"\n45:13 HEADER_DELIMITER \": \"\n45:15 REST_OF_LINE \"RAMON\"\n46:0
+    HEADER_NEWLINE \"\r\n\"\n46:0 '---' \"---\"\n47:0 COMMAND_START \"<<\"\n47:2
+    COMMAND_IF \"if \"\n47:5 FUNC_ID \"visited\"\n47:12 '(' \"(\"\n47:13 STRING \"\"Ramon\"\"\n47:20
+    ')' \")\"\n47:22 OPERATOR_LOGICAL_EQUALS \"is\"\n47:25 'false' \"false\"\n47:30
+    EXPRESSION_COMMAND_END \">>\"\n48:1 INDENT \"\t\"\n48:1 TEXT \"Pol: Disculpe,
+    \xBFha visto por casualidad a un polo blanco con tropezones de fruta pasar por
+    aqu\xED?\"\n49:1 TEXT_NEWLINE \"\n\t\"\n49:1 COMMAND_START \"<<\"\n49:3 COMMAND_TEXT
+    \"setanim RAMON Agree_2\"\n49:24 COMMAND_TEXT_END \">>\"\n50:1 TEXT \"Ram\xF3n:
+    S\xED, iba con mucha prisa en esa direcci\xF3n.\"\n51:1 TEXT_NEWLINE \"\n\t\"\n51:1
+    COMMAND_START \"<<\"\n51:3 COMMAND_TEXT \"setanim RAMON Denial_2\"\n51:25 COMMAND_TEXT_END
+    \">>\"\n52:1 TEXT \"Ram\xF3n: Me pregunto qu\xE9 le ocurrir\xE1. Nunca lo hab\xEDa
+    visto por aqu\xED.\"\n53:0 TEXT_NEWLINE \"\r\n\"\n52:0 DEDENT \"\n\"\n53:0 COMMAND_START
+    \"<<\"\n53:2 'endif' \"endif\"\n53:7 COMMAND_END \">>\"\n54:0 TEXT \"Pol: Muchas
+    gracias.\"\n55:0 TEXT_NEWLINE \"\r\n\"\n55:0 COMMAND_START \"<<\"\n55:2 COMMAND_TEXT
+    \"setanim RAMON Awaken\"\n55:22 COMMAND_TEXT_END \">>\"\n56:0 EOF \"<EOF>\""
+  baseLanguage: {fileID: 7128917941130120860, guid: 2b61ebd747dce054dbf59cd6574d0c09,
+    type: 3}
   localizations:
   - languageName: en
     text: {fileID: 4900000, guid: 25109ade891e56949b6ea932128a9c7f, type: 3}

@@ -30,14 +30,15 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             Close();
         }
 
-        void FixedUpdate()
+        void Update()
         {
-            if (DialogueManager.IsRunning() && Input.GetKey(DialogueManager.GetNextDialogueKey()))
+            if (DialogueManager.IsRunning() && !UserRequestedAllLine && Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
             {
                 UserRequestedAllLine = true;
+            }
+            if (DialogueManager.IsRunning() && !UserRequestedNextLine && Input.GetKey(DialogueManager.GetNextDialogueKey()))
+            {
                 UserRequestedNextLine = true;
-
-                //localDelay /= localDelayMultiplier;
             }
         }
 
@@ -75,8 +76,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         {
             OnLineStart();
 
-            UserRequestedAllLine = false;
-
             string text = localisationProvider.GetLocalisedTextForLine(line);
 
             // Sanity check
@@ -94,7 +93,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
                 // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue);
 
-                foreach(string currentText in completeCharacterDialogue.Parse())
+                UserRequestedAllLine = false;
+
+                foreach (string currentText in completeCharacterDialogue.Parse())
                 {
                     OnDialogueLineUpdate(currentText);
 
