@@ -7,7 +7,7 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueTalker))]
     public class TriggerTalkDialogue : MonoBehaviour
     {
-        private IDialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
+        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
         private String PlayerTag = "Player";
         private DialogueTalker Talker;

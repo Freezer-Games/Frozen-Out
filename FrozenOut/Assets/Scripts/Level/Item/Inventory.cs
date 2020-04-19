@@ -29,7 +29,7 @@ namespace Scripts.Level.Item
             private set;
         }
 
-        private IDialogueManager DialogueManager => LevelManager.GetDialogueManager();
+        private DialogueManager DialogueManager => LevelManager.GetDialogueManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         void Awake()

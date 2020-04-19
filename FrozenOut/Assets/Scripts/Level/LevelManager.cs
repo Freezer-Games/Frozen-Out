@@ -19,9 +19,7 @@ namespace Scripts.Level
     {
 
         public PlayerManager PlayerManager;
-        //En cualquier otro lugar debería usarse IDialogueManager
-        //Unity no permite interfaces en el inspector, hay que usar una clase concreta aquí
-        public YarnManager DialogueManager;
+        public DialogueManager DialogueManager;
         public SoundManager SoundManager;
         public CameraManager CameraManager;
         public Inventory Inventory;
@@ -89,7 +87,7 @@ namespace Scripts.Level
             return PlayerManager;
         }
 
-        public IDialogueManager GetDialogueManager()
+        public DialogueManager GetDialogueManager()
         {
             return DialogueManager;
         }

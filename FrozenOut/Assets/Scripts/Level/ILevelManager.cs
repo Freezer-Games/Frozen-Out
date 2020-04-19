@@ -22,7 +22,7 @@ namespace Scripts.Level
         SettingsManager GetSettingsManager();
 
         PlayerManager GetPlayerManager();
-        IDialogueManager GetDialogueManager();
+        DialogueManager GetDialogueManager();
         SoundManager GetSoundManager();
         CameraManager GetCameraManager();
         Inventory GetInventory();
