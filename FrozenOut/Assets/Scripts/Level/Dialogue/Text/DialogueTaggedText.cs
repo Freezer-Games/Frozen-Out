@@ -176,10 +176,8 @@ namespace Scripts.Level.Dialogue.Text
                         return resultDialogueText;
                     }
                 }
-                catch (ParsingException ex)
+                catch (ParsingException pe)
                 {
-                    Console.WriteLine(ex.Message);
-
                     nextIndex = (text.Length - textBeingAnalyzed.Length + indexOfTagInit) + 1;
 
                     // Go to the next portion of the text (Skip the exception source)

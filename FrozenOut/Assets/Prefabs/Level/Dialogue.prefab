@@ -188,6 +188,7 @@ MonoBehaviour:
   DialoguePromptController: {fileID: 7338004676506038069}
   DialogueFunctions: {fileID: 8053255632408415940}
   InitialTextVariables: {fileID: 5846210282944421995}
+  DialogueController: {fileID: 516970414362518669}
 --- !u!114 &6396317386609314352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +253,7 @@ GameObject:
   - component: {fileID: 6396317386882989825}
   - component: {fileID: 6396317386882989830}
   - component: {fileID: 516970414362518669}
+  - component: {fileID: 1271792846566569839}
   m_Layer: 0
   m_Name: DialogueCanvas
   m_TagString: Untagged
@@ -399,6 +401,7 @@ MonoBehaviour:
       m_Calls: []
   DialogueManager: {fileID: 6396317386609314355}
   DialogueCanvas: {fileID: 6396317386882989824}
+  DefaultStyle: {fileID: 1271792846566569839}
   LineNameUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -427,6 +430,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1271792846566569839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396317386882989828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28730a9f4b4211145abdf9da59a29db3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RelativeSpeed: 0
+  RelativeSize: 0
+  Spacing: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6396317387016724947
 GameObject:
   m_ObjectHideFlags: 0

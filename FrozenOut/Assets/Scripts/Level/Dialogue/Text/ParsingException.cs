@@ -18,12 +18,6 @@ namespace Scripts.Level.Dialogue.Text
             this.Index = index;
         }
 
-        public virtual string GetFullMessage(int currentLineNumber)
-            => GetFullMessage(currentLineNumber, END_ACTION_MESSAGE);
-
-        protected string GetFullMessage(int currentLineNumber, string endActionMessage)
-            => $"{Message} (line {currentLineNumber}, position {Index}). {endActionMessage}";
-
         [Serializable]
         public class StartTagSeparatorWithoutEndException : ParsingException
         {

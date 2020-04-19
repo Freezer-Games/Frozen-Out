@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Text;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,18 +16,28 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public YarnManager DialogueManager;
 
         public Canvas DialogueCanvas;
+        public DialogueStyle DefaultStyle;
+
         private bool IsOpen => DialogueCanvas.enabled;
 
-        private const string LINE_SEPARATOR = ":";
+        private const string PlayerName = "Pol";
+        private const string DefaultLineSeparator = ":";
+        private const float LetterDelay = 0.1f;
+        private const float NextDialogueDelay = 0.3f;
 
-        private float LetterDelay = 0.1f;
-        private float NextDialogueDelay = 0.3f;
-        private bool UserRequestedAllLine = false;
-        private bool UserRequestedNextLine = false;
+        private bool UserRequestedAllLine;
+        private bool UserRequestedNextLine;
+
+        private IDictionary<string, DialogueStyle> Styles;
 
         void Awake()
         {
             Close();
+        }
+
+        private void Start()
+        {
+            SetStyles();
         }
 
         void Update()
@@ -88,10 +98,25 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
             OnNameLineUpdate(characterName);
 
-            if (LetterDelay > 0.0f)
+            DialogueStyle characterStyle = GetStyle(characterName);
+
+            float currentLetterDelay = LetterDelay + characterStyle.RelativeDelay;
+            float characterTextSize = DialogueManager.GetTextSize() + characterStyle.RelativeSize;
+            int characterSpacing = characterStyle.Spacing;
+            Color characterColour = characterStyle.Colour;
+
+            TagType textSizeTag = GetTextSizeTag(characterTextSize);
+            TagType colourTag = GetColourTag(characterColour);
+
+            string styledCharacterDialogue = colourTag.GetTaggedText(textSizeTag.GetTaggedText(characterDialogue));
+
+            if (currentLetterDelay > 0.0f)
             {
                 // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue);
+
+                completeCharacterDialogue = new DialogueTaggedText(textSizeTag, completeCharacterDialogue);
+                completeCharacterDialogue = new DialogueTaggedText(colourTag, completeCharacterDialogue);
 
                 UserRequestedAllLine = false;
 
@@ -101,16 +126,16 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
                     if (UserRequestedAllLine)
                     {
-                        OnDialogueLineUpdate(characterDialogue);
+                        OnDialogueLineUpdate(styledCharacterDialogue);
                         break;
                     }
 
-                    yield return new WaitForSeconds(LetterDelay);
+                    yield return new WaitForSeconds(currentLetterDelay);
                 }
             }
             else
             {
-                OnDialogueLineUpdate(characterDialogue);
+                OnDialogueLineUpdate(styledCharacterDialogue);
             }
 
             OnLineFinishDisplaying();
@@ -141,11 +166,57 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return Yarn.Dialogue.HandlerExecutionType.ContinueExecution;
         }
 
+        public void AddStyle(string characterName, DialogueStyle characterStyle)
+        {
+            if (characterStyle != null)
+            {
+                Styles[characterName] = characterStyle;
+            }
+        }
+
         private void SeparateNameAndDialogue(string text, out string name, out string dialogue)
         {
-            int indexOfNameSeparator = text.IndexOf(LINE_SEPARATOR);
+            int indexOfNameSeparator = text.IndexOf(DefaultLineSeparator);
             name = text.Substring(0, indexOfNameSeparator);
             dialogue = text.Substring(indexOfNameSeparator + 2);
+        }
+
+        private void SetStyles()
+        {
+            Styles = new Dictionary<string, DialogueStyle>();
+            AddStyle(PlayerName, DefaultStyle);
+        }
+
+        private DialogueStyle GetStyle(string characterName)
+        {
+            DialogueStyle characterStyle = DefaultStyle;
+            if(Styles.ContainsKey(characterName))
+            {
+                characterStyle = Styles[characterName];
+            }
+
+            return characterStyle;
+        }
+
+        private TagType GetTextSizeTag(float textSize)
+        {
+            TagOption textSizeStartTagOption = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
+
+            TagOption textSizeEndTagOption = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.End);
+
+            TagType textSizeTag = new TagType(textSizeStartTagOption, textSizeEndTagOption);
+            return textSizeTag;
+        }
+
+        private TagType GetColourTag(Color textColour)
+        {
+            string textColourHex = ColorUtility.ToHtmlStringRGBA(textColour);
+            TagOption colourStartTagOption = new TagOption($"color=#{textColourHex}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
+
+            TagOption colourEndTagOption = new TagOption($"color", TagFormat.RichTextTagFormat, TagOptionPosition.End);
+
+            TagType colourTag = new TagType(colourStartTagOption, colourEndTagOption);
+            return colourTag;
         }
 
         #region Events

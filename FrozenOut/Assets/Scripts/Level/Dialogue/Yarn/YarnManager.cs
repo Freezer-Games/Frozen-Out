@@ -17,9 +17,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public YarnDialoguePromptController DialoguePromptController;
         public YarnDialogueFunctions DialogueFunctions;
         public YarnInitialTextVariables InitialTextVariables;
+        public YarnDialogueController DialogueController;
 
         private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
-        private DialogueUIBehaviour DialogueController => DialogueRunner.dialogueUI;
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
@@ -77,6 +77,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public override void StartDialogue(DialogueTalker talker)
         {
             CurrentTalker = talker;
+            DialogueController.AddStyle(talker.Name, talker.Style);
             DialogueRunner.StartDialogue(talker.TalkToNode);
         }
 

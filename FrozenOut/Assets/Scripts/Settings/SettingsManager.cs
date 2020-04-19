@@ -144,7 +144,7 @@ namespace Scripts.Settings
         {
             AssignKeys();
 
-            TextSize = PlayerPrefs.GetFloat(nameof(TextSize), 14);
+            TextSize = PlayerPrefs.GetFloat(nameof(TextSize), 20);
             MusicVolume = PlayerPrefs.GetFloat(nameof(MusicVolume), 100);
             SoundVolume = PlayerPrefs.GetFloat(nameof(SoundVolume), 100);
 

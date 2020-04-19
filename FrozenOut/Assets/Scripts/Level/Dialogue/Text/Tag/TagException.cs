@@ -14,9 +14,6 @@ namespace Scripts.Level.Dialogue.Text.Tag
             this.Tag = tag;
         }
 
-        public override string GetFullMessage(int currentLineNumber)
-            => GetFullMessage(currentLineNumber, END_ACTION_MESSAGE);
-
         [Serializable]
         public class EndTagBeforeStartException : TagException
         {
