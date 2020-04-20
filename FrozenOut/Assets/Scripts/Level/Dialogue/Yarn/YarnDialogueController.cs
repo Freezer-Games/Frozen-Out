@@ -43,12 +43,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         void Update()
         {
-            if (DialogueManager.IsRunning() && !UserRequestedAllLine && Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
+            if (DialogueManager.IsRunning() && Input.GetKeyDown(DialogueManager.GetNextDialogueKey()))
             {
                 UserRequestedAllLine = true;
-            }
-            if (DialogueManager.IsRunning() && !UserRequestedNextLine && Input.GetKey(DialogueManager.GetNextDialogueKey()))
-            {
                 UserRequestedNextLine = true;
             }
         }
