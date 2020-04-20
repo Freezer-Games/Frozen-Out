@@ -10,11 +10,7 @@ namespace Scripts.Level.Dialogue
         public string TalkToNode = "";
 
         private DialogueIndicator Indicator;
-        public DialogueStyle Style
-        {
-            get;
-            private set;
-        }
+        public DialogueStyle Style;
 
         private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 
@@ -25,7 +21,6 @@ namespace Scripts.Level.Dialogue
                 Name = gameObject.name;
             }
             Indicator = GetComponent<DialogueIndicator>();
-            Style = GetComponent<DialogueStyle>();
         }
 
         public void OnStartTalk()

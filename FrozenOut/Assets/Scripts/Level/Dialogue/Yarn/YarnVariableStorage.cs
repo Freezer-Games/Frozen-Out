@@ -48,11 +48,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             ResetToDefaults();
         }
 
-        private void Update()
-        {
-            Debug.Log(variables.Count);
-        }
-
         public override void SetValue(string variableName, Yarn.Value yarnValue)
         {
             // Copy this value into our list
@@ -71,14 +66,14 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         public override void ResetToDefaults()
         {
             IsInitialized = false;
-            //Clear();
+            Clear();
             // Reset to defaults
             IsInitialized = true;
         }
 
         public override void Clear()
         {
-            //variables.Clear();
+            variables.Clear();
         }
     }
 }

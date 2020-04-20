@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
-    public class DialogueStyle : MonoBehaviour
+    [Serializable]
+    public class DialogueStyle
     {
         [Tooltip("Positivo para que vaya más lento\nNegativo para que vaya más rápido")]
         [Range(-0.1f, 1.0f)]
