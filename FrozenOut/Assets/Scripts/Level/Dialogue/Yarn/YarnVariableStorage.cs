@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
 
 using Yarn.Unity;
 
@@ -47,12 +48,9 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             ResetToDefaults();
         }
 
-        public override void ResetToDefaults ()
+        private void Update()
         {
-            IsInitialized = false;
-            Clear();
-            // Reset to defaults
-            IsInitialized = true;
+            Debug.Log(variables.Count);
         }
 
         public override void SetValue(string variableName, Yarn.Value yarnValue)
@@ -70,9 +68,17 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return variables[variableName];
         }
 
+        public override void ResetToDefaults()
+        {
+            IsInitialized = false;
+            //Clear();
+            // Reset to defaults
+            IsInitialized = true;
+        }
+
         public override void Clear()
         {
-            variables.Clear();
+            //variables.Clear();
         }
     }
 }
