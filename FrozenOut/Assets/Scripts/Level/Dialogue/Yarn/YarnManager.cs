@@ -49,7 +49,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return SettingsManager.InteractKey;
         }
 
-        public float GetTextSize()
+        public int GetTextSize()
         {
             return LevelManager.GetSettingsManager().TextSize;
         }

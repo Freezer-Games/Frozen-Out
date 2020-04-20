@@ -1071,130 +1071,6 @@ namespace Yarn.Unity
     /// <seealso cref="DialogueUI"/>
     public abstract class DialogueUIBehaviour : MonoBehaviour
     {
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when the dialogue starts.
-        /// </summary>
-        /// <remarks>
-        /// Use this event to enable any dialogue-related UI and gameplay
-        /// elements, and disable any non-dialogue UI and gameplay
-        /// elements.
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent DialogueStarted;
-
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when the dialogue ends.
-        /// </summary>
-        /// <remarks>
-        /// Use this event to disable any dialogue-related UI and gameplay
-        /// elements, and enable any non-dialogue UI and gameplay elements.
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent DialogueEnded;  
-
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when a <see cref="Line"/> has been delivered.
-        /// </summary>
-        /// <remarks>
-        /// This method is called before <see cref="onLineUpdate"/> is
-        /// called. Use this event to prepare the scene to deliver a line.
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent LineStarted;
-
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when a line has finished being delivered.
-        /// </summary>
-        /// <remarks>
-        /// This method is called after <see cref="onLineUpdate"/>. Use
-        /// this method to display UI elements like a "continue" button.
-        ///
-        /// When this method has been called, the Dialogue UI will wait for
-        /// the <see cref="MarkLineComplete"/> method to be called, which
-        /// signals that the line should be dismissed.
-        /// </remarks>
-        /// <seealso cref="onLineUpdate"/>
-        /// <seealso cref="MarkLineComplete"/>
-        public UnityEngine.Events.UnityEvent LineFinishDisplaying;
-        
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when a line has finished displaying, and should be removed from
-        /// the screen.
-        /// </summary>
-        /// <remarks>
-        /// This method is called after the <see cref="MarkLineComplete"/>
-        /// has been called. Use this method to dismiss the line's UI
-        /// elements.
-        ///
-        /// After this method is called, the next piece of dialogue content
-        /// will be presented, or the dialogue will end.
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent LineEnded;
-
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when an <see cref="OptionSet"/> has been displayed to the user.
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Before this method is called, the <see cref="Button"/>s in <see
-        /// cref="optionButtons"/> are enabled or disabled (depending on
-        /// how many options there are), and the <see cref="Text"/> or <see
-        /// cref="TMPro.TextMeshProUGUI"/> is updated with the correct
-        /// text.
-        ///
-        /// Use this method to ensure that the active <see
-        /// cref="optionButtons"/>s are visible, such as by enabling the
-        /// object that they're contained in.
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent OptionsStarted;
-        
-        /// <summary>
-        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
-        /// when an option has been selected, and the <see
-        /// cref="optionButtons"/> should be hidden.
-        /// </summary>
-        /// <remarks>
-        /// This method is called after one of the <see
-        /// cref="optionButtons"/> has been clicked, or the <see
-        /// cref="SelectOption(int)"/> method has been called.
-        ///
-        /// Use this method to hide all of the <see cref="optionButtons"/>,
-        /// such as by disabling the object they're contained in. (The
-        /// DialogueUI won't hide them for you individually.)
-        /// </remarks>
-        public UnityEngine.Events.UnityEvent OptionsEnded;
-
-        /// <summary>
-        /// A <see cref="DialogueRunner.StringUnityEvent"/> that is called
-        /// when a <see cref="Command"/> is received.
-        /// </summary>
-        /// <remarks>
-        /// Use this method to dispatch a command to other parts of your game.
-        /// 
-        /// This method is only called if the <see cref="Command"/> has not
-        /// been handled by a command handler that has been added to the
-        /// <see cref="DialogueRunner"/>, or by a method on a <see
-        /// cref="MonoBehaviour"/> in the scene with the attribute <see
-        /// cref="YarnCommandAttribute"/>.
-        /// 
-        /// {{|note|}}
-        /// When a command is delivered in this way, the <see cref="DialogueRunner"/> will not pause execution. If you want a command to make the DialogueRunner pause execution, see <see cref="DialogueRunner.AddCommandHandler(string,
-        /// DialogueRunner.BlockingCommandHandler)"/>.
-        /// {{|/note|}}
-        ///
-        /// This method receives the full text of the command, as it appears between
-        /// the `<![CDATA[<<]]>` and `<![CDATA[>>]]>` markers.
-        /// </remarks>
-        /// <seealso cref="DialogueRunner.AddCommandHandler(string,
-        /// DialogueRunner.CommandHandler)"/> 
-        /// <seealso cref="DialogueRunner.AddCommandHandler(string,
-        /// DialogueRunner.BlockingCommandHandler)"/> 
-        /// <seealso cref="YarnCommandAttribute"/>
-        public DialogueRunner.StringUnityEvent CommandReceived;
-
         /// <summary>Signals that a conversation has started.</summary>
         public virtual void DialogueStart()
         {
@@ -1286,9 +1162,177 @@ namespace Yarn.Unity
         {
             // Default implementation does nothing.
         }
+
+        #region Events
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when the dialogue starts.
+        /// </summary>
+        /// <remarks>
+        /// Use this event to enable any dialogue-related UI and gameplay
+        /// elements, and disable any non-dialogue UI and gameplay
+        /// elements.
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent DialogueStarted;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when the dialogue ends.
+        /// </summary>
+        /// <remarks>
+        /// Use this event to disable any dialogue-related UI and gameplay
+        /// elements, and enable any non-dialogue UI and gameplay elements.
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent DialogueEnded;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when a <see cref="Line"/> has been delivered.
+        /// </summary>
+        /// <remarks>
+        /// This method is called before <see cref="onLineUpdate"/> is
+        /// called. Use this event to prepare the scene to deliver a line.
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent LineStarted;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when a line has finished being delivered.
+        /// </summary>
+        /// <remarks>
+        /// This method is called after <see cref="onLineUpdate"/>. Use
+        /// this method to display UI elements like a "continue" button.
+        ///
+        /// When this method has been called, the Dialogue UI will wait for
+        /// the <see cref="MarkLineComplete"/> method to be called, which
+        /// signals that the line should be dismissed.
+        /// </remarks>
+        /// <seealso cref="onLineUpdate"/>
+        /// <seealso cref="MarkLineComplete"/>
+        public UnityEngine.Events.UnityEvent LineFinishDisplaying;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when a line has finished displaying, and should be removed from
+        /// the screen.
+        /// </summary>
+        /// <remarks>
+        /// This method is called after the <see cref="MarkLineComplete"/>
+        /// has been called. Use this method to dismiss the line's UI
+        /// elements.
+        ///
+        /// After this method is called, the next piece of dialogue content
+        /// will be presented, or the dialogue will end.
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent LineEnded;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when an <see cref="OptionSet"/> has been displayed to the user.
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Before this method is called, the <see cref="Button"/>s in <see
+        /// cref="optionButtons"/> are enabled or disabled (depending on
+        /// how many options there are), and the <see cref="Text"/> or <see
+        /// cref="TMPro.TextMeshProUGUI"/> is updated with the correct
+        /// text.
+        ///
+        /// Use this method to ensure that the active <see
+        /// cref="optionButtons"/>s are visible, such as by enabling the
+        /// object that they're contained in.
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent OptionsStarted;
+
+        /// <summary>
+        /// A <see cref="UnityEngine.Events.UnityEvent"/> that is called
+        /// when an option has been selected, and the <see
+        /// cref="optionButtons"/> should be hidden.
+        /// </summary>
+        /// <remarks>
+        /// This method is called after one of the <see
+        /// cref="optionButtons"/> has been clicked, or the <see
+        /// cref="SelectOption(int)"/> method has been called.
+        ///
+        /// Use this method to hide all of the <see cref="optionButtons"/>,
+        /// such as by disabling the object they're contained in. (The
+        /// DialogueUI won't hide them for you individually.)
+        /// </remarks>
+        public UnityEngine.Events.UnityEvent OptionsEnded;
+
+        /// <summary>
+        /// A <see cref="DialogueRunner.StringUnityEvent"/> that is called
+        /// when a <see cref="Command"/> is received.
+        /// </summary>
+        /// <remarks>
+        /// Use this method to dispatch a command to other parts of your game.
+        /// 
+        /// This method is only called if the <see cref="Command"/> has not
+        /// been handled by a command handler that has been added to the
+        /// <see cref="DialogueRunner"/>, or by a method on a <see
+        /// cref="MonoBehaviour"/> in the scene with the attribute <see
+        /// cref="YarnCommandAttribute"/>.
+        /// 
+        /// {{|note|}}
+        /// When a command is delivered in this way, the <see cref="DialogueRunner"/> will not pause execution. If you want a command to make the DialogueRunner pause execution, see <see cref="DialogueRunner.AddCommandHandler(string,
+        /// DialogueRunner.BlockingCommandHandler)"/>.
+        /// {{|/note|}}
+        ///
+        /// This method receives the full text of the command, as it appears between
+        /// the `<![CDATA[<<]]>` and `<![CDATA[>>]]>` markers.
+        /// </remarks>
+        /// <seealso cref="DialogueRunner.AddCommandHandler(string,
+        /// DialogueRunner.CommandHandler)"/> 
+        /// <seealso cref="DialogueRunner.AddCommandHandler(string,
+        /// DialogueRunner.BlockingCommandHandler)"/> 
+        /// <seealso cref="YarnCommandAttribute"/>
+        public DialogueRunner.StringUnityEvent CommandReceived;
+
+
+
+        protected void OnDialogueStart()
+        {
+            DialogueStarted?.Invoke();
+        }
+
+        protected void OnDialogueEnd()
+        {
+            DialogueEnded?.Invoke();
+        }
+
+        protected void OnLineStart()
+        {
+            LineStarted?.Invoke();
+        }
+
+        protected void OnLineEnd()
+        {
+            LineEnded?.Invoke();
+        }
+
+        protected void OnLineFinishDisplaying()
+        {
+            LineFinishDisplaying?.Invoke();
+        }
+
+        protected void OnOptionsStart()
+        {
+            OptionsStarted?.Invoke();
+        }
+
+        protected void OnOptionsEnd()
+        {
+            OptionsEnded?.Invoke();
+        }
+
+        protected void OnCommandReceived(string command)
+        {
+            CommandReceived?.Invoke(command);
+        }
+        #endregion
     }
 
-    
+
     /// <summary>
     /// A <see cref="MonoBehaviour"/> that a <see cref="DialogueRunner"/>
     /// uses to store and retrieve variables.

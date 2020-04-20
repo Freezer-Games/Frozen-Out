@@ -43,7 +43,7 @@ namespace Scripts.Menu.Main
 
         private void ChangeTextSize(float newTextSize)
         {
-            MainMenuManager.SetTextSize(newTextSize);
+            MainMenuManager.SetTextSize((int) newTextSize);
             SizeText.text = newTextSize.ToString();
         }
 

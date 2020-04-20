@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 using Yarn.Unity;
 
@@ -98,25 +99,16 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
             OnNameLineUpdate(characterName);
 
-            DialogueStyle characterStyle = GetStyle(characterName);
+            DialogueStyle characterStyle = GetUpdatedStyle(characterName);
 
-            float currentLetterDelay = LetterDelay + characterStyle.RelativeDelay;
-            float characterTextSize = DialogueManager.GetTextSize() + characterStyle.RelativeSize;
-            int characterSpacing = characterStyle.Spacing;
-            Color characterColour = characterStyle.Colour;
+            OnStyleLineUpdate(characterStyle);
 
-            TagType textSizeTag = GetTextSizeTag(characterTextSize);
-            TagType colourTag = GetColourTag(characterColour);
-
-            string styledCharacterDialogue = colourTag.GetTaggedText(textSizeTag.GetTaggedText(characterDialogue));
+            float currentLetterDelay = characterStyle.Delay;
 
             if (currentLetterDelay > 0.0f)
             {
                 // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
                 IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(characterDialogue);
-
-                completeCharacterDialogue = new DialogueTaggedText(textSizeTag, completeCharacterDialogue);
-                completeCharacterDialogue = new DialogueTaggedText(colourTag, completeCharacterDialogue);
 
                 UserRequestedAllLine = false;
 
@@ -126,7 +118,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
                     if (UserRequestedAllLine)
                     {
-                        OnDialogueLineUpdate(styledCharacterDialogue);
+                        OnDialogueLineUpdate(characterDialogue);
                         break;
                     }
 
@@ -135,7 +127,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             }
             else
             {
-                OnDialogueLineUpdate(styledCharacterDialogue);
+                OnDialogueLineUpdate(characterDialogue);
             }
 
             OnLineFinishDisplaying();
@@ -198,6 +190,17 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return characterStyle;
         }
 
+        private DialogueStyle GetUpdatedStyle(string characterName)
+        {
+            DialogueStyle style = GetStyle(characterName);
+
+            style.UpdateDelay(LetterDelay);
+            style.UpdateSize(DialogueManager.GetTextSize());
+            style.UpdateFont(DefaultStyle.Font);
+
+            return style;
+        }
+
         private TagType GetTextSizeTag(float textSize)
         {
             TagOption textSizeStartTagOption = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
@@ -222,21 +225,7 @@ namespace Scripts.Level.Dialogue.YarnSpinner
         #region Events
         public DialogueRunner.StringUnityEvent LineNameUpdated;
         public DialogueRunner.StringUnityEvent LineDialogueUpdated;
-
-        private void OnDialogueStart()
-        {
-            DialogueStarted?.Invoke();
-        }
-
-        private void OnDialogueEnd()
-        {
-            DialogueEnded?.Invoke();
-        }
-
-        private void OnLineStart()
-        {
-            LineStarted?.Invoke();
-        }
+        public StyleUnityEvent LineStyleUpdated;
 
         private void OnNameLineUpdate(string nameToDisplay)
         {
@@ -248,15 +237,13 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             LineDialogueUpdated?.Invoke(dialogueToDisplay);
         }
 
-        private void OnLineEnd()
+        private void OnStyleLineUpdate(DialogueStyle dialogueStyle)
         {
-            LineEnded?.Invoke();
-        }
-
-        private void OnLineFinishDisplaying()
-        {
-            LineFinishDisplaying?.Invoke();
+            LineStyleUpdated?.Invoke(dialogueStyle);
         }
         #endregion
     }
+
+    [Serializable]
+    public class StyleUnityEvent : UnityEvent<DialogueStyle> { }
 }

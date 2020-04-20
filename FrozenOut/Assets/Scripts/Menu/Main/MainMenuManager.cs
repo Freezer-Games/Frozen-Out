@@ -65,12 +65,12 @@ namespace Scripts.Menu.Main
             GameManager.SetMusicVolume(newVolume);
         }
 
-        public float GetTextSize()
+        public int GetTextSize()
         {
             return SettingsManager.TextSize;
         }
 
-        public void SetTextSize(float newTextSize)
+        public void SetTextSize(int newTextSize)
         {
             SettingsManager.SetTextSize(newTextSize);
         }

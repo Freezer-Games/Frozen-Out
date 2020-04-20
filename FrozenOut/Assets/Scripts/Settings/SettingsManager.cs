@@ -82,7 +82,7 @@ namespace Scripts.Settings
             get;
             private set;
         }
-        public float TextSize
+        public int TextSize
         {
             get;
             private set;
@@ -144,7 +144,7 @@ namespace Scripts.Settings
         {
             AssignKeys();
 
-            TextSize = PlayerPrefs.GetFloat(nameof(TextSize), 20);
+            TextSize = PlayerPrefs.GetInt(nameof(TextSize), 20);
             MusicVolume = PlayerPrefs.GetFloat(nameof(MusicVolume), 100);
             SoundVolume = PlayerPrefs.GetFloat(nameof(SoundVolume), 100);
 
@@ -239,10 +239,10 @@ namespace Scripts.Settings
             PlayerPrefs.SetFloat(nameof(SoundVolume), SoundVolume);
         }
 
-        public void SetTextSize(float newTextSize)
+        public void SetTextSize(int newTextSize)
         {
             TextSize = newTextSize;
-            PlayerPrefs.SetFloat(nameof(TextSize), TextSize);
+            PlayerPrefs.SetInt(nameof(TextSize), TextSize);
         }
 
         public void SetLanguage(int localeIndex)
