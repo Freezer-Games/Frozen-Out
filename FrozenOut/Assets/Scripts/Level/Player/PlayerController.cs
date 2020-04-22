@@ -35,7 +35,6 @@ namespace Scripts.Level.Player
         private float Acceleration = 1.5f;
 
         public GameObject Pickaxe;
-        public Transform ToolPoint;
         public GameObject ObstacleAtFront;
         public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
 
@@ -58,7 +57,6 @@ namespace Scripts.Level.Player
             MoveSpeed = NORMAL_SPEED;
             CurrentSpeed = 0;
             IsFormChanged = false;
-            HasPickaxe = false;
             IsGrounded = false;
         }
 
@@ -128,14 +126,6 @@ namespace Scripts.Level.Player
 
         void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Pickaxe"))
-            {
-                GameObject tool = Instantiate(Pickaxe, ToolPoint.position, Quaternion.Euler(0f, 0f, 180f));
-                tool.transform.parent = ToolPoint.transform;
-                HasPickaxe = true;
-                Destroy(other.gameObject);
-            }
-
             if (other.gameObject.CompareTag("Obstacle"))
             {
                 ObstacleAtFront = other.gameObject;

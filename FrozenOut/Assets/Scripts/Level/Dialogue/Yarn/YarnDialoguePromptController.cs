@@ -14,11 +14,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
 
         private DialogueTalker CandidateTalker;
 
-        void Start()
-        {
-            
-        }
-
         void Update()
         {
             if(IsOpen && DialogueManager.IsReady() && Input.GetKey(DialogueManager.GetInteractKey()))

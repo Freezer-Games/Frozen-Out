@@ -13,11 +13,6 @@ namespace Scripts.Level.Camera
         
         public UnityEngine.Camera MainCamera;
 
-        void Start()
-        {
-
-        }
-
         public GameObject GetPlayerObject()
         {
             return LevelManager.GetPlayerManager().Player;

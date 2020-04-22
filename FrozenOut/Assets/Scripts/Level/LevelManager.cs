@@ -29,11 +29,6 @@ namespace Scripts.Level
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
 
-        void Start()
-        {
-
-        }
-
         public void Load()
         {
             Cursor.visible = false;
@@ -59,6 +54,9 @@ namespace Scripts.Level
             {
                 PlayerManager.Enable();
             }
+
+            Inventory.ItemEquipped += (sender, args) => PlayerManager.EquipItem(args.Item);
+            Inventory.ItemUnequipped += (sender, args) => PlayerManager.UnequipItem();
             // TODO
         }
 

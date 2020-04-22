@@ -37,11 +37,6 @@ namespace Scripts.Level.Item
             Items = new List<ItemInfo>();
         }
 
-        void Start()
-        {
-            
-        }
-
         public void OpenMenu()
         {
             InventoryMenuController.Open();
@@ -227,9 +222,9 @@ namespace Scripts.Level.Item
             ItemUpdated?.Invoke(this, itemEventArgs);
         }
 
-        private void OnItemEquipped(ItemInfo item)
+        private void OnItemEquipped(ItemInfo itemEquipped)
         {
-            ItemEventArgs itemEventArgs = new ItemEventArgs(item);
+            ItemEventArgs itemEventArgs = new ItemEventArgs(itemEquipped);
             ItemEquipped?.Invoke(this, itemEventArgs);
         }
 

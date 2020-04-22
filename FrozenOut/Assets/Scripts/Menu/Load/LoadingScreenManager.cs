@@ -18,11 +18,6 @@ namespace Scripts.Menu.Load
 
         private GameManager GameManager => GameManager.Instance;
 
-        void Start()
-        {
-
-        }
-
         public void ShowLoading()
         {
             LoadCanvas.enabled = true;

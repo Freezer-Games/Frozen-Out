@@ -1,20 +1,22 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Scripts.Settings;
 
 using Scripts.Level.Sound;
+using Scripts.Level.Item;
 
 namespace Scripts.Level.Player
 {
-    [RequireComponent(typeof(Animator))]
     public class PlayerManager : MonoBehaviour
     {
         public LevelManager LevelManager;
 
         public PlayerController PlayerController;
-        
         public GameObject Player;
+        public List<ItemEquipper> EquippableObjects;
+
         public bool InCinematic
         {
             get;
@@ -27,18 +29,9 @@ namespace Scripts.Level.Player
         }
         public bool IsGrounded => PlayerController.IsGrounded;
         public bool IsMoving => PlayerController.IsMoving;
-
-        private Animator Animator;
         
         private SoundManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
-        public event EventHandler<PlayerControllerEventArgs> Moving; 
-        public event EventHandler Idle;
-        
-        void Start()
-        {
-            Animator = Player.GetComponent<Animator>();
-        }
 
         public void Enable()
         {
@@ -114,14 +107,12 @@ namespace Scripts.Level.Player
 
         public void DisableController()
         {
-            Animator.enabled = false;
             SoundManager.Steps.Stop();
             PlayerController.enabled = false;
         }
 
         public void EnableController()
         {
-            Animator.enabled = true;
             PlayerController.enabled = true;
         }
 
@@ -129,6 +120,29 @@ namespace Scripts.Level.Player
         {
             Instantiate(Player, transform.position, transform.rotation);
         }
+
+        public void EquipItem(ItemInfo itemEquipped)
+        {
+            foreach(ItemEquipper equipper in EquippableObjects)
+            {
+                if(equipper.ItemName == itemEquipped.Name)
+                {
+                    equipper.OnEquip();
+                }
+            }
+        }
+
+        public void UnequipItem()
+        {
+            foreach (ItemEquipper equipper in EquippableObjects)
+            {
+                equipper.OnUnequip();
+            }
+        }
+
+        #region Events
+        public event EventHandler<PlayerControllerEventArgs> Moving;
+        public event EventHandler Idle;
 
         public void OnMoving()
         {
@@ -140,8 +154,8 @@ namespace Scripts.Level.Player
         {
             Idle?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
     }
-    
 
     [Serializable]
     public class PlayerControllerEventArgs : EventArgs

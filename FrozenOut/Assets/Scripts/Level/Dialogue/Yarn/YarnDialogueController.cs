@@ -198,27 +198,6 @@ namespace Scripts.Level.Dialogue.YarnSpinner
             return style;
         }
 
-        private TagType GetTextSizeTag(float textSize)
-        {
-            TagOption textSizeStartTagOption = new TagOption($"size={textSize}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
-
-            TagOption textSizeEndTagOption = new TagOption($"size", TagFormat.RichTextTagFormat, TagOptionPosition.End);
-
-            TagType textSizeTag = new TagType(textSizeStartTagOption, textSizeEndTagOption);
-            return textSizeTag;
-        }
-
-        private TagType GetColourTag(Color textColour)
-        {
-            string textColourHex = ColorUtility.ToHtmlStringRGBA(textColour);
-            TagOption colourStartTagOption = new TagOption($"color=#{textColourHex}", TagFormat.RichTextTagFormat, TagOptionPosition.Start);
-
-            TagOption colourEndTagOption = new TagOption($"color", TagFormat.RichTextTagFormat, TagOptionPosition.End);
-
-            TagType colourTag = new TagType(colourStartTagOption, colourEndTagOption);
-            return colourTag;
-        }
-
         #region Events
         public DialogueRunner.StringUnityEvent LineNameUpdated;
         public DialogueRunner.StringUnityEvent LineDialogueUpdated;

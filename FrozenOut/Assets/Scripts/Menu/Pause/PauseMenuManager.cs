@@ -20,11 +20,6 @@ namespace Scripts.Menu.Pause
             private set;
         }
 
-        void Start()
-        {
-            
-        }
-
         public void Open()
         {
             PauseMenuController.Open();
