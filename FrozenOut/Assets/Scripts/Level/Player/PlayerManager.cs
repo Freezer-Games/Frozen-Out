@@ -34,7 +34,7 @@ namespace Scripts.Level.Player
         private SoundManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
-        private string PickAnimationName = "IsPicking";
+        private string PickAnimationName = "isPicking";
 
         public void Enable()
         {
