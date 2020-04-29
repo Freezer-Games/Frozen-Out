@@ -70,7 +70,7 @@ namespace Scripts.Level.Player
                 );
                 MoveInput.Normalize();
 
-                Animator.SetBool("walking", Movement != Vector3.zero);
+                //Animator.SetBool("walking", Movement != Vector3.zero);
 
                 //Check there is an input
                 if (Movement != Vector3.zero)
@@ -101,7 +101,7 @@ namespace Scripts.Level.Player
                     if (Input.GetKeyDown(KeyCode.K))
                     {
                         IsFormChanged = !IsFormChanged;
-                        Animator.SetBool("changeForm", IsFormChanged);
+                        //Animator.SetBool("changeForm", IsFormChanged);
                     }
                 }
             }
@@ -227,6 +227,11 @@ namespace Scripts.Level.Player
         public MoveMode GetMoveStatus()
         {
             return MoveState;
+        }
+
+        public Animator GetAnimator()
+        {
+            return Animator;
         }
     }
 

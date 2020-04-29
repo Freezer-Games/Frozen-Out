@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Level.Dialogue
@@ -9,8 +10,9 @@ namespace Scripts.Level.Dialogue
         public string Name = "";
         public string TalkToNode = "";
 
-        private DialogueIndicator Indicator;
         public DialogueStyle Style;
+
+        private DialogueIndicator Indicator;
 
         private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 

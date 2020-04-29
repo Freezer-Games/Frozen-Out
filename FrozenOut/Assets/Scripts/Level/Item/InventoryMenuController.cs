@@ -17,6 +17,7 @@ namespace Scripts.Level.Item
         public GameObject Arrow;
         
         private int SelectedItemIndex;
+        private ItemInfo PendingEquippedItem;
 
         void Start()
         {
@@ -26,8 +27,8 @@ namespace Scripts.Level.Item
                 Destroy(itemObject.gameObject);
             }
 
-            Inventory.ItemAdded += (sender, args) => AddItemImage(args.Item);
-            Inventory.ItemRemoved += (sender, args) => RemoveItemImage(args.Item);
+            Inventory.ItemPicked += (sender, args) => AddItemImage(args.Item);
+            Inventory.ItemUsed += (sender, args) => RemoveItemImage(args.Item);
             Inventory.ItemUpdated += (sender, args) => UpdateItemImage(args.Item);
         }
 
@@ -42,7 +43,7 @@ namespace Scripts.Level.Item
             {
                 if(SelectedItemIndex >= 0 && Input.GetKeyDown(Inventory.GetInteractKey()))
                 {
-                    EquipUnequipSelectedItem();
+                    UpdateEquipUnequipPending();
                 }
                 if(Input.GetKeyDown(KeyCode.RightArrow))
                 {
@@ -71,7 +72,8 @@ namespace Scripts.Level.Item
 
             Inventory.LevelManager.EnablePauseMenu();
             Time.timeScale = 1;
-            //TODO activate animation of equipped
+
+            EquipUnequipSelectedItem();
         }
 
         private void AddItemImage(ItemInfo itemAdded)
@@ -121,6 +123,7 @@ namespace Scripts.Level.Item
             }
 
             SelectedItemIndex = clampedIndex;
+            PendingEquippedItem = Inventory.EquippedItem;
             UpdateTexts();
             UpdateArrow();
         }
@@ -155,39 +158,50 @@ namespace Scripts.Level.Item
 
         private void EquipUnequipSelectedItem()
         {
+            if (PendingEquippedItem == null)
+            {
+                Inventory.UnequipItem();
+            }
+            else
+            {
+                Inventory.EquipItem(PendingEquippedItem);
+            }
+        }
+
+        private void UpdateEquipUnequipPending()
+        {
             ItemInfo selectedItem = Inventory.Items[SelectedItemIndex];
-            if(selectedItem.IsEquippable)
+            if (selectedItem.IsEquippable)
             {
                 Image selectedItemImage = GetItemImage(SelectedItemIndex);
-                if(Inventory.IsItemEquipped(selectedItem))
+                if (IsItemPendingEquipped(selectedItem))
                 {
-                    UnequipItem(selectedItemImage, selectedItem);
+                    UpdateUnequipPending(selectedItemImage, selectedItem);
                 }
                 else
                 {
-                    EquipItem(selectedItemImage, selectedItem);
+                    UpdateEquipPending(selectedItemImage, selectedItem);
                 }
-                
             }
         }
 
-        private void UnequipItem(Image selectedItemImage, ItemInfo selectedItem)
+        private void UpdateUnequipPending(Image selectedItemImage, ItemInfo selectedItem)
         {
-            Inventory.UnequipItem();
-
             selectedItemImage.sprite = selectedItem.Sprite;
+
+            PendingEquippedItem = null;
         }
 
-        private void EquipItem(Image selectedItemImage, ItemInfo selectedItem)
+        private void UpdateEquipPending(Image selectedItemImage, ItemInfo selectedItem)
         {
-            if(Inventory.EquippedItem != null)
+            if (PendingEquippedItem != null)
             {
-                Image previousEquippedImage = GetItemImage(Inventory.Items.IndexOf(Inventory.EquippedItem));
-                previousEquippedImage.sprite = Inventory.EquippedItem.Sprite;
+                Image previousEquippedImage = GetItemImage(Inventory.Items.IndexOf(PendingEquippedItem));
+                previousEquippedImage.sprite = PendingEquippedItem.Sprite;
             }
-            Inventory.EquipItem(selectedItem);
-
             selectedItemImage.sprite = selectedItem.EquippedSprite;
+
+            PendingEquippedItem = selectedItem;
         }
 
         private Image GetItemImage(int index)
@@ -196,6 +210,11 @@ namespace Scripts.Level.Item
             Image itemImage = itemObject.GetComponent<Image>();
 
             return itemImage;
+        }
+
+        public bool IsItemPendingEquipped(ItemInfo item)
+        {
+            return PendingEquippedItem != null && item.Name == PendingEquippedItem.Name;
         }
 
         private void CloseOpenMenu()

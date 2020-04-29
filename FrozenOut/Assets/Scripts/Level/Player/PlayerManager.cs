@@ -16,6 +16,7 @@ namespace Scripts.Level.Player
         public PlayerController PlayerController;
         public GameObject Player;
         public List<ItemEquipper> EquippableObjects;
+        public Animator Animator => PlayerController.GetAnimator();
 
         public bool InCinematic
         {
@@ -32,6 +33,8 @@ namespace Scripts.Level.Player
         
         private SoundManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
+
+        private string PickAnimationName = "IsPicking";
 
         public void Enable()
         {
@@ -127,6 +130,7 @@ namespace Scripts.Level.Player
             {
                 if(equipper.ItemName == itemEquipped.Name)
                 {
+                    PickAnimation();
                     equipper.OnEquip();
                 }
             }
@@ -134,10 +138,17 @@ namespace Scripts.Level.Player
 
         public void UnequipItem()
         {
+            PickAnimation();
             foreach (ItemEquipper equipper in EquippableObjects)
             {
                 equipper.OnUnequip();
             }
+        }
+
+        public void PickAnimation()
+        {
+            Debug.Log("Animation");
+            Animator.SetTrigger(PickAnimationName);
         }
 
         #region Events

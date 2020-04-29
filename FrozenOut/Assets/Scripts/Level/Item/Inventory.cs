@@ -198,8 +198,8 @@ namespace Scripts.Level.Item
         }
 
         #region Events
-        public event EventHandler<ItemEventArgs> ItemAdded;
-        public event EventHandler<ItemEventArgs> ItemRemoved;
+        public event EventHandler<ItemEventArgs> ItemPicked;
+        public event EventHandler<ItemEventArgs> ItemUsed;
         public event EventHandler<ItemEventArgs> ItemUpdated;
         public event EventHandler<ItemEventArgs> ItemEquipped;
         public event EventHandler ItemUnequipped;
@@ -207,13 +207,13 @@ namespace Scripts.Level.Item
         private void OnItemAdded(ItemInfo itemAdded)
         {
             ItemEventArgs itemEventArgs = new ItemEventArgs(itemAdded);
-            ItemAdded?.Invoke(this, itemEventArgs);
+            ItemPicked?.Invoke(this, itemEventArgs);
         }
 
         private void OnItemRemoved(ItemInfo itemRemoved)
         {
             ItemEventArgs itemEventArgs = new ItemEventArgs(itemRemoved);
-            ItemRemoved?.Invoke(this, itemEventArgs);
+            ItemUsed?.Invoke(this, itemEventArgs);
         }
 
         private void OnItemUpdated(ItemInfo itemUpdated)

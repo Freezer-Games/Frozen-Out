@@ -55,8 +55,13 @@ namespace Scripts.Level
                 PlayerManager.Enable();
             }
 
-            Inventory.ItemEquipped += (sender, args) => PlayerManager.EquipItem(args.Item);
-            Inventory.ItemUnequipped += (sender, args) => PlayerManager.UnequipItem();
+            if(PlayerManager != null && Inventory != null)
+            {
+                Inventory.ItemEquipped += (sender, args) => PlayerManager.EquipItem(args.Item);
+                Inventory.ItemUnequipped += (sender, args) => PlayerManager.UnequipItem();
+                Inventory.ItemPicked += (sender, args) => PlayerManager.PickAnimation();
+            }   
+            
             // TODO
         }
 
