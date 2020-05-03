@@ -21,7 +21,7 @@ namespace Scripts.Level
         public PlayerManager PlayerManager;
         public DialogueManager DialogueManager;
         public SoundManager SoundManager;
-        public CameraManager CameraManager;
+        //public CameraManager CameraManager;
         public Inventory Inventory;
         public NPCInfo[] NPCs;
         public MissionInfo[] Missions;
@@ -31,8 +31,8 @@ namespace Scripts.Level
 
         public void Load()
         {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
 
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
             
@@ -100,10 +100,10 @@ namespace Scripts.Level
             return SoundManager;
         }
         
-        public CameraManager GetCameraManager()
+        /*public CameraManager GetCameraManager()
         {
             return CameraManager;
-        }
+        }*/
 
         public Inventory GetInventory()
         {

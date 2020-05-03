@@ -13,27 +13,34 @@ namespace Scripts.Level.Player
 
         public PlayerManager PlayerManager;
 
-        public bool IsGrounded;
-        public bool IsMoving => MoveState != MoveMode.Stopped; //TODO
-
-        [Header("Features")]
         Rigidbody Rigidbody;
         Animator Animator;
-        [SerializeField]
-        private bool IsFormChanged;
-        [SerializeField]
-        private MoveMode MoveState;
 
+
+        [Header("States")]
+        [Space]
+        public bool IsGrounded;
+        public bool IsMoving => MoveState != MoveMode.Stopped; //TODO
+        [SerializeField] bool IsFormChanged;
+        [SerializeField] MoveMode MoveState;
+
+        
         [Header("Movement")]
-        [SerializeField]
-        private float MoveSpeed;
-        [SerializeField]
-        private float CurrentSpeed;
-        [SerializeField]
-        private float JumpForce = 3f;
-        [SerializeField]
-        private float Acceleration = 1.5f;
+        [Space]
+        [SerializeField] float MoveSpeed;
+        [SerializeField] float JumpForce = 6f;
+        
 
+        [Header("Jump Constraints")]
+        [Space]
+        [SerializeField] float CanJumpDist;
+        public Transform RayOrigin;
+        public Transform Body;
+
+
+        [Header("Interaction")]
+        [Space]
+        public LayerMask WhatIsGround;
         public GameObject Pickaxe;
         public GameObject ObstacleAtFront;
         public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
@@ -41,9 +48,7 @@ namespace Scripts.Level.Player
         private Vector2 MoveInput;
         private Vector3 Movement;
         private Vector3 CamForward;
-        private Vector3 CamRight;
-
-        public LayerMask WhatIsGround;
+        private Vector3 CamRight;   
         
         void Awake()
         {
@@ -55,7 +60,7 @@ namespace Scripts.Level.Player
         {
             MoveState = MoveMode.Stopped;
             MoveSpeed = NORMAL_SPEED;
-            CurrentSpeed = 0;
+            CanJumpDist = 0.51f;
             IsFormChanged = false;
             IsGrounded = false;
         }
@@ -76,7 +81,6 @@ namespace Scripts.Level.Player
                 if (Movement != Vector3.zero)
                 {
                     FaceMovement();
-                    CurrentSpeed = Mathf.Lerp(CurrentSpeed, MoveSpeed, Acceleration);
 
                     if (Input.GetButton("Run"))
                     {
@@ -94,8 +98,6 @@ namespace Scripts.Level.Player
                 else
                 {
                     MoveStateManage(MoveMode.Stopped);
-
-                    CurrentSpeed = Mathf.Lerp(CurrentSpeed, 0, Acceleration);
 
                     //Form change only if stopped
                     if (Input.GetKeyDown(KeyCode.K))
@@ -116,10 +118,11 @@ namespace Scripts.Level.Player
         {
             if(PlayerManager.IsEnabled)
             {
-                if (Input.GetKey(PlayerManager.GetJumpKey()) && IsGrounded)
+                if (Input.GetKey(PlayerManager.GetJumpKey()) && CheckGround())
                 {
                     Jump();
                 }
+
                 Move();
             }
         }
@@ -140,36 +143,48 @@ namespace Scripts.Level.Player
             }
         }
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                IsGrounded = true;
-            }
-        }
-
-        void OnTriggerExit(Collider other)
-        {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                IsGrounded = false;
-            }
-        }
-
         void Move()
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
             Movement.Normalize();
+            Movement *= MoveSpeed;
 
             Rigidbody.velocity = new Vector3(
-                Movement.x * CurrentSpeed,
+                Movement.x,
                 Rigidbody.velocity.y,
-                Movement.z * CurrentSpeed);
+                Movement.z);
         }
 
         void Jump()
         {
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            IsGrounded = false;
+        }
+
+        bool CheckGround() 
+        {
+            RaycastHit hit;
+            Ray checker = new Ray(RayOrigin.position, Vector3.down);
+            Debug.DrawRay(RayOrigin.position, Vector3.down, Color.red, 0.1f);
+
+            if (Physics.Raycast(checker, out hit, CanJumpDist)) 
+            {
+                if (hit.collider.CompareTag("Ground")) 
+                {
+                    Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, RayOrigin.position));
+                    return true;
+                }
+                else 
+                {
+                    Debug.Log("aqui no se puede saltar");
+                    return false;
+                }
+            } 
+            else 
+            {
+                Debug.Log("en el aire");
+                return false;
+            }
         }
 
         void MoveStateManage(MoveMode mode)
@@ -210,8 +225,8 @@ namespace Scripts.Level.Player
 
         void FaceMovement()
         {
-            transform.rotation = 
-                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
+            Body.rotation = 
+                Quaternion.Slerp(Body.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
         }
 
         void CameraVectors()

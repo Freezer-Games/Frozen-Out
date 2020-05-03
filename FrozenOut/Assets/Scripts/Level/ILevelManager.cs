@@ -24,7 +24,7 @@ namespace Scripts.Level
         PlayerManager GetPlayerManager();
         DialogueManager GetDialogueManager();
         SoundManager GetSoundManager();
-        CameraManager GetCameraManager();
+        //CameraManager GetCameraManager();
         Inventory GetInventory();
         NPCInfo[] GetNPCs();
         MissionInfo[] GetMissions();

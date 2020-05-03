@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 public enum MoveMode { Stopped, Stealth, Normal, Running }
@@ -19,7 +20,10 @@ public class TestPlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float moveSpeed;
-    [SerializeField] float jumpForce = 3f;
+    [SerializeField] float jumpForce = 2.3f;
+    [SerializeField] float canJumpDist;
+    public Transform rayOrigin;
+    public Transform body;
 
     public GameObject pico;
     public Transform toolPoint;
@@ -28,22 +32,28 @@ public class TestPlayerController : MonoBehaviour
 
     Vector2 input;
     Vector3 movement, camForward, camRight;
-
     public LayerMask whatIsGround;
+
+    [Header("Events")]
+    public UnityEvent OnLandEvent;
     
     void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponentInChildren<Animator>();
+
+        if (OnLandEvent == null) 
+            OnLandEvent = new UnityEvent();
     }
 
     void Start()
     {
         moveState = MoveMode.Stopped;
         moveSpeed = NORMAL_SPEED;
+        canJumpDist = 0.51f;
         formChanged = false;
         hasPickaxe = false;
-        isGrounded = false;
+        isGrounded = true;
     }
 
     void Update()
@@ -62,7 +72,7 @@ public class TestPlayerController : MonoBehaviour
         //Check there is an input
         if (movement != Vector3.zero)
         {
-            //FaceMovement();
+            FaceMovement();
 
             if (Input.GetButton("Run"))
             {
@@ -90,16 +100,26 @@ public class TestPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetButton("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && CheckGround())
         {
             Jump();
         }
 
-        //if (input != Vector2.zero)
-       // {
-            Move();
-        //}
         
+        if (!isGrounded)
+        {
+            //OnLandEvent.Invoke();
+            if (CheckGround() || playerRb.velocity.y < 0) 
+            {
+                Debug.Log("buscando suelo para aterrizar");
+                isGrounded = true;
+                playerAnim.SetBool("isLanding", true);
+            }
+        }
+            
+        
+
+        Move();  
     }
 
     void OnCollisionEnter(Collision other)
@@ -128,18 +148,18 @@ public class TestPlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        /*if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
         {
             isGrounded = true;
-        }
+        }*/
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
+        /*if (whatIsGround == (whatIsGround | (1 << other.gameObject.layer)))
         {
             isGrounded = false;
-        }
+        }*/
     }
 
     void Move()
@@ -154,6 +174,38 @@ public class TestPlayerController : MonoBehaviour
     void Jump()
     {
         playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        isGrounded = false;
+        playerAnim.SetTrigger("isJumping");
+    }
+
+    bool CheckGround() {
+        RaycastHit hit;
+        Ray checker = new Ray(rayOrigin.position, Vector3.down);
+        Debug.DrawRay(rayOrigin.position, Vector3.down, Color.red, 0.1f);
+
+        if (Physics.Raycast(checker, out hit, canJumpDist)) 
+        {
+            if (hit.collider.CompareTag("Ground")) 
+            {
+                Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, rayOrigin.position));
+                return true;
+            }
+            else 
+            {
+                Debug.Log("aqui no se puede saltar");
+                return false;
+            }
+        } 
+        else 
+        {
+            Debug.Log("en el aire");
+            return false;
+        }
+    }
+
+    bool ChechLanding() 
+    {
+        return false;
     }
 
     void MoveStateManage(MoveMode mode)
@@ -194,8 +246,8 @@ public class TestPlayerController : MonoBehaviour
 
     void FaceMovement()
     {
-        transform.rotation = 
-            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement.normalized), 0.2f);
+        body.rotation = 
+            Quaternion.Slerp(body.rotation, Quaternion.LookRotation(movement.normalized), 0.2f);
     }
 
     void CameraVectors()
