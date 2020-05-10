@@ -1,35 +1,45 @@
-﻿using RestSharp;
+﻿using System;
+using System.Security.Authentication;
+
+using RestSharp;
 using RestSharp.Authenticators;
 
 namespace Scripts.Level.Dialogue.Instagram
 {
     public class InstagramGraphAPIAccess : IAPIAccess
     {
-        public InstagramGraphAPIAccess(string url, string username, string password, string token)
+        public InstagramGraphAPIAccess(string baseUrl, string token)
         {
-            this.URL = url;
-            this.Username = username;
-            this.Password = password;
+            this.BaseUrl = baseUrl;
             this.Token = token;
         }
 
-        private readonly string URL;
-        private readonly string Username;
-        private readonly string Password;
+        private readonly string BaseUrl;
         private readonly string Token;
 
-        public override IRestResponse<T> DoRequest<T>(string resource)
+        public override IRestResponse<T> DoRequest<T>(string queryStringResource, Method method)
         {
-            IRestRequest request = new RestRequest(resource, Method.GET);
-
-            request.AddParameter(this.Token, "access_token");
-
-            IRestClient client = new RestClient()
+            IRestRequest request = new RestRequest(queryStringResource, method)
             {
-                Authenticator = new HttpBasicAuthenticator(this.Username, this.Password)
+                RequestFormat = DataFormat.Json,
             };
+            request.AddParameter("access_token", this.Token);
 
-            IRestResponse<T> response = null;//client.Get<T>(request);
+            IRestClient client = new RestClient(this.BaseUrl);
+
+            IRestResponse<T> response = client.Execute<T>(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                throw new InvalidOperationException();
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                throw new InvalidCredentialException();
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                throw new UnauthorizedAccessException();
+
+            if (response == null || !(response.StatusCode == System.Net.HttpStatusCode.OK || response.StatusCode == System.Net.HttpStatusCode.NoContent))
+                throw new InvalidOperationException();
 
             return response;
         }

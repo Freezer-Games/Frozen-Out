@@ -2,11 +2,24 @@
 
 namespace Scripts.Level.Dialogue.Instagram.Entity
 {
+    public class InstagramMediaData
+    {
+        public InstagramMediaData()
+        {
+            Data = new List<InstagramMedia>();
+        }
+
+        public List<InstagramMedia> Data
+        {
+            get;
+            set;
+        }
+    }
+
     public class InstagramMedia
     {
         public InstagramMedia()
         {
-            Comments = new List<InstagramComment>();
         }
 
         public string Id
@@ -19,7 +32,12 @@ namespace Scripts.Level.Dialogue.Instagram.Entity
             get;
             set;
         }
-        public ICollection<InstagramComment> Comments
+        public string Caption
+        {
+            get;
+            set;
+        }
+        public InstagramCommentData Comments
         {
             get;
             set;
@@ -34,7 +52,7 @@ namespace Scripts.Level.Dialogue.Instagram.Entity
             get;
             set;
         }
-        public string Comment_count
+        public string Comments_count
         {
             get;
             set;

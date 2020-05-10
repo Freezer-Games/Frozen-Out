@@ -19,13 +19,12 @@ namespace Scripts.Level.Dialogue.Instagram
 
         public ICollection<Post> GetPosts(User user)
         {
-            string query = $"{user.Id}";
-            string request = "https://graph.facebook.com/v7.0/" + query;
+            string resourceQuery = $"{user.Id}/media?fields=id,username,caption,timestamp,like_count,comments_count";
 
-            IRestResponse<List<InstagramMedia>> response = ApiAccess.DoRequest<List<InstagramMedia>>(request);
+            IRestResponse<InstagramMediaData> response = ApiAccess.DoRequest<InstagramMediaData>(resourceQuery, Method.GET);
 
             ICollection<Post> posts = new List<Post>();
-            foreach (InstagramMedia instaMedia in response.Data)
+            foreach (InstagramMedia instaMedia in response.Data.Data)
             {
                 Post post = MapInstagramMedia(instaMedia);
                 posts.Add(post);
@@ -36,13 +35,12 @@ namespace Scripts.Level.Dialogue.Instagram
 
         public ICollection<Comment> GetComments(Post post)
         {
-            string query = $"{post.Id}";
-            string request = "https://graph.facebook.com/v7.0/" + query;
+            string resourceQuery = $"{post.Id}?fields=comments" + "{id,username,text,timestamp,like_count}";
 
-            IRestResponse<List<InstagramComment>> response = ApiAccess.DoRequest<List<InstagramComment>>(request);
+            IRestResponse<InstagramMedia> response = ApiAccess.DoRequest<InstagramMedia>(resourceQuery, Method.GET);
 
             ICollection<Comment> comments = new List<Comment>();
-            foreach (InstagramComment instaComment in response.Data)
+            foreach (InstagramComment instaComment in response.Data.Comments.Data)
             {
                 Comment comment = MapInstagramComment(instaComment);
                 comments.Add(comment);
@@ -53,23 +51,20 @@ namespace Scripts.Level.Dialogue.Instagram
 
         public User GetUserFromFacebookPage(FacebookPage page)
         {
-            string query = $"{page.Id}?fields=instagram_business_account";
-            string request = "https://graph.facebook.com/v7.0/" + query;
+            string resourceQuery = $"{page.Id}?fields=instagram_business_account" + "{id,name}";
 
-            IRestResponse<InstagramUser> response = ApiAccess.DoRequest<InstagramUser>(request);
+            IRestResponse<FacebookAccount> response = ApiAccess.DoRequest<FacebookAccount>(resourceQuery, Method.GET);
 
-            User user = MapInstagramUser(response.Data);
-            user.Name = page.Name;
+            User user = MapInstagramAccount(response.Data.Instagram_business_account);
 
             return user;
         }
 
         public Model.FacebookUser GetCurrentFacebookUser()
         {
-            string query = "me?fields=id,name";
-            string request = "https://graph.facebook.com/v7.0/" + query;
+            string resourceQuery = "me?fields=id,name";
 
-            IRestResponse<Entity.FacebookUser> response = ApiAccess.DoRequest<Entity.FacebookUser>(request);
+            IRestResponse<Entity.FacebookUser> response = ApiAccess.DoRequest<Entity.FacebookUser>(resourceQuery, Method.GET);
 
             Model.FacebookUser user = MapFacebookUser(response.Data);
 
@@ -78,13 +73,12 @@ namespace Scripts.Level.Dialogue.Instagram
 
         public ICollection<FacebookPage> GetCurrentFacebookUserPages()
         {
-            string query = "me/accounts";
-            string request = "https://graph.facebook.com/v7.0/" + query;
+            string resourceQuery = "me/accounts";
 
-            IRestResponse<List<FacebookAccount>> response = ApiAccess.DoRequest<List<FacebookAccount>>(request);
+            IRestResponse<FacebookAccountData> response = ApiAccess.DoRequest<FacebookAccountData>(resourceQuery, Method.GET);
 
             ICollection<FacebookPage> pages = new List<FacebookPage>();
-            foreach (FacebookAccount fbAccount in response.Data)
+            foreach (FacebookAccount fbAccount in response.Data.Data)
             {
                 FacebookPage page = MapFacebookAccount(fbAccount);
                 pages.Add(page);
@@ -94,11 +88,12 @@ namespace Scripts.Level.Dialogue.Instagram
         }
 
         #region Mapping
-        private User MapInstagramUser(InstagramUser reader)
+        private User MapInstagramAccount(InstagramAccount reader)
         {
             User user = new User()
             {
                 Id = reader.Id,
+                Name = reader.Name
             };
 
             return user;
@@ -110,6 +105,7 @@ namespace Scripts.Level.Dialogue.Instagram
             {
                 Id = reader.Id,
                 Username = reader.Username,
+                Text = reader.Caption,
                 Timestamp = DataReaderUtils.GetDateTime(reader.Timestamp),
                 Likes = DataReaderUtils.GetInt(reader.Like_count)
             };

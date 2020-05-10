@@ -20,6 +20,11 @@ namespace Scripts.Level.Dialogue.Instagram.Model
             get;
             set;
         }
+        public string Text
+        {
+            get;
+            set;
+        }
         public ICollection<Comment> Comments
         {
             get;

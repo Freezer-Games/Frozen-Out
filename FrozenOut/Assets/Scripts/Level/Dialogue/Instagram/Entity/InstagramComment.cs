@@ -1,5 +1,21 @@
-﻿namespace Scripts.Level.Dialogue.Instagram.Entity
+﻿using System.Collections.Generic;
+
+namespace Scripts.Level.Dialogue.Instagram.Entity
 {
+    public class InstagramCommentData
+    {
+        public InstagramCommentData()
+        {
+            Data = new List<InstagramComment>();
+        }
+
+        public List<InstagramComment> Data
+        {
+            get;
+            set;
+        }
+    }
+
     public class InstagramComment
     {
         public InstagramComment()
