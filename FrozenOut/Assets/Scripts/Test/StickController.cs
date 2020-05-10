@@ -47,13 +47,13 @@ public class StickController : MonoBehaviour
 
     public void Recovery()
     {
+        m_Renderer.enabled = false;
         m_Rigidbody.useGravity = false;
         m_Rigidbody.isKinematic = true;
         m_Collider.enabled = false;
         m_Collider.isTrigger = true;
 
         transform.SetParent(Player);
-        m_Renderer.enabled = true;
 
         transform.localPosition = Vector3.zero;
         transform.localRotation = Player.rotation;
