@@ -47,7 +47,7 @@ public class TestPlayerController : MonoBehaviour
     [Header("Melting-Skill")]
     [Space]
     public GameObject Stick;
-    public GameObject StickPoint;
+    public Transform StickPoint;
     [SerializeField] bool HasStick;
     [SerializeField] bool OnStick;
     [SerializeField] bool IsRecovering;
@@ -75,7 +75,6 @@ public class TestPlayerController : MonoBehaviour
         MoveSpeed = NORMAL_SPEED;
         CanJumpDist = 0.51f;
         IsFormChanged = false;
-        IsGrounded = true;
         HasStick = true;
         OnStick = false;
         CanMove = true;
@@ -95,7 +94,7 @@ public class TestPlayerController : MonoBehaviour
         Input.GetAxis("Vertical"));
         MoveInput.Normalize();
 
-        Animator.SetBool("isMoving", Movement != Vector3.zero);
+        Animator.SetBool("isMoving", Movement != Vector3.zero || IsRecovering);
 
         //Check there is an MoveInput
         if (Movement != Vector3.zero)
@@ -124,13 +123,21 @@ public class TestPlayerController : MonoBehaviour
                 if (!IsFormChanged && HasStick)
                 {
                     Melting();
+                    MoveStateManage(MoveMode.Stealth);
                 }
                 else if (IsFormChanged && OnStick)
                 {
                     Recovery();
+                    MoveStateManage(MoveMode.Normal);
                 }
             } 
-        }   
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Movement = Vector3.zero;
+            Animator.SetTrigger("isMining");
+        }
     }
 
     void LateUpdate()
@@ -142,18 +149,18 @@ public class TestPlayerController : MonoBehaviour
     {
         if (CanMove)
         {
-            if (!IsFormChanged && Input.GetButtonDown("Jump") && CheckGround())
+            if (!IsFormChanged && Input.GetButtonDown("Jump"))
                 Jump();
 
             Move();
         }
-        /*
         else
         {
             if (IsRecovering)
-                MoveToTarget(StickPoint.transform, 0.1f, STEALTH_SPEED);
+            {
+                MoveToTarget(StickPoint, 0.01f, 3f);
+            }
         }
-        */
     }
 
     void OnCollisionEnter(Collision other)
@@ -185,24 +192,35 @@ public class TestPlayerController : MonoBehaviour
 
     void MoveToTarget(Transform target, float distanceToStop, float speed)
     {
-        if (Vector3.Distance(transform.position, target.position) > distanceToStop)
+        if (Vector3.Distance(target.position, transform.position) > distanceToStop)
         {
-            transform.LookAt(target);
-            Rigidbody.AddRelativeForce(Vector3.forward * speed, ForceMode.Force);
+            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
+            Model.LookAt(target, Vector3.up);
         }
         else
         {
-            IsRecovering = false;
-            Rigidbody.isKinematic = false;
-            Collider.isTrigger = false;
+            if (IsRecovering)
+            {
+                IsRecovering = false;
+                IsFormChanged = false;
+                HasStick = true;
+                CanMove = true;
+                Rigidbody.isKinematic = false;
+                Animator.SetBool("isMoving", true);
+                Animator.SetTrigger("isChanging");
+                RecoveryEv.Invoke();
+            }
         }
     }
 
     void Jump()
     {
-        Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-        IsGrounded = false;
-        Animator.SetTrigger("isJumping");
+        if (CheckGround())
+        {
+            Animator.SetTrigger("isJumping");
+            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+        
     }
 
     bool CheckGround() {
@@ -238,15 +256,9 @@ public class TestPlayerController : MonoBehaviour
 
     void Recovery() 
     {
-        Animator.SetTrigger("isChanging");
         IsRecovering = true;
-        Rigidbody.isKinematic = true;
-        Collider.isTrigger = true;
-        
         CanMove = false;
-        IsFormChanged = false;
-        HasStick = true;
-        RecoveryEv.Invoke();
+        Rigidbody.isKinematic = true;
     }
 
     void MoveStateManage(MoveMode mode)
