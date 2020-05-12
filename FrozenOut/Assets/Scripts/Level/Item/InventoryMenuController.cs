@@ -214,7 +214,7 @@ namespace Scripts.Level.Item
 
         public bool IsItemPendingEquipped(ItemInfo item)
         {
-            return PendingEquippedItem != null && item.Name == PendingEquippedItem.Name;
+            return PendingEquippedItem != null && PendingEquippedItem.Equals(item);
         }
 
         private void CloseOpenMenu()

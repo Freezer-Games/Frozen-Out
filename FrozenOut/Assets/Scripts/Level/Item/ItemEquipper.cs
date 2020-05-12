@@ -5,16 +5,8 @@ namespace Scripts.Level.Item
 {
     public class ItemEquipper : MonoBehaviour
     {
-        public string ItemName = "";
+        public string ItemVariableName;
         public string EquipAnimation;
-
-        void Start()
-        {
-            if (ItemName.Equals(""))
-            {
-                ItemName = gameObject.name;
-            }
-        }
 
         public void OnEquip()
         {
@@ -26,6 +18,11 @@ namespace Scripts.Level.Item
         {
             gameObject.SetActive(false);
             //TODO
+        }
+
+        public ItemInfo ToItemInfo()
+        {
+            return new ItemInfo() { VariableName = this.ItemVariableName };
         }
     }
 }

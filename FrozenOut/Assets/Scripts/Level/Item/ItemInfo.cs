@@ -27,5 +27,16 @@ namespace Scripts.Level.Item
                 return "quantity_" + VariableName;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+
+            ItemInfo other = (ItemInfo)obj;
+            return this.VariableName.Equals(other.VariableName);
+        }
     }
 }
