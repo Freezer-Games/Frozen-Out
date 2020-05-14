@@ -128,7 +128,7 @@ namespace Scripts.Level.Player
         {
             foreach(ItemEquipper equipper in EquippableObjects)
             {
-                if(equipper.ItemName == itemEquipped.Name)
+                if(itemEquipped.Equals(equipper.ToItemInfo()))
                 {
                     PickAnimation();
                     equipper.OnEquip();
@@ -147,7 +147,6 @@ namespace Scripts.Level.Player
 
         public void PickAnimation()
         {
-            Debug.Log("Animation");
             Animator.SetTrigger(PickAnimationName);
         }
 

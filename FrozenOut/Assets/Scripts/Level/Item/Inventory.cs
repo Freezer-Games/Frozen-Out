@@ -100,7 +100,7 @@ namespace Scripts.Level.Item
         {
             picker.OnPickup();
 
-            if(IsItemInInventory(picker.ItemName))
+            if(IsItemInInventory(picker.ToItemInfo()))
             {
                 UpdateItem(picker);
             }
@@ -112,11 +112,11 @@ namespace Scripts.Level.Item
 
         public void UseItem(ItemUser user)
         {
-            if(IsItemInInventory(user.ItemName))
+            if(IsItemInInventory(user.ToItemInfo()))
             {
                 user.OnUse();
                 //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find( temp => temp.Name == user.ItemName );
+                ItemInfo inventoryItem = Items.Find( temp => temp.Equals(user.ToItemInfo()) );
 
                 if(inventoryItem.IsEquippable)
                 {
@@ -135,7 +135,7 @@ namespace Scripts.Level.Item
         private void AddItem(ItemPicker picker)
         {
             //Pasarlo a ItemInfo del nivel
-            ItemInfo item = LevelItems.Find( temp => temp.Name == picker.ItemName );
+            ItemInfo item = LevelItems.Find( temp => temp.Equals(picker.ToItemInfo()) );
             item.Quantity = picker.ItemQuantity;
 
             Items.Add(item);
@@ -150,7 +150,7 @@ namespace Scripts.Level.Item
             if(picker.ItemQuantity > 0)
             {
                 //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find( temp => temp.Name == picker.ItemName );
+                ItemInfo inventoryItem = Items.Find( temp => temp.Equals(picker.ToItemInfo()) );
 
                 int currentQuantity = inventoryItem.Quantity;
                 int newQuantity = currentQuantity + picker.ItemQuantity;
@@ -180,16 +180,12 @@ namespace Scripts.Level.Item
 
         public bool IsItemInInventory(ItemInfo item)
         {
-            return Items.Contains(item);
-        }
-        public bool IsItemInInventory(string itemName)
-        {
-            return Items.Exists( temp => temp.Name == itemName );
+            return Items.Exists(temp => temp.Equals(item) );
         }
 
         public bool IsItemEquipped(ItemInfo item)
         {
-            return EquippedItem != null && item.Name == EquippedItem.Name;
+            return EquippedItem != null && EquippedItem.Equals(item);
         }
 
         public bool IsItemUsed(ItemInfo item)

@@ -5,16 +5,8 @@ namespace Scripts.Level.Item
 {
     public class ItemUser : MonoBehaviour
     {
-        public string ItemName = "";
+        public string ItemVariableName;
         public string UseAnimation;
-
-        void Start()
-        {
-            if(ItemName.Equals(""))
-            {
-                ItemName = gameObject.name;
-            }
-        }
 
         public void OnUse()
         {
@@ -30,6 +22,11 @@ namespace Scripts.Level.Item
         public void OnPlayerAway()
         {
             //TODO unglow?
+        }
+
+        public ItemInfo ToItemInfo()
+        {
+            return new ItemInfo() { VariableName = this.ItemVariableName };
         }
 
     }
