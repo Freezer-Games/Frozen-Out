@@ -56,7 +56,7 @@ public class StickController : MonoBehaviour
         transform.SetParent(Player);
 
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Player.rotation;
+        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 
         Debug.Log("formo parte de pol");
     }

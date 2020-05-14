@@ -13,7 +13,11 @@ public class TestPlayerController : MonoBehaviour
 
     Rigidbody Rigidbody;
     Animator Animator;
-    Collider Collider;
+    CapsuleCollider CapsuleCol;
+    BoxCollider BoxCol;
+
+    public Transform distanceObj;
+    public Transform distOrig;
 
 
     [Header("States")]
@@ -29,7 +33,6 @@ public class TestPlayerController : MonoBehaviour
     [Space]
     [SerializeField] float MoveSpeed;
     [SerializeField] float JumpForce = 6f;
-    public Transform Model;
         
 
     [Header("Jump Constraints")]
@@ -65,8 +68,9 @@ public class TestPlayerController : MonoBehaviour
     void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
-        Animator = GetComponentInChildren<Animator>();
-        Collider = GetComponent<Collider>();
+        Animator = GetComponent<Animator>();
+        CapsuleCol = GetComponent<CapsuleCollider>();
+        BoxCol = GetComponent<BoxCollider>();
     }
 
     void Start()
@@ -89,6 +93,9 @@ public class TestPlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.T))
+            DistanceBtwObject();
+
         MoveInput = new Vector2(
         Input.GetAxis("Horizontal"),
         Input.GetAxis("Vertical"));
@@ -96,47 +103,69 @@ public class TestPlayerController : MonoBehaviour
 
         Animator.SetBool("isMoving", Movement != Vector3.zero || IsRecovering);
 
-        //Check there is an MoveInput
-        if (Movement != Vector3.zero)
-        {
-            FaceMovement();
+        if (IsRecovering) CanMove = false;
 
-            if (Input.GetButton("Run"))
+        //Check there is an MoveInput
+        if (CanMove)
+        {
+            //Jump
+            if (!IsFormChanged && Input.GetButtonDown("Jump"))
             {
-                MoveStateManage(MoveMode.Running);
+                Jump();
             }
-            else if (Input.GetButton("Crouch"))
+
+            //Picking
+            if (Input.GetKeyDown(KeyCode.P) && !IsFormChanged)
             {
-                MoveStateManage(MoveMode.Stealth);
+                Movement = Vector3.zero;
+                Animator.SetTrigger("isMining");
+            }
+
+            if (Movement != Vector3.zero)
+            {
+                FaceMovement();
+
+                if (Input.GetButton("Run"))
+                {
+                    MoveStateManage(MoveMode.Running);
+                }
+                else if (Input.GetButton("Crouch"))
+                {
+                    MoveStateManage(MoveMode.Stealth);
+                }
+                else
+                {
+                    MoveStateManage(MoveMode.Normal);
+                }
             }
             else
             {
-                MoveStateManage(MoveMode.Normal);
+                MoveStateManage(MoveMode.Stopped);
+
+                //Melting managemnet
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    if (!IsFormChanged && HasStick)
+                    {
+                        Melting();
+                    }
+                    else if (IsFormChanged && OnStick)
+                    {
+                        Recovery();
+                    }
+                    else if (IsFormChanged && HasStick)
+                    {
+                        StaticRecovery();
+                    }
+                }
             }
         }
         else
         {
-            MoveStateManage(MoveMode.Stopped);
-
-            if(Input.GetKeyDown(KeyCode.K)) 
+            if (IsRecovering)
             {
-                if (!IsFormChanged && HasStick)
-                {
-                    Melting();
-                    MoveStateManage(MoveMode.Stealth);
-                }
-                else if (IsFormChanged && OnStick)
-                {
-                    Recovery();
-                    MoveStateManage(MoveMode.Normal);
-                }
-            } 
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Movement = Vector3.zero;
-            Animator.SetTrigger("isMining");
+                MoveToTarget(StickPoint, 0.01f, 3f);
+            }
         }
     }
 
@@ -149,17 +178,7 @@ public class TestPlayerController : MonoBehaviour
     {
         if (CanMove)
         {
-            if (!IsFormChanged && Input.GetButtonDown("Jump"))
-                Jump();
-
             Move();
-        }
-        else
-        {
-            if (IsRecovering)
-            {
-                MoveToTarget(StickPoint, 0.01f, 3f);
-            }
         }
     }
 
@@ -181,6 +200,14 @@ public class TestPlayerController : MonoBehaviour
             OnStick = false;
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Stick"))
+        {
+            HasStick = false;
+        }
+    }
+
     void Move()
     {
         Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
@@ -195,20 +222,24 @@ public class TestPlayerController : MonoBehaviour
         if (Vector3.Distance(target.position, transform.position) > distanceToStop)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-            Model.LookAt(target, Vector3.up);
+            transform.LookAt(target, Vector3.up);
+            Debug.Log("me muevo hacia el punto");
         }
         else
         {
             if (IsRecovering)
             {
+                BoxCol.enabled = false;
+                CapsuleCol.enabled = true;
+
+                RecoveryEv.Invoke();
+
                 IsRecovering = false;
                 IsFormChanged = false;
                 HasStick = true;
-                CanMove = true;
+
                 Rigidbody.isKinematic = false;
-                Animator.SetBool("isMoving", true);
                 Animator.SetTrigger("isChanging");
-                RecoveryEv.Invoke();
             }
         }
     }
@@ -246,11 +277,24 @@ public class TestPlayerController : MonoBehaviour
         }
     }
 
+    void DistanceBtwObject()
+    {
+        if (distanceObj != null)
+        {
+            float dist = Vector3.Distance(distOrig.position, distanceObj.position);
+            Debug.Log("Distancia: " + dist);
+            Debug.DrawLine(distOrig.position, distanceObj.position, Color.red);
+        }
+    }
+
     void Melting() 
     {
         Animator.SetTrigger("isChanging");
+
+        CapsuleCol.enabled = false;
+        BoxCol.enabled = true;
+
         IsFormChanged = true;
-        HasStick = false;
         MeltingEv.Invoke();
     }
 
@@ -259,6 +303,14 @@ public class TestPlayerController : MonoBehaviour
         IsRecovering = true;
         CanMove = false;
         Rigidbody.isKinematic = true;
+    }
+
+    void StaticRecovery()
+    {
+        RecoveryEv.Invoke();
+        IsFormChanged = false;
+        CanMove = false;
+        Animator.SetTrigger("isChanging");
     }
 
     void MoveStateManage(MoveMode mode)
@@ -299,8 +351,8 @@ public class TestPlayerController : MonoBehaviour
 
     void FaceMovement()
     {
-        Model.rotation = 
-            Quaternion.Slerp(Model.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
+        transform.rotation = 
+            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
     }
 
     void CameraVectors()
