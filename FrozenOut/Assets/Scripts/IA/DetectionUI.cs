@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DetectionUI : MonoBehaviour
 {
@@ -15,10 +14,14 @@ public class DetectionUI : MonoBehaviour
     }
 
     public void UpdateUI(int deteccion) {
-        Slider slider = gameObject.GetComponentInChildren<Slider>();
+        SpriteRenderer sprite = gameObject.GetComponentInChildren<SpriteRenderer>();
         Debug.Log("detection = " + deteccion );
-        slider.value = deteccion;
 
+        if (x)
+        {
+            sprite.color = new Color(sprite.color.r, 255 - 100, 255 - 100);
+            x = false;
+        }
     }
 
     private void Update()
