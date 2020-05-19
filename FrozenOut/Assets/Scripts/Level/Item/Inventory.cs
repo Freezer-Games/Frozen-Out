@@ -112,7 +112,11 @@ namespace Scripts.Level.Item
 
         public void UseItem(ItemUser user)
         {
-            if(IsItemInInventory(user.ToItemInfo()))
+            if (string.IsNullOrEmpty(user.ItemVariableName))
+            {
+                user.OnUse();
+            }
+            else if(IsItemInInventory(user.ToItemInfo()))
             {
                 user.OnUse();
                 //Pasarlo a ItemInfo del inventario

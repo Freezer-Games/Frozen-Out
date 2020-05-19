@@ -13,8 +13,6 @@ public class TestPlayerController : MonoBehaviour
 
     Rigidbody Rigidbody;
     Animator Animator;
-    CapsuleCollider CapsuleCol;
-    BoxCollider BoxCol;
 
     public Transform distanceObj;
     public Transform distOrig;
@@ -43,8 +41,10 @@ public class TestPlayerController : MonoBehaviour
 
     [Header("Interaction")]
     [Space]
-    public LayerMask WhatIsGround;
-    public GameObject ObstacleAtFront;
+    public GameObject InteractiveObject;
+    private Ore IntOre;
+    [SerializeField] bool IsInteracting;
+    [SerializeField] bool IsObjectAimed;
 
 
     [Header("Melting-Skill")]
@@ -69,8 +69,6 @@ public class TestPlayerController : MonoBehaviour
     {
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        CapsuleCol = GetComponent<CapsuleCollider>();
-        BoxCol = GetComponent<BoxCollider>();
     }
 
     void Start()
@@ -82,6 +80,10 @@ public class TestPlayerController : MonoBehaviour
         HasStick = true;
         OnStick = false;
         CanMove = true;
+
+        InteractiveObject = null;
+        IsObjectAimed = false;
+        IsInteracting = false;
 
         if (MeltingEv == null)
             MeltingEv = new UnityEvent();
@@ -103,7 +105,8 @@ public class TestPlayerController : MonoBehaviour
 
         Animator.SetBool("isMoving", Movement != Vector3.zero || IsRecovering);
 
-        if (IsRecovering) CanMove = false;
+        if (IsRecovering || IsInteracting) CanMove = false;
+        if (InteractiveObject == null) IsObjectAimed = false;
 
         //Check there is an MoveInput
         if (CanMove)
@@ -114,11 +117,12 @@ public class TestPlayerController : MonoBehaviour
                 Jump();
             }
 
-            //Picking
-            if (Input.GetKeyDown(KeyCode.P) && !IsFormChanged)
+            if (!IsFormChanged && IsObjectAimed && Input.GetKeyDown(KeyCode.P)) 
             {
-                Movement = Vector3.zero;
-                Animator.SetTrigger("isMining");
+                Debug.Log("Voy a minar");
+                Rigidbody.isKinematic = true;
+                CanMove = false;
+                IsInteracting = true;
             }
 
             if (Movement != Vector3.zero)
@@ -166,6 +170,10 @@ public class TestPlayerController : MonoBehaviour
             {
                 MoveToTarget(StickPoint, 0.01f, 3f);
             }
+            else if (IsInteracting)
+            {
+                MoveToTarget(IntOre.GetInteractPoint(), 0.01f, 3f);
+            }
         }
     }
 
@@ -184,20 +192,27 @@ public class TestPlayerController : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
-            ObstacleAtFront = other.gameObject;
-
         if (other.gameObject.CompareTag("Stick"))
             OnStick = true;
     }
 
     void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
-            ObstacleAtFront = null;
-
         if (other.gameObject.CompareTag("Stick"))
             OnStick = false;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Interact") && !IsObjectAimed)
+        {
+            IsObjectAimed = true;
+            InteractiveObject = other.gameObject;
+            IntOre = InteractiveObject.GetComponent<Ore>();
+            if (IntOre == null) Debug.Log("Soy nulo");
+            else Debug.Log("No soy nulo");
+            Debug.Log("Aimed: " + InteractiveObject.name); 
+        }     
     }
 
     void OnTriggerExit(Collider other)
@@ -205,6 +220,13 @@ public class TestPlayerController : MonoBehaviour
         if (other.CompareTag("Stick"))
         {
             HasStick = false;
+        }
+
+        if (InteractiveObject == other.gameObject && !IsInteracting)
+        {
+            InteractiveObject = null;
+            IsObjectAimed = false;
+            IntOre = null;
         }
     }
 
@@ -219,19 +241,20 @@ public class TestPlayerController : MonoBehaviour
 
     void MoveToTarget(Transform target, float distanceToStop, float speed)
     {
+        //Vector3 destino = new Vector3(target.position.x, transform.position.y, target.position.z);
+
         if (Vector3.Distance(target.position, transform.position) > distanceToStop)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-            transform.LookAt(target, Vector3.up);
-            Debug.Log("me muevo hacia el punto");
+
+            if (IsRecovering) {
+                transform.LookAt(target, Vector3.up);
+            }  
         }
         else
         {
             if (IsRecovering)
             {
-                BoxCol.enabled = false;
-                CapsuleCol.enabled = true;
-
                 RecoveryEv.Invoke();
 
                 IsRecovering = false;
@@ -240,6 +263,15 @@ public class TestPlayerController : MonoBehaviour
 
                 Rigidbody.isKinematic = false;
                 Animator.SetTrigger("isChanging");
+            }
+            else if (IsInteracting)
+            {
+                //transform.LookAt(InteractiveObject.transform, Vector3.up);
+                Animator.SetTrigger("isPicking");
+                IntOre.Execute();
+                Rigidbody.isKinematic = false;
+
+                IsInteracting = false;
             }
         }
     }
@@ -290,9 +322,6 @@ public class TestPlayerController : MonoBehaviour
     void Melting() 
     {
         Animator.SetTrigger("isChanging");
-
-        CapsuleCol.enabled = false;
-        BoxCol.enabled = true;
 
         IsFormChanged = true;
         MeltingEv.Invoke();
