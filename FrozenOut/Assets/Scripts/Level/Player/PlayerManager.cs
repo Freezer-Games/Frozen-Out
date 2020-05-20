@@ -136,6 +136,12 @@ namespace Scripts.Level.Player
             }
         }
 
+        public void SetInteractiveItem(Transform item, Transform itemInteracPos)
+        {
+            PlayerController.InteractItem = item;
+            PlayerController.InteractPoint = itemInteracPos;
+        }
+
         public void UnequipItem()
         {
             PickAnimation();

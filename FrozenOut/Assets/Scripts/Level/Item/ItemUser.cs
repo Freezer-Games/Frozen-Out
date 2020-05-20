@@ -3,25 +3,21 @@ using UnityEngine;
 
 namespace Scripts.Level.Item
 {
-    public class ItemUser : MonoBehaviour
+    public abstract class ItemUser : MonoBehaviour
     {
         public string ItemVariableName;
         public string UseAnimation;
+        public Transform InteractionPoint;
 
-        public void OnUse()
-        {
-            gameObject.SetActive(false);
-            //TODO
-        }
+        public abstract void OnUse();
 
-        public void OnPlayerClose()
-        {
-            //TODO glow?
-        }
+        public abstract void OnPlayerClose();
 
-        public void OnPlayerAway()
+        public abstract void OnPlayerAway();
+
+        public Transform GetInteractionPoint()
         {
-            //TODO unglow?
+            return InteractionPoint;
         }
 
         public ItemInfo ToItemInfo()
