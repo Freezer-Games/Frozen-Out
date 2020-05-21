@@ -5,6 +5,7 @@ using UnityEngine;
 
 using Scripts.Settings;
 using Scripts.Level.Dialogue;
+using Scripts.Level.Player;
 
 namespace Scripts.Level.Item
 {
@@ -31,6 +32,7 @@ namespace Scripts.Level.Item
 
         private DialogueManager DialogueManager => LevelManager.GetDialogueManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
+        private PlayerManager PlayerManager => LevelManager.GetPlayerManager();
 
         void Awake()
         {
@@ -50,11 +52,13 @@ namespace Scripts.Level.Item
         public void OpenUsePrompt(ItemUser user)
         {
             ItemUsePromptController.Open(user);
+            PlayerManager.SetInteractiveItem(user.transform, user.GetInteractionPoint());
         }
 
         public void CloseUsePrompt()
         {
             ItemUsePromptController.Close();
+            PlayerManager.SetInteractiveItem(null, null);
         }
 
         public void OpenPickPrompt(ItemPicker picker)

@@ -7,27 +7,21 @@ namespace Scripts.Level.Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        const float STEALTH_SPEED = 3.75f;
-        const float NORMAL_SPEED = 4f;
-        const float RUN_SPEED = 6.5f;
-
         public PlayerManager PlayerManager;
 
         Rigidbody Rigidbody;
         Animator Animator;
 
-
         [Header("States")]
         [Space]
         public bool IsGrounded;
-        public bool IsMoving => MoveState != MoveMode.Stopped; //TODO
         [SerializeField] bool IsFormChanged;
-        [SerializeField] MoveMode MoveState;
+        public bool IsMoving;
 
         
         [Header("Movement")]
         [Space]
-        [SerializeField] float MoveSpeed;
+        [SerializeField] float MoveSpeed = 4f;
         [SerializeField] float JumpForce = 6f;
         
 
@@ -42,7 +36,8 @@ namespace Scripts.Level.Player
         [Space]
         public LayerMask WhatIsGround;
         public GameObject Pickaxe;
-        public GameObject ObstacleAtFront;
+        public Transform InteractItem;
+        public Transform InteractPoint;
         public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
 
         private Vector2 MoveInput;
@@ -58,8 +53,6 @@ namespace Scripts.Level.Player
 
         void Start()
         {
-            MoveState = MoveMode.Stopped;
-            MoveSpeed = NORMAL_SPEED;
             CanJumpDist = 0.51f;
             IsFormChanged = false;
             IsGrounded = false;
@@ -80,25 +73,12 @@ namespace Scripts.Level.Player
                 //Check there is an input
                 if (Movement != Vector3.zero)
                 {
+                    IsMoving = true;
                     FaceMovement();
-
-                    if (Input.GetButton("Run"))
-                    {
-                        MoveStateManage(MoveMode.Running);
-                    }
-                    else if (Input.GetButton("Crouch"))
-                    {
-                        MoveStateManage(MoveMode.Stealth);
-                    }
-                    else
-                    {
-                        MoveStateManage(MoveMode.Normal);
-                    }
                 }
                 else
                 {
-                    MoveStateManage(MoveMode.Stopped);
-
+                    IsMoving = false;
                     //Form change only if stopped
                     if (Input.GetKeyDown(KeyCode.K))
                     {
@@ -129,18 +109,11 @@ namespace Scripts.Level.Player
 
         void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Obstacle"))
-            {
-                ObstacleAtFront = other.gameObject;
-            }
+
         }
 
         void OnCollisionExit(Collision other)
         {
-            if (other.gameObject.CompareTag("Obstacle"))
-            {
-                ObstacleAtFront = null;
-            }
         }
 
         void Move()
@@ -187,42 +160,6 @@ namespace Scripts.Level.Player
             }
         }
 
-        void MoveStateManage(MoveMode mode)
-        {
-            if (mode != MoveState)
-            {
-                if (MoveState == MoveMode.Stopped && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Stopped)
-                {
-                    MoveState = mode;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Running)
-                {
-                    MoveState = mode;
-                    MoveSpeed = RUN_SPEED;
-                }
-                else if (MoveState == MoveMode.Running && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Stealth)
-                {
-                    MoveState = mode;
-                    MoveSpeed = STEALTH_SPEED;
-                }
-                else if(MoveState == MoveMode.Stealth && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
-            }
-        }
-
         void FaceMovement()
         {
             Body.rotation = 
@@ -237,11 +174,6 @@ namespace Scripts.Level.Player
             CamRight.y = 0f;
             CamForward.Normalize();
             CamRight.Normalize();
-        }
-
-        public MoveMode GetMoveStatus()
-        {
-            return MoveState;
         }
 
         public Animator GetAnimator()

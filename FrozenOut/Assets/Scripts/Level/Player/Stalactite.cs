@@ -31,10 +31,10 @@ namespace Scripts.Level.Player
             {
                 Debug.Log("Player encontrado");
                 GameObject player = other.gameObject;
-                if (player.GetComponentInParent<PlayerController>().GetMoveStatus() == reactTo)
+                /*if (player.GetComponentInParent<PlayerController>().GetMoveStatus() == reactTo)
                 {
                     rb.WakeUp();
-                }
+                }*/
             }
         }
     }

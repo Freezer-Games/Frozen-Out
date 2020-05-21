@@ -15,9 +15,9 @@ namespace Scripts.Level.Player
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q) && controller.ObstacleAtFront != null && controller.HasPickaxe)
+            if (Input.GetKeyDown(KeyCode.Q) && controller.InteractItem != null && controller.HasPickaxe)
             {
-                Destroy(controller.ObstacleAtFront);
+                Destroy(controller.InteractItem);
             }
         }
     }

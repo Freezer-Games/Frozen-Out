@@ -3,28 +3,17 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
-public enum MoveMode { Stopped, Stealth, Normal, Running }
-
 public class TestPlayerController : MonoBehaviour
 {
-    const float STEALTH_SPEED = 3.75f;
-    const float NORMAL_SPEED = 4f;
-    const float RUN_SPEED = 6.5f;
-
     Rigidbody Rigidbody;
     Animator Animator;
-
-    public Transform distanceObj;
-    public Transform distOrig;
-
 
     [Header("States")]
     [Space]
     [SerializeField] bool IsGrounded;
-    [SerializeField] bool IsMoving => MoveState != MoveMode.Stopped; //TODO
     [SerializeField] bool IsFormChanged;
     [SerializeField] bool CanMove;
-    [SerializeField] MoveMode MoveState;
+
 
         
     [Header("Movement")]
@@ -73,8 +62,7 @@ public class TestPlayerController : MonoBehaviour
 
     void Start()
     {
-        MoveState = MoveMode.Stopped;
-        MoveSpeed = NORMAL_SPEED;
+        MoveSpeed = 4f;
         CanJumpDist = 0.51f;
         IsFormChanged = false;
         HasStick = true;
@@ -95,9 +83,6 @@ public class TestPlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.T))
-            DistanceBtwObject();
-
         MoveInput = new Vector2(
         Input.GetAxis("Horizontal"),
         Input.GetAxis("Vertical"));
@@ -128,24 +113,9 @@ public class TestPlayerController : MonoBehaviour
             if (Movement != Vector3.zero)
             {
                 FaceMovement();
-
-                if (Input.GetButton("Run"))
-                {
-                    MoveStateManage(MoveMode.Running);
-                }
-                else if (Input.GetButton("Crouch"))
-                {
-                    MoveStateManage(MoveMode.Stealth);
-                }
-                else
-                {
-                    MoveStateManage(MoveMode.Normal);
-                }
             }
             else
             {
-                MoveStateManage(MoveMode.Stopped);
-
                 //Melting managemnet
                 if (Input.GetKeyDown(KeyCode.K))
                 {
@@ -266,7 +236,12 @@ public class TestPlayerController : MonoBehaviour
             }
             else if (IsInteracting)
             {
-                //transform.LookAt(InteractiveObject.transform, Vector3.up);
+                Vector3 lookPos = new Vector3(InteractiveObject.transform.position.x,
+                                                transform.position.y,
+                                                InteractiveObject.transform.position.z);
+
+                transform.LookAt(lookPos);
+
                 Animator.SetTrigger("isPicking");
                 IntOre.Execute();
                 Rigidbody.isKinematic = false;
@@ -309,16 +284,6 @@ public class TestPlayerController : MonoBehaviour
         }
     }
 
-    void DistanceBtwObject()
-    {
-        if (distanceObj != null)
-        {
-            float dist = Vector3.Distance(distOrig.position, distanceObj.position);
-            Debug.Log("Distancia: " + dist);
-            Debug.DrawLine(distOrig.position, distanceObj.position, Color.red);
-        }
-    }
-
     void Melting() 
     {
         Animator.SetTrigger("isChanging");
@@ -342,42 +307,6 @@ public class TestPlayerController : MonoBehaviour
         Animator.SetTrigger("isChanging");
     }
 
-    void MoveStateManage(MoveMode mode)
-    {
-        if (mode != MoveState)
-        {
-            if (MoveState == MoveMode.Stopped && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Stopped)
-            {
-                MoveState = mode;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Running)
-            {
-                MoveState = mode;
-                MoveSpeed = RUN_SPEED;
-            }
-            else if (MoveState == MoveMode.Running && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Stealth)
-            {
-                MoveState = mode;
-                MoveSpeed = STEALTH_SPEED;
-            }
-            else if(MoveState == MoveMode.Stealth && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-        }
-    }
-
     void FaceMovement()
     {
         transform.rotation = 
@@ -392,10 +321,5 @@ public class TestPlayerController : MonoBehaviour
         CamRight.y = 0f;
         CamForward.Normalize();
         CamRight.Normalize();
-    }
-
-    public MoveMode getMoveStatus()
-    {
-        return MoveState;
     }
 }
