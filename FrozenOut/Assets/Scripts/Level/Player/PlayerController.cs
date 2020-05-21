@@ -12,6 +12,7 @@ namespace Scripts.Level.Player
         Rigidbody Rigidbody;
         Animator Animator;
 
+
         [Header("States")]
         [Space]
         public bool IsGrounded;
@@ -29,16 +30,17 @@ namespace Scripts.Level.Player
         [Space]
         [SerializeField] float CanJumpDist;
         public Transform RayOrigin;
-        public Transform Body;
 
 
         [Header("Interaction")]
         [Space]
-        public LayerMask WhatIsGround;
-        public GameObject Pickaxe;
         public Transform InteractItem;
         public Transform InteractPoint;
         public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
+
+        [Header("Melting Skill")]
+        [Space]
+        public GameObject Stick;
 
         private Vector2 MoveInput;
         private Vector3 Movement;
@@ -68,7 +70,12 @@ namespace Scripts.Level.Player
                 );
                 MoveInput.Normalize();
 
-                //Animator.SetBool("walking", Movement != Vector3.zero);
+                Animator.SetBool("isMoving", Movement != Vector3.zero);
+
+                if (Input.GetKey(PlayerManager.GetJumpKey()) && !IsFormChanged)
+                {
+                    Jump();
+                }
 
                 //Check there is an input
                 if (Movement != Vector3.zero)
@@ -98,11 +105,6 @@ namespace Scripts.Level.Player
         {
             if(PlayerManager.IsEnabled)
             {
-                if (Input.GetKey(PlayerManager.GetJumpKey()) && CheckGround())
-                {
-                    Jump();
-                }
-
                 Move();
             }
         }
@@ -130,8 +132,11 @@ namespace Scripts.Level.Player
 
         void Jump()
         {
-            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-            IsGrounded = false;
+            if (CheckGround()) 
+            {
+                Animator.SetTrigger("isJumping");
+                Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            }
         }
 
         bool CheckGround() 
@@ -144,26 +149,23 @@ namespace Scripts.Level.Player
             {
                 if (hit.collider.CompareTag("Ground")) 
                 {
-                    Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, RayOrigin.position));
                     return true;
                 }
                 else 
                 {
-                    Debug.Log("aqui no se puede saltar");
                     return false;
                 }
             } 
             else 
             {
-                Debug.Log("en el aire");
                 return false;
             }
         }
 
         void FaceMovement()
         {
-            Body.rotation = 
-                Quaternion.Slerp(Body.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
+            transform.rotation = 
+                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
         }
 
         void CameraVectors()
@@ -181,6 +183,4 @@ namespace Scripts.Level.Player
             return Animator;
         }
     }
-
-    public enum MoveMode { Stopped, Stealth, Normal, Running }
 }
