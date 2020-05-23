@@ -21,25 +21,23 @@ namespace Scripts.Level.Player
 
         public void MoveToTarget(Transform target, float distanceToStop, float speed)
         {
-            Rigidbody.isKinematic = true;
+            Vector3 lookPos = target.position;
+            lookPos.y = transform.position.y;
+            transform.LookAt(lookPos);
 
-            Vector3 lookPos = 
-                new Vector3(target.position.x, transform.position.y, target.position.z);
+            if (Vector3.Distance(target.position, transform.position) > distanceToStop) 
+            {
+                Animator.SetBool("isMoving", true);
 
-            if (Vector3.Distance(target.position, transform.position) > distanceToStop) {
                 transform.position = 
                     Vector3.MoveTowards(
                         transform.position, 
                         target.position, 
                         speed * Time.fixedDeltaTime);
-
-                transform.LookAt(lookPos);
-                Animator.SetBool("isMoving", true);
             }
             else 
             {
                 Animator.SetBool("isMoving", false);
-                Rigidbody.isKinematic = false;
             }
         }
 

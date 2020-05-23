@@ -44,12 +44,14 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
-                    
+                    Rigidbody.isKinematic = true;
                 }
-                else 
+                else
                 {
                     CanMove = true;
+                    Rigidbody.isKinematic = false;
                 }
+                
 
                 if (CanMove)
                 {

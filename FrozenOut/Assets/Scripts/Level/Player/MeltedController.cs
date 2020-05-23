@@ -42,7 +42,13 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
+                    Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPoint, 0.01f, 3f);
+                }
+                else
+                {
+                    CanMove = true;
+                    Rigidbody.isKinematic = false;
                 }
 
                 if (CanMove)
@@ -72,14 +78,6 @@ namespace Scripts.Level.Player
                             IsMoving = false;
                             StopCoroutine(SlimeMovement());
                         }
-                        
-                        /*
-                        if (Input.GetKeyDown(KeyCode.V))
-                        {
-                            PlayerManager.ChangeToNormal();
-                            Recovery.Invoke();
-                        }
-                        */
                     }
                 }
             }
