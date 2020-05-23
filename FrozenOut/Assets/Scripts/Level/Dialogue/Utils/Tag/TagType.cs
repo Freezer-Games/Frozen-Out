@@ -73,6 +73,7 @@ namespace Scripts.Level.Dialogue.Utils.Tag
             {
                 case ParsingStrategy.Clean:
                     return ParseClean(textFeeder);
+                case ParsingStrategy.Full:
                 default:
                     return ParseFull(textFeeder);
             }

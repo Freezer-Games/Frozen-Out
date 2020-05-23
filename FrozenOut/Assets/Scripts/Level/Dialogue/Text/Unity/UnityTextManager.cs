@@ -40,20 +40,19 @@ namespace Scripts.Level.Dialogue.Text.Unity
             OnNameLineUpdate(name);
         }
 
-        public override void ShowName(char newNameLetter)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void ShowDialogue(string dialogue)
+        public override void ShowDialogueAccumulated(string dialogue)
         {
             // TODO with textstyle
             OnDialogueLineUpdate(dialogue);
         }
 
-        public override void ShowDialogue(char newDialogLetter)
+        public override void ShowDialogueSingle(string newDialogueLetter)
         {
-            throw new System.NotImplementedException();
+            OnDialogueLineUpdate(newDialogueLetter);
+            // TODO
+            // Create animator for text
+            // Create prefab of Text with animator
+            // Instantiate different Text gameobject for each letter
         }
 
         #region Events

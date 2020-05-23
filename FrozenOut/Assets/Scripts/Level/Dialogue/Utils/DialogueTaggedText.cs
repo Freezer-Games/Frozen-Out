@@ -53,9 +53,9 @@ namespace Scripts.Level.Dialogue.Utils
             }
         }
 
-        public override string ToString() => this.FullText;
+        public IEnumerable<string> ParseAccumulated() => Tag.Parse(Text.ParseAccumulated); // Parsear acorde con el tag
 
-        public IEnumerable<string> Parse() => Tag.Parse(Text.Parse); // Parsear acorde con el tag
+        public IEnumerable<string> ParseSingle() => Tag.Parse(Text.ParseSingle);
 
         /// <summary>
         /// Analiza el <paramref name="text"/> indicado, y lo clasifica según si contiene o no tags.
@@ -189,6 +189,7 @@ namespace Scripts.Level.Dialogue.Utils
             return resultDialogueText;
         }
 
-        private string FullText => Tag?.GetTaggedText(Text.ToString());
+        public string ToStringClean() => Text.ToStringClean();
+        public string ToStringFull() => Tag?.GetTaggedText(Text.ToStringFull());
     }
 }

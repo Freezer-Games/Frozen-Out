@@ -41,8 +41,6 @@ namespace Scripts.Level.Dialogue.Utils
             private set;
         }
 
-        public override string ToString() => FullText;
-
         public void AddText(string text)
         {
             AddText(new DialogueText(text));
@@ -54,23 +52,40 @@ namespace Scripts.Level.Dialogue.Utils
         }
 
         /// <summary>
-        /// Obtiene el texto de todos los <see cref="IDialogueText"/>, y lo devuelve letra a letra.
+        /// Obtiene el texto de todos los <see cref="IDialogueText"/>, y lo devuelve letra a letra de forma acumulada.
         /// <para>Si el texto tiene tags (<see cref="DialogueTaggedText"/>),
         /// envolverá el texto en el tag para que el usuario nunca vea los caracteres asociados al mismo (los cuales no forman parte del texto).</para>
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> Parse()
+        public IEnumerable<string> ParseAccumulated()
         {
             string currentTotalText = "";
             foreach (IDialogueText text in Texts)
             {
                 string currentText = "";
-                foreach (string nextText in text.Parse())
+                foreach (string nextTextAccumulated in text.ParseAccumulated())
                 {
-                    currentText = nextText;
-                    yield return currentTotalText + nextText;
+                    currentText = nextTextAccumulated;
+                    yield return currentTotalText + nextTextAccumulated;
                 }
                 currentTotalText += currentText;
+            }
+        }
+
+        /// <summary>
+        /// Obtiene el texto de todos los <see cref="IDialogueText"/>, y lo devuelve letra a letra sin acumular el texto previo.
+        /// <para>Si el texto tiene tags (<see cref="DialogueTaggedText"/>),
+        /// envolverá el carácter en el tag para que el usuario nunca vea los carácteres asociados al mismo (los cuales no forman parte del texto).</para>
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> ParseSingle()
+        {
+            foreach(IDialogueText text in Texts)
+            {
+                foreach(string nextLetter in text.ParseSingle())
+                {
+                    yield return nextLetter;
+                }
             }
         }
 
@@ -95,6 +110,7 @@ namespace Scripts.Level.Dialogue.Utils
             return resultDialogueText;
         }
 
-        private string FullText => Texts.Aggregate("", (fullText, text) => fullText + text.ToString());
+        public string ToStringClean() => Texts.Aggregate("", (completeText, text) => completeText + text.ToStringClean());
+        public string ToStringFull() => Texts.Aggregate("", (completeText, text) => completeText + text.ToStringFull());
     }
 }

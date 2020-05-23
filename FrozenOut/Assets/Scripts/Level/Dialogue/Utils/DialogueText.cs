@@ -11,11 +11,15 @@ namespace Scripts.Level.Dialogue.Utils
     /// </summary>
     public class DialogueText : IDialogueText
     {
-        public string Text { get; set; }
-
         public DialogueText(string text)
         {
             this.Text = text;
+        }
+
+        public string Text
+        {
+            get;
+            private set;
         }
 
         public void AddText(string text)
@@ -25,14 +29,14 @@ namespace Scripts.Level.Dialogue.Utils
 
         public void AddText(IDialogueText dialogueText)
         {
-            this.Text += dialogueText.ToString();
+            this.Text += dialogueText.ToStringFull();
         }
 
         /// <summary>
-        /// Devuelve el texto letra a letra
+        /// Devuelve el texto letra a letra de forma acumulada
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> Parse()
+        public IEnumerable<string> ParseAccumulated()
         {
             string currentText = "";
             foreach (char letter in Text)
@@ -42,6 +46,19 @@ namespace Scripts.Level.Dialogue.Utils
             }
         }
 
-        public override string ToString() => this.Text;
+        /// <summary>
+        /// Devuelve el texto letra a letra sin acumular
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<string> ParseSingle()
+        {
+            foreach (char letter in Text)
+            {
+                yield return letter.ToString(); ;
+            }
+        }
+
+        public string ToStringClean() => this.Text;
+        public string ToStringFull() => this.Text;
     }
 }

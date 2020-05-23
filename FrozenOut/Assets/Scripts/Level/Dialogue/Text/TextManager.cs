@@ -10,8 +10,7 @@ namespace Scripts.Level.Dialogue.Text
         public abstract void SetStyle(TextStyle style);
 
         public abstract void ShowName(string name);
-        public abstract void ShowName(char newNameLetter);
-        public abstract void ShowDialogue(string dialogue);
-        public abstract void ShowDialogue(char newDialogueLetter);
+        public abstract void ShowDialogueAccumulated(string dialogue);
+        public abstract void ShowDialogueSingle(string newDialogueLetter);
     }
 }

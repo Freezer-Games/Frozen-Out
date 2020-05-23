@@ -173,31 +173,61 @@ namespace Scripts.Level.Dialogue
         #region Parser
         private void ProcessDialogue(string dialogue)
         {
-            VoiceManager.Speak(dialogue);
+            // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
+            IDialogueText classifiedCharacterDialogue = ComplexDialogueText.AnalyzeText(dialogue);
+
             if (CurrentStyle.Delay > 0.0f)
             {
-                StartCoroutine(DoParse(dialogue));
+                StartCoroutine(DoParseAccumulated(classifiedCharacterDialogue));
+                //StartCoroutine(DoParseSingle(classifiedCharacterDialogue));
             }
             else
             {
-                TextManager.ShowDialogue(dialogue);
+                TextManager.ShowDialogueAccumulated(dialogue);
             }
+
+            VoiceManager.Speak(classifiedCharacterDialogue.ToStringClean());
         }
 
-        private IEnumerator DoParse(string dialogue)
+        private IEnumerator DoParseAccumulated(IDialogueText dialogueText)
         {
-            // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
-            IDialogueText completeCharacterDialogue = ComplexDialogueText.AnalyzeText(dialogue);
-
             UserRequestedAllLine = false;
 
-            foreach (string currentText in completeCharacterDialogue.Parse())
+            foreach (string currentText in dialogueText.ParseAccumulated())
             {
-                TextManager.ShowDialogue(currentText);
+                TextManager.ShowDialogueAccumulated(currentText);
 
                 if (UserRequestedAllLine)
                 {
-                    TextManager.ShowDialogue(dialogue);
+                    TextManager.ShowDialogueAccumulated(dialogueText.ToStringFull());
+                    break;
+                }
+
+                yield return new WaitForSeconds(CurrentStyle.Delay);
+            }
+
+            yield return new WaitForSeconds(NextDialogueDelay);
+
+            UserRequestedNextLine = false;
+            while (!UserRequestedNextLine)
+            {
+                yield return null;
+            }
+
+            DialogueSystem.RequestNextLine();
+        }
+
+        public IEnumerator DoParseSingle(IDialogueText dialogueText)
+        {
+            UserRequestedAllLine = false;
+
+            foreach (string currentLetter in dialogueText.ParseSingle())
+            {
+                TextManager.ShowDialogueSingle(currentLetter);
+
+                if (UserRequestedAllLine)
+                {
+                    TextManager.ShowDialogueAccumulated(dialogueText.ToStringFull());
                     break;
                 }
 

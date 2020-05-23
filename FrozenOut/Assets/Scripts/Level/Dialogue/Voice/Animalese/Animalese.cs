@@ -93,6 +93,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         private void Stop()
         {
             StopCoroutine(SpeakSentences());
+            AudioSource.Stop();
         }
 
         private IEnumerator SpeakSentences()
@@ -104,8 +105,6 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             {
                 currentSentence = CurrentSentences.ElementAt(indexSentence).ToLower();
                 currentPunctuation = CurrentSentences.ElementAtOrDefault(indexSentence + 1).First();
-
-                Debug.Log(currentSentence + currentPunctuation);
 
                 int indexLetter = 0;
                 while (indexLetter < currentSentence.Length)
