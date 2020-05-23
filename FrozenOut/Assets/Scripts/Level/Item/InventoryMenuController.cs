@@ -1,7 +1,7 @@
 using System.Collections;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 namespace Scripts.Level.Item
 {

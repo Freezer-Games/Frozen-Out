@@ -118,7 +118,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
                     int lettersUsed = PlayLetter(currentLetter, nextLetter);
                     indexLetter += lettersUsed;
 
-                    yield return new WaitForSeconds(CurrentStyle.Delay); //Wait for next character
+                    yield return new WaitForSeconds(CurrentStyle.Delay); //Wait for next letter
                 }
 
                 yield return new WaitForSeconds(0.5f); //Wait for next sentence
