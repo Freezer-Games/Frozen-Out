@@ -7,39 +7,106 @@ namespace Scripts.Level.Dialogue
     [Serializable]
     public class DialogueStyle
     {
-        [Tooltip("Positivo para que vaya más lento\nNegativo para que vaya más rápido")]
-        [Range(-0.1f, 1.0f)]
+        [Tooltip("Afecta velocidad de texto y de habla\nPositivo para que vaya más lento\nNegativo para que vaya más rápido")]
+        [Range(-1.0f, 1.0f)]
         public float RelativeDelay;
         [NonSerialized]
         public float Delay;
 
-        [Tooltip("Positivo para que sea más grande\nNegativo para que sea más pequeño")]
-        [Range(-10, 4)]
-        public int RelativeSize;
+        [Tooltip("Afecta tamaño de texto y volumen de habla\nPositivo para que sea más grande\nNegativo para que sea más pequeño")]
+        [Range(-1.0f, 1.0f)]
+        public float RelativeIntensity;
+
+        public TextStyle TextStyle;
+        public VoiceStyle VoiceStyle;
+
+        public void NormaliseDelay(float defaultDelay, float minDelay, float maxDelay)
+        {
+            float normalisedDelay = NormaliseRelative(this.RelativeDelay, defaultDelay, minDelay, maxDelay);
+
+            this.Delay = normalisedDelay;
+            this.VoiceStyle.Delay = normalisedDelay;
+        }
+
+        public void NormaliseVolume(float defaultVolume, float minVolume, float maxVolume)
+        {
+            float normalisedVolume = NormaliseRelative(this.RelativeIntensity, defaultVolume, minVolume, maxVolume);
+
+            this.VoiceStyle.Volume = normalisedVolume;
+        }
+
+        public void NormaliseSize(int defaultSize, int minSize, int maxSize)
+        {
+            int normalisedSize = (int) NormaliseRelative(this.RelativeIntensity, defaultSize, minSize, maxSize);
+
+            this.TextStyle.Size = normalisedSize;
+        }
+
+        private static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
+        {
+            float percentage = 1.0f + relativeValue;
+            float rawValue = defaultValue * percentage;
+
+            float clampedVolume = Mathf.Clamp(rawValue, minValue, maxValue);
+
+            return clampedVolume;
+        }
+    }
+
+    [Serializable]
+    public class TextStyle
+    {
+        [Tooltip("Afecta a la fuente del texto\nSi se deja vacío se usara el por defecto")]
+        public Font Font;
+        [Tooltip("Afecta al color del texto")]
+        public Color Colour;
         [NonSerialized]
         public int Size;
 
-        [Header("Optional")]
-        [Tooltip("Si se deja vacío se usara el por defecto")]
-        public Font Font;
-        public Color Colour;
+        [Header("Efectos - TODO")]
+        public TextEffect Effect;
 
-        public void UpdateDelay(float defaultDelay)
+        [Serializable]
+        public enum TextEffect
         {
-            this.Delay = defaultDelay + this.RelativeDelay;
+            Jumping,
+            Fading,
+            Interrupted,
         }
 
-        public void UpdateSize(int defaultSize)
+        public void UpdateOptionals(TextStyle defaultStyle)
         {
-            this.Size = defaultSize + this.RelativeSize;
-        }
-
-        public void UpdateFont(Font defaultFont)
-        {
-            if(this.Font == null)
+            if (this.Font == null)
             {
-                this.Font = defaultFont;
+                this.Font = defaultStyle.Font;
             }
+        }
+    }
+
+    [Serializable]
+    public class VoiceStyle
+    {
+        [Range(-1.0f, 1.0f)]
+        public float RelativePitch;
+        [NonSerialized]
+        public float Pitch;
+        [Range(-1.0f, 1.0f)]
+        public float RelativeGender;
+        [NonSerialized]
+        public float Gender;
+        [Range(-1.0f, 1.0f)]
+        public float RelativeTone;
+        [NonSerialized]
+        public float Tone;
+
+        [NonSerialized]
+        public float Volume;
+        [NonSerialized]
+        public float Delay;
+
+        public void UpdateOptionals(VoiceStyle defaultStyle)
+        {
+
         }
     }
 }

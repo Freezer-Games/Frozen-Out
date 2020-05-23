@@ -8,7 +8,6 @@ using Scripts.Level.Sound;
 using Scripts.Level.Camera;
 using Scripts.Level.Player;
 using Scripts.Level.Dialogue;
-using Scripts.Level.Dialogue.YarnSpinner;
 using Scripts.Level.Mission;
 using Scripts.Level.NPC;
 using Scripts.Level.Item;
