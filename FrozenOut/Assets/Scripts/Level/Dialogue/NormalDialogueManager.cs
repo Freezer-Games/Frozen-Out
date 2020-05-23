@@ -67,7 +67,7 @@ namespace Scripts.Level.Dialogue
         #region System
         public override bool IsReady()
         {
-            return !IsRunning();// && LevelManager.GetPlayerManager().IsGrounded;
+            return !IsRunning() && LevelManager.GetPlayerManager().IsGrounded;
         }
 
         public override bool IsRunning()
@@ -176,7 +176,7 @@ namespace Scripts.Level.Dialogue
             VoiceManager.Speak(dialogue);
             if (CurrentStyle.Delay > 0.0f)
             {
-                StartCoroutine("DoParse", dialogue);
+                StartCoroutine(DoParse(dialogue));
             }
             else
             {

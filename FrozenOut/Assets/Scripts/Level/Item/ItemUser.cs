@@ -6,7 +6,6 @@ namespace Scripts.Level.Item
     public abstract class ItemUser : MonoBehaviour
     {
         public string ItemVariableName;
-        public string UseAnimation;
         public Transform InteractionPoint;
 
         public abstract void OnUse();

@@ -34,33 +34,69 @@ namespace Scripts.Level
             //Cursor.lockState = CursorLockMode.Locked;
 
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
-            
-            if(DialogueManager != null)
-            {
-                DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
-                DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
-                DialogueManager.Started += (sender, args) => PlayerManager.Disable();
-                DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
-            }
 
-            if(Inventory != null)
+            if (Inventory != null)
             {
                 Inventory.CloseMenu();
                 Inventory.CloseUsePrompt();
             }
 
-            if(PlayerManager != null)
+            if (PlayerManager != null)
             {
                 PlayerManager.Enable();
             }
 
-            if(PlayerManager != null && Inventory != null)
+            #region EventBinding
+            if (DialogueManager != null && SoundManager != null)
             {
+                DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
+                DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+            }
+
+            if (DialogueManager != null && PlayerManager != null)
+            {
+                DialogueManager.Started += (sender, args) => PlayerManager.Disable();
+                DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
+            }
+
+            if (Inventory != null && PlayerManager != null)
+            {
+                Inventory.ItemPicked += (sender, args) => PlayerManager.PickAnimation();
                 Inventory.ItemEquipped += (sender, args) => PlayerManager.EquipItem(args.Item);
                 Inventory.ItemUnequipped += (sender, args) => PlayerManager.UnequipItem();
-                Inventory.ItemPicked += (sender, args) => PlayerManager.PickAnimation();
-            }   
-            
+                //Inventory.ItemUsed +=
+            }
+
+            if(Inventory != null  && DialogueManager != null)
+            {
+                Inventory.ItemPicked += (sender, args) =>
+                {
+                    ItemInfo item = args.Item;
+                    DialogueManager.SetVariable<bool>(item.VariableName, true);
+                    DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
+                };
+                Inventory.ItemUpdated += (sender, args) =>
+                {
+                    ItemInfo item = args.Item;
+                    DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
+                };
+                Inventory.ItemUsed += (sender, args) =>
+                {
+                    ItemInfo item = args.Item;
+
+                    DialogueManager.SetVariable<bool>(item.UsedVariableName, true);
+                    DialogueManager.SetVariable<float>(item.QuantityVariableName, 0);
+                };
+                Inventory.ItemRemoved += (sender, args) =>
+                {
+                    ItemInfo item = args.Item;
+
+                    DialogueManager.SetVariable<bool>(item.VariableName, false);
+                    DialogueManager.SetVariable<float>(item.QuantityVariableName, 0);
+                };
+            }
+            #endregion
+
             // TODO
         }
 

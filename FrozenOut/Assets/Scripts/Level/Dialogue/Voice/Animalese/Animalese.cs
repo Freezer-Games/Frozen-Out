@@ -80,7 +80,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             // Divide el texto en frases independientes (las que acaban con un signo de puntuacion)
             CurrentSentences = Regex.Split(dialogue, "([.?!,:;])");
             
-            StartCoroutine("SpeakSentences");
+            StartCoroutine(SpeakSentences());
         }
 
         public override void Speak(char newDialogueLetter)
@@ -92,7 +92,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
 
         private void Stop()
         {
-            StopCoroutine("SpeakSentences");
+            StopCoroutine(SpeakSentences());
         }
 
         private IEnumerator SpeakSentences()

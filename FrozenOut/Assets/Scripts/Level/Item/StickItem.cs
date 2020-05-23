@@ -92,6 +92,7 @@ namespace Scripts.Level.Item
             while (Vector3.Distance(GetInteractionPoint().position, Player.position) > 0.01)
             {
                 //No hace nada
+                yield return null;
             }
             Recovery();
             
