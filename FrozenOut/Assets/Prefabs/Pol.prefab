@@ -249,6 +249,22 @@ MonoBehaviour:
   MoveSpeed: 4
   JumpForce: 6
   RayOrigin: {fileID: 7094166513470298112}
+  InteractItem: {fileID: 0}
+  InteractPoint: {fileID: 0}
+  Melting:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7069426866550313907}
+        m_MethodName: Melting
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2397446276020552185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,8 +283,25 @@ MonoBehaviour:
   Collider: {fileID: 1968198333438740755}
   IsInteracting: 0
   CanMove: 1
+  IsMoving: 0
   MoveSpeed: 4
   MovementDelay: 2
+  InteractItem: {fileID: 0}
+  InteractPoint: {fileID: 0}
+  Recovery:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7069426866550313907}
+        m_MethodName: Recovery
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &1968198333438740751
 Animator:
   serializedVersion: 3
@@ -1450,7 +1483,8 @@ GameObject:
   - component: {fileID: 7094166513588876436}
   - component: {fileID: 7094166513588876441}
   - component: {fileID: 7094166513588876442}
-  - component: {fileID: 7094166513588876440}
+  - component: {fileID: 7069426866550313907}
+  - component: {fileID: 8884027684209792115}
   m_Layer: 9
   m_Name: Palo
   m_TagString: Stick
@@ -1550,7 +1584,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7094166513588876440
+--- !u!114 &7069426866550313907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1559,11 +1593,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 7094166513588876438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a7be0161bbe7a4c998c579942591c9, type: 3}
+  m_Script: {fileID: 11500000, guid: b704608ff9b068843b79e38b9c60ebdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoodByeForce: 5
+  ItemVariableName: 
+  UseAnimation: 
+  InteractionPoint: {fileID: 7094166514691682294}
+  DropForce: 5
+  Rigidbody: {fileID: 7094166513588876442}
+  Collider: {fileID: 7094166513588876441}
+  Renderer: {fileID: 7094166513588876436}
   Player: {fileID: 3245732126963219227}
+  PlayerNormal:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2397446276020552185}
+        m_MethodName: ChangeToNormal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8884027684209792115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7094166513588876438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1b081416d993a499421ef87dc912b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7094166514211050961
 GameObject:
   m_ObjectHideFlags: 0

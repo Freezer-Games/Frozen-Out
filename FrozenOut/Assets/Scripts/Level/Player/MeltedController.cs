@@ -1,74 +1,98 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scripts.Level.Player
 {
     public class MeltedController : BasePlayerController
     {
         [Header("States")]
-        [SerializeField] bool IsInteracting;
+        public bool IsInteracting;
         [SerializeField] bool CanMove;
+        [SerializeField] bool IsMoving;
 
 
         [Header("Movement")]
         [SerializeField] float MoveSpeed = 4f;
         [SerializeField] float MovementDelay;
 
-        
+
+        [Header("Interact")]
+        public Transform InteractItem;
+        public Transform InteractPoint;
+
+        public UnityEvent Recovery;
+
         void Start() 
         {
             CanMove = true;
             IsInteracting = false;
+            IsMoving = false;
+            Collider.enabled = true;
+
+            if (Recovery == null) 
+                Recovery = new UnityEvent();
         }
 
         void Update()
         {
             if (PlayerManager.IsEnabled)
             {
+                if (IsInteracting) 
+                {
+                    CanMove = false;
+                    MoveToTarget(InteractPoint, 0.01f, 3f);
+                }
+
                 if (CanMove)
                 {
                     MoveInput = new Vector2(
                         Input.GetAxis("Horizontal"),
                         Input.GetAxis("Vertical"));
-
                     MoveInput.Normalize();
 
-                    Animator.SetBool("isMoving", Movement != Vector3.zero);
+                    Animator.SetBool("isMoving", MoveInput != Vector2.zero);
 
-                    if (Movement != Vector3.zero)
+                    if (MoveInput != Vector2.zero)
                     {
                         FaceMovement();
+
+                        if (!IsMoving) 
+                        {
+                            IsMoving = true;
+                            StartCoroutine(SlimeMovement());
+                            Debug.Log("Coroutine start");    
+                        }
                     }
                     else
                     {
+                        if (IsMoving)
+                        {
+                            IsMoving = false;
+                            StopCoroutine(SlimeMovement());
+                        }
+                        
+                        /*
                         if (Input.GetKeyDown(KeyCode.V))
                         {
                             PlayerManager.ChangeToNormal();
+                            Recovery.Invoke();
                         }
+                        */
                     }
                 }
             }
         }
-
-        void FixedUpdate() 
-        {
-            if (CanMove) 
-            {
-                if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
-                {
-                    StartCoroutine(SlimeMovement());
-                }
-                else if (Input.GetButtonUp("Horizontal") && Input.GetButtonUp("Vertical"))
-                {
-                    StopCoroutine(SlimeMovement());
-                }
-            }
-        }
-
         void LateUpdate() 
         {
             CameraVectors();
+        }
+
+        void OnDisablae() 
+        {
+            Debug.Log("Desactivnado collider");
+            Collider.enabled = false;
         }
 
         protected override void Move()
@@ -80,13 +104,22 @@ namespace Scripts.Level.Player
             Rigidbody.AddForce(Movement, ForceMode.Impulse);
         }
 
+        public void ChangeToNormal()
+        {
+            IsInteracting = false;
+            PlayerManager.ChangeToNormal();
+        }
+
         IEnumerator SlimeMovement()
         {
-            while(true)
+            while(IsMoving)
             {
                 Move();
                 yield return new WaitForSeconds(MovementDelay);
             }
+
+            Debug.Log("Corotine stoped");
+            yield return null;
         }
     }
 }

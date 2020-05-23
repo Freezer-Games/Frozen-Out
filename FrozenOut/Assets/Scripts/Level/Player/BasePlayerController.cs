@@ -19,8 +19,10 @@ namespace Scripts.Level.Player
 
         protected abstract void Move();
 
-        void MoveToTarget(Transform target, float distanceToStop, float speed)
+        public void MoveToTarget(Transform target, float distanceToStop, float speed)
         {
+            Rigidbody.isKinematic = true;
+
             Vector3 lookPos = 
                 new Vector3(target.position.x, transform.position.y, target.position.z);
 
@@ -32,9 +34,11 @@ namespace Scripts.Level.Player
                         speed * Time.fixedDeltaTime);
 
                 transform.LookAt(lookPos);
+                Animator.SetBool("isMoving", true);
             }
             else 
             {
+                Animator.SetBool("isMoving", false);
                 Rigidbody.isKinematic = false;
             }
         }
