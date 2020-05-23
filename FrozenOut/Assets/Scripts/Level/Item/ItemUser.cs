@@ -15,6 +15,10 @@ namespace Scripts.Level.Item
 
         public abstract void OnPlayerAway();
 
+        public abstract void OnPlayerCol();
+
+        public abstract void OnPlayerExitCol();
+
         public Transform GetInteractionPoint()
         {
             return InteractionPoint;
@@ -24,6 +28,5 @@ namespace Scripts.Level.Item
         {
             return new ItemInfo() { VariableName = this.ItemVariableName };
         }
-
     }
 }

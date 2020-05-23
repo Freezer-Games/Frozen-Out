@@ -58,7 +58,8 @@ namespace Scripts.Level.Item
         public void CloseUsePrompt()
         {
             ItemUsePromptController.Close();
-            PlayerManager.SetInteractiveItem(null, null);
+            if (!PlayerManager.GetIsInteracting())
+                PlayerManager.SetInteractiveItem(null, null);
         }
 
         public void OpenPickPrompt(ItemPicker picker)
@@ -118,6 +119,7 @@ namespace Scripts.Level.Item
         {
             if (string.IsNullOrEmpty(user.ItemVariableName))
             {
+                PlayerManager.SetIsInteracting(true);
                 user.OnUse();
             }
             else if(IsItemInInventory(user.ToItemInfo()))

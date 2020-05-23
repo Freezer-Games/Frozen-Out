@@ -7,7 +7,7 @@ namespace Scripts.Level.Player
     public class Stalactite : MonoBehaviour
     {
         Rigidbody rb;
-        [SerializeField] private MoveMode reactTo;
+        //[SerializeField] private MoveMode reactTo;
         public LayerMask whatIsGround;
 
         void Awake()
