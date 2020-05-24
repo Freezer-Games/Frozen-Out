@@ -19,26 +19,38 @@ namespace Scripts.Level.Player
 
         protected abstract void Move();
 
-        public void MoveToTarget(Transform target, float distanceToStop, float speed)
+        public void MoveToTarget(Transform targetPos,Transform targetLook, float distanceToStop, float speed)
         {
-            Vector3 lookPos = target.position;
-            lookPos.y = transform.position.y;
-            transform.LookAt(lookPos);
-
-            if (Vector3.Distance(target.position, transform.position) > distanceToStop) 
+            if (targetPos == null && targetLook == null) 
             {
-                Animator.SetBool("isMoving", true);
-
-                transform.position = 
-                    Vector3.MoveTowards(
-                        transform.position, 
-                        target.position, 
-                        speed * Time.fixedDeltaTime);
+                PlayerManager.SetIsInteracting(false);
             }
             else 
             {
-                Animator.SetBool("isMoving", false);
+                Vector3 lookPos = targetLook.position;
+                lookPos.y = transform.position.y;
+                transform.LookAt(lookPos);
+
+                Vector3 goPos = targetPos.position;
+                goPos.y = 0f;
+
+                if (Vector3.Distance(goPos, transform.position) > distanceToStop) 
+                {
+                    
+                    Animator.SetBool("isMoving", true);
+
+                    transform.position = 
+                        Vector3.MoveTowards(transform.position, goPos, speed * Time.fixedDeltaTime);
+                }
+                else 
+                {
+                    Animator.SetBool("isMoving", false);
+                    PlayerManager.SetIsInteracting(false);
+                    PlayerManager.SetInteractiveItem(null, null);
+                }
             }
+
+            
         }
 
         public void FaceMovement() 

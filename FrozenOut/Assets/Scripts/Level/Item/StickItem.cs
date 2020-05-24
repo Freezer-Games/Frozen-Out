@@ -50,7 +50,7 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            StartCoroutine(WaitingForPlayer());
+            Recovery();
         }
 
         void SeparateFromPlayer()
@@ -85,18 +85,6 @@ namespace Scripts.Level.Item
             transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
 
             PlayerNormal.Invoke();
-        }
-
-        IEnumerator WaitingForPlayer()
-        {
-            while (Vector3.Distance(GetInteractionPoint().position, Player.position) > 0.01)
-            {
-                //No hace nada
-                yield return null;
-            }
-            Recovery();
-            
-            yield return null;
         }
     }
 }

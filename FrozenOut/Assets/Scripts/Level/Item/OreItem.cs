@@ -11,6 +11,7 @@ namespace Scripts.Level.Item
 
         public override void OnPlayerAway()
         {
+
         }
 
         public override void OnPlayerClose()
@@ -29,6 +30,7 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
+            Debug.Log("Picando");
             StartCoroutine(PlayParticles());
         }
 
@@ -41,5 +43,4 @@ namespace Scripts.Level.Item
             yield return null;
         }
     }
-
 }

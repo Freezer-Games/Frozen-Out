@@ -144,17 +144,17 @@ namespace Scripts.Level.Player
             }
         }
 
-        public void SetInteractiveItem(Transform item, Transform itemInteracPos)
+        public void SetInteractiveItem(Transform itemPos, Transform itemLook)
         {
             if (NormalController.isActiveAndEnabled == true) 
             {
-                NormalController.InteractItem = item;
-                NormalController.InteractPoint = itemInteracPos;
+                NormalController.InteractPos = itemPos;
+                NormalController.InteractLook = itemLook;
             }
             else if (MeltedController.isActiveAndEnabled == true)
             {
-                MeltedController.InteractItem = item;
-                MeltedController.InteractPoint = itemInteracPos;
+                MeltedController.InteractPos = itemPos;
+                MeltedController.InteractLook = itemLook;
             }
         }
 

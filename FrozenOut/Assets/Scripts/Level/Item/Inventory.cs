@@ -51,7 +51,7 @@ namespace Scripts.Level.Item
         public void OpenUsePrompt(ItemUser user)
         {
             ItemUsePromptController.Open(user);
-            PlayerManager.SetInteractiveItem(user.transform, user.GetInteractionPoint());
+            PlayerManager.SetInteractiveItem(user.GetItemPos(), user.GetItemLook());
         }
 
         public void CloseUsePrompt()
@@ -120,7 +120,8 @@ namespace Scripts.Level.Item
             if (string.IsNullOrEmpty(user.ItemVariableName))
             {
                 PlayerManager.SetIsInteracting(true);
-                user.OnUse();
+                StartCoroutine(WaitingPlayer(user));
+                
             }
 
             else if(IsItemInInventory(user.ToItemInfo()))
@@ -191,6 +192,17 @@ namespace Scripts.Level.Item
         public bool IsItemEquipped(ItemInfo item)
         {
             return EquippedItem != null && EquippedItem.Equals(item);
+        }
+
+        IEnumerator WaitingPlayer(ItemUser user)
+        {
+            while (PlayerManager.GetIsInteracting())
+            {
+                yield return null;
+            }
+            user.OnUse();
+
+            yield return null;
         }
 
         #region Events

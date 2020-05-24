@@ -6,7 +6,10 @@ namespace Scripts.Level.Item
     public abstract class ItemUser : MonoBehaviour
     {
         public string ItemVariableName;
-        public Transform InteractionPoint;
+        //Punto al que ira el jugador para interactuar
+        public Transform ItemPos;
+        //Punto al que mirará el jugador al interacutar
+        public Transform ItemLook;
 
         public abstract void OnUse();
 
@@ -18,10 +21,9 @@ namespace Scripts.Level.Item
 
         public abstract void OnPlayerExitCol();
 
-        public Transform GetInteractionPoint()
-        {
-            return InteractionPoint;
-        }
+        public Transform GetItemPos() { return ItemPos; }
+
+        public Transform GetItemLook() { return ItemLook; }
 
         public ItemInfo ToItemInfo()
         {
