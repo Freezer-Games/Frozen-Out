@@ -30,7 +30,6 @@ namespace Scripts.Level.Item
             private set;
         }
 
-        private DialogueManager DialogueManager => LevelManager.GetDialogueManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
         private PlayerManager PlayerManager => LevelManager.GetPlayerManager();
 
@@ -58,7 +57,8 @@ namespace Scripts.Level.Item
         public void CloseUsePrompt()
         {
             ItemUsePromptController.Close();
-            PlayerManager.SetInteractiveItem(null, null);
+            if (!PlayerManager.GetIsInteracting())
+                PlayerManager.SetInteractiveItem(null, null);
         }
 
         public void OpenPickPrompt(ItemPicker picker)
@@ -116,10 +116,13 @@ namespace Scripts.Level.Item
 
         public void UseItem(ItemUser user)
         {
+            // Si no es necesario un item para usarlo, entonces se usa directamente
             if (string.IsNullOrEmpty(user.ItemVariableName))
             {
+                PlayerManager.SetIsInteracting(true);
                 user.OnUse();
             }
+
             else if(IsItemInInventory(user.ToItemInfo()))
             {
                 user.OnUse();
@@ -130,7 +133,7 @@ namespace Scripts.Level.Item
                 {
                     if(IsItemEquipped(inventoryItem))
                     {
-                        UseEquippedItem();
+                        UseEquippedItem(inventoryItem);
                     }
                 }
                 else
@@ -147,8 +150,6 @@ namespace Scripts.Level.Item
             item.Quantity = picker.ItemQuantity;
 
             Items.Add(item);
-            DialogueManager.SetVariable<bool>(item.VariableName, true);
-            DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
 
             OnItemAdded(item);
         }
@@ -164,7 +165,6 @@ namespace Scripts.Level.Item
                 int newQuantity = currentQuantity + picker.ItemQuantity;
 
                 inventoryItem.Quantity = newQuantity;
-                DialogueManager.SetVariable<float>(inventoryItem.QuantityVariableName, newQuantity);
 
                 OnItemUpdated(inventoryItem);
             }
@@ -174,16 +174,13 @@ namespace Scripts.Level.Item
         {
             Items.Remove(consumableItem);
 
-            DialogueManager.SetVariable<bool>(consumableItem.VariableName, false);
-            DialogueManager.SetVariable<bool>(consumableItem.UsedVariableName, true);
-            DialogueManager.SetVariable<float>(consumableItem.QuantityVariableName, 0);
-
+            OnItemUsed(consumableItem);
             OnItemRemoved(consumableItem);
         }
 
-        private void UseEquippedItem()
+        private void UseEquippedItem(ItemInfo equippedItem)
         {
-            //TODO
+            OnItemUsed(equippedItem);
         }
 
         public bool IsItemInInventory(ItemInfo item)
@@ -196,13 +193,9 @@ namespace Scripts.Level.Item
             return EquippedItem != null && EquippedItem.Equals(item);
         }
 
-        public bool IsItemUsed(ItemInfo item)
-        {
-            return DialogueManager.GetBoolVariable(item.UsedVariableName);
-        }
-
         #region Events
         public event EventHandler<ItemEventArgs> ItemPicked;
+        public event EventHandler<ItemEventArgs> ItemRemoved;
         public event EventHandler<ItemEventArgs> ItemUsed;
         public event EventHandler<ItemEventArgs> ItemUpdated;
         public event EventHandler<ItemEventArgs> ItemEquipped;
@@ -217,13 +210,19 @@ namespace Scripts.Level.Item
         private void OnItemRemoved(ItemInfo itemRemoved)
         {
             ItemEventArgs itemEventArgs = new ItemEventArgs(itemRemoved);
-            ItemUsed?.Invoke(this, itemEventArgs);
+            ItemRemoved?.Invoke(this, itemEventArgs);
         }
 
         private void OnItemUpdated(ItemInfo itemUpdated)
         {
             ItemEventArgs itemEventArgs = new ItemEventArgs(itemUpdated);
             ItemUpdated?.Invoke(this, itemEventArgs);
+        }
+
+        private void OnItemUsed(ItemInfo itemUsed)
+        {
+            ItemEventArgs itemEventArgs = new ItemEventArgs(itemUsed);
+            ItemUsed?.Invoke(this, itemEventArgs);
         }
 
         private void OnItemEquipped(ItemInfo itemEquipped)
@@ -237,7 +236,6 @@ namespace Scripts.Level.Item
             ItemUnequipped?.Invoke(this, EventArgs.Empty);
         }
         #endregion
-        
     }
 
     [Serializable]

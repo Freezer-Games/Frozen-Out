@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scripts.Level.Player 
 {
     public class NormalController : BasePlayerController
     {
         [Header("States")]
-        [SerializeField] bool IsInteracting;
+        public bool IsInteracting;
         [SerializeField] bool CanMove;
 
 
@@ -24,16 +25,34 @@ namespace Scripts.Level.Player
         public Transform InteractItem;
         public Transform InteractPoint;
 
+        public UnityEvent Melting;
+
         void Start()
         {
             CanMove = true;
             IsInteracting = false;
+            Collider.enabled = true;
+
+            if (Melting == null) 
+                Melting = new UnityEvent();
         }
 
         void Update() 
         {
             if (PlayerManager.IsEnabled)
             {
+                if (IsInteracting) 
+                {
+                    CanMove = false;
+                    Rigidbody.isKinematic = true;
+                }
+                else
+                {
+                    CanMove = true;
+                    Rigidbody.isKinematic = false;
+                }
+                
+
                 if (CanMove)
                 {
                     MoveInput = new Vector2(
@@ -58,10 +77,10 @@ namespace Scripts.Level.Player
                         if (Input.GetKeyDown(KeyCode.V))
                         {
                             PlayerManager.ChangeToMelted();
+                            Melting.Invoke();
                         }
                     }
                 }
-            
             }
         }
 
@@ -79,6 +98,12 @@ namespace Scripts.Level.Player
         void LateUpdate() 
         {
             CameraVectors();
+        }
+
+        void OnDisablae() 
+        {
+            Debug.Log("Desactivnado collider");
+            Collider.enabled = false;
         }
 
         protected override void Move() 

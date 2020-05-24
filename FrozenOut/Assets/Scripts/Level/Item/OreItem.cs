@@ -17,6 +17,16 @@ namespace Scripts.Level.Item
         {
         }
 
+        public override void OnPlayerCol()
+        {
+
+        }
+
+        public override void OnPlayerExitCol()
+        {
+               
+        }
+
         public override void OnUse()
         {
             StartCoroutine(PlayParticles());

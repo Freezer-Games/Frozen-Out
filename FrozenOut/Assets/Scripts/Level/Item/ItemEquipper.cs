@@ -6,7 +6,6 @@ namespace Scripts.Level.Item
     public class ItemEquipper : MonoBehaviour
     {
         public string ItemVariableName;
-        public string EquipAnimation;
 
         public void OnEquip()
         {
