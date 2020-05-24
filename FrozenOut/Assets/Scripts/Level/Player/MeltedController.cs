@@ -11,6 +11,7 @@ namespace Scripts.Level.Player
         public bool IsInteracting;
         [SerializeField] bool CanMove;
         [SerializeField] bool IsMoving;
+        [SerializeField] bool IsCharging;
 
 
         [Header("Movement")]
@@ -43,7 +44,7 @@ namespace Scripts.Level.Player
                 {
                     CanMove = false;
                     Rigidbody.isKinematic = true;
-                    MoveToTarget(InteractPoint, 0.01f, 3f);
+                    MoveToTarget(InteractPoint, 0.01f, 0.5f);
                 }
                 else
                 {
@@ -62,26 +63,21 @@ namespace Scripts.Level.Player
 
                     if (MoveInput != Vector2.zero)
                     {
-                        FaceMovement();
-
-                        if (!IsMoving) 
-                        {
-                            IsMoving = true;
-                            StartCoroutine(SlimeMovement());
-                            Debug.Log("Coroutine start");    
-                        }
-                    }
-                    else
-                    {
-                        if (IsMoving)
-                        {
-                            IsMoving = false;
-                            StopCoroutine(SlimeMovement());
-                        }
+                        if (!IsCharging)
+                            FaceMovement();
                     }
                 }
             }
         }
+
+        void FixedUpdate() 
+        {
+            if (CanMove)
+            {
+                Move();
+            }
+        }
+
         void LateUpdate() 
         {
             CameraVectors();
@@ -99,25 +95,23 @@ namespace Scripts.Level.Player
             Movement.Normalize();
             Movement *= MoveSpeed;
 
-            Rigidbody.AddForce(Movement, ForceMode.Impulse);
+            if (IsCharging) 
+            {
+                Rigidbody.velocity = Vector3.zero;
+            }
+            else 
+            {
+                Rigidbody.velocity = new Vector3(
+                    Movement.x,
+                    Rigidbody.velocity.y,
+                    Movement.z);
+            }
         }
 
         public void ChangeToNormal()
         {
             IsInteracting = false;
             PlayerManager.ChangeToNormal();
-        }
-
-        IEnumerator SlimeMovement()
-        {
-            while(IsMoving)
-            {
-                Move();
-                yield return new WaitForSeconds(MovementDelay);
-            }
-
-            Debug.Log("Corotine stoped");
-            yield return null;
         }
     }
 }
