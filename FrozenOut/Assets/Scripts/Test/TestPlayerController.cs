@@ -242,7 +242,7 @@ public class TestPlayerController : MonoBehaviour
 
                 transform.LookAt(lookPos);
 
-                Animator.SetTrigger("isPicking");
+                Animator.SetTrigger("isMining");
                 IntOre.Execute();
                 Rigidbody.isKinematic = false;
 
