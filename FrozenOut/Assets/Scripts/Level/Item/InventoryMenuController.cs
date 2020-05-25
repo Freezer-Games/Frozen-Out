@@ -28,7 +28,7 @@ namespace Scripts.Level.Item
             }
 
             Inventory.ItemPicked += (sender, args) => AddItemImage(args.Item);
-            Inventory.ItemUsed += (sender, args) => RemoveItemImage(args.Item);
+            Inventory.ItemRemoved += (sender, args) => RemoveItemImage(args.Item);
             Inventory.ItemUpdated += (sender, args) => UpdateItemImage(args.Item);
         }
 
@@ -214,7 +214,7 @@ namespace Scripts.Level.Item
 
         public bool IsItemPendingEquipped(ItemInfo item)
         {
-            return PendingEquippedItem != null && item.Name == PendingEquippedItem.Name;
+            return PendingEquippedItem != null && PendingEquippedItem.Equals(item);
         }
 
         private void CloseOpenMenu()

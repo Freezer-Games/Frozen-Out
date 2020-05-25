@@ -7,10 +7,6 @@ namespace Scripts.Level.Player
     [RequireComponent(typeof(Rigidbody))]
     public class PlayerController : MonoBehaviour
     {
-        const float STEALTH_SPEED = 3.75f;
-        const float NORMAL_SPEED = 4f;
-        const float RUN_SPEED = 6.5f;
-
         public PlayerManager PlayerManager;
 
         Rigidbody Rigidbody;
@@ -20,14 +16,13 @@ namespace Scripts.Level.Player
         [Header("States")]
         [Space]
         public bool IsGrounded;
-        public bool IsMoving => MoveState != MoveMode.Stopped; //TODO
         [SerializeField] bool IsFormChanged;
-        [SerializeField] MoveMode MoveState;
+        public bool IsMoving;
 
         
         [Header("Movement")]
         [Space]
-        [SerializeField] float MoveSpeed;
+        [SerializeField] float MoveSpeed = 4f;
         [SerializeField] float JumpForce = 6f;
         
 
@@ -35,15 +30,17 @@ namespace Scripts.Level.Player
         [Space]
         [SerializeField] float CanJumpDist;
         public Transform RayOrigin;
-        public Transform Body;
 
 
         [Header("Interaction")]
         [Space]
-        public LayerMask WhatIsGround;
-        public GameObject Pickaxe;
-        public GameObject ObstacleAtFront;
+        public Transform InteractItem;
+        public Transform InteractPoint;
         public bool HasPickaxe; //Consultar a PlayerManager, que lo cogerá de Inventory
+
+        [Header("Melting Skill")]
+        [Space]
+        public GameObject Stick;
 
         private Vector2 MoveInput;
         private Vector3 Movement;
@@ -58,8 +55,6 @@ namespace Scripts.Level.Player
 
         void Start()
         {
-            MoveState = MoveMode.Stopped;
-            MoveSpeed = NORMAL_SPEED;
             CanJumpDist = 0.51f;
             IsFormChanged = false;
             IsGrounded = false;
@@ -75,30 +70,22 @@ namespace Scripts.Level.Player
                 );
                 MoveInput.Normalize();
 
-                //Animator.SetBool("walking", Movement != Vector3.zero);
+                Animator.SetBool("isMoving", Movement != Vector3.zero);
+
+                if (Input.GetKey(PlayerManager.GetJumpKey()) && !IsFormChanged)
+                {
+                    Jump();
+                }
 
                 //Check there is an input
                 if (Movement != Vector3.zero)
                 {
+                    IsMoving = true;
                     FaceMovement();
-
-                    if (Input.GetButton("Run"))
-                    {
-                        MoveStateManage(MoveMode.Running);
-                    }
-                    else if (Input.GetButton("Crouch"))
-                    {
-                        MoveStateManage(MoveMode.Stealth);
-                    }
-                    else
-                    {
-                        MoveStateManage(MoveMode.Normal);
-                    }
                 }
                 else
                 {
-                    MoveStateManage(MoveMode.Stopped);
-
+                    IsMoving = false;
                     //Form change only if stopped
                     if (Input.GetKeyDown(KeyCode.K))
                     {
@@ -118,29 +105,17 @@ namespace Scripts.Level.Player
         {
             if(PlayerManager.IsEnabled)
             {
-                if (Input.GetKey(PlayerManager.GetJumpKey()) && CheckGround())
-                {
-                    Jump();
-                }
-
                 Move();
             }
         }
 
         void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("Obstacle"))
-            {
-                ObstacleAtFront = other.gameObject;
-            }
+
         }
 
         void OnCollisionExit(Collision other)
         {
-            if (other.gameObject.CompareTag("Obstacle"))
-            {
-                ObstacleAtFront = null;
-            }
         }
 
         void Move()
@@ -157,8 +132,11 @@ namespace Scripts.Level.Player
 
         void Jump()
         {
-            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-            IsGrounded = false;
+            if (CheckGround()) 
+            {
+                Animator.SetTrigger("isJumping");
+                Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            }
         }
 
         bool CheckGround() 
@@ -171,62 +149,23 @@ namespace Scripts.Level.Player
             {
                 if (hit.collider.CompareTag("Ground")) 
                 {
-                    Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, RayOrigin.position));
                     return true;
                 }
                 else 
                 {
-                    Debug.Log("aqui no se puede saltar");
                     return false;
                 }
             } 
             else 
             {
-                Debug.Log("en el aire");
                 return false;
-            }
-        }
-
-        void MoveStateManage(MoveMode mode)
-        {
-            if (mode != MoveState)
-            {
-                if (MoveState == MoveMode.Stopped && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Stopped)
-                {
-                    MoveState = mode;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Running)
-                {
-                    MoveState = mode;
-                    MoveSpeed = RUN_SPEED;
-                }
-                else if (MoveState == MoveMode.Running && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
-                else if (MoveState == MoveMode.Normal && mode == MoveMode.Stealth)
-                {
-                    MoveState = mode;
-                    MoveSpeed = STEALTH_SPEED;
-                }
-                else if(MoveState == MoveMode.Stealth && mode == MoveMode.Normal)
-                {
-                    MoveState = mode;
-                    MoveSpeed = NORMAL_SPEED;
-                }
             }
         }
 
         void FaceMovement()
         {
-            Body.rotation = 
-                Quaternion.Slerp(Body.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
+            transform.rotation = 
+                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
         }
 
         void CameraVectors()
@@ -239,16 +178,9 @@ namespace Scripts.Level.Player
             CamRight.Normalize();
         }
 
-        public MoveMode GetMoveStatus()
-        {
-            return MoveState;
-        }
-
         public Animator GetAnimator()
         {
             return Animator;
         }
     }
-
-    public enum MoveMode { Stopped, Stealth, Normal, Running }
 }

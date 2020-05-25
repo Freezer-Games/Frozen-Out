@@ -5,17 +5,9 @@ namespace Scripts.Level.Item
 {
     public class ItemPicker : MonoBehaviour
     {
-        public string ItemName = "";
+        public string ItemVariableName;
         public int ItemQuantity = 0;
         public string PickupAnimation;
-
-        void Start()
-        {
-            if(ItemName.Equals(""))
-            {
-                ItemName = gameObject.name;
-            }
-        }
 
         public void OnPickup()
         {
@@ -33,5 +25,9 @@ namespace Scripts.Level.Item
             //TODO unglow?
         }
 
+        public ItemInfo ToItemInfo()
+        {
+            return new ItemInfo() { VariableName = this.ItemVariableName };
+        }
     }
 }

@@ -3,34 +3,31 @@ using UnityEngine;
 
 namespace Scripts.Level.Item
 {
-    public class ItemUser : MonoBehaviour
+    public abstract class ItemUser : MonoBehaviour
     {
-        public string ItemName = "";
-        public string UseAnimation;
+        public string ItemVariableName;
+        //Punto al que ira el jugador para interactuar
+        public Transform ItemPos;
+        //Punto al que mirará el jugador al interacutar
+        public Transform ItemLook;
 
-        void Start()
+        public abstract void OnUse();
+
+        public abstract void OnPlayerClose();
+
+        public abstract void OnPlayerAway();
+
+        public abstract void OnPlayerCol();
+
+        public abstract void OnPlayerExitCol();
+
+        public Transform GetItemPos() { return ItemPos; }
+
+        public Transform GetItemLook() { return ItemLook; }
+
+        public ItemInfo ToItemInfo()
         {
-            if(ItemName.Equals(""))
-            {
-                ItemName = gameObject.name;
-            }
+            return new ItemInfo() { VariableName = this.ItemVariableName };
         }
-
-        public void OnUse()
-        {
-            gameObject.SetActive(false);
-            //TODO
-        }
-
-        public void OnPlayerClose()
-        {
-            //TODO glow?
-        }
-
-        public void OnPlayerAway()
-        {
-            //TODO unglow?
-        }
-
     }
 }

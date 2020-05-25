@@ -3,33 +3,23 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
 
-public enum MoveMode { Stopped, Stealth, Normal, Running }
-
 public class TestPlayerController : MonoBehaviour
 {
-    const float STEALTH_SPEED = 3.75f;
-    const float NORMAL_SPEED = 4f;
-    const float RUN_SPEED = 6.5f;
-
     Rigidbody Rigidbody;
     Animator Animator;
-    Collider Collider;
-
 
     [Header("States")]
     [Space]
     [SerializeField] bool IsGrounded;
-    [SerializeField] bool IsMoving => MoveState != MoveMode.Stopped; //TODO
     [SerializeField] bool IsFormChanged;
     [SerializeField] bool CanMove;
-    [SerializeField] MoveMode MoveState;
+
 
         
     [Header("Movement")]
     [Space]
     [SerializeField] float MoveSpeed;
     [SerializeField] float JumpForce = 6f;
-    public Transform Model;
         
 
     [Header("Jump Constraints")]
@@ -40,8 +30,10 @@ public class TestPlayerController : MonoBehaviour
 
     [Header("Interaction")]
     [Space]
-    public LayerMask WhatIsGround;
-    public GameObject ObstacleAtFront;
+    public GameObject InteractiveObject;
+    private Ore IntOre;
+    [SerializeField] bool IsInteracting;
+    [SerializeField] bool IsObjectAimed;
 
 
     [Header("Melting-Skill")]
@@ -65,19 +57,21 @@ public class TestPlayerController : MonoBehaviour
     void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
-        Animator = GetComponentInChildren<Animator>();
-        Collider = GetComponent<Collider>();
+        Animator = GetComponent<Animator>();
     }
 
     void Start()
     {
-        MoveState = MoveMode.Stopped;
-        MoveSpeed = NORMAL_SPEED;
+        MoveSpeed = 4f;
         CanJumpDist = 0.51f;
         IsFormChanged = false;
         HasStick = true;
         OnStick = false;
         CanMove = true;
+
+        InteractiveObject = null;
+        IsObjectAimed = false;
+        IsInteracting = false;
 
         if (MeltingEv == null)
             MeltingEv = new UnityEvent();
@@ -96,47 +90,60 @@ public class TestPlayerController : MonoBehaviour
 
         Animator.SetBool("isMoving", Movement != Vector3.zero || IsRecovering);
 
-        //Check there is an MoveInput
-        if (Movement != Vector3.zero)
-        {
-            FaceMovement();
+        if (IsRecovering || IsInteracting) CanMove = false;
+        if (InteractiveObject == null) IsObjectAimed = false;
 
-            if (Input.GetButton("Run"))
+        //Check there is an MoveInput
+        if (CanMove)
+        {
+            //Jump
+            if (!IsFormChanged && Input.GetButtonDown("Jump"))
             {
-                MoveStateManage(MoveMode.Running);
+                Jump();
             }
-            else if (Input.GetButton("Crouch"))
+
+            if (!IsFormChanged && IsObjectAimed && Input.GetKeyDown(KeyCode.P)) 
             {
-                MoveStateManage(MoveMode.Stealth);
+                Debug.Log("Voy a minar");
+                Rigidbody.isKinematic = true;
+                CanMove = false;
+                IsInteracting = true;
+            }
+
+            if (Movement != Vector3.zero)
+            {
+                FaceMovement();
             }
             else
             {
-                MoveStateManage(MoveMode.Normal);
+                //Melting managemnet
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    if (!IsFormChanged && HasStick)
+                    {
+                        Melting();
+                    }
+                    else if (IsFormChanged && OnStick)
+                    {
+                        Recovery();
+                    }
+                    else if (IsFormChanged && HasStick)
+                    {
+                        StaticRecovery();
+                    }
+                }
             }
         }
         else
         {
-            MoveStateManage(MoveMode.Stopped);
-
-            if(Input.GetKeyDown(KeyCode.K)) 
+            if (IsRecovering)
             {
-                if (!IsFormChanged && HasStick)
-                {
-                    Melting();
-                    MoveStateManage(MoveMode.Stealth);
-                }
-                else if (IsFormChanged && OnStick)
-                {
-                    Recovery();
-                    MoveStateManage(MoveMode.Normal);
-                }
-            } 
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Movement = Vector3.zero;
-            Animator.SetTrigger("isMining");
+                MoveToTarget(StickPoint, 0.01f, 3f);
+            }
+            else if (IsInteracting)
+            {
+                MoveToTarget(IntOre.GetInteractPoint(), 0.01f, 3f);
+            }
         }
     }
 
@@ -149,36 +156,48 @@ public class TestPlayerController : MonoBehaviour
     {
         if (CanMove)
         {
-            if (!IsFormChanged && Input.GetButtonDown("Jump"))
-                Jump();
-
             Move();
-        }
-        else
-        {
-            if (IsRecovering)
-            {
-                MoveToTarget(StickPoint, 0.01f, 3f);
-            }
         }
     }
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
-            ObstacleAtFront = other.gameObject;
-
         if (other.gameObject.CompareTag("Stick"))
             OnStick = true;
     }
 
     void OnCollisionExit(Collision other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
-            ObstacleAtFront = null;
-
         if (other.gameObject.CompareTag("Stick"))
             OnStick = false;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Interact") && !IsObjectAimed)
+        {
+            IsObjectAimed = true;
+            InteractiveObject = other.gameObject;
+            IntOre = InteractiveObject.GetComponent<Ore>();
+            if (IntOre == null) Debug.Log("Soy nulo");
+            else Debug.Log("No soy nulo");
+            Debug.Log("Aimed: " + InteractiveObject.name); 
+        }     
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Stick"))
+        {
+            HasStick = false;
+        }
+
+        if (InteractiveObject == other.gameObject && !IsInteracting)
+        {
+            InteractiveObject = null;
+            IsObjectAimed = false;
+            IntOre = null;
+        }
     }
 
     void Move()
@@ -192,23 +211,42 @@ public class TestPlayerController : MonoBehaviour
 
     void MoveToTarget(Transform target, float distanceToStop, float speed)
     {
+        //Vector3 destino = new Vector3(target.position.x, transform.position.y, target.position.z);
+
         if (Vector3.Distance(target.position, transform.position) > distanceToStop)
         {
             transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.fixedDeltaTime);
-            Model.LookAt(target, Vector3.up);
+
+            if (IsRecovering) {
+                transform.LookAt(target, Vector3.up);
+            }  
         }
         else
         {
             if (IsRecovering)
             {
+                RecoveryEv.Invoke();
+
                 IsRecovering = false;
                 IsFormChanged = false;
                 HasStick = true;
-                CanMove = true;
+
                 Rigidbody.isKinematic = false;
-                Animator.SetBool("isMoving", true);
                 Animator.SetTrigger("isChanging");
-                RecoveryEv.Invoke();
+            }
+            else if (IsInteracting)
+            {
+                Vector3 lookPos = new Vector3(InteractiveObject.transform.position.x,
+                                                transform.position.y,
+                                                InteractiveObject.transform.position.z);
+
+                transform.LookAt(lookPos);
+
+                Animator.SetTrigger("isMining");
+                IntOre.Execute();
+                Rigidbody.isKinematic = false;
+
+                IsInteracting = false;
             }
         }
     }
@@ -249,8 +287,8 @@ public class TestPlayerController : MonoBehaviour
     void Melting() 
     {
         Animator.SetTrigger("isChanging");
+
         IsFormChanged = true;
-        HasStick = false;
         MeltingEv.Invoke();
     }
 
@@ -261,46 +299,18 @@ public class TestPlayerController : MonoBehaviour
         Rigidbody.isKinematic = true;
     }
 
-    void MoveStateManage(MoveMode mode)
+    void StaticRecovery()
     {
-        if (mode != MoveState)
-        {
-            if (MoveState == MoveMode.Stopped && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Stopped)
-            {
-                MoveState = mode;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Running)
-            {
-                MoveState = mode;
-                MoveSpeed = RUN_SPEED;
-            }
-            else if (MoveState == MoveMode.Running && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-            else if (MoveState == MoveMode.Normal && mode == MoveMode.Stealth)
-            {
-                MoveState = mode;
-                MoveSpeed = STEALTH_SPEED;
-            }
-            else if(MoveState == MoveMode.Stealth && mode == MoveMode.Normal)
-            {
-                MoveState = mode;
-                MoveSpeed = NORMAL_SPEED;
-            }
-        }
+        RecoveryEv.Invoke();
+        IsFormChanged = false;
+        CanMove = false;
+        Animator.SetTrigger("isChanging");
     }
 
     void FaceMovement()
     {
-        Model.rotation = 
-            Quaternion.Slerp(Model.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
+        transform.rotation = 
+            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Movement.normalized), 0.2f);
     }
 
     void CameraVectors()
@@ -311,10 +321,5 @@ public class TestPlayerController : MonoBehaviour
         CamRight.y = 0f;
         CamForward.Normalize();
         CamRight.Normalize();
-    }
-
-    public MoveMode getMoveStatus()
-    {
-        return MoveState;
     }
 }

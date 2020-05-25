@@ -7,7 +7,7 @@ namespace Scripts.Level.Player
     public class Stalactite : MonoBehaviour
     {
         Rigidbody rb;
-        [SerializeField] private MoveMode reactTo;
+        //[SerializeField] private MoveMode reactTo;
         public LayerMask whatIsGround;
 
         void Awake()
@@ -31,10 +31,10 @@ namespace Scripts.Level.Player
             {
                 Debug.Log("Player encontrado");
                 GameObject player = other.gameObject;
-                if (player.GetComponentInParent<PlayerController>().GetMoveStatus() == reactTo)
+                /*if (player.GetComponentInParent<PlayerController>().GetMoveStatus() == reactTo)
                 {
                     rb.WakeUp();
-                }
+                }*/
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Scripts.Level.Dialogue
     {
         private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
-        private String PlayerTag = "Player";
+        private string PlayerTag = "Player";
         private DialogueTalker Talker;
 
         void Start()
