@@ -28,7 +28,9 @@ namespace Scripts.Level.Dialogue
         public void OnStartTalk()
         {
             Indicator.HideIndicator();
-            transform.LookAt(LevelManager.GetPlayerManager().Player.transform);
+            Vector3 lookTo = LevelManager.GetPlayerManager().Player.transform.position;
+            lookTo.y = transform.position.y;
+            transform.LookAt(lookTo);
         }
 
         public void OnEndTalk()
