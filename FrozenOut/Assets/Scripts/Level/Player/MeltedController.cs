@@ -20,8 +20,8 @@ namespace Scripts.Level.Player
 
 
         [Header("Interact")]
-        public Transform InteractItem;
-        public Transform InteractPoint;
+        public Transform InteractPos;
+        public Transform InteractLook;
 
         public UnityEvent Recovery;
 
@@ -44,7 +44,7 @@ namespace Scripts.Level.Player
                 {
                     CanMove = false;
                     Rigidbody.isKinematic = true;
-                    MoveToTarget(InteractPoint, 0.01f, 0.5f);
+                    MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
@@ -62,9 +62,8 @@ namespace Scripts.Level.Player
                     Animator.SetBool("isMoving", MoveInput != Vector2.zero);
 
                     if (MoveInput != Vector2.zero)
-                    {
-                        if (!IsCharging)
-                            FaceMovement();
+                    { 
+                        FaceMovement();
                     }
                 }
             }
@@ -93,14 +92,19 @@ namespace Scripts.Level.Player
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
             Movement.Normalize();
-            Movement *= MoveSpeed;
+            
 
             if (IsCharging) 
             {
-                Rigidbody.velocity = Vector3.zero;
+                Movement *= (MoveSpeed/3f);
+                Rigidbody.velocity = new Vector3(
+                    Movement.x,
+                    Rigidbody.velocity.y,
+                    Movement.z);
             }
             else 
             {
+                Movement *= MoveSpeed;
                 Rigidbody.velocity = new Vector3(
                     Movement.x,
                     Rigidbody.velocity.y,

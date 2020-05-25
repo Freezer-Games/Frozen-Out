@@ -22,8 +22,8 @@ namespace Scripts.Level.Player
         public Transform RayOrigin;
 
         [Header("Interact")]
-        public Transform InteractItem;
-        public Transform InteractPoint;
+        public Transform InteractPos;
+        public Transform InteractLook;
 
         public UnityEvent Melting;
 
@@ -45,6 +45,7 @@ namespace Scripts.Level.Player
                 {
                     CanMove = false;
                     Rigidbody.isKinematic = true;
+                    MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
