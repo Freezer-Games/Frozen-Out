@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6396317387527687989}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1344643175212931109
 AudioSource:
@@ -174,6 +174,50 @@ MonoBehaviour:
   Z: {fileID: 8300000, guid: 319d9cbbe4c5f6b469a2e79daac8fc92, type: 3}
   Space: {fileID: 8300000, guid: 80069bd4a258c68498df7c6a9abf2767, type: 3}
   Period: {fileID: 8300000, guid: 547a880f2a2634f47977f28233afdb4b, type: 3}
+--- !u!1 &5431862365576841665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3144107385540398978}
+  - component: {fileID: 1091416305721243196}
+  m_Layer: 0
+  m_Name: YarnCommands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3144107385540398978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431862365576841665}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6396317387527687989}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1091416305721243196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431862365576841665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f91867c0d05844e8a18df95f323f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  YarnSystem: {fileID: 6396317386609314355}
 --- !u!1 &5637610901116460076
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6396317387527687989}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7338004676506038069
 MonoBehaviour:
@@ -390,9 +434,9 @@ MonoBehaviour:
       Colour: {r: 1, g: 1, b: 1, a: 1}
       Effect: 0
     VoiceStyle:
-      Pitch: 0
-      Gender: 0
-      Tone: 0
+      RelativePitch: 0
+      RelativeGender: 0
+      RelativeTone: 0
 --- !u!114 &6396317386609314355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,7 +581,7 @@ RectTransform:
   m_Children:
   - {fileID: 6396317387016724946}
   m_Father: {fileID: 6396317387527687989}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -617,6 +661,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueCanvas: {fileID: 6396317386882989824}
+  DialogueStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6396317387458423133}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6396317386531443634}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   LineNameUpdated:
     m_PersistentCalls:
       m_Calls:
@@ -855,6 +924,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 835002694629802411}
+  - {fileID: 3144107385540398978}
   - {fileID: 6396317386882989831}
   - {fileID: 246246191661599209}
   - {fileID: 7133305938789677223}

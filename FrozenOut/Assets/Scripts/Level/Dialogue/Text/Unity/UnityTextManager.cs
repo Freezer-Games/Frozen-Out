@@ -22,6 +22,7 @@ namespace Scripts.Level.Dialogue.Text.Unity
         public override void Open()
         {
             DialogueCanvas.enabled = true;
+            OnDialogueStart();
         }
 
         public override void Close()
@@ -56,9 +57,15 @@ namespace Scripts.Level.Dialogue.Text.Unity
         }
 
         #region Events
+        public UnityEvent DialogueStarted;
         public StringUnityEvent LineNameUpdated;
         public StringUnityEvent LineDialogueUpdated;
         public StyleUnityEvent LineStyleUpdated;
+
+        private void OnDialogueStart()
+        {
+            DialogueStarted?.Invoke();
+        }
 
         private void OnNameLineUpdate(string nameToDisplay)
         {

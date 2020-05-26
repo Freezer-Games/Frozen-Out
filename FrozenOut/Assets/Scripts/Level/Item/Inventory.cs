@@ -100,39 +100,49 @@ namespace Scripts.Level.Item
             OnItemUnequipped();
         }
 
+        public void PickItem(ItemPickerInfo pickerInfo)
+        {
+            if(IsItemInInventory(pickerInfo))
+            {
+                UpdateItem(pickerInfo);
+            }
+            else
+            {
+                AddItem(pickerInfo);
+            }
+        }
         public void PickItem(ItemPicker picker)
         {
             picker.OnPickup();
 
-            if(IsItemInInventory(picker.ToItemInfo()))
-            {
-                UpdateItem(picker);
-            }
-            else
-            {
-                AddItem(picker);
-            }
+            PickItem(picker.Item);
         }
 
         public void UseItem(ItemUser user)
         {
             // Si no es necesario un item para usarlo, entonces se usa directamente
-            if (string.IsNullOrEmpty(user.ItemVariableName))
+            if (string.IsNullOrEmpty(user.Item.VariableName))
             {
                 PlayerManager.SetIsInteracting(true);
                 StartCoroutine(WaitingPlayer(user));
-                
             }
-
-            else if(IsItemInInventory(user.ToItemInfo()))
+            else if(IsItemInInventory(user.Item))
             {
                 user.OnUse();
-                //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find( temp => temp.Equals(user.ToItemInfo()) );
 
-                if(inventoryItem.IsEquippable)
+                UseItem(user.Item);
+            }
+        }
+        public void UseItem(ItemUserInfo userInfo)
+        {
+            if (IsItemInInventory(userInfo))
+            {
+                //Pasarlo a ItemInfo del inventario
+                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(userInfo));
+
+                if (inventoryItem.IsEquippable)
                 {
-                    if(IsItemEquipped(inventoryItem))
+                    if (IsItemEquipped(inventoryItem))
                     {
                         UseEquippedItem(inventoryItem);
                     }
@@ -144,26 +154,26 @@ namespace Scripts.Level.Item
             }
         }
 
-        private void AddItem(ItemPicker picker)
+        private void AddItem(ItemPickerInfo pickerInfo)
         {
             //Pasarlo a ItemInfo del nivel
-            ItemInfo item = LevelItems.Find( temp => temp.Equals(picker.ToItemInfo()) );
-            item.Quantity = picker.ItemQuantity;
+            ItemInfo item = LevelItems.Find(temp => temp.Equals(pickerInfo));
+            item.Quantity = pickerInfo.Quantity;
 
             Items.Add(item);
 
             OnItemAdded(item);
         }
 
-        private void UpdateItem(ItemPicker picker)
+        private void UpdateItem(ItemPickerInfo pickerInfo)
         {
-            if(picker.ItemQuantity > 0)
+            if (pickerInfo.Quantity > 0)
             {
                 //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find( temp => temp.Equals(picker.ToItemInfo()) );
+                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(pickerInfo));
 
                 int currentQuantity = inventoryItem.Quantity;
-                int newQuantity = currentQuantity + picker.ItemQuantity;
+                int newQuantity = currentQuantity + pickerInfo.Quantity;
 
                 inventoryItem.Quantity = newQuantity;
 
@@ -173,7 +183,7 @@ namespace Scripts.Level.Item
 
         private void UseConsumableItem(ItemInfo consumableItem)
         {
-            Items.Remove(consumableItem);
+            consumableItem.IsUsed = true;
 
             OnItemUsed(consumableItem);
             OnItemRemoved(consumableItem);
@@ -181,17 +191,26 @@ namespace Scripts.Level.Item
 
         private void UseEquippedItem(ItemInfo equippedItem)
         {
+            equippedItem.IsUsed = true;
+
             OnItemUsed(equippedItem);
         }
 
-        public bool IsItemInInventory(ItemInfo item)
+        public bool IsItemInInventory(ItemBase item)
         {
-            return Items.Exists(temp => temp.Equals(item) );
+            return Items.Exists(temp => temp.Equals(item));
         }
 
-        public bool IsItemEquipped(ItemInfo item)
+        public bool IsItemEquipped(ItemBase item)
         {
             return EquippedItem != null && EquippedItem.Equals(item);
+        }
+
+        public bool IsItemUsed(ItemBase item)
+        {
+            ItemInfo inventoryItem = this.Items.Find( temp => temp.Equals(item) );
+
+            return inventoryItem.IsUsed;
         }
 
         IEnumerator WaitingPlayer(ItemUser user)

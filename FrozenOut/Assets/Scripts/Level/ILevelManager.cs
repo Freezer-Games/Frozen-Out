@@ -26,8 +26,8 @@ namespace Scripts.Level
         SoundManager GetSoundManager();
         //CameraManager GetCameraManager();
         Inventory GetInventory();
-        NPCInfo[] GetNPCs();
-        MissionInfo[] GetMissions();
+        IEnumerable<NPCInfo> GetNPCs();
+        IEnumerable<MissionInfo> GetMissions();
         // TODO
     }
 }
