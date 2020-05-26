@@ -66,35 +66,6 @@ namespace Scripts.Level
                 Inventory.ItemUnequipped += (sender, args) => PlayerManager.UnequipItem();
                 //Inventory.ItemUsed +=
             }
-
-            if(Inventory != null  && DialogueManager != null)
-            {
-                Inventory.ItemPicked += (sender, args) =>
-                {
-                    ItemInfo item = args.Item;
-                    DialogueManager.SetVariable<bool>(item.VariableName, true);
-                    DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
-                };
-                Inventory.ItemUpdated += (sender, args) =>
-                {
-                    ItemInfo item = args.Item;
-                    DialogueManager.SetVariable<float>(item.QuantityVariableName, item.Quantity);
-                };
-                Inventory.ItemUsed += (sender, args) =>
-                {
-                    ItemInfo item = args.Item;
-
-                    DialogueManager.SetVariable<bool>(item.UsedVariableName, true);
-                    DialogueManager.SetVariable<float>(item.QuantityVariableName, 0);
-                };
-                Inventory.ItemRemoved += (sender, args) =>
-                {
-                    ItemInfo item = args.Item;
-
-                    DialogueManager.SetVariable<bool>(item.VariableName, false);
-                    DialogueManager.SetVariable<float>(item.QuantityVariableName, 0);
-                };
-            }
             #endregion
 
             // TODO
@@ -145,12 +116,12 @@ namespace Scripts.Level
             return Inventory;
         }
 
-        public NPCInfo[] GetNPCs()
+        public IEnumerable<NPCInfo> GetNPCs()
         {
             return NPCs;
         }
 
-        public MissionInfo[] GetMissions()
+        public IEnumerable<MissionInfo> GetMissions()
         {
             return Missions;
         }

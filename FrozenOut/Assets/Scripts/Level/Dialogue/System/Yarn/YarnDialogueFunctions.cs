@@ -20,6 +20,18 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
                 return YarnSystem.GetBoolVariable("visited_" + nodeName);
             });
             DialogueRunner.onNodeComplete.AddListener(NodeComplete);
+
+            DialogueRunner.AddFunction("has_item", 1, delegate (Yarn.Value[] parameters)
+            {
+                string itemVariableName = parameters[0].AsString;
+                return YarnSystem.IsItemInInventory(itemVariableName);
+            });
+
+            DialogueRunner.AddFunction("used_item", 1, delegate (Yarn.Value[] parameters)
+            {
+                string itemVariableName = parameters[0].AsString;
+                return YarnSystem.IsItemUsed(itemVariableName);
+            });
         }
 
         public void NodeComplete(string nodeName) {

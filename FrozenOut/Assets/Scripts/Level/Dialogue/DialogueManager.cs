@@ -5,6 +5,7 @@ using UnityEngine;
 
 using Scripts.Level.Dialogue.Text;
 using Scripts.Level.Dialogue.Runner;
+using Scripts.Level.Item;
 
 namespace Scripts.Level.Dialogue
 {
@@ -26,14 +27,18 @@ namespace Scripts.Level.Dialogue
 
         public abstract bool IsRunning();
         public abstract bool IsReady();
-
         public abstract void SetLanguage();
-
         public abstract void StartDialogue(DialogueTalker talker);
         public abstract void StopDialogue();
+
         public abstract int GetTextSize();
         public abstract KeyCode GetNextDialogueKey();
         public abstract KeyCode GetInteractKey();
+        public abstract bool IsItemInInventory(string itemVariableName);
+        public abstract bool IsItemUsed(string itemVariableName);
+        public abstract void PickItem(string itemVariableName, int quantity);
+        public abstract void UseItem(string itemVariableName, int quantity);
+        public abstract void SetNPCAnimation(string npcName, string animation);
 
         public abstract void OpenTalkPrompt(DialogueTalker dialogueTalker);
         public abstract void CloseTalkPrompt();
