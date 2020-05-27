@@ -126,7 +126,9 @@ namespace Scripts.Level.Item
 
             else if(IsItemInInventory(user.ToItemInfo()))
             {
-                user.OnUse();
+                PlayerManager.SetIsInteracting(true);
+                StartCoroutine(WaitingPlayer(user));
+                
                 //Pasarlo a ItemInfo del inventario
                 ItemInfo inventoryItem = Items.Find( temp => temp.Equals(user.ToItemInfo()) );
 
