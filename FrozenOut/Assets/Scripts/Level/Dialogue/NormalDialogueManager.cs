@@ -4,7 +4,10 @@ using System;
 using UnityEngine;
 
 using Scripts.Settings;
+using Scripts.Level.Item;
 using Scripts.Level.Dialogue.Utils;
+using System.Linq;
+using Scripts.Level.NPC;
 
 namespace Scripts.Level.Dialogue
 {
@@ -15,6 +18,7 @@ namespace Scripts.Level.Dialogue
         public DialoguePromptController PromptController;
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
+        private Inventory Inventory => LevelManager.GetInventory();
         private DialogueTalker CurrentTalker;
         private DialogueStyle CurrentStyle;
         
@@ -61,6 +65,46 @@ namespace Scripts.Level.Dialogue
         public override int GetTextSize()
         {
             return SettingsManager.TextSize;
+        }
+        public override bool IsItemInInventory(string itemVariableName)
+        {
+            ItemBase item = new ItemBase()
+            {
+                VariableName = itemVariableName
+            };
+            return Inventory.IsItemInInventory(item);
+        }
+        public override bool IsItemUsed(string itemVariableName)
+        {
+            ItemBase item = new ItemBase()
+            {
+                VariableName = itemVariableName
+            };
+            return Inventory.IsItemUsed(item);
+        }
+        public override void PickItem(string itemVariableName, int quantity)
+        {
+            ItemPickerInfo pickerInfo = new ItemPickerInfo()
+            {
+                VariableName = itemVariableName,
+                Quantity = quantity
+            };
+            Inventory.PickItem(pickerInfo);
+        }
+        public override void UseItem(string itemVariableName, int quantity)
+        {
+            ItemUserInfo userInfo = new ItemUserInfo()
+            {
+                VariableName = itemVariableName
+            };
+            Inventory.UseItem(userInfo);
+        }
+
+        public override void SetNPCAnimation(string npcName, string animation)
+        {
+            NPCInfo selectedNPC = LevelManager.GetNPCs().Single<NPCInfo>(npc => npc.Name == npcName);
+
+            selectedNPC.StartAnimation(animation);
         }
         #endregion
 

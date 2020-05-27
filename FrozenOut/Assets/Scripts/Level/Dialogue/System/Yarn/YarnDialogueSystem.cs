@@ -58,6 +58,27 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             DialogueRunner.textLanguage = locale.Identifier.Code;
         }
 
+        public bool IsItemInInventory(string itemVariableName)
+        {
+            return DialogueManager.IsItemInInventory(itemVariableName);
+        }
+        public bool IsItemUsed(string itemVariableName)
+        {
+            return DialogueManager.IsItemUsed(itemVariableName);
+        }
+        public void PickItem(string itemVariableName, int quantity)
+        {
+            DialogueManager.PickItem(itemVariableName, quantity);
+        }
+        public void UseItem(string itemVariableName, int quantity)
+        {
+            DialogueManager.UseItem(itemVariableName, quantity);
+        }
+        public void SetNPCAnimation(string npcName, string animation)
+        {
+            DialogueManager.SetNPCAnimation(npcName, animation);
+        }
+
         public override bool GetBoolVariable(string variableName, bool includeLeading = true)
         {
             Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);

@@ -5,9 +5,7 @@ namespace Scripts.Level.Item
 {
     public class ItemPicker : MonoBehaviour
     {
-        public string ItemVariableName;
-        public int ItemQuantity = 0;
-        public string PickupAnimation;
+        public ItemPickerInfo Item;
 
         public void OnPickup()
         {
@@ -23,11 +21,6 @@ namespace Scripts.Level.Item
         public void OnPlayerAway()
         {
             //TODO unglow?
-        }
-
-        public ItemInfo ToItemInfo()
-        {
-            return new ItemInfo() { VariableName = this.ItemVariableName };
         }
     }
 }
