@@ -128,6 +128,9 @@ namespace Scripts.Level.Item
             }
             else if(IsItemInInventory(user.Item))
             {
+                PlayerManager.SetIsInteracting(true);
+                StartCoroutine(WaitingPlayer(user));
+                
                 user.OnUse();
 
                 UseItem(user.Item);
