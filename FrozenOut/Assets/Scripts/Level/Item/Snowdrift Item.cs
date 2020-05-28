@@ -7,6 +7,7 @@ namespace Scripts.Level.Item
     public class SnowdriftItem : ItemUser
     {
         ParticleSystem Particles;
+        
         public override void OnPlayerAway()
         {
 

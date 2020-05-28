@@ -21,10 +21,21 @@ namespace Scripts.Level.Player
 
         public void MoveToTarget(Transform targetPos,Transform targetLook, float distanceToStop, float speed)
         {
+            //Interactua y ya
             if (targetPos == null && targetLook == null) 
             {
                 PlayerManager.SetIsInteracting(false);
             }
+            //Mira al objetivo e interactua
+            else if (targetPos == null && targetLook != null)
+            {
+                Vector3 lookPos = targetLook.position;
+                lookPos.y = transform.position.y;
+                transform.LookAt(lookPos);
+
+                PlayerManager.SetIsInteracting(false);
+            }
+            //Se mueve a la posicion deseada minetras mira e interactua
             else 
             {
                 Vector3 lookPos = targetLook.position;
@@ -35,8 +46,7 @@ namespace Scripts.Level.Player
                 goPos.y = 0f;
 
                 if (Vector3.Distance(goPos, transform.position) > distanceToStop) 
-                {
-                    
+                {     
                     Animator.SetBool("isMoving", true);
 
                     transform.position = 
@@ -49,8 +59,6 @@ namespace Scripts.Level.Player
                     PlayerManager.SetInteractiveItem(null, null);
                 }
             }
-
-            
         }
 
         public void FaceMovement() 
