@@ -39,9 +39,9 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
-            SubscribeToEvents();
-            SetStyles();
+            StartStyles();
         }
+
         void Update()
         {
             if (IsRunning() && Input.GetKeyDown(GetNextDialogueKey()))
@@ -122,7 +122,13 @@ namespace Scripts.Level.Dialogue
         public override void StartDialogue(DialogueTalker talker)
         {
             CurrentTalker = talker;
-            AddStyle(talker.Name, talker.Style);
+
+            AddStyle(talker.Style.Name, talker.Style.Style);
+            foreach (CharacterDialogueStyle characterStyle in talker.ExtraStyles)
+            {
+                AddStyle(characterStyle.Name, characterStyle.Style);
+            }
+
             DialogueSystem.StartDialogue(talker);
         }
 
@@ -181,10 +187,6 @@ namespace Scripts.Level.Dialogue
             style.TextStyle.UpdateOptionals(DefaultStyle.TextStyle);
             style.VoiceStyle.UpdateOptionals(DefaultStyle.VoiceStyle);
 
-            /*style.UpdateDelay(LetterDelay);
-            style.UpdateSize(GetTextSize());
-            style.UpdateFont(DefaultStyle.Font);*/
-
             return style;
         }
 
@@ -207,7 +209,7 @@ namespace Scripts.Level.Dialogue
             }
         }
 
-        private void SetStyles()
+        private void StartStyles()
         {
             Styles = new Dictionary<string, DialogueStyle>();
             AddStyle(PlayerName, DefaultStyle);
@@ -222,8 +224,8 @@ namespace Scripts.Level.Dialogue
 
             if (CurrentStyle.Delay > 0.0f)
             {
-                StartCoroutine(DoParseAccumulated(classifiedCharacterDialogue));
-                //StartCoroutine(DoParseSingle(classifiedCharacterDialogue));
+                //StartCoroutine(DoParseAccumulated(classifiedCharacterDialogue));
+                StartCoroutine(DoParseSingle(classifiedCharacterDialogue));
             }
             else
             {
@@ -291,25 +293,20 @@ namespace Scripts.Level.Dialogue
         #endregion
 
         #region Events
-        private void SubscribeToEvents()
+        public override void OnDialogueStarted()
         {
-            Started += OnStartDialogue;
-            Ended += OnEndDialogue;
+            base.OnDialogueStarted();
 
-            LineNameUpdated += OnLineNameUpdated;
-            LineDialogueUpdated += OnLineDialogueUpdated;
-        }
-
-        private void OnStartDialogue(object sender, EventArgs args)
-        {
             CurrentTalker?.OnStartTalk();
 
             TextManager.Open();
             VoiceManager.Open();
         }
 
-        private void OnEndDialogue(object sender, EventArgs args)
+        public override void OnDialogueEnded()
         {
+            base.OnDialogueEnded();
+
             CurrentTalker?.OnEndTalk();
             CurrentTalker = null;
 
@@ -317,18 +314,22 @@ namespace Scripts.Level.Dialogue
             VoiceManager.Close();
         }
 
-        private void OnLineNameUpdated(object sender, string name)
+        public override void OnLineStyleUpdated(string styleName)
         {
-            DialogueStyle characterStyle = GetUpdatedStyle(name);
+            DialogueStyle characterStyle = GetUpdatedStyle(styleName);
             CurrentStyle = characterStyle;
 
             TextManager.SetStyle(characterStyle.TextStyle);
-            TextManager.ShowName(name);
 
             VoiceManager.SetStyle(characterStyle.VoiceStyle);
         }
 
-        private void OnLineDialogueUpdated(object sender, string dialogue)
+        public override void OnLineNameUpdated(string name)
+        {
+            TextManager.ShowName(name);
+        }
+
+        public override void OnLineDialogueUpdated(string dialogue)
         {
             ProcessDialogue(dialogue);
         }

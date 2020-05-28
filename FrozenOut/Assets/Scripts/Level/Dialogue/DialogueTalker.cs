@@ -7,10 +7,10 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueIndicator))]
     public class DialogueTalker : MonoBehaviour
     {
-        public string Name = "";
         public string TalkToNode = "";
 
-        public DialogueStyle Style;
+        public CharacterDialogueStyle Style;
+        public List<CharacterDialogueStyle> ExtraStyles;
 
         private DialogueIndicator Indicator;
 
@@ -18,10 +18,6 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
-            if(Name.Equals(""))
-            {
-                Name = gameObject.name;
-            }
             Indicator = GetComponent<DialogueIndicator>();
         }
 
