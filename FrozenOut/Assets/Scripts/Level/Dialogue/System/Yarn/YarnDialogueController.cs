@@ -12,7 +12,8 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
     {
         public YarnDialogueSystem DialogueSystem;
 
-        private const string DefaultLineSeparator = ":";
+        private const string StyleSeparator = "++";
+        private const string DialogueSeparator = ": ";
 
         private bool RequestedNextLine;
 
@@ -49,8 +50,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
                 text = line.ID;
             }
 
-            SeparateNameAndDialogue(text, out string characterName, out string characterDialogue);
+            SeparateNameAndDialogue(text, out string characterStyleName, out string characterName, out string characterDialogue);
 
+            OnLineStyleUpdated(characterStyleName);
             OnNameLineUpdate(characterName);
             OnDialogueLineUpdate(characterDialogue);
 
@@ -77,25 +79,44 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             return Yarn.Dialogue.HandlerExecutionType.ContinueExecution;
         }
 
-        private void SeparateNameAndDialogue(string text, out string name, out string dialogue)
+        private void SeparateNameAndDialogue(string text, out string style, out string name, out string dialogue)
         {
-            int indexOfNameSeparator = text.IndexOf(DefaultLineSeparator);
-            name = text.Substring(0, indexOfNameSeparator);
-            dialogue = text.Substring(indexOfNameSeparator + 2);
+            int indexOfStyleSeparator = text.IndexOf(StyleSeparator);
+            int indexOfDialogueSeparator = text.IndexOf(DialogueSeparator);
+
+            if (indexOfStyleSeparator == -1) // No hay estilo adicional
+            {
+                name = text.Substring(0, indexOfDialogueSeparator);
+                style = name;
+            }
+            else
+            {
+                name = text.Substring(0, indexOfStyleSeparator);
+
+                int styleLength = indexOfDialogueSeparator - (indexOfStyleSeparator + StyleSeparator.Length);
+                style = text.Substring(indexOfStyleSeparator + StyleSeparator.Length, styleLength);
+            }
+            dialogue = text.Substring(indexOfDialogueSeparator + DialogueSeparator.Length);
         }
 
         #region Events
+        public DialogueRunner.StringUnityEvent LineStyleUpdated;
         public DialogueRunner.StringUnityEvent LineNameUpdated;
         public DialogueRunner.StringUnityEvent LineDialogueUpdated;
 
-        private void OnNameLineUpdate(string nameToDisplay)
+        private void OnLineStyleUpdated(string styleName)
         {
-            LineNameUpdated?.Invoke(nameToDisplay);
+            LineStyleUpdated?.Invoke(styleName);
         }
 
-        private void OnDialogueLineUpdate(string dialogueToDisplay)
+        private void OnNameLineUpdate(string name)
         {
-            LineDialogueUpdated?.Invoke(dialogueToDisplay);
+            LineNameUpdated?.Invoke(name);
+        }
+
+        private void OnDialogueLineUpdate(string dialogue)
+        {
+            LineDialogueUpdated?.Invoke(dialogue);
         }
         #endregion
     }

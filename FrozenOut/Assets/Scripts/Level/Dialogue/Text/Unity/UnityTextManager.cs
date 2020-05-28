@@ -28,6 +28,7 @@ namespace Scripts.Level.Dialogue.Text.Unity
         public override void Close()
         {
             DialogueCanvas.enabled = false;
+            OnDialogueEnd();
         }
 
         public override void SetStyle(TextStyle style)
@@ -43,28 +44,30 @@ namespace Scripts.Level.Dialogue.Text.Unity
 
         public override void ShowDialogueAccumulated(string dialogue)
         {
-            // TODO with textstyle
             OnDialogueLineUpdate(dialogue);
         }
 
-        public override void ShowDialogueSingle(string newDialogueLetter)
+        public override void ShowDialogueSingle(string dialogueLetter)
         {
-            OnDialogueLineUpdate(newDialogueLetter);
-            // TODO
-            // Create animator for text
-            // Create prefab of Text with animator
-            // Instantiate different Text gameobject for each letter
+            OnDialogueLetterUpdate(dialogueLetter);
         }
 
         #region Events
         public UnityEvent DialogueStarted;
+        public UnityEvent DialogueEnded;
         public StringUnityEvent LineNameUpdated;
         public StringUnityEvent LineDialogueUpdated;
+        public StringUnityEvent LetterDialogueUpdated;
         public StyleUnityEvent LineStyleUpdated;
 
         private void OnDialogueStart()
         {
             DialogueStarted?.Invoke();
+        }
+
+        private void OnDialogueEnd()
+        {
+            DialogueEnded?.Invoke();
         }
 
         private void OnNameLineUpdate(string nameToDisplay)
@@ -75,6 +78,11 @@ namespace Scripts.Level.Dialogue.Text.Unity
         private void OnDialogueLineUpdate(string dialogueToDisplay)
         {
             LineDialogueUpdated?.Invoke(dialogueToDisplay);
+        }
+
+        private void OnDialogueLetterUpdate(string letterToDisplay)
+        {
+            LetterDialogueUpdated?.Invoke(letterToDisplay);
         }
 
         private void OnStyleLineUpdate(TextStyle dialogueStyle)

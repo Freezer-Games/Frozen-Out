@@ -134,8 +134,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         #region Events
         private void ConvertEvents()
         {
-            DialogueController.DialogueStarted.AddListener(DialogueManager.OnStarted);
-            DialogueController.DialogueEnded.AddListener(DialogueManager.OnEnded);
+            DialogueController.DialogueStarted.AddListener(DialogueManager.OnDialogueStarted);
+            DialogueController.DialogueEnded.AddListener(DialogueManager.OnDialogueEnded);
+            DialogueController.LineStyleUpdated.AddListener(DialogueManager.OnLineStyleUpdated);
             DialogueController.LineNameUpdated.AddListener(DialogueManager.OnLineNameUpdated);
             DialogueController.LineDialogueUpdated.AddListener(DialogueManager.OnLineDialogueUpdated);
         }

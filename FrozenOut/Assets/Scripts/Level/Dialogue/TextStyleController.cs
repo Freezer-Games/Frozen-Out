@@ -1,24 +1,231 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Scripts.Level.Dialogue
 {
-    [RequireComponent(typeof(UnityEngine.UI.Text))]
     public class TextStyleController : MonoBehaviour
     {
-        private UnityEngine.UI.Text Text;
+        public GameObject LinePrefab;
+        public GameObject WordPrefab;
+        public GameObject LetterPrefab;
+        
+        private GameObject CurrentLine;
+        private GameObject CurrentWord;
 
-        private void Start()
+        private int CurrentLineLetters;
+        private readonly int MaxLettersPerLine = 40;
+
+        private ICollection<Animator> TextAnimators;
+        private TextStyle CurrentStyle;
+
+        private readonly float BetweenDelay = 0.15f;
+        private readonly float EndDelay = 0.5f;
+
+        private List<string> GarbageLetters = new List<string>()
         {
-            Text = GetComponent<UnityEngine.UI.Text> ();
+            "#",
+            "$",
+            "?",
+            "@",
+            "-",
+            "*",
+            "&",
+            "%"
+        };
+
+        void Awake()
+        {
+            TextAnimators = new List<Animator>();
+        }
+
+        public void Clear()
+        {
+            StopAllCoroutines();
+            if(TextAnimators != null)
+            {
+                TextAnimators.Clear();
+            }
+            else
+            {
+                TextAnimators = new List<Animator>();
+            }
+            CurrentLine = null;
+            CurrentWord = null;
+            CurrentLineLetters = 0;
+
+            foreach (Transform child in transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
         }
 
         public void SetStyle(TextStyle style)
         {
-            Text.font = style.Font;
-            Text.fontSize = style.Size;
-            Text.color = style.Colour;
+            Clear();
+            CurrentStyle = style;
+        }
+
+        public void SetTextLine(string dialogue)
+        {
+            Clear();
+            foreach(char letter in dialogue)
+            {
+                SetTextLetter(letter.ToString());
+            }
+        }
+
+        public void SetTextLetter(string letter)
+        {
+            SetText(letter, CurrentStyle);
+        }
+
+        private void SetText(string letter, TextStyle style)
+        {
+            bool IsSeparator = letter.Equals(" ");
+            if(CurrentLineLetters >= MaxLettersPerLine && IsSeparator)
+            {
+                CreateLine();
+                CurrentLineLetters = 0;
+            }
+            CurrentLineLetters++;
+
+            GameObject currentLetter;
+            if(IsSeparator)
+            {
+                currentLetter = CreateSeparator();
+                CreateWord();
+            }
+            else
+            {
+                currentLetter = CreateLetter();
+
+                Animator textAnimator = currentLetter.GetComponentInChildren<Animator>();
+                TextAnimators.Add(textAnimator);
+            }
+
+            if(style.Effect == TextStyle.TextEffect.Interrupted)
+            {
+                letter = RandomGarbageLetter(letter);
+            }
+
+            UnityEngine.UI.Text textComponent = currentLetter.GetComponentInChildren<UnityEngine.UI.Text>();
+            textComponent.text = letter;
+            textComponent.font = style.Font;
+            textComponent.fontSize = style.Size;
+            textComponent.color = style.Colour;
+            //SetStyle(textComponent, style);
+
+            if(style.Effect != TextStyle.TextEffect.None && style.Effect != TextStyle.TextEffect.Interrupted)
+            {
+                string animation = MapAnimationToString(style.Effect);
+                AnimateSequential(animation);
+            }
+        }
+
+        private string RandomGarbageLetter(string originalLetter)
+        {
+            string letter = originalLetter;
+
+            bool useRandom = Random.Range(0, 2) == 0;
+            if(useRandom)
+            {
+                int randomIndex = Random.Range(0, GarbageLetters.Count());
+
+                letter = GarbageLetters.ElementAt(randomIndex);
+            }
+
+            return letter;
+        }
+
+        private void CreateLine()
+        {
+            GameObject lineObject = GameObject.Instantiate(LinePrefab, this.transform);
+            CurrentLine = lineObject;
+        }
+
+        private void CreateWord()
+        {
+            if(CurrentLine == null)
+            {
+                CreateLine();
+            }
+
+            GameObject wordObject = GameObject.Instantiate(WordPrefab, CurrentLine.transform);
+            CurrentWord = wordObject;
+        }
+
+        private GameObject CreateSeparator()
+        {
+            if(CurrentLine == null)
+            {
+                CreateLine();
+            }
+
+            GameObject separatorObject = GameObject.Instantiate(LetterPrefab, CurrentLine.transform);
+
+            return separatorObject;
+        }
+
+        private GameObject CreateLetter()
+        {
+            if(CurrentWord == null)
+            {
+                CreateWord();
+            }
+
+            GameObject letterObject = GameObject.Instantiate(LetterPrefab, CurrentWord.transform);
+
+            return letterObject;
+        }
+
+        private void SetStyle(UnityEngine.UI.Text text, TextStyle style)
+        {
+            text.font = style.Font;
+            text.fontSize = style.Size;
+            text.color = style.Colour;
+        }
+
+        private void AnimateSequential(string animationString)
+        {
+            StopAllCoroutines();
+            StartCoroutine(DoAnimateSequential(animationString));
+        }
+
+        private string MapAnimationToString(TextStyle.TextEffect textEffect)
+        {
+            string animationString = "";
+
+            switch (textEffect)
+            {
+                case TextStyle.TextEffect.Jumping:
+                    animationString = "Jump";
+                    break;
+                case TextStyle.TextEffect.Fading:
+                    animationString = "Fade";
+                    break;
+                case TextStyle.TextEffect.Highlighted:
+                    animationString = "Highlight";
+                    break;
+            }
+
+            return animationString;
+        }
+
+        private IEnumerator DoAnimateSequential(string animationString)
+        {
+            while(true)
+            {
+                foreach(Animator animator in TextAnimators)
+                {
+                    animator.SetTrigger(animationString);
+
+                    yield return new WaitForSeconds(BetweenDelay);
+                }
+
+                yield return new WaitForSeconds(EndDelay);
+            }
         }
     }
 }

@@ -51,28 +51,22 @@ namespace Scripts.Level.Dialogue
         #region Events
         public event EventHandler Started;
         public event EventHandler Ended;
-        public event EventHandler<string> LineNameUpdated;
-        public event EventHandler<string> LineDialogueUpdated;
 
-        public void OnStarted()
+        public virtual void OnDialogueStarted()
         {
             Started?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnEnded()
+        public virtual void OnDialogueEnded()
         {
             Ended?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnLineNameUpdated(string name)
-        {
-            LineNameUpdated?.Invoke(this, name);
-        }
+        public abstract void OnLineStyleUpdated(string styleName);
 
-        public void OnLineDialogueUpdated(string dialogue)
-        {
-            LineDialogueUpdated?.Invoke(this, dialogue);
-        }
+        public abstract void OnLineNameUpdated(string name);
+
+        public abstract void OnLineDialogueUpdated(string dialogue);
         #endregion
     }
 }
