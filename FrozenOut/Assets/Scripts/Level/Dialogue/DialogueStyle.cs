@@ -5,6 +5,13 @@ using UnityEngine;
 namespace Scripts.Level.Dialogue
 {
     [Serializable]
+    public class CharacterDialogueStyle
+    {
+        public string Name;
+        public DialogueStyle Style;
+    }
+
+    [Serializable]
     public class DialogueStyle
     {
         [Tooltip("Afecta velocidad de texto y de habla\nPositivo para que vaya más lento\nNegativo para que vaya más rápido")]
@@ -56,22 +63,24 @@ namespace Scripts.Level.Dialogue
     [Serializable]
     public class TextStyle
     {
-        [Tooltip("Afecta a la fuente del texto\nSi se deja vacío se usara el por defecto")]
+        [Tooltip("Afecta a la fuente del texto\nSi se deja vacío se usara la fuente por defecto")]
         public Font Font;
         [Tooltip("Afecta al color del texto")]
         public Color Colour;
         [NonSerialized]
         public int Size;
 
-        [Header("Efectos - TODO")]
+        [Header("Efectos")]
         public TextEffect Effect;
 
         [Serializable]
         public enum TextEffect
         {
+            None,
             Jumping,
             Fading,
-            Interrupted,
+            Highlighted,
+            Interrupted
         }
 
         public void UpdateOptionals(TextStyle defaultStyle)
