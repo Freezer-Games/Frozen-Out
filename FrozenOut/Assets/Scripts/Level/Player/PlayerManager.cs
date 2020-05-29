@@ -141,6 +141,10 @@ namespace Scripts.Level.Player
                     PickAnimation();
                     equipper.OnEquip();
                 }
+                else
+                {
+                    equipper.OnUnequip();
+                }
             }
         }
 
