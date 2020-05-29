@@ -132,22 +132,6 @@ namespace Scripts.Level.Player
             Instantiate(Player, transform.position, transform.rotation);
         }
 
-        public void EquipItem(ItemInfo itemEquipped)
-        {
-            foreach(ItemEquipper equipper in EquippableObjects)
-            {
-                if(itemEquipped.Equals(equipper.Item))
-                {
-                    PickAnimation();
-                    equipper.OnEquip();
-                }
-                else
-                {
-                    equipper.OnUnequip();
-                }
-            }
-        }
-
         public void SetInteractiveItem(Transform itemPos, Transform itemLook)
         {
             if (NormalController.isActiveAndEnabled == true) 
@@ -185,6 +169,22 @@ namespace Scripts.Level.Player
             else if (MeltedController.isActiveAndEnabled == true)
             {
                 MeltedController.IsInteracting = state;
+            }
+        }
+
+        public void EquipItem(ItemInfo itemEquipped)
+        {
+            foreach (ItemEquipper equipper in EquippableObjects)
+            {
+                if (itemEquipped.Equals(equipper.Item))
+                {
+                    PickAnimation();
+                    equipper.OnEquip();
+                }
+                else
+                {
+                    equipper.OnUnequip();
+                }
             }
         }
 
