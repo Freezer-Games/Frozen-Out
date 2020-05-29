@@ -130,8 +130,6 @@ namespace Scripts.Level.Item
             {
                 PlayerManager.SetIsInteracting(true);
                 StartCoroutine(WaitingPlayer(user));
-                
-                user.OnUse();
 
                 UseItem(user.Item);
             }
