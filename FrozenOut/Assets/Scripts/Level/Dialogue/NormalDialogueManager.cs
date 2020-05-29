@@ -273,11 +273,12 @@ namespace Scripts.Level.Dialogue
 
                 if (UserRequestedAllLine)
                 {
-                    TextManager.ShowDialogueAccumulated(dialogueText.ToStringFull());
-                    break;
+                    yield return null;
                 }
-
-                yield return new WaitForSeconds(CurrentStyle.Delay);
+                else
+                {
+                    yield return new WaitForSeconds(CurrentStyle.Delay);
+                }
             }
 
             yield return new WaitForSeconds(NextDialogueDelay);
