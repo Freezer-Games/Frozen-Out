@@ -87,6 +87,7 @@ namespace Scripts.Level.Item
             if(IsItemInInventory(item) && item.IsEquippable)
             {
                 EquippedItem = item;
+                PlayerManager.SetInteractAnimation(EquippedItem.Animation);
 
                 OnItemEquipped(item);
             }
@@ -96,6 +97,7 @@ namespace Scripts.Level.Item
         public void UnequipItem()
         {
             EquippedItem = null;
+            PlayerManager.SetInteractAnimation("");
 
             OnItemUnequipped();
         }
@@ -124,14 +126,12 @@ namespace Scripts.Level.Item
             if (string.IsNullOrEmpty(user.Item.VariableName))
             {
                 PlayerManager.SetIsInteracting(true);
-                StartCoroutine(WaitingPlayer(user));
+                StartCoroutine(WaitingPlayer(user, false));
             }
             else if(IsItemInInventory(user.Item))
             {
                 PlayerManager.SetIsInteracting(true);
-                StartCoroutine(WaitingPlayer(user));
-                
-                user.OnUse();
+                StartCoroutine(WaitingPlayer(user, true));
 
                 UseItem(user.Item);
             }
@@ -216,12 +216,18 @@ namespace Scripts.Level.Item
             return inventoryItem.IsUsed;
         }
 
-        IEnumerator WaitingPlayer(ItemUser user)
+        IEnumerator WaitingPlayer(ItemUser user, bool needTool)
         {
             while (PlayerManager.GetIsInteracting())
             {
                 yield return null;
             }
+
+            if (!needTool)
+                PlayerManager.PickAnimation();
+            else
+                PlayerManager.PlayInteractAnimation();
+                
             user.OnUse();
 
             yield return null;

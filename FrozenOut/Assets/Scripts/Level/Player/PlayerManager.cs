@@ -34,6 +34,7 @@ namespace Scripts.Level.Player
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         private string PickAnimationName = "isPicking";
+        [SerializeField] private string InteractAnimation = "";
 
         public void Enable()
         {
@@ -200,6 +201,16 @@ namespace Scripts.Level.Player
         public void PickAnimation()
         {
             Animator.SetTrigger(PickAnimationName);
+        }
+
+        public void PlayInteractAnimation()
+        {
+            Animator.SetTrigger(InteractAnimation);
+        }
+
+        public void SetInteractAnimation(String animation)
+        {
+            InteractAnimation = animation;
         }
 
         #region Events

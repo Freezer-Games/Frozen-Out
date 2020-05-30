@@ -8,10 +8,12 @@ namespace Scripts.Level.Item
     public class OreItem : ItemUser
     {
         public ParticleSystem Particles;
+        [SerializeField] float animDelay;
+        [SerializeField] float particlesDelay = 1f;
 
         public override void OnPlayerAway()
         {
-
+            
         }
 
         public override void OnPlayerClose()
@@ -30,16 +32,15 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            Debug.Log("Picando");
             StartCoroutine(PlayParticles());
         }
 
         IEnumerator PlayParticles()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(animDelay);
             Particles.Play();
-            yield return new WaitForSeconds(0.5f);
-            Destroy(gameObject);
+            yield return new WaitForSeconds(particlesDelay);
+            DestroyItem();
             yield return null;
         }
     }

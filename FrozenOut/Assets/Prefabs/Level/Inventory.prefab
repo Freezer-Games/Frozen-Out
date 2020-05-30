@@ -339,48 +339,60 @@ MonoBehaviour:
   ItemPickPromptController: {fileID: 1697435665609001550}
   ItemUsePromptController: {fileID: 4744075108921508276}
   LevelItems:
-  - Name: Pico
+  - VariableName: pickaxe
+    Name: Pico
     Description: Con esto puedo trabajar
+    Animation: isMining
     IsEquippable: 1
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 820a6a2eee23f9e44996412d901dd054, type: 3}
     EquippedSprite: {fileID: 21300000, guid: 2f0de9f32412322468f260274b62bf0c, type: 3}
-    VariableName: pickaxe
-  - Name: Mechero
+  - VariableName: lighter
+    Name: Mechero
     Description: Con esto puedo derretirme
+    Animation: 
     IsEquippable: 0
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 99ba977522180224da3f79cfb76232d7, type: 3}
     EquippedSprite: {fileID: 0}
-    VariableName: lighter
-  - Name: Cuchara
+  - VariableName: spoon
+    Name: Cuchara
     Description: No tengo tiempo para comer ahora
+    Animation: isDigging
     IsEquippable: 1
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 49585433ec3f19249a14c1a311f2fa3c, type: 3}
     EquippedSprite: {fileID: 21300000, guid: 49a36da56b2ef7742b72474ba99f4138, type: 3}
-    VariableName: spoon
-  - Name: Hielo
+  - VariableName: ice
+    Name: Hielo
     Description: No tengo tiempo para comer ahora
+    Animation: 
     IsEquippable: 1
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 5b22ca87d33f5054a86f76538fe2299b, type: 3}
     EquippedSprite: {fileID: 21300000, guid: 047395f2cfd214343899d830b6b8b623, type: 3}
-    VariableName: ice
-  - Name: "Bater\xEDa"
+  - VariableName: battery
+    Name: "Bater\xEDa"
     Description: "Quiz\xE1 le pueda interesar a alguien..."
+    Animation: 
     IsEquippable: 0
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 332e83618a65b6f4682317b403fc5d0f, type: 3}
     EquippedSprite: {fileID: 0}
-    VariableName: battery
-  - Name: Palanca
+  - VariableName: lever
+    Name: Palanca
     Description: "Cl\xE1sico de videjuegos"
+    Animation: 
     IsEquippable: 0
     Quantity: 0
+    IsUsed: 0
     Sprite: {fileID: 21300000, guid: 986af97eef8931440804aa721ffa383b, type: 3}
     EquippedSprite: {fileID: 0}
-    VariableName: lever
 --- !u!1 &4744075108484101347
 GameObject:
   m_ObjectHideFlags: 0

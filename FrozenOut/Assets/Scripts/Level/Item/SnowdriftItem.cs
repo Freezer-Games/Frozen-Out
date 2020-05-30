@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scripts.Level.Item
+namespace Scripts.Level.Item 
 {
     public class SnowdriftItem : ItemUser
     {
-        ParticleSystem Particles;
-        
+        public ParticleSystem Particles;
+        [SerializeField] float animDelay;
+        [SerializeField] float particlesDelay = 1f;
+
         public override void OnPlayerAway()
         {
 
@@ -15,7 +17,6 @@ namespace Scripts.Level.Item
 
         public override void OnPlayerClose()
         {
-
         }
 
         public override void OnPlayerCol()
@@ -25,7 +26,7 @@ namespace Scripts.Level.Item
 
         public override void OnPlayerExitCol()
         {
-
+               
         }
 
         public override void OnUse()
@@ -35,11 +36,13 @@ namespace Scripts.Level.Item
 
         IEnumerator PlayParticles()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(animDelay);
             Particles.Play();
-            yield return new WaitForSeconds(0.5f);
-            Destroy(gameObject);
+            yield return new WaitForSeconds(particlesDelay);
+            DestroyItem();
             yield return null;
         }
     }
 }
+
+
