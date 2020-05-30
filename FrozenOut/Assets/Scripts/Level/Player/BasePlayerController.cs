@@ -25,6 +25,7 @@ namespace Scripts.Level.Player
             if (targetPos == null && targetLook == null) 
             {
                 PlayerManager.SetIsInteracting(false);
+                PlayerManager.SetInteractiveItem(null, null);
             }
             //Mira al objetivo e interactua
             else if (targetPos == null && targetLook != null)
@@ -34,8 +35,9 @@ namespace Scripts.Level.Player
                 transform.LookAt(lookPos);
 
                 PlayerManager.SetIsInteracting(false);
+                PlayerManager.SetInteractiveItem(null, null);
             }
-            //Se mueve a la posicion deseada minetras mira e interactua
+            //Se mueve a la posicion deseada minetras mira y luego interactua
             else 
             {
                 Vector3 lookPos = targetLook.position;
@@ -54,8 +56,8 @@ namespace Scripts.Level.Player
                 }
                 else 
                 {
-                    Animator.SetBool("isMoving", false);
-                    PlayerManager.SetIsInteracting(false);
+                    Animator.SetBool("isMoving", false);           
+                    PlayerManager.SetIsInteracting(false); 
                     PlayerManager.SetInteractiveItem(null, null);
                 }
             }

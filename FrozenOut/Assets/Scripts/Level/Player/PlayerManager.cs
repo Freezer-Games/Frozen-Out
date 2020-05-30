@@ -20,6 +20,7 @@ namespace Scripts.Level.Player
         public GameObject Player;
         public Animator Animator;
         public PlayerForm PlayerForm = PlayerForm.Normal;
+        public ItemInfo itemEquipped;
         public List<ItemEquipper> EquippableObjects;
 
         public bool IsEnabled
@@ -34,6 +35,7 @@ namespace Scripts.Level.Player
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         private string PickAnimationName = "isPicking";
+        [SerializeField] private string InteractAnimation = "";
 
         public void Enable()
         {
@@ -140,6 +142,7 @@ namespace Scripts.Level.Player
                 {
                     PickAnimation();
                     equipper.OnEquip();
+                    this.itemEquipped = itemEquipped;
                 }
                 else
                 {
@@ -194,12 +197,23 @@ namespace Scripts.Level.Player
             foreach (ItemEquipper equipper in EquippableObjects)
             {
                 equipper.OnUnequip();
+                this.itemEquipped = null; 
             }
         }
 
         public void PickAnimation()
         {
             Animator.SetTrigger(PickAnimationName);
+        }
+
+        public void PlayInteractAnimation()
+        {
+            Animator.SetTrigger(InteractAnimation);
+        }
+
+        public void SetInteractAnimation(String animation)
+        {
+            InteractAnimation = animation;
         }
 
         #region Events
