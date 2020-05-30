@@ -54,7 +54,7 @@ namespace Scripts.Level.Dialogue.Utils
         {
             foreach (char letter in Text)
             {
-                yield return letter.ToString(); ;
+                yield return letter.ToString();
             }
         }
 

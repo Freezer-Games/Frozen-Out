@@ -15,7 +15,7 @@ namespace Scripts.Level.Dialogue
         private GameObject CurrentWord;
 
         private int CurrentLineLetters;
-        private readonly int MaxLettersPerLine = 40;
+        private readonly int MaxLettersPerLine = 35;
 
         private ICollection<Animator> TextAnimators;
         private TextStyle CurrentStyle;
@@ -112,10 +112,7 @@ namespace Scripts.Level.Dialogue
 
             UnityEngine.UI.Text textComponent = currentLetter.GetComponentInChildren<UnityEngine.UI.Text>();
             textComponent.text = letter;
-            textComponent.font = style.Font;
-            textComponent.fontSize = style.Size;
-            textComponent.color = style.Colour;
-            //SetStyle(textComponent, style);
+            SetStyle(textComponent, style);
 
             if(style.Effect != TextStyle.TextEffect.None && style.Effect != TextStyle.TextEffect.Interrupted)
             {
@@ -128,7 +125,7 @@ namespace Scripts.Level.Dialogue
         {
             string letter = originalLetter;
 
-            bool useRandom = Random.Range(0, 2) == 0;
+            bool useRandom = Random.Range(0, 11) > 7; // 30% of random
             if(useRandom)
             {
                 int randomIndex = Random.Range(0, GarbageLetters.Count());

@@ -20,7 +20,6 @@ namespace Scripts.Level.Player
         public GameObject Player;
         public Animator Animator;
         public PlayerForm PlayerForm = PlayerForm.Normal;
-        public ItemInfo itemEquipped;
         public List<ItemEquipper> EquippableObjects;
 
         public bool IsEnabled
@@ -134,23 +133,6 @@ namespace Scripts.Level.Player
             Instantiate(Player, transform.position, transform.rotation);
         }
 
-        public void EquipItem(ItemInfo itemEquipped)
-        {
-            foreach(ItemEquipper equipper in EquippableObjects)
-            {
-                if(itemEquipped.Equals(equipper.Item))
-                {
-                    PickAnimation();
-                    equipper.OnEquip();
-                    this.itemEquipped = itemEquipped;
-                }
-                else
-                {
-                    equipper.OnUnequip();
-                }
-            }
-        }
-
         public void SetInteractiveItem(Transform itemPos, Transform itemLook)
         {
             if (NormalController.isActiveAndEnabled == true) 
@@ -191,13 +173,28 @@ namespace Scripts.Level.Player
             }
         }
 
+        public void EquipItem(ItemInfo itemEquipped)
+        {
+            foreach (ItemEquipper equipper in EquippableObjects)
+            {
+                if (itemEquipped.Equals(equipper.Item))
+                {
+                    PickAnimation();
+                    equipper.OnEquip();
+                }
+                else
+                {
+                    equipper.OnUnequip();
+                }
+            }
+        }
+
         public void UnequipItem()
         {
             PickAnimation();
             foreach (ItemEquipper equipper in EquippableObjects)
             {
                 equipper.OnUnequip();
-                this.itemEquipped = null; 
             }
         }
 
