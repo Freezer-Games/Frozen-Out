@@ -42,12 +42,53 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         public AudioClip Y;
         public AudioClip Z;
 
+        private IEnumerable<AudioClip> Letters;
+
         public AudioClip Space;
         public AudioClip Period;
 
         private string[] CurrentSentences;
 
         private VoiceStyle CurrentStyle;
+
+        void Start()
+        {
+            //Un poco sucio pero hace falta para luego elegir un sonido random
+            Letters = new List<AudioClip>()
+            {
+                this.A,
+                this.B,
+                this.C,
+                this.CH,
+                this.D,
+                this.E,
+                this.EE,
+                this.F,
+                this.G,
+                this.H,
+                this.I,
+                this.J,
+                this.K,
+                this.L,
+                this.M,
+                this.N,
+                this.O,
+                this.OO,
+                this.P,
+                this.Q,
+                this.R,
+                this.S,
+                this.SH,
+                this.T,
+                this.TH,
+                this.U,
+                this.V,
+                this.W,
+                this.X,
+                this.Y,
+                this.Z,
+            };
+        }
 
         public override void Open()
         {
@@ -64,6 +105,8 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             CurrentStyle = style;
 
             AudioSource.volume = CurrentStyle.Volume;
+
+            // TODO
         }
 
         public override void Speak(string dialogue)
@@ -71,7 +114,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             Stop();
 
             char lastCharacter = dialogue.Last();
-            if (!lastCharacter.Equals('.') && !lastCharacter.Equals('?') && !lastCharacter.Equals('!') && !lastCharacter.Equals(',') && !lastCharacter.Equals(':') && !lastCharacter.Equals(';'))
+            if (!IsPunctuation(lastCharacter))
             {
                 // Añade punto final
                 dialogue += ".";
@@ -92,8 +135,13 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
 
         private void Stop()
         {
-            StopCoroutine(SpeakSentences());
+            StopAllCoroutines();
             AudioSource.Stop();
+        }
+
+        private bool IsPunctuation(char letter)
+        {
+            return letter.Equals('.') || letter.Equals('?') || letter.Equals('!') || letter.Equals(',') || letter.Equals(':') || letter.Equals(';');
         }
 
         private IEnumerator SpeakSentences()
@@ -304,14 +352,18 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
 
         private AudioClip GetRandomLetter()
         {
-            // TODO
-            return A;
+            int randomIndex = Random.Range(0, Letters.Count());
+
+            AudioClip clip = Letters.ElementAt(randomIndex);
+            return clip;
         }
 
         private void PlayClip(AudioClip letter)
         {
-            AudioSource.PlayOneShot(letter);
-            //AudioSource.PlayClipAtPoint(letter, CurrentPoint.transform.position);
+            // TODO remove popping noise
+            AudioSource.Pause();
+            AudioSource.clip = letter;
+            AudioSource.Play();
         }
 
         /*private void Enunciate(char punc, int currentChar, int totalChars)

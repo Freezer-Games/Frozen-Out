@@ -15,13 +15,13 @@ namespace Scripts.Level.Dialogue
         private GameObject CurrentWord;
 
         private int CurrentLineLetters;
-        private readonly int MaxLettersPerLine = 35;
+        private const int MaxLettersPerLine = 35;
 
         private ICollection<Animator> TextAnimators;
         private TextStyle CurrentStyle;
 
-        private readonly float BetweenDelay = 0.15f;
-        private readonly float EndDelay = 0.5f;
+        private const float BetweenDelay = 0.15f;
+        private const float EndDelay = 0.5f;
 
         private List<string> GarbageLetters = new List<string>()
         {
@@ -110,7 +110,12 @@ namespace Scripts.Level.Dialogue
                 letter = RandomGarbageLetter(letter);
             }
 
-            UnityEngine.UI.Text textComponent = currentLetter.GetComponentInChildren<UnityEngine.UI.Text>();
+            UnityEngine.UI.Text textHolder = currentLetter.GetComponent<UnityEngine.UI.Text>();
+            textHolder.text = letter;
+            textHolder.font = style.Font;
+            textHolder.fontSize = style.Size;
+
+            UnityEngine.UI.Text textComponent = currentLetter.GetComponentsInChildren<UnityEngine.UI.Text>().Last(); //Excluir holder de antes
             textComponent.text = letter;
             SetStyle(textComponent, style);
 
@@ -212,6 +217,9 @@ namespace Scripts.Level.Dialogue
 
         private IEnumerator DoAnimateSequential(string animationString)
         {
+            TextAnimators.Last().SetTrigger(animationString);
+            yield return new WaitForSeconds(EndDelay);
+
             while(true)
             {
                 foreach(Animator animator in TextAnimators)
