@@ -76,13 +76,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ca9c9c9ddbc984ea6083993b81ea69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
   TalkToNode: 
   Style:
-    RelativeDelay: 0
-    RelativeSize: 0
-    Font: {fileID: 12800000, guid: 01f5450ab06cd994db7d05e025d7091b, type: 3}
-    Colour: {r: 1, g: 1, b: 1, a: 1}
+    Name: 
+    Style:
+      RelativeDelay: 0
+      RelativeIntensity: 0
+      TextStyle:
+        Font: {fileID: 0}
+        Colour: {r: 0, g: 0, b: 0, a: 1}
+        Effect: 0
+      VoiceStyle:
+        RelativePitch: 0
+        RelativeGender: 0
+        RelativeTone: 0
+  ExtraStyles: []
 --- !u!114 &1782319665286912943
 MonoBehaviour:
   m_ObjectHideFlags: 0
