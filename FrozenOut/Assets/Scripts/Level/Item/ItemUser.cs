@@ -21,6 +21,8 @@ namespace Scripts.Level.Item
 
         public abstract void OnPlayerExitCol();
 
+        public void DestroyItem() { Destroy(gameObject); }
+
         public Transform GetItemPos() { return ItemPos; }
 
         public Transform GetItemLook() { return ItemLook; }

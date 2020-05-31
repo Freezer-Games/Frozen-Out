@@ -27,6 +27,7 @@ namespace Scripts.Level.Item
     {
         public string Name = "";
         public string Description = "";
+        public string Animation = "";
         public bool IsEquippable = false;
         public int Quantity = 0;
         public bool IsUsed = false;

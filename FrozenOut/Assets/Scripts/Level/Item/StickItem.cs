@@ -45,7 +45,7 @@ namespace Scripts.Level.Item
 
         public override void OnPlayerCol()
         {
-            //Se ilumina o algo
+            Debug.Log("esto es el palo");
         }
 
         public override void OnUse()
