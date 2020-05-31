@@ -84,19 +84,28 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             int indexOfStyleSeparator = text.IndexOf(StyleSeparator);
             int indexOfDialogueSeparator = text.IndexOf(DialogueSeparator);
 
-            if (indexOfStyleSeparator == -1) // No hay estilo adicional
+            if (indexOfDialogueSeparator == -1) // No se especifica nombre
             {
-                name = text.Substring(0, indexOfDialogueSeparator);
-                style = name;
+                name = "";
+                style = "";
+                dialogue = text;
             }
             else
             {
-                name = text.Substring(0, indexOfStyleSeparator);
+                if (indexOfStyleSeparator == -1) // No hay estilo adicional
+                {
+                    name = text.Substring(0, indexOfDialogueSeparator);
+                    style = name;
+                }
+                else
+                {
+                    name = text.Substring(0, indexOfStyleSeparator);
 
-                int styleLength = indexOfDialogueSeparator - (indexOfStyleSeparator + StyleSeparator.Length);
-                style = text.Substring(indexOfStyleSeparator + StyleSeparator.Length, styleLength);
+                    int styleLength = indexOfDialogueSeparator - (indexOfStyleSeparator + StyleSeparator.Length);
+                    style = text.Substring(indexOfStyleSeparator + StyleSeparator.Length, styleLength);
+                }
+                dialogue = text.Substring(indexOfDialogueSeparator + DialogueSeparator.Length);
             }
-            dialogue = text.Substring(indexOfDialogueSeparator + DialogueSeparator.Length);
         }
 
         #region Events
