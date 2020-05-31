@@ -23,8 +23,15 @@ public class Vision : MonoBehaviour
     [HideInInspector]
     public List<Transform> ObjetosDetectados = new List<Transform>();
 
+    public GameObject camera;
+    public GameObject DeteccionUI;
+    private SpriteRenderer DeteccionSprite;
+    private Renderer UIRenderer;
+    private MaterialPropertyBlock _propBlock;
+
     private bool CR_running = false;
-    int deteccion = 0;
+    int Deteccion = 0;
+
 
 
     // Start is called before the first frame update
@@ -33,6 +40,9 @@ public class Vision : MonoBehaviour
         ObjetosVistos.Clear();
         ObjetosCercanos.Clear();
         StartCoroutine("FindTargetsWithDelay", .2f);
+        DeteccionSprite = DeteccionUI.GetComponent<SpriteRenderer>();
+        UIRenderer = DeteccionUI.GetComponent<Renderer>();
+        _propBlock = new MaterialPropertyBlock();
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -87,18 +97,29 @@ public class Vision : MonoBehaviour
         }
         foreach (Transform t in ObjetosVistos)
         {
-            if (!CR_running && deteccion < TiempoDeteccion)
-                StartCoroutine(StartDetection(t)); 
+            if (!CR_running && Deteccion < TiempoDeteccion)
+            {
+                CR_running = true;
+                StartDetection(t);
+            }
+
         }
     }
 
-    private IEnumerator StartDetection(Transform t) {
-        CR_running = true;
-        Debug.Log("StartDetection");
-        deteccion = deteccion + 1;
-        gameObject.GetComponentInChildren<DetectionUI>().UpdateUI(deteccion);
+    private void StartDetection(Transform t)
+    {
+        //Debug.Log("StartDetection");
+        DeteccionSprite.enabled = true; 
+        //ShowUI();
+        StartCoroutine(ContinueDetection(t));
+    }
 
-        if (deteccion >= TiempoDeteccion)
+    private IEnumerator ContinueDetection(Transform t) {
+        Deteccion++;
+        UIRenderer.GetPropertyBlock(_propBlock);
+        _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion)/255f));
+        UIRenderer.SetPropertyBlock(_propBlock);
+        if (Deteccion >= TiempoDeteccion)
         {
             ObjetosDetectados.Add(t);
             yield return null;
@@ -106,30 +127,38 @@ public class Vision : MonoBehaviour
         }
         else if (ObjetosVistos.Contains(t))
         {
-            yield return new WaitForSeconds(0.005f);
-            StartCoroutine(StartDetection(t));
+            yield return new WaitForSeconds(0.008f);
+            StartCoroutine(ContinueDetection(t));
         } else
         {
-            StartCoroutine(EndDetection(t));
-            yield return null;
+            yield return StartCoroutine(EndDetection(t));
         }
     }
 
     private IEnumerator EndDetection(Transform t)
     {
-
-        deteccion = deteccion - 1;
-        gameObject.GetComponentInChildren<DetectionUI>().UpdateUI(deteccion);
-
-        if (ObjetosVistos.Contains(t))
-        {
-            StartCoroutine(StartDetection(t));
+        UIRenderer.GetPropertyBlock(_propBlock);
+        _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
+        UIRenderer.SetPropertyBlock(_propBlock);
+        if (Deteccion <= 0) {
+            DeteccionSprite.enabled = false;
+            //HideUI();
             yield return null;
+            CR_running = false;
         }
         else
         {
-            yield return new WaitForSeconds(0.005f);
-            CR_running = false;
+            Deteccion--;
+            if (ObjetosVistos.Contains(t))
+            {
+                yield return StartCoroutine(ContinueDetection(t));
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.008f);
+                StartCoroutine(EndDetection(t));
+                
+            }
         }
     }
 
@@ -143,5 +172,8 @@ public class Vision : MonoBehaviour
 
     }
 
-    
+    private void Update()
+    {
+        DeteccionUI.transform.LookAt(camera.transform);
+    }
 }
