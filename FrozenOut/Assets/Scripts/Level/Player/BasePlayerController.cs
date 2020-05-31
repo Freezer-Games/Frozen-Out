@@ -65,11 +65,14 @@ namespace Scripts.Level.Player
 
         public void FaceMovement() 
         {
-            transform.rotation = 
-                Quaternion.Slerp(
-                    transform.rotation, 
-                    Quaternion.LookRotation(Movement.normalized), 
-                    0.2f);
+            if (Movement != Vector3.zero)
+            {
+                transform.rotation = 
+                    Quaternion.Slerp(
+                        transform.rotation, 
+                        Quaternion.LookRotation(Movement.normalized), 
+                        0.2f);
+            }
         }
 
         protected void CameraVectors() 

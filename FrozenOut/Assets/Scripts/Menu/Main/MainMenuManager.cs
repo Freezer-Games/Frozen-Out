@@ -21,8 +21,8 @@ namespace Scripts.Menu.Main
             MainMenuController.Open();
             OptionsMenuController.Close();
 
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
         }
         
         public void ContinueGame()

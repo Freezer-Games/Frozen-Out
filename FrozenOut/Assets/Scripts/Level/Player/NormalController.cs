@@ -13,13 +13,15 @@ namespace Scripts.Level.Player
 
 
         [Header("Movement")]
+        [SerializeField] Transform MainParent;
         [SerializeField] float MoveSpeed = 4f;
         [SerializeField] float JumpForce = 6f;
 
 
         [Header("Jump")]
-        float CanJumpDist = 0.51f;
+        public float CanJumpDist = 0.51f;
         public Transform RayOrigin;
+        public LayerMask IgnoreByRay;
 
         [Header("Interact")]
         public Transform InteractPos;
@@ -119,10 +121,30 @@ namespace Scripts.Level.Player
                 Movement.z);
         }
 
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Ground"))
+            {
+                Debug.Log("fuera");
+                transform.SetParent(other.transform);
+            }
+        }
+
+        void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Ground"))
+            {
+                Debug.Log("dentro");
+                transform.SetParent(MainParent);
+            }
+        }
+
         private void Jump() 
         {
+
             if (CheckGround())
             {
+                Rigidbody.isKinematic = false;
                 Animator.SetTrigger("isJumping");
                 Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             }
@@ -134,7 +156,7 @@ namespace Scripts.Level.Player
             Ray checker = new Ray(RayOrigin.position, Vector3.down);
             Debug.DrawRay(RayOrigin.position, Vector3.down, Color.red, 0.1f);
 
-            if (Physics.Raycast(checker, out hit, CanJumpDist)) 
+            if (Physics.Raycast(checker, out hit, CanJumpDist, ~IgnoreByRay)) 
             {
                 if (hit.collider.CompareTag("Ground")) 
                 {

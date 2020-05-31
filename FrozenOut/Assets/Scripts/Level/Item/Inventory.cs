@@ -126,6 +126,7 @@ namespace Scripts.Level.Item
             if (string.IsNullOrEmpty(user.Item.VariableName))
             {
                 PlayerManager.SetIsInteracting(true);
+                Debug.Log("Palo");
                 StartCoroutine(WaitingPlayer(user, false));
             }
             else if(IsItemInInventory(user.Item))
