@@ -549,6 +549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory: {fileID: 5083658396330324043}
+  NameObject: {fileID: 8538290880855232228}
+  DescriptionObject: {fileID: 8358905008933867900}
   NameText: {fileID: 2549134593297306151}
   DescriptionText: {fileID: 3136579202940149331}
   ItemsGroup: {fileID: 3600802102606928037}
@@ -790,6 +792,7 @@ GameObject:
   - component: {fileID: 6430618117667221617}
   - component: {fileID: 2275127415358989739}
   - component: {fileID: 3136579202940149331}
+  - component: {fileID: 9175284817983646942}
   m_Layer: 0
   m_Name: ItemDescription
   m_TagString: Untagged
@@ -856,6 +859,39 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ItemDescription
+--- !u!114 &9175284817983646942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8358905008933867900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableName: GUID:11f60f2e46488c64a920f28c182488cb
+    m_TableEntryReference:
+      m_KeyId: 8
+      m_Key: 
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3136579202940149331}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8538290880855232228
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +903,7 @@ GameObject:
   - component: {fileID: 2978690611924360789}
   - component: {fileID: 7863546528899968201}
   - component: {fileID: 2549134593297306151}
+  - component: {fileID: 7913059462471871695}
   m_Layer: 0
   m_Name: ItemName
   m_TagString: Untagged
@@ -933,3 +970,36 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ItemName
+--- !u!114 &7913059462471871695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538290880855232228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableName: GUID:d62122e3fafaaeb46af844e38a2afab1
+    m_TableEntryReference:
+      m_KeyId: 8
+      m_Key: 
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2549134593297306151}
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
