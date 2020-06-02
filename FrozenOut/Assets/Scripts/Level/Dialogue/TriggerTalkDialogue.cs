@@ -27,14 +27,6 @@ namespace Scripts.Level.Dialogue
             }
         }
 
-        void OnTriggerStay(Collider other)
-        {
-            if(other.CompareTag(PlayerTag))
-            {
-                DialogueManager.OpenTalkPrompt(Talker);
-            }
-        }
-
         void OnTriggerExit(Collider other)
         {
             if(other.CompareTag(PlayerTag))
