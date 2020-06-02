@@ -25,8 +25,6 @@ namespace Scripts.Level.Item
     [Serializable]
     public class ItemInfo : ItemBase
     {
-        public string Name = "";
-        public string Description = "";
         public string Animation = "";
         public bool IsEquippable = false;
         public int Quantity = 0;

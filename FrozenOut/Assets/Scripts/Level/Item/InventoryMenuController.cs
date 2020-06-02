@@ -1,7 +1,10 @@
 using System.Collections;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 namespace Scripts.Level.Item
 {
@@ -9,8 +12,8 @@ namespace Scripts.Level.Item
     {
         public Inventory Inventory;
 
-        public Text NameText;
-        public Text DescriptionText;
+        public GameObject NameObject;
+        public GameObject DescriptionObject;
 
         public HorizontalLayoutGroup ItemsGroup;
         public GameObject ItemImagePrefab;
@@ -19,9 +22,12 @@ namespace Scripts.Level.Item
         private int SelectedItemIndex;
         private ItemInfo PendingEquippedItem;
 
+        private LocalizedString LocalizeScriptName => NameObject.GetComponent<LocalizeStringBehaviour>().StringReference;
+        private LocalizedString LocalizeScriptDescription => DescriptionObject.GetComponent<LocalizeStringBehaviour>().StringReference;
+
         void Start()
         {
-            // Quitar cualquier elmento que se haya quedado
+            // Quitar cualquier ítem que se haya quedado
             foreach(Transform itemObject in ItemsGroup.transform)
             {
                 Destroy(itemObject.gameObject);
@@ -130,13 +136,16 @@ namespace Scripts.Level.Item
 
         private void UpdateTexts()
         {
-            NameText.text = "Inventario vacío";
-            DescriptionText.text = "Ve a coger algun ítem";
             if(SelectedItemIndex >= 0)
             {
-                ItemInfo selectedItem = Inventory.Items[SelectedItemIndex];
-                NameText.text = selectedItem.Name;
-                DescriptionText.text = selectedItem.Description;
+                ItemInfo selectedItem = Inventory.Items.ElementAt(SelectedItemIndex);
+                LocalizeScriptName.TableEntryReference = selectedItem.VariableName;
+                LocalizeScriptDescription.TableEntryReference = selectedItem.VariableName;
+            }
+            else
+            {
+                LocalizeScriptName.TableEntryReference = "empty";
+                LocalizeScriptDescription.TableEntryReference = "empty";
             }
         }
 
