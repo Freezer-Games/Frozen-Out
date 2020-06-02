@@ -39,9 +39,10 @@ namespace Scripts.Level.Dialogue
         public abstract void PickItem(string itemVariableName, int quantity);
         public abstract void UseItem(string itemVariableName, int quantity);
         public abstract void SetNPCAnimation(string npcName, string animation);
+        public abstract GameObject GetPlayer();
 
         public abstract void OpenTalkPrompt(DialogueTalker dialogueTalker);
-        public abstract void CloseTalkPrompt();
+        public abstract void CloseTalkPrompt(DialogueTalker dialogueTalker);
 
         public abstract bool GetBoolVariable(string variableName, bool includeLeading = true);
         public abstract string GetStringVariable(string variableName, bool includeLeading = true);

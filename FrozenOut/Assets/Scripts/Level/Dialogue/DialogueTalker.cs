@@ -44,5 +44,14 @@ namespace Scripts.Level.Dialogue
             Indicator.HideIndicator();
         }
 
+        public void OnSelected()
+        {
+            Indicator.Highlight();
+        }
+
+        public void OnDeselected()
+        {
+            Indicator.Unhighlight();
+        }
     }
 }

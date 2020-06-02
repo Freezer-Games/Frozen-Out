@@ -106,6 +106,11 @@ namespace Scripts.Level.Dialogue
 
             selectedNPC.StartAnimation(animation);
         }
+
+        public override GameObject GetPlayer()
+        {
+            return LevelManager.GetPlayerManager().Player;
+        }
         #endregion
 
         #region System
@@ -170,9 +175,9 @@ namespace Scripts.Level.Dialogue
             PromptController.Open(dialogueTalker);
         }
 
-        public override void CloseTalkPrompt()
+        public override void CloseTalkPrompt(DialogueTalker dialogueTalker)
         {
-            PromptController.Close();
+            PromptController.Close(dialogueTalker);
         }
 
         #region Style
