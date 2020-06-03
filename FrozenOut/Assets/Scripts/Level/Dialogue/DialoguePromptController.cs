@@ -10,10 +10,10 @@ namespace Scripts.Level.Dialogue
     {
         public DialogueManager DialogueManager;
         
-        private bool IsOpen => CandidateTalker != null;
+        private bool IsOpen => CandidateActer != null;
 
-        private DialogueTalker CandidateTalker;
-        private ICollection<DialogueTalker> Candidates = new HashSet<DialogueTalker>();
+        private DialogueActer CandidateActer;
+        private ICollection<DialogueActer> Candidates = new HashSet<DialogueActer>();
 
         void Update()
         {
@@ -25,56 +25,57 @@ namespace Scripts.Level.Dialogue
                 }
                 if(DialogueManager.IsReady() && Input.GetKey(DialogueManager.GetInteractKey()))
                 {
-                    DialogueManager.StartDialogue(CandidateTalker);
+                    DialogueManager.StartDialogue(CandidateActer);
                 }
             }
         }
 
-        public void Open(DialogueTalker talker)
+        public void Open(DialogueActer acter)
         {
-            if(CandidateTalker == null)
+            acter.OnDeselected();
+            if (CandidateActer == null)
             {
-                SetCandidate(talker);
+                SetCandidate(acter);
             }
-            Candidates.Add(talker);
+            Candidates.Add(acter);
             // Enable potential canvas
         }
 
-        public void Close(DialogueTalker talker)
+        public void Close(DialogueActer acter)
         {
-            Candidates.Remove(talker);
-            if(CandidateTalker.Equals(talker) || Candidates.Count() == 0)
+            Candidates.Remove(acter);
+            if(CandidateActer.Equals(acter) || Candidates.Count() == 0)
             {
-                CandidateTalker = null;
+                CandidateActer = null;
             }
             // Disable potential canvas
         }
 
-        private void SetCandidate(DialogueTalker talker)
+        private void SetCandidate(DialogueActer acter)
         {
-            CandidateTalker = talker;
+            CandidateActer = acter;
 
-            CandidateTalker.OnSelected();
+            CandidateActer.OnSelected();
         }
 
         private void UpdateCandidate()
         {
-            DialogueTalker currentCandidate = CandidateTalker;
-            float currentDistance = CalculateSqrMagnitudeDistanceToPlayer(CandidateTalker.transform.position);
-            foreach (DialogueTalker talker in Candidates)
+            DialogueActer currentCandidate = CandidateActer;
+            float currentDistance = CalculateSqrMagnitudeDistanceToPlayer(CandidateActer.transform.position);
+            foreach (DialogueActer acter in Candidates)
             {
-                float otherDistance = CalculateSqrMagnitudeDistanceToPlayer(talker.transform.position);
+                float otherDistance = CalculateSqrMagnitudeDistanceToPlayer(acter.transform.position);
 
                 if (otherDistance < currentDistance)
                 {
-                    currentCandidate = talker;
+                    currentCandidate = acter;
                     currentDistance = otherDistance;
                 }
             }
 
-            if(CandidateTalker != currentCandidate)
+            if(CandidateActer != currentCandidate) // Si se ha encontrado un candidato más cercano
             {
-                CandidateTalker.OnDeselected();
+                CandidateActer.OnDeselected();
                 SetCandidate(currentCandidate);
             }
         }

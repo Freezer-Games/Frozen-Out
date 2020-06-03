@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Scripts.Level.Dialogue;
+using System;
 
 namespace Scripts.Level.NPC
 {
@@ -11,16 +12,21 @@ namespace Scripts.Level.NPC
     {
         public string Name;
 
-        private Animator Animator;
+        protected Animator Animator;
 
         void Start()
         {
             Animator = GetComponent<Animator>();
         }
 
-        public void StartAnimation(string animationTrigger)
+        public virtual void StartAnimation(string animationTrigger)
         {
             Animator.SetTrigger(animationTrigger);
-        }    
+        }
+
+        public virtual void StopAnimation()
+        {
+            Animator.enabled = false;
+        }
     }
 }

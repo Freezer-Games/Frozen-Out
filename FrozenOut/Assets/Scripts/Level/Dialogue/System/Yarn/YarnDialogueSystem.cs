@@ -38,9 +38,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             return DialogueRunner.IsDialogueRunning;
         }
 
-        public override void StartDialogue(DialogueTalker talker)
+        public override void StartDialogue(DialogueActer acter)
         {
-            DialogueRunner.StartDialogue(talker.TalkToNode);
+            DialogueRunner.StartDialogue(acter.TalkToNode);
         }
 
         public override void RequestNextLine()
@@ -51,6 +51,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         public override void Stop()
         {
             DialogueRunner.Stop();
+            DialogueManager.OnDialogueEnded();
         }
 
         public override void SetLanguage(Locale locale)
@@ -77,6 +78,10 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         public void SetNPCAnimation(string npcName, string animation)
         {
             DialogueManager.SetNPCAnimation(npcName, animation);
+        }
+        public void StopNPCAnimation(string npcName)
+        {
+            DialogueManager.StopNPCAnimation(npcName);
         }
 
         public override bool GetBoolVariable(string variableName, bool includeLeading = true)

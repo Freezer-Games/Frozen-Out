@@ -4,38 +4,59 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
-    [RequireComponent(typeof(DialogueTalker))]
-    public class TriggerTalkDialogue : MonoBehaviour
+    [RequireComponent(typeof(DialogueActer))]
+    public abstract class TriggerActDialogue : MonoBehaviour
     {
-        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
-
-        private string PlayerTag = "Player";
-        private DialogueTalker Talker;
+        private readonly string PlayerTag = "Player";
+        protected DialogueActer Acter;
 
         void Start()
         {
-            Talker = GetComponent<DialogueTalker>();
+            Acter = GetComponent<DialogueActer>();
         }
 
         void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag(PlayerTag))
+            if (other.CompareTag(PlayerTag))
             {
-                Talker.OnPlayerClose();
-                
-                DialogueManager.OpenTalkPrompt(Talker);
+                OnPlayerEnter();
             }
         }
-
         void OnTriggerExit(Collider other)
         {
-            if(other.CompareTag(PlayerTag))
+            if (other.CompareTag(PlayerTag))
             {
-                Talker.OnPlayerAway();
-                
-                DialogueManager.CloseTalkPrompt(Talker);
+                OnPlayerExit();
             }
         }
 
+        protected virtual void OnPlayerEnter()
+        {
+            Acter.OnPlayerClose();
+        }
+
+        protected virtual void OnPlayerExit()
+        {
+            Acter.OnPlayerAway();
+        }
+    }
+
+    public class TriggerTalkDialogue : TriggerActDialogue
+    {
+        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
+
+        protected override void OnPlayerEnter()
+        {
+            base.OnPlayerEnter();
+            
+            DialogueManager.OpenTalkPrompt(Acter);
+        }
+
+        protected override void OnPlayerExit()
+        {
+            base.OnPlayerExit();
+            
+            DialogueManager.CloseTalkPrompt(Acter);
+        }
     }
 }

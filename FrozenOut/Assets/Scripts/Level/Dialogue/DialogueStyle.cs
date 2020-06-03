@@ -112,6 +112,16 @@ namespace Scripts.Level.Dialogue
         public float Volume;
         [NonSerialized]
         public float Delay;
+        
+        [Header("Efectos")]
+        public VoiceEffect Effect;
+
+        [Serializable]
+        public enum VoiceEffect
+        {
+            None,
+            Radio
+        }
 
         public void UpdateOptionals(VoiceStyle defaultStyle)
         {

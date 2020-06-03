@@ -32,16 +32,6 @@ namespace Scripts.Level.Dialogue
 			SetIndicator(true);
 		}
 
-		public void Highlight()
-		{
-			Indicator.GetComponent<DialogueIndicatorController>().Highlight();
-		}
-
-		public void Unhighlight()
-		{
-			Indicator.GetComponent<DialogueIndicatorController>().Unhighlight();
-		}
-
 		private GameObject CreateIndicator()
 		{
 			if(PrefabIndicator != null){

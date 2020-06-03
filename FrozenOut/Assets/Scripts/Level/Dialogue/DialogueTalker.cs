@@ -4,14 +4,56 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
-    [RequireComponent(typeof(DialogueIndicator))]
-    public class DialogueTalker : MonoBehaviour
+    public abstract class DialogueActer : MonoBehaviour
     {
         public string TalkToNode = "";
+        public bool IsBlocking
+        {
+            get;
+            private set;
+        }
+        public bool IsAutomatic
+        {
+            get;
+            private set;
+        }
 
         public CharacterDialogueStyle Style;
         public List<CharacterDialogueStyle> ExtraStyles;
 
+        public void SetBlocking()
+        {
+            this.IsBlocking = true;
+        }
+
+        public void SetNonBlocking()
+        {
+            this.IsBlocking = false;
+        }
+
+        public void SetAutomatic()
+        {
+            this.IsAutomatic = true;
+        }
+
+        public void SetNonAutomatic()
+        {
+            this.IsAutomatic = false;
+        }
+
+        public abstract void OnStartTalk();
+        public abstract void OnEndTalk();
+
+        public abstract void OnPlayerClose();
+        public abstract void OnPlayerAway();
+
+        public abstract void OnSelected();
+        public abstract void OnDeselected();
+    }
+
+    [RequireComponent(typeof(DialogueIndicator))]
+    public class DialogueTalker : DialogueActer
+    {
         private DialogueIndicator Indicator;
 
         private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
@@ -19,9 +61,11 @@ namespace Scripts.Level.Dialogue
         void Start()
         {
             Indicator = GetComponent<DialogueIndicator>();
+            SetBlocking();
+            SetNonAutomatic();
         }
 
-        public void OnStartTalk()
+        public override void OnStartTalk()
         {
             Indicator.HideIndicator();
             Vector3 lookTo = LevelManager.GetPlayerManager().Player.transform.position;
@@ -29,29 +73,29 @@ namespace Scripts.Level.Dialogue
             transform.LookAt(lookTo);
         }
 
-        public void OnEndTalk()
+        public override void OnEndTalk()
         {
-            Indicator.ShowIndicator();
+            //Indicator.ShowIndicator();
         }
 
-        public void OnPlayerClose()
+        public override void OnPlayerClose()
         {
-            Indicator.ShowIndicator();
+            //Indicator.ShowIndicator();
         }
 
-        public void OnPlayerAway()
+        public override void OnPlayerAway()
         {
             Indicator.HideIndicator();
         }
 
-        public void OnSelected()
+        public override void OnSelected()
         {
-            Indicator.Highlight();
+            Indicator.ShowIndicator();
         }
 
-        public void OnDeselected()
+        public override void OnDeselected()
         {
-            Indicator.Unhighlight();
+            Indicator.HideIndicator();
         }
     }
 }
