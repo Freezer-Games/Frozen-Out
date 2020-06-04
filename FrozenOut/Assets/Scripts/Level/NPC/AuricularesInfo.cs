@@ -1,49 +1,47 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-
-using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.NPC
 {
-    [RequireComponent(typeof(Animator))]
     public class AuricularesInfo : NPCInfo
     {
         private readonly string[] DiscursoTriggers = new string[]
         {
-            "", // TODO
+            "" // TODO
         };
-        private const string MusicTriggerName = "";
+        private readonly string[] MusicTriggers = new string[]
+        {
+            ""
+        };
 
         private const float AnimationDelay = 0.5f;
 
-        public override void StartAnimation(string animationTrigger)
+        public override void StartAnimation(string animation)
         {
-            if(animationTrigger.Equals("Discurso"))
+            switch(animation)
             {
-                StartCoroutine(DoDiscurso());
-            }
-            else if(animationTrigger.Equals("Música"))
-            {
-                Animator.SetTrigger(MusicTriggerName);
+                case "Discurso":
+                    StartCoroutine(DoDiscurso());
+                    break;
+                case "Musica":
+                    SetRandomTrigger(MusicTriggers);
+                    break;
+                default:
+                    break;
             }
         }
 
         public override void StopAnimation()
         {
             StopAllCoroutines();
-            Animator.SetTrigger("Stop");
+            base.StopAnimation();
         }
 
         private IEnumerator DoDiscurso()
         {
             while(true)
             {
-                int randomIndex = Random.Range(0, DiscursoTriggers.Count());
-                string trigger = DiscursoTriggers.ElementAt(randomIndex);
-
-                Animator.SetTrigger(trigger);
+                SetRandomTrigger(DiscursoTriggers);
 
                 yield return new WaitForSeconds(AnimationDelay);
             }

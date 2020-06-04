@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Scripts.Level.Dialogue.Voice.Animalese
 {
     public class Animalese : VoiceManager
     {
         public AudioSource AudioSource;
+
+        public AudioMixerGroup RadioMixerGroup;
 
         public AudioClip A;
         public AudioClip B;
@@ -106,6 +109,15 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
 
             AudioSource.volume = CurrentStyle.Volume;
 
+            switch (CurrentStyle.Effect)
+            {
+                case VoiceStyle.VoiceEffect.Radio:
+                    AudioSource.outputAudioMixerGroup = RadioMixerGroup;
+                    break;
+                case VoiceStyle.VoiceEffect.None:
+                    AudioSource.outputAudioMixerGroup = null;
+                    break;
+            }
             // TODO
         }
 

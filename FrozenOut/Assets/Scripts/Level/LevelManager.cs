@@ -22,7 +22,7 @@ namespace Scripts.Level
         public SoundManager SoundManager;
         //public CameraManager CameraManager;
         public Inventory Inventory;
-        public NPCInfo[] NPCs;
+        public NPCManager NPCManager;
         public MissionInfo[] Missions;
 
         private GameManager GameManager => GameManager.Instance;
@@ -116,9 +116,9 @@ namespace Scripts.Level
             return Inventory;
         }
 
-        public IEnumerable<NPCInfo> GetNPCs()
+        public NPCManager GetNPCManager()
         {
-            return NPCs;
+            return NPCManager;
         }
 
         public IEnumerable<MissionInfo> GetMissions()

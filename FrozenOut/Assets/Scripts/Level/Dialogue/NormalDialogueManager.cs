@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 
 using Scripts.Settings;
 using Scripts.Level.Item;
-using Scripts.Level.Dialogue.Utils;
-using System.Linq;
 using Scripts.Level.NPC;
+using Scripts.Level.Dialogue.Utils;
 
 namespace Scripts.Level.Dialogue
 {
@@ -19,6 +19,8 @@ namespace Scripts.Level.Dialogue
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
         private Inventory Inventory => LevelManager.GetInventory();
+        private NPCManager NPCManager => LevelManager.GetNPCManager();
+
         private DialogueActer CurrentActer;
         private DialogueStyle CurrentStyle;
         
@@ -102,16 +104,12 @@ namespace Scripts.Level.Dialogue
 
         public override void SetNPCAnimation(string npcName, string animation)
         {
-            NPCInfo selectedNPC = LevelManager.GetNPCs().Single<NPCInfo>(npc => npc.Name == npcName);
-
-            selectedNPC.StartAnimation(animation);
+            NPCManager.StartAnimation(npcName, animation);
         }
 
         public override void StopNPCAnimation(string npcName)
         {
-            NPCInfo selectedNPC = LevelManager.GetNPCs().Single<NPCInfo>(npc => npc.Name == npcName);
-
-            selectedNPC.StopAnimation();
+            NPCManager.StopAnimation(npcName);
         }
 
         public override GameObject GetPlayer()

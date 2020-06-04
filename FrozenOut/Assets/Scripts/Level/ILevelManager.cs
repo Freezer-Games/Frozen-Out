@@ -15,7 +15,6 @@ namespace Scripts.Level
 {
     public interface ILevelManager
     {
-
         void Load();
         void Unload();
 
@@ -26,8 +25,7 @@ namespace Scripts.Level
         SoundManager GetSoundManager();
         //CameraManager GetCameraManager();
         Inventory GetInventory();
-        IEnumerable<NPCInfo> GetNPCs();
+        NPCManager GetNPCManager();
         IEnumerable<MissionInfo> GetMissions();
-        // TODO
     }
 }
