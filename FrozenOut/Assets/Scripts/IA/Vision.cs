@@ -13,8 +13,10 @@ public class Vision : MonoBehaviour
 
     public int TiempoDeteccion = 255;
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
+    public LayerMask Detectable;
+    public LayerMask Detectable_Sigilo;
+    public LayerMask Detectable_Derretido;
+    public LayerMask Obstaculos;
 
     [HideInInspector]
     public List<Transform> ObjetosVistos = new List<Transform>();
@@ -60,16 +62,29 @@ public class Vision : MonoBehaviour
         //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
         ObjetosCercanos.Clear();
-        Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, targetMask);
-        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, targetMask);
-        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, targetMask);
+        Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
+        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable_Sigilo);
+        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable_Sigilo);
 
         //Debug.Log(colisionObjetosVistos[0]);
 
         for (int i = 0; i < colisionObjetosCercanos.Length; i++)
         {
             Transform target = colisionObjetosCercanos[i].transform;
-            ObjetosCercanos.Add(target);
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            if (target.gameObject.tag == "Player-Sigilo" && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            {
+
+                float dstToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
+                {
+                    ObjetosVistos.Add(target);
+                }
+            }
+            else {
+                ObjetosCercanos.Add(target);
+            }
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
@@ -89,7 +104,7 @@ public class Vision : MonoBehaviour
 
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
                 {
                     ObjetosVistos.Add(target);
                 }

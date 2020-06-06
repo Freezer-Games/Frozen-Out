@@ -7,19 +7,19 @@ namespace Scripts.Save
     public class SaveSystem
     {
 
-        public void SaveGame()
+        public static void SaveGame(Game game)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             string path = Application.persistentDataPath + "/Save.sv";
             FileStream stream = new FileStream(path, FileMode.Create);
 
-            SaveData data = new SaveData();
+            SaveData data = new SaveData(game);
 
             formatter.Serialize(stream, data);
             stream.Close();
         }
 
-        public SaveData LoadGame()
+        public static SaveData LoadGame()
         {
 
             string path = Application.persistentDataPath + "/Save.sv";
