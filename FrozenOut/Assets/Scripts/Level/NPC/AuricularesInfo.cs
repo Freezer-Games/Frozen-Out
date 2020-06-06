@@ -7,12 +7,18 @@ namespace Scripts.Level.NPC
     {
         private readonly string[] DiscursoTriggers = new string[]
         {
-            "" // TODO
+            "Discurso_1",
+            "Discurso_2",
+            "Discurso_3",
+            "Discurso_4",
+            "Discurso_5"
         };
         private readonly string[] MusicTriggers = new string[]
         {
-            ""
+            "Musica_Der",
+            "Musica_Izq"
         };
+        private int lastMusicIndex = 0;
 
         private const float AnimationDelay = 0.5f;
 
@@ -24,7 +30,7 @@ namespace Scripts.Level.NPC
                     StartCoroutine(DoDiscurso());
                     break;
                 case "Musica":
-                    SetRandomTrigger(MusicTriggers);
+                    lastMusicIndex = SetSequentialTrigger(MusicTriggers, lastMusicIndex);
                     break;
                 default:
                     break;
@@ -34,7 +40,6 @@ namespace Scripts.Level.NPC
         public override void StopAnimation()
         {
             StopAllCoroutines();
-            base.StopAnimation();
         }
 
         private IEnumerator DoDiscurso()

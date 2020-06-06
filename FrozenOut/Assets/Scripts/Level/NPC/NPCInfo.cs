@@ -15,7 +15,7 @@ namespace Scripts.Level.NPC
 
         public virtual void StopAnimation()
         {
-            Animator.enabled = false;
+
         }
 
         protected T RandomElement<T>(ICollection<T> collection)
@@ -39,6 +39,16 @@ namespace Scripts.Level.NPC
             string triggerName = RandomElement(triggers);
 
             Animator.SetTrigger(triggerName);
+        }
+
+        protected int SetSequentialTrigger(ICollection<string> triggers, int lastIndex)
+        {
+            int nextIndex = (lastIndex + 1) % triggers.Count();
+            string triggerName = triggers.ElementAt(nextIndex);
+
+            Animator.SetTrigger(triggerName);
+
+            return nextIndex;
         }
         
         protected void SetRandomBool(ICollection<string> bools)

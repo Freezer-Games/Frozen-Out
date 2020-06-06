@@ -71,6 +71,7 @@ namespace Scripts
             LoadingScreenManager.HideLoading();
             PauseMenuManager.Disable();
             PauseMenuManager.Close();
+            GameOverManager.Close();
         }
         
         #region SettingsManager

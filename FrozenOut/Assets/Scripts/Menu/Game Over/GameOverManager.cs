@@ -11,9 +11,14 @@ namespace Scripts.Menu.GameOver
 
         private GameManager GameManager => GameManager.Instance;
 
-        public void ShowGameOver()
+        public void Open()
         {
             GameOverController.Open();
+        }
+
+        public void Close()
+        {
+            GameOverController.Close();
         }
 
         public void RestartLevel()
