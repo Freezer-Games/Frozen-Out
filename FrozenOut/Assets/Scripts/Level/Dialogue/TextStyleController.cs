@@ -83,8 +83,8 @@ namespace Scripts.Level.Dialogue
 
         private void SetText(string letter, TextStyle style)
         {
-            bool IsSeparator = letter.Equals(" ");
-            if(CurrentLineLetters >= MaxLettersPerLine && IsSeparator)
+            bool IsSpace = letter.Contains(" ");
+            if(CurrentLineLetters >= MaxLettersPerLine && IsSpace)
             {
                 CreateLine();
                 CurrentLineLetters = 0;
@@ -92,7 +92,7 @@ namespace Scripts.Level.Dialogue
             CurrentLineLetters++;
 
             GameObject currentLetter;
-            if(IsSeparator)
+            if(IsSpace)
             {
                 currentLetter = CreateSeparator();
                 CreateWord();

@@ -4,7 +4,6 @@ using System;
 using UnityEngine;
 
 using Scripts.Settings;
-using Scripts.Level.Dialogue;
 using Scripts.Level.Player;
 
 namespace Scripts.Level.Item

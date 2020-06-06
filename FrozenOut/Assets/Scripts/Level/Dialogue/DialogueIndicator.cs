@@ -31,7 +31,7 @@ namespace Scripts.Level.Dialogue
 		{
 			SetIndicator(true);
 		}
-		
+
 		private GameObject CreateIndicator()
 		{
 			if(PrefabIndicator != null){
@@ -50,6 +50,5 @@ namespace Scripts.Level.Dialogue
                 Indicator.SetActive(active);
             }
 		}
-
     }
 }

@@ -1,27 +1,23 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
     [RequireComponent(typeof(DialogueIndicator))]
-    public class DialogueTalker : MonoBehaviour
+    public class DialogueTalker : DialogueActer
     {
-        public string TalkToNode = "";
-
-        public CharacterDialogueStyle Style;
-        public List<CharacterDialogueStyle> ExtraStyles;
-
         private DialogueIndicator Indicator;
 
-        private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
+        protected ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 
         void Start()
         {
             Indicator = GetComponent<DialogueIndicator>();
+            SetBlocking();
+            SetNonAutomatic();
         }
 
-        public void OnStartTalk()
+        public override void OnStartTalk()
         {
             Indicator.HideIndicator();
             Vector3 lookTo = LevelManager.GetPlayerManager().Player.transform.position;
@@ -29,20 +25,29 @@ namespace Scripts.Level.Dialogue
             transform.LookAt(lookTo);
         }
 
-        public void OnEndTalk()
+        public override void OnEndTalk()
         {
             Indicator.ShowIndicator();
         }
 
-        public void OnPlayerClose()
+        public override void OnPlayerClose()
         {
-            Indicator.ShowIndicator();
+            //Indicator.ShowIndicator();
         }
 
-        public void OnPlayerAway()
+        public override void OnPlayerAway()
         {
             Indicator.HideIndicator();
         }
 
+        public override void OnSelected()
+        {
+            Indicator.ShowIndicator();
+        }
+
+        public override void OnDeselected()
+        {
+            Indicator.HideIndicator();
+        }
     }
 }
