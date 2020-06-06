@@ -6,7 +6,6 @@ namespace Scripts.Menu.Load
 {
     public class LoadingScreenManager : MonoBehaviour
     {
-
         public Canvas LoadCanvas;
         public Canvas IntroCanvas;
 
@@ -37,6 +36,5 @@ namespace Scripts.Menu.Load
         {
             IntroCanvas.enabled = false;
         }
-
     }
 }

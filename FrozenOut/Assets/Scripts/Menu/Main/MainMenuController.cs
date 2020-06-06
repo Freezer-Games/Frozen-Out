@@ -7,7 +7,6 @@ namespace Scripts.Menu.Main
 {
     public class MainMenuController : UIController
     {
-        
         public MainMenuManager MainMenuManager;
 
         public Button StartButton;
