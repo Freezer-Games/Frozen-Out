@@ -158,7 +158,7 @@ namespace Scripts.Level.Player
 
             if (Physics.Raycast(checker, out hit, CanJumpDist, ~IgnoreByRay)) 
             {
-                if (hit.collider.CompareTag("Ground")) 
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) 
                 {
                     Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, RayOrigin.position));
                     return true;
