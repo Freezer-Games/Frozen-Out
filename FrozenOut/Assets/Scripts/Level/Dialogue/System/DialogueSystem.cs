@@ -10,7 +10,7 @@ namespace Scripts.Level.Dialogue.Runner
 
         public abstract void SetLanguage(Locale locale);
 
-        public abstract void StartDialogue(DialogueTalker talker);
+        public abstract void StartDialogue(DialogueActer acter);
         public abstract void RequestNextLine();
         public abstract void Stop();
 

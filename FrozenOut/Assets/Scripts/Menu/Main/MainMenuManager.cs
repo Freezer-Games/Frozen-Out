@@ -9,7 +9,6 @@ namespace Scripts.Menu.Main
 {
     public class MainMenuManager : MonoBehaviour
     {
-        
         public UIController MainMenuController;
         public UIController OptionsMenuController;
 
@@ -259,6 +258,5 @@ namespace Scripts.Menu.Main
         {
             SettingsManager.SetNextDialogueKey(keyCode);
         }
-
     }
 }

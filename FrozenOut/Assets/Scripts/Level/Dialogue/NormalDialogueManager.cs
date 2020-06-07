@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 
 using Scripts.Settings;
 using Scripts.Level.Item;
-using Scripts.Level.Dialogue.Utils;
-using System.Linq;
 using Scripts.Level.NPC;
+using Scripts.Level.Dialogue.Utils;
 
 namespace Scripts.Level.Dialogue
 {
@@ -19,7 +19,9 @@ namespace Scripts.Level.Dialogue
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
         private Inventory Inventory => LevelManager.GetInventory();
-        private DialogueTalker CurrentTalker;
+        private NPCManager NPCManager => LevelManager.GetNPCManager();
+
+        private DialogueActer CurrentActer;
         private DialogueStyle CurrentStyle;
         
         private IDictionary<string, DialogueStyle> Styles;
@@ -102,9 +104,17 @@ namespace Scripts.Level.Dialogue
 
         public override void SetNPCAnimation(string npcName, string animation)
         {
-            NPCInfo selectedNPC = LevelManager.GetNPCs().Single<NPCInfo>(npc => npc.Name == npcName);
+            NPCManager.StartAnimation(npcName, animation);
+        }
 
-            selectedNPC.StartAnimation(animation);
+        public override void StopNPCAnimation(string npcName)
+        {
+            NPCManager.StopAnimation(npcName);
+        }
+
+        public override GameObject GetPlayer()
+        {
+            return LevelManager.GetPlayerManager().Player;
         }
         #endregion
 
@@ -119,17 +129,17 @@ namespace Scripts.Level.Dialogue
             return DialogueSystem.IsRunning();
         }
 
-        public override void StartDialogue(DialogueTalker talker)
+        public override void StartDialogue(DialogueActer acter)
         {
-            CurrentTalker = talker;
+            CurrentActer = acter;
 
-            AddStyle(talker.Style.Name, talker.Style.Style);
-            foreach (CharacterDialogueStyle characterStyle in talker.ExtraStyles)
+            AddStyle(acter.Style.Name, acter.Style.Style);
+            foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
             {
                 AddStyle(characterStyle.Name, characterStyle.Style);
             }
 
-            DialogueSystem.StartDialogue(talker);
+            DialogueSystem.StartDialogue(acter);
         }
 
         public override void StopDialogue()
@@ -165,14 +175,14 @@ namespace Scripts.Level.Dialogue
         }
         #endregion
 
-        public override void OpenTalkPrompt(DialogueTalker dialogueTalker)
+        public override void OpenTalkPrompt(DialogueActer dialogueActer)
         {
-            PromptController.Open(dialogueTalker);
+            PromptController.Open(dialogueActer);
         }
 
-        public override void CloseTalkPrompt()
+        public override void CloseTalkPrompt(DialogueActer dialogueActer)
         {
-            PromptController.Close();
+            PromptController.Close(dialogueActer);
         }
 
         #region Style
@@ -271,7 +281,7 @@ namespace Scripts.Level.Dialogue
             {
                 TextManager.ShowDialogueSingle(currentLetter);
 
-                if (UserRequestedAllLine)
+                if (UserRequestedAllLine && !CurrentActer.IsAutomatic)
                 {
                     yield return null;
                 }
@@ -283,10 +293,13 @@ namespace Scripts.Level.Dialogue
 
             yield return new WaitForSeconds(NextDialogueDelay);
 
-            UserRequestedNextLine = false;
-            while (!UserRequestedNextLine)
+            if(!CurrentActer.IsAutomatic)
             {
-                yield return null;
+                UserRequestedNextLine = false;
+                while (!UserRequestedNextLine)
+                {
+                    yield return null;
+                }
             }
 
             DialogueSystem.RequestNextLine();
@@ -296,9 +309,12 @@ namespace Scripts.Level.Dialogue
         #region Events
         public override void OnDialogueStarted()
         {
-            base.OnDialogueStarted();
+            if(CurrentActer != null && CurrentActer.IsBlocking)
+            {
+                base.OnDialogueStarted();
+            }
 
-            CurrentTalker?.OnStartTalk();
+            CurrentActer?.OnStartTalk();
 
             TextManager.Open();
             VoiceManager.Open();
@@ -306,10 +322,15 @@ namespace Scripts.Level.Dialogue
 
         public override void OnDialogueEnded()
         {
-            base.OnDialogueEnded();
+            if(CurrentActer != null && CurrentActer.IsBlocking)
+            {
+                base.OnDialogueEnded();
+            }
 
-            CurrentTalker?.OnEndTalk();
-            CurrentTalker = null;
+            CurrentActer?.OnEndTalk();
+            CurrentActer = null;
+
+            StopAllCoroutines();
 
             TextManager.Close();
             VoiceManager.Close();

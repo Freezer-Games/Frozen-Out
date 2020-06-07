@@ -1,26 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
-using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.NPC
 {
-    [RequireComponent(typeof(Animator))]
-    public class NPCInfo : MonoBehaviour
+    public abstract class NPCInfo : MonoBehaviour
     {
         public string Name;
 
-        private Animator Animator;
+        public Animator Animator;
 
-        void Start()
+        public abstract void StartAnimation(string animation);
+
+        public virtual void StopAnimation()
         {
-            Animator = GetComponent<Animator>();
+
         }
 
-        public void StartAnimation(string animationTrigger)
+        protected T RandomElement<T>(ICollection<T> collection)
         {
-            Animator.SetTrigger(animationTrigger);
-        }    
+            T randomElement;
+            if(collection.Count() > 1)
+            {
+                int randomIndex = Random.Range(0, collection.Count());
+                randomElement = collection.ElementAt(randomIndex);
+            }
+            else
+            {
+                randomElement = collection.FirstOrDefault();
+            }
+
+            return randomElement;
+        }
+
+        protected void SetRandomTrigger(ICollection<string> triggers)
+        {
+            string triggerName = RandomElement(triggers);
+
+            Animator.SetTrigger(triggerName);
+        }
+
+        protected int SetSequentialTrigger(ICollection<string> triggers, int lastIndex)
+        {
+            int nextIndex = (lastIndex + 1) % triggers.Count();
+            string triggerName = triggers.ElementAt(nextIndex);
+
+            Animator.SetTrigger(triggerName);
+
+            return nextIndex;
+        }
+        
+        protected void SetRandomBool(ICollection<string> bools)
+        {
+            string boolName = RandomElement(bools);
+
+            Animator.SetBool(boolName, true);
+        }
     }
 }

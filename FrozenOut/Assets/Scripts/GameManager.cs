@@ -6,15 +6,16 @@ using UnityEngine.SceneManagement;
 using Scripts.Level;
 using Scripts.Menu.Pause;
 using Scripts.Menu.Load;
+using Scripts.Menu.GameOver;
 using Scripts.Settings;
 using Scripts.Player;
 using Scripts.Save;
+using Scripts.Menu.GameOver;
 
 namespace Scripts
 {
     public class GameManager : MonoBehaviour
     {
-
         #region Singleton
         public static GameManager Instance
         {
@@ -42,6 +43,7 @@ namespace Scripts
         }
         public PauseMenuManager PauseMenuManager;
         public LoadingScreenManager LoadingScreenManager;
+        public GameOverManager GameOverManager;
         public SettingsManager SettingsManager;
         public SaveManager SaveManager;
         public PlayerInfo PlayerInfo;
@@ -69,6 +71,7 @@ namespace Scripts
             LoadingScreenManager.HideLoading();
             PauseMenuManager.Disable();
             PauseMenuManager.Close();
+            GameOverManager.Close();
         }
         
         #region SettingsManager
@@ -201,6 +204,5 @@ namespace Scripts
             PauseMenuManager.Disable();
         }
         #endregion
-
     }
 }

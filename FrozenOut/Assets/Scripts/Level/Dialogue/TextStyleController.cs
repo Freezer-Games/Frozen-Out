@@ -83,7 +83,7 @@ namespace Scripts.Level.Dialogue
 
         private void SetText(string letter, TextStyle style)
         {
-            bool IsSpace = letter.Contains(" ");//letter.Equals(" ");
+            bool IsSpace = letter.Contains(" ");
             if(CurrentLineLetters >= MaxLettersPerLine && IsSpace)
             {
                 CreateLine();

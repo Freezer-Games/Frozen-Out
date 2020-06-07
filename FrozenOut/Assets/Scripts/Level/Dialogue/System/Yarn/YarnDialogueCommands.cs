@@ -30,5 +30,11 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         {
             YarnSystem.SetNPCAnimation(npcName, animation);
         }
+
+        [YarnCommand("stopanim")]
+        public void StopAnimation(string npcName)
+        {
+            YarnSystem.StopNPCAnimation(npcName);
+        }
     }
 }
