@@ -107,9 +107,19 @@ namespace Scripts.Level.Dialogue
             NPCManager.StartAnimation(npcName, animation);
         }
 
+        public override void SetNPCAnimationWithSimilarName(string npcName, string animation)
+        {
+            NPCManager.StartAnimationWithSimilarName(npcName, animation);
+        }
+
         public override void StopNPCAnimation(string npcName)
         {
             NPCManager.StopAnimation(npcName);
+        }
+
+        public override void StopNPCAnimationWithSimilarName(string npcName)
+        {
+            NPCManager.StopAnimationsWithSimilarName(npcName);
         }
 
         public override GameObject GetPlayer()

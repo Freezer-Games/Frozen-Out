@@ -39,7 +39,9 @@ namespace Scripts.Level.Dialogue
         public abstract void PickItem(string itemVariableName, int quantity);
         public abstract void UseItem(string itemVariableName, int quantity);
         public abstract void SetNPCAnimation(string npcName, string animation);
+        public abstract void SetNPCAnimationWithSimilarName(string npcName, string animation);
         public abstract void StopNPCAnimation(string npcName);
+        public abstract void StopNPCAnimationWithSimilarName(string npcName);
         public abstract GameObject GetPlayer();
 
         public abstract void OpenTalkPrompt(DialogueActer dialogueActer);

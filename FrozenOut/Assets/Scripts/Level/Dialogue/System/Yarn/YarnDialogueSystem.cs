@@ -79,9 +79,17 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         {
             DialogueManager.SetNPCAnimation(npcName, animation);
         }
+        public void SetNPCAnimationWithSimilarName(string npcName, string animation)
+        {
+            DialogueManager.SetNPCAnimationWithSimilarName(npcName, animation);
+        }
         public void StopNPCAnimation(string npcName)
         {
             DialogueManager.StopNPCAnimation(npcName);
+        }
+        public void StopNPCAnimationWithSimilarName(string npcName)
+        {
+            DialogueManager.StopNPCAnimationWithSimilarName(npcName);
         }
 
         public override bool GetBoolVariable(string variableName, bool includeLeading = true)
