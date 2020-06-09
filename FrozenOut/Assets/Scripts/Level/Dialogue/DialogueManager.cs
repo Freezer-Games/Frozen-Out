@@ -9,7 +9,7 @@ using Scripts.Level.Item;
 
 namespace Scripts.Level.Dialogue
 {
-    public abstract class DialogueManager : MonoBehaviour
+    public abstract class DialogueManager : BaseManager
     {
         /// <summary>
         /// Encargado de recoger las lineas de diálogo
@@ -29,6 +29,7 @@ namespace Scripts.Level.Dialogue
         public abstract bool IsReady();
         public abstract void SetLanguage();
         public abstract void StartDialogue(DialogueActer acter);
+        public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
 
         public abstract int GetTextSize();

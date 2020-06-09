@@ -79,7 +79,7 @@ namespace Scripts.Menu.Pause
 
         private void CloseOpenMenu()
         {
-            if(PauseMenuManager.IsEnabled)
+            if(PauseMenuManager.IsEnabled())
             {
                 if(IsOpen)
                 {

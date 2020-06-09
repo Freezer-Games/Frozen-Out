@@ -5,11 +5,10 @@ using UnityEngine;
 namespace Scripts.Level.Item
 {
     [RequireComponent(typeof(ItemPicker))]
-    public class TriggerPickItem : MonoBehaviour
+    public class TriggerPickItem : TriggerBase
     {   
-        private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
+        private Inventory Inventory => GameManager.CurrentLevelManager.GetInventory();
 
-        private string PlayerTag = "Player";
         private ItemPicker ItemPicker;
 
         void Start()

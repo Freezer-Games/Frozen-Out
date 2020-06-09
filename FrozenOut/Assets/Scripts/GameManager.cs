@@ -10,7 +10,6 @@ using Scripts.Menu.GameOver;
 using Scripts.Settings;
 using Scripts.Player;
 using Scripts.Save;
-using Scripts.Menu.GameOver;
 
 namespace Scripts
 {
@@ -99,6 +98,13 @@ namespace Scripts
             // TODO
         }
         #endregion
+
+        public void GameOver()
+        {
+            PauseMenuManager.Close();
+            PauseMenuManager.Disable();
+            GameOverManager.Open();
+        }
 
         #region Load
         private void StartGame()

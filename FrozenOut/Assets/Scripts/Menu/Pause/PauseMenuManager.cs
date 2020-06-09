@@ -6,38 +6,24 @@ using Scripts.Settings;
 
 namespace Scripts.Menu.Pause
 {
-    public class PauseMenuManager : MonoBehaviour
+    public class PauseMenuManager : BaseManager
     {
 
         public UIController PauseMenuController;
 
-        private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
-
-        public bool IsEnabled
-        {
-            get;
-            private set;
-        }
 
         public void Open()
         {
-            PauseMenuController.Open();
+            if (IsEnabled())
+            {
+                PauseMenuController.Open();
+            }
         }
 
         public void Close()
         {
             PauseMenuController.Close();
-        }
-
-        public void Disable()
-        {
-            IsEnabled = false;
-        }
-
-        public void Enable()
-        {
-            IsEnabled = true;
         }
         
         public KeyCode GetPauseKey()

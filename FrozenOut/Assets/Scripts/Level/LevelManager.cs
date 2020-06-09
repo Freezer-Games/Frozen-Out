@@ -30,6 +30,7 @@ namespace Scripts.Level
 
         public void Load()
         {
+            Enable();
             //Cursor.visible = false;
             //Cursor.lockState = CursorLockMode.Locked;
 
@@ -39,11 +40,6 @@ namespace Scripts.Level
             {
                 Inventory.CloseMenu();
                 Inventory.CloseUsePrompt();
-            }
-
-            if (PlayerManager != null)
-            {
-                PlayerManager.Enable();
             }
 
             #region EventBinding
@@ -74,6 +70,26 @@ namespace Scripts.Level
         public void Unload()
         {
             // TODO
+        }
+
+        public void Enable()
+        {
+            PlayerManager.Enable();
+            DialogueManager.Enable();
+            Inventory.Enable();
+        }
+
+        public void Disable()
+        {
+            PlayerManager.Disable();
+            DialogueManager.Disable();
+            Inventory.Disable();
+        }
+
+        public void GameOver()
+        {
+            Disable();
+            GameManager.GameOver();
         }
 
         public void EnablePauseMenu()

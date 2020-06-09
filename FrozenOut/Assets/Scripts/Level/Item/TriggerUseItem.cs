@@ -6,11 +6,10 @@ using Scripts.Level;
 
 namespace Scripts.Level.Item
 {
-    public class TriggerUseItem : MonoBehaviour
+    public class TriggerUseItem : TriggerBase
     {   
-        private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
+        private Inventory Inventory => GameManager.CurrentLevelManager.GetInventory();
 
-        private string PlayerTag = "Player";
         private ItemUser ItemUser;
 
         void Start()

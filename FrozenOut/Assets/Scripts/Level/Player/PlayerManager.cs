@@ -11,7 +11,7 @@ namespace Scripts.Level.Player
 {
     public enum PlayerForm {Normal, Melted}
 
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : BaseManager
     {
         public LevelManager LevelManager;
 
@@ -22,11 +22,6 @@ namespace Scripts.Level.Player
         public PlayerForm PlayerForm = PlayerForm.Normal;
         public List<ItemEquipper> EquippableObjects;
 
-        public bool IsEnabled
-        {
-            get;
-            private set;
-        }
         public bool IsGrounded = true;
 
         
@@ -35,16 +30,6 @@ namespace Scripts.Level.Player
 
         private string PickAnimationName = "isPicking";
         [SerializeField] private string InteractAnimation = "";
-
-        public void Enable()
-        {
-            IsEnabled = true;
-        }
-
-        public void Disable()
-        {
-            IsEnabled = false;
-        }
 
         public bool IsStepsPlaying()
         {

@@ -5,9 +5,8 @@ using UnityEngine;
 namespace Scripts.Level.Dialogue
 {
     [RequireComponent(typeof(DialogueActer))]
-    public abstract class TriggerActDialogue : MonoBehaviour
+    public abstract class TriggerActDialogue : TriggerBase
     {
-        private readonly string PlayerTag = "Player";
         protected DialogueActer Acter;
 
         void Start()

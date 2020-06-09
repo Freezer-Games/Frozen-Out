@@ -8,7 +8,7 @@ using Scripts.Level.Player;
 
 namespace Scripts.Level.Item
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory : BaseManager
     {
         public LevelManager LevelManager;
         
@@ -39,7 +39,10 @@ namespace Scripts.Level.Item
 
         public void OpenMenu()
         {
-            InventoryMenuController.Open();
+            if(IsEnabled())
+            {
+                InventoryMenuController.Open();
+            }
         }
 
         public void CloseMenu()
@@ -49,20 +52,28 @@ namespace Scripts.Level.Item
 
         public void OpenUsePrompt(ItemUser user)
         {
-            ItemUsePromptController.Open(user);
-            PlayerManager.SetInteractiveItem(user.GetItemPos(), user.GetItemLook());
+            if (IsEnabled())
+            {
+                ItemUsePromptController.Open(user);
+                PlayerManager.SetInteractiveItem(user.GetItemPos(), user.GetItemLook());
+            }   
         }
 
         public void CloseUsePrompt()
         {
             ItemUsePromptController.Close();
             if (!PlayerManager.GetIsInteracting())
+            {
                 PlayerManager.SetInteractiveItem(null, null);
+            }
         }
 
         public void OpenPickPrompt(ItemPicker picker)
         {
-            ItemPickPromptController.Open(picker);
+            if (IsEnabled())
+            {
+                ItemPickPromptController.Open(picker);
+            }
         }
 
         public void ClosePickPrompt()
@@ -83,33 +94,42 @@ namespace Scripts.Level.Item
         /// Equipa el item si no estaba equipado, no hace nada si ya lo estaba
         public void EquipItem(ItemInfo item)
         {
-            if(IsItemInInventory(item) && item.IsEquippable)
+            if (IsEnabled())
             {
-                EquippedItem = item;
-                PlayerManager.SetInteractAnimation(EquippedItem.Animation);
+                if (IsItemInInventory(item) && item.IsEquippable)
+                {
+                    EquippedItem = item;
+                    PlayerManager.SetInteractAnimation(EquippedItem.Animation);
 
-                OnItemEquipped(item);
+                    OnItemEquipped(item);
+                }
             }
         }
 
         /// Desequipa el item equipado
         public void UnequipItem()
         {
-            EquippedItem = null;
-            PlayerManager.SetInteractAnimation("");
+            if (IsEnabled())
+            {
+                EquippedItem = null;
+                PlayerManager.SetInteractAnimation("");
 
-            OnItemUnequipped();
+                OnItemUnequipped();
+            }
         }
 
         public void PickItem(ItemPickerInfo pickerInfo)
         {
-            if(IsItemInInventory(pickerInfo))
+            if (IsEnabled())
             {
-                UpdateItem(pickerInfo);
-            }
-            else
-            {
-                AddItem(pickerInfo);
+                if (IsItemInInventory(pickerInfo))
+                {
+                    UpdateItem(pickerInfo);
+                }
+                else
+                {
+                    AddItem(pickerInfo);
+                }
             }
         }
         public void PickItem(ItemPicker picker)
@@ -119,6 +139,30 @@ namespace Scripts.Level.Item
             PickItem(picker.Item);
         }
 
+
+        public void UseItem(ItemUserInfo userInfo)
+        {
+            if (IsEnabled())
+            {
+                if (IsItemInInventory(userInfo))
+                {
+                    //Pasarlo a ItemInfo del inventario
+                    ItemInfo inventoryItem = Items.Find(temp => temp.Equals(userInfo));
+
+                    if (inventoryItem.IsEquippable)
+                    {
+                        if (IsItemEquipped(inventoryItem))
+                        {
+                            UseEquippedItem(inventoryItem);
+                        }
+                    }
+                    else
+                    {
+                        UseConsumableItem(inventoryItem);
+                    }
+                }
+            }
+        }
         public void UseItem(ItemUser user)
         {
             // Si no es necesario un item para usarlo, entonces se usa directamente
@@ -134,26 +178,6 @@ namespace Scripts.Level.Item
                 StartCoroutine(WaitingPlayer(user, true));
 
                 UseItem(user.Item);
-            }
-        }
-        public void UseItem(ItemUserInfo userInfo)
-        {
-            if (IsItemInInventory(userInfo))
-            {
-                //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(userInfo));
-
-                if (inventoryItem.IsEquippable)
-                {
-                    if (IsItemEquipped(inventoryItem))
-                    {
-                        UseEquippedItem(inventoryItem);
-                    }
-                }
-                else
-                {
-                    UseConsumableItem(inventoryItem);
-                }
             }
         }
 

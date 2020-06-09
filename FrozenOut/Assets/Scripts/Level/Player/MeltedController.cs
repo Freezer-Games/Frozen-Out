@@ -38,7 +38,7 @@ namespace Scripts.Level.Player
 
         void Update()
         {
-            if (PlayerManager.IsEnabled)
+            if (PlayerManager.IsEnabled())
             {
                 if (IsInteracting) 
                 {

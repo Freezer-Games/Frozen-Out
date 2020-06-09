@@ -41,7 +41,7 @@ namespace Scripts.Level.Player
 
         void Update() 
         {
-            if (PlayerManager.IsEnabled)
+            if (PlayerManager.IsEnabled())
             {
                 if (IsInteracting) 
                 {
@@ -89,7 +89,7 @@ namespace Scripts.Level.Player
 
         void FixedUpdate() 
         {
-            if (PlayerManager.IsEnabled)
+            if (PlayerManager.IsEnabled())
             {
                 if (CanMove) 
                 {

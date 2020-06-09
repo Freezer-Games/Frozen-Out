@@ -21,6 +21,8 @@ namespace Scripts.Level.Dialogue
         private Inventory Inventory => LevelManager.GetInventory();
         private NPCManager NPCManager => LevelManager.GetNPCManager();
 
+        public DialogueActer GameOverActer;
+
         private DialogueActer CurrentActer;
         private DialogueStyle CurrentStyle;
         
@@ -131,7 +133,7 @@ namespace Scripts.Level.Dialogue
         #region System
         public override bool IsReady()
         {
-            return !IsRunning() && LevelManager.GetPlayerManager().IsGrounded;
+            return IsEnabled() && !IsRunning() && LevelManager.GetPlayerManager().IsGrounded;
         }
 
         public override bool IsRunning()
@@ -141,15 +143,23 @@ namespace Scripts.Level.Dialogue
 
         public override void StartDialogue(DialogueActer acter)
         {
-            CurrentActer = acter;
-
-            AddStyle(acter.Style.Name, acter.Style.Style);
-            foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
+            if (IsEnabled())
             {
-                AddStyle(characterStyle.Name, characterStyle.Style);
-            }
+                CurrentActer = acter;
 
-            DialogueSystem.StartDialogue(acter);
+                AddStyle(acter.Style.Name, acter.Style.Style);
+                foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
+                {
+                    AddStyle(characterStyle.Name, characterStyle.Style);
+                }
+
+                DialogueSystem.StartDialogue(acter);
+            }
+        }
+
+        public override void StartGameOverDialogue()
+        {
+            StartDialogue(GameOverActer);
         }
 
         public override void StopDialogue()
@@ -187,7 +197,10 @@ namespace Scripts.Level.Dialogue
 
         public override void OpenTalkPrompt(DialogueActer dialogueActer)
         {
-            PromptController.Open(dialogueActer);
+            if (IsEnabled())
+            {
+                PromptController.Open(dialogueActer);
+            }
         }
 
         public override void CloseTalkPrompt(DialogueActer dialogueActer)

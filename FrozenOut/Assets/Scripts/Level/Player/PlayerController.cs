@@ -62,7 +62,7 @@ namespace Scripts.Level.Player
 
         void Update()
         {
-            if(PlayerManager.IsEnabled)
+            if(PlayerManager.IsEnabled())
             {
                 MoveInput = new Vector2(
                     Input.GetAxis("Horizontal"),
@@ -103,7 +103,7 @@ namespace Scripts.Level.Player
 
         void FixedUpdate()
         {
-            if(PlayerManager.IsEnabled)
+            if(PlayerManager.IsEnabled())
             {
                 Move();
             }

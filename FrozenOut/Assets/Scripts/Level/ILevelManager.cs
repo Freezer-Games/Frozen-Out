@@ -17,6 +17,10 @@ namespace Scripts.Level
     {
         void Load();
         void Unload();
+        void Enable();
+        void Disable();
+
+        void GameOver();
 
         SettingsManager GetSettingsManager();
 
