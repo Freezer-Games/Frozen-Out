@@ -10,7 +10,7 @@ namespace Scripts.Level.Dialogue
 
         public override void OnEndTalk()
         {
-            LevelManager.GetNPCManager().StopAnimation("Auriculares");
+            LevelManager.GetNPCManager().StopAnimationsWithSimilarName("Auriculares");
         }
     }
 }

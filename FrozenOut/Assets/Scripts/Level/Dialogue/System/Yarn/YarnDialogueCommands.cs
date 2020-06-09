@@ -31,10 +31,22 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             YarnSystem.SetNPCAnimation(npcName, animation);
         }
 
+        [YarnCommand("setanimall")]
+        public void SetAnimationAll(string npcName, string animation)
+        {
+            YarnSystem.SetNPCAnimationWithSimilarName(npcName, animation);
+        }
+
         [YarnCommand("stopanim")]
         public void StopAnimation(string npcName)
         {
             YarnSystem.StopNPCAnimation(npcName);
+        }
+
+        [YarnCommand("stopanimall")]
+        public void StopAnimationAll(string npcName)
+        {
+            YarnSystem.StopNPCAnimationWithSimilarName(npcName);
         }
     }
 }

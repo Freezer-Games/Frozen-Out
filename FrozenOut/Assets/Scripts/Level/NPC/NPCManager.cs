@@ -13,7 +13,7 @@ namespace Scripts.Level.NPC
 
         public void StartAnimation(string npcName, string animation)
         {
-            NPCInfo selectedNPC = GetNPCInfoByName(npcName);
+            NPCInfo selectedNPC = GetNPCInfo(npcName);
 
             if(selectedNPC != null)
             {
@@ -21,9 +21,20 @@ namespace Scripts.Level.NPC
             }
         }
 
-        public virtual void StopAnimation(string npcName)
+        /// Para casos en los que se requiere más de un npc. Preferible usar StartAnimation
+        public void StartAnimationWithSimilarName(string npcName, string animation)
         {
-            NPCInfo selectedNPC = GetNPCInfoByName(npcName);
+            IEnumerable<NPCInfo> selectedNPCs = GetNPCInfosBySimilarName(npcName);
+
+            foreach(NPCInfo npc in selectedNPCs)
+            {
+                npc.StartAnimation(animation);
+            }
+        }
+
+        public void StopAnimation(string npcName)
+        {
+            NPCInfo selectedNPC = GetNPCInfo(npcName);
 
             if (selectedNPC != null)
             {
@@ -31,11 +42,29 @@ namespace Scripts.Level.NPC
             }
         }
 
-        public NPCInfo GetNPCInfoByName(string name)
+        /// En casos en los que se requiere parar más de un NPC. Preferible usar StopAnimation.
+        public void StopAnimationsWithSimilarName(string npcName)
         {
-            NPCInfo selectedNPC = NPCs.SingleOrDefault<NPCInfo>(npc => npc.Name == name);
+            IEnumerable<NPCInfo> selectedNPCs = GetNPCInfosBySimilarName(npcName);
+
+            foreach(NPCInfo npc in selectedNPCs)
+            {
+                npc.StopAnimation();
+            }
+        }
+
+        public NPCInfo GetNPCInfo(string name)
+        {
+            NPCInfo selectedNPC = NPCs.FirstOrDefault<NPCInfo>(npc => npc.Name == name);
 
             return selectedNPC;
+        }
+
+        public IEnumerable<NPCInfo> GetNPCInfosBySimilarName(string name)
+        {
+            IEnumerable<NPCInfo> selectedNPCs = NPCs.Where<NPCInfo>(npc => npc.Name.Contains(name));
+
+            return selectedNPCs;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Scripts.Level.NPC
         };
         private int lastMusicIndex = 0;
 
-        private const float AnimationDelay = 0.5f;
+        private const float AnimationDelay = 1f;
 
         public override void StartAnimation(string animation)
         {
