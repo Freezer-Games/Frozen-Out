@@ -13,7 +13,6 @@ namespace Scripts.Menu.GameOver
 
         public Button RestartButton;
         public Button MainLevelButton;
-        public Animator GameOverAnimator;
         public PlayableDirector GameOverDirector;
 
         private void Start()
@@ -26,7 +25,6 @@ namespace Scripts.Menu.GameOver
         {
             base.Open();
 
-            GameOverAnimator.SetTrigger("Open");
             GameOverDirector.Play();
         }
 
