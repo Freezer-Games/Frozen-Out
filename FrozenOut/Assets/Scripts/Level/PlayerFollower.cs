@@ -1,5 +1,4 @@
-﻿using Scripts.Level.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scripts.Level
 {

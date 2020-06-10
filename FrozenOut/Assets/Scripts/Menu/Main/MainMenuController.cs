@@ -14,7 +14,6 @@ namespace Scripts.Menu.Main
         public Button LoadButton;
         public Button OptionsButton;
         public Button ExitButton;
-        public Button TestButton;
 
         void Start()
         {
@@ -23,7 +22,6 @@ namespace Scripts.Menu.Main
             LoadButton.onClick.AddListener(OpenSelectLoad);
             OptionsButton.onClick.AddListener(OpenOptionsMenu);
             ExitButton.onClick.AddListener(Exit);
-            TestButton.onClick.AddListener(LoadTestLevel);
         }
 
         public override void Open()
@@ -34,11 +32,6 @@ namespace Scripts.Menu.Main
         public override void Close()
         {
             base.Close();
-        }
-
-        private void LoadTestLevel()
-        {
-            MainMenuManager.LoadTestLevel();
         }
 
         private void Exit()
