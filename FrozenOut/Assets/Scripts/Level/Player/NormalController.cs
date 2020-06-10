@@ -133,7 +133,7 @@ namespace Scripts.Level.Player
                 transform.SetParent(other.transform);
             }
 
-            if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 CanJump = true;
             }
