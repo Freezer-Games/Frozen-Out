@@ -34,8 +34,8 @@ RectTransform:
   m_Children:
   - {fileID: 7522698005287834329}
   - {fileID: 2088620129977772568}
-  - {fileID: 8171853493328201733}
   - {fileID: 5937493189558971885}
+  - {fileID: 8171853493328201733}
   - {fileID: 7397596707141405032}
   - {fileID: 2679664831334953804}
   m_Father: {fileID: 8845570084351926472}
@@ -121,7 +121,6 @@ MonoBehaviour:
   GameOverManager: {fileID: 1500882191223980309}
   RestartButton: {fileID: 519551484737703278}
   MainLevelButton: {fileID: 2215920634333333165}
-  GameOverAnimator: {fileID: 6328633892075955806}
   GameOverDirector: {fileID: 3790251265548040957}
 --- !u!320 &3790251265548040957
 PlayableDirector:
@@ -148,6 +147,8 @@ PlayableDirector:
     value: {fileID: 113734730201340393}
   - key: {fileID: 3377159479152257284, guid: f80f5314a78a526479859f50a1a50964, type: 2}
     value: {fileID: 6431665415824435177}
+  - key: {fileID: -3509367661206761725, guid: f80f5314a78a526479859f50a1a50964, type: 2}
+    value: {fileID: 6328633892075955806}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &113734730201340393
@@ -180,7 +181,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5467069720924937141}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -921,7 +922,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 5467069720924937141}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

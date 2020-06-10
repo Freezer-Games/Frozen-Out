@@ -5,7 +5,6 @@ namespace Scripts.Level.Dialogue
 {
     public class DialogueIndicator : MonoBehaviour
     {
-
         public GameObject PrefabIndicator;
 		public float IndicatorHeightOffset = 0.0f;
 
@@ -19,8 +18,11 @@ namespace Scripts.Level.Dialogue
 
 		void Update()
 		{
-        	Indicator.transform.rotation = Quaternion.LookRotation(transform.position - UnityEngine.Camera.main.transform.position);
-		}
+            if (Indicator.activeSelf)
+            {
+                Indicator.transform.rotation = Quaternion.LookRotation(transform.position - UnityEngine.Camera.main.transform.position);
+            }
+        }
         
         public void HideIndicator()
 		{
