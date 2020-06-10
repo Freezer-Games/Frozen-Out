@@ -1,18 +1,16 @@
 ﻿using Scripts.Level.Player;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Level
 {
     public class PlayerFollower : MonoBehaviour
     {
-        private PlayerManager PlayerManager => GameManager.Instance.CurrentLevelManager.GetPlayerManager();
+        public Transform Player;
         private readonly float HeightOffset = 10.0f;
 
         private void Update()
         {
-            FollowPlayer(PlayerManager.Player.transform);
+            FollowPlayer(Player);
         }
 
         private void FollowPlayer(Transform playerTransform)
