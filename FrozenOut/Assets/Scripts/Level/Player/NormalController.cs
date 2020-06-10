@@ -126,13 +126,14 @@ namespace Scripts.Level.Player
 
         void OnTriggerEnter(Collider other)
         {
+            Debug.Log("hola");
             if (other.CompareTag("Ascensor"))
             {
                 Debug.Log("fuera");
                 transform.SetParent(other.transform);
             }
-            
-            if (other.gameObject.CompareTag("Ground"))
+
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 CanJump = true;
             }
