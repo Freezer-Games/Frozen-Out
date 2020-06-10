@@ -135,11 +135,6 @@ namespace Scripts
             LoadLevel(FirstLevelIndex);
         }
 
-        public void LoadTestLevel()
-        {
-            LoadLevel("Test");
-        }
-
         public void Quit()
         {
             Application.Quit();

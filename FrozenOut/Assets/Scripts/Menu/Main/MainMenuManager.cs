@@ -39,11 +39,6 @@ namespace Scripts.Menu.Main
             GameManager.Quit();
         }
 
-        public void LoadTestLevel()
-        {
-            GameManager.LoadTestLevel();
-        }
-
         public void OpenOptionsMenu()
         {
             OptionsMenuController.Open();
