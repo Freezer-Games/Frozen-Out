@@ -60,7 +60,7 @@ public class Vision : MonoBehaviour
     {
         //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
-        ObjetosCercanos.Clear();
+        //ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
         Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable);
         Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable);
@@ -82,14 +82,14 @@ public class Vision : MonoBehaviour
                 }
             }*/
             //else {
-                ObjetosCercanos.Add(target);
+                ObjetosVistos.Add(target);
             //}
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
         {
             Transform target = colisionObjetosTrueSight[i].transform;
-            ObjetosVistos.Add(target);
+            ObjetosDetectados.Add(target);
         }
 
         for (int i = 0; i < colisionObjetosVistos.Length; i++)
