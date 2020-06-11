@@ -13,6 +13,7 @@ public class Patrulla : MonoBehaviour
     bool Hablando = false;
     private Animator Animator;
     public bool PatrullaCiclica;
+    public bool PatrullaEstatica;
     private bool orden = true;//true hacia arriba false hacia abajo
 
     // Start is called before the first frame update
@@ -63,9 +64,59 @@ public class Patrulla : MonoBehaviour
     {
         List<Transform> visibles = gameObject.GetComponent<Vision>().ObjetosDetectados;
         List<Transform> cercanos = gameObject.GetComponent<Vision>().ObjetosCercanos;
-        Patrullar(visibles, cercanos);
+        if (!PatrullaEstatica)
+        {
+            Patrullar(visibles, cercanos);
+        }
+        else
+        {
+            Vigilar(visibles, cercanos);
+        }
 
     }
+
+    void Vigilar(List<Transform> visibles, List<Transform> cercanos)
+    {
+        switch (Estado)
+        {
+            case Estados.patrullando:
+                Animator.SetBool("isWalking", false);
+                if (visibles.Count > 0)
+                {
+                    Animator.SetTrigger("Anim_Surprise");
+                    Estado = Estados.perseguir;
+                }
+                break;
+
+            case Estados.perseguir:
+                if (Hablando)
+                {
+                    Animator.SetBool("isWalking", false);
+                    //Comenzar dialogo
+                    Estado = Estados.esperar;
+                }
+                else if (visibles.Count > 0 && cercanos.Count < 1)
+                {
+                    Animator.SetBool("isWalking", true);
+                    Navegacion.destination = visibles[0].position;
+                }
+                else if (cercanos.Count > 0)
+                {
+                    Navegacion.destination = gameObject.transform.position;
+                    Animator.SetTrigger("Anim_Surprise");
+                    Hablando = true;
+                }
+                if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
+                break;
+
+            case Estados.esperar:
+
+                break;
+
+        }
+    }
+
+
     void Patrullar(List<Transform> visibles, List<Transform> cercanos)
     {
         switch (Estado)
