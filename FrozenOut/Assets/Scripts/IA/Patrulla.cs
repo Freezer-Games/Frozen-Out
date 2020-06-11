@@ -12,6 +12,8 @@ public class Patrulla : MonoBehaviour
     Estados Estado;
     bool Hablando = false;
     private Animator Animator;
+    public bool PatrullaCiclica;
+    private bool orden = true;//true hacia arriba false hacia abajo
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +29,32 @@ public class Patrulla : MonoBehaviour
         if (Destinos.Length == 0)
             return;
         Navegacion.destination = Destinos[SiguientePunto].position;
+        if (!PatrullaCiclica && SiguientePunto == Destinos.Length)
+        {
+            SiguientePunto = (SiguientePunto - 1);
+            orden = false;
+        }
+        else
+        {
+            SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
+        }
+
+    }
+
+    void GotoPreviousPoint()
+    {
+        if (Destinos.Length == 0)
+            return;
+        Navegacion.destination = Destinos[SiguientePunto].position;
+        if (SiguientePunto == 0)
+        {
+            SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
+            orden = true;
+        }
+        else
+        {
+            SiguientePunto = (SiguientePunto - 1);
+        }
         SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
     }
 
@@ -45,8 +73,14 @@ public class Patrulla : MonoBehaviour
             case Estados.patrullando:
                 Animator.SetBool("isWalking", true);
                 if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.1f)
-                    
-                    GotoNextPoint();
+                    if (!PatrullaCiclica && !orden )
+                    {
+                        GotoPreviousPoint();
+                    }
+                    else 
+                    {
+                        GotoNextPoint();
+                    }
                 if (visibles.Count > 0 )
                 {
                     Animator.SetBool("isWalking", false);
@@ -58,10 +92,11 @@ public class Patrulla : MonoBehaviour
             case Estados.perseguir:
                 if (Hablando)
                 {
+                    Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
                     Estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 2)
+                else if (visibles.Count > 0 && cercanos.Count < 1)
                 {
                     Animator.SetBool("isWalking", true);
                     Navegacion.destination = visibles[0].position;
@@ -69,7 +104,7 @@ public class Patrulla : MonoBehaviour
                 else if (cercanos.Count > 0 )
                 {
                     Navegacion.destination = gameObject.transform.position;
-                    Animator.Play("Enfado_Entrada");
+                    Animator.SetTrigger("Anim_Surprise");
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }

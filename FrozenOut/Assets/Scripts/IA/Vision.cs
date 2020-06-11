@@ -14,8 +14,6 @@ public class Vision : MonoBehaviour
     public int TiempoDeteccion = 255;
 
     public LayerMask Detectable;
-    public LayerMask Detectable_Sigilo;
-    public LayerMask Detectable_Derretido;
     public LayerMask Obstaculos;
 
     [HideInInspector]
@@ -43,6 +41,7 @@ public class Vision : MonoBehaviour
         ObjetosCercanos.Clear();
         StartCoroutine("FindTargetsWithDelay", .2f);
         DeteccionSprite = DeteccionUI.GetComponent<SpriteRenderer>();
+        DeteccionSprite.enabled = false;
         UIRenderer = DeteccionUI.GetComponent<Renderer>();
         _propBlock = new MaterialPropertyBlock();
     }
@@ -63,8 +62,8 @@ public class Vision : MonoBehaviour
         ObjetosVistos.Clear();
         ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
-        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable_Sigilo);
-        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable_Sigilo);
+        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable);
+        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable);
 
         //Debug.Log(colisionObjetosVistos[0]);
 
@@ -72,7 +71,7 @@ public class Vision : MonoBehaviour
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (target.gameObject.tag == "Player-Sigilo" && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            /*if (target.gameObject.GetComponent<>(). && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
 
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
@@ -81,10 +80,10 @@ public class Vision : MonoBehaviour
                 {
                     ObjetosVistos.Add(target);
                 }
-            }
-            else {
+            }*/
+            //else {
                 ObjetosCercanos.Add(target);
-            }
+            //}
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
