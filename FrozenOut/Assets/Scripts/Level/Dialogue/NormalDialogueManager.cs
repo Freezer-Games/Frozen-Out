@@ -143,7 +143,7 @@ namespace Scripts.Level.Dialogue
 
         public override void StartDialogue(DialogueActer acter)
         {
-            if (IsEnabled())
+            if (IsEnabled() && IsReady())
             {
                 CurrentActer = acter;
 
@@ -323,6 +323,10 @@ namespace Scripts.Level.Dialogue
                 {
                     yield return null;
                 }
+            }
+            else
+            {
+                yield return new WaitForSeconds(NextDialogueDelay);
             }
 
             DialogueSystem.RequestNextLine();
