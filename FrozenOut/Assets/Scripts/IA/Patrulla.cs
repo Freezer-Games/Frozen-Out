@@ -12,6 +12,10 @@ public class Patrulla : MonoBehaviour
     Estados Estado;
     bool Hablando = false;
     private Animator Animator;
+    public bool PatrullaCiclica;
+    public bool PatrullaEstatica;
+    private bool orden = true;//true hacia arriba false hacia abajo
+    private bool NoVisto;
 
     // Start is called before the first frame update
     void Start()
@@ -27,26 +31,115 @@ public class Patrulla : MonoBehaviour
         if (Destinos.Length == 0)
             return;
         Navegacion.destination = Destinos[SiguientePunto].position;
+        if (!PatrullaCiclica && SiguientePunto == Destinos.Length)
+        {
+            SiguientePunto = (SiguientePunto - 1);
+            orden = false;
+        }
+        else
+        {
+            SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
+        }
+
+    }
+
+    void GotoPreviousPoint()
+    {
+        if (Destinos.Length == 0)
+            return;
+        Navegacion.destination = Destinos[SiguientePunto].position;
+        if (SiguientePunto == 0)
+        {
+            SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
+            orden = true;
+        }
+        else
+        {
+            SiguientePunto = (SiguientePunto - 1);
+        }
         SiguientePunto = (SiguientePunto + 1) % Destinos.Length;
     }
 
     // Update is called once per frame
     void Update()
     {
+        NoVisto = gameObject.GetComponent<Vision>().NoVisto;
         List<Transform> visibles = gameObject.GetComponent<Vision>().ObjetosDetectados;
         List<Transform> cercanos = gameObject.GetComponent<Vision>().ObjetosCercanos;
-        Patrullar(visibles, cercanos);
+        List<Transform> ultimasPosiciones = gameObject.GetComponent<Vision>().UltimasPosiciones;
+        if (!PatrullaEstatica)
+        {
+            Patrullar(visibles, cercanos, ultimasPosiciones);
+        }
+        else
+        {
+            Vigilar(visibles, cercanos, ultimasPosiciones);
+        }
 
     }
-    void Patrullar(List<Transform> visibles, List<Transform> cercanos)
+
+    void Vigilar(List<Transform> visibles, List<Transform> cercanos, List<Transform> ultimasPosiciones)
+    {
+        switch (Estado)
+        {
+            case Estados.patrullando:
+                Animator.SetBool("isWalking", false);
+                if (visibles.Count > 0)
+                {
+                    Animator.SetTrigger("Anim_Surprise");
+                    Estado = Estados.perseguir;
+                }
+                break;
+
+            case Estados.perseguir:
+                if (Hablando)
+                {
+                    Animator.SetBool("isWalking", false);
+                    //Comenzar dialogo
+                    Estado = Estados.esperar;
+                }
+                else if (visibles.Count > 0 && cercanos.Count < 1 && NoVisto)
+                {
+                    Animator.SetBool("isWalking", true);
+                    Navegacion.destination = ultimasPosiciones[0].position;
+                }
+                else if (visibles.Count > 0 && cercanos.Count < 1 && !NoVisto)
+                {
+                    Animator.SetBool("isWalking", true);
+                    Navegacion.destination = visibles[0].position;
+                }
+                else if (cercanos.Count > 0)
+                {
+                    Navegacion.destination = gameObject.transform.position;
+                    Animator.SetTrigger("Anim_Surprise");
+                    Hablando = true;
+                }
+                if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
+                break;
+
+            case Estados.esperar:
+
+                break;
+
+        }
+    }
+
+
+    void Patrullar(List<Transform> visibles, List<Transform> cercanos, List<Transform> ultimasPosiciones)
     {
         switch (Estado)
         {
             case Estados.patrullando:
                 Animator.SetBool("isWalking", true);
                 if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.1f)
-                    
-                    GotoNextPoint();
+                    if (!PatrullaCiclica && !orden )
+                    {
+                        GotoPreviousPoint();
+                    }
+                    else 
+                    {
+                        GotoNextPoint();
+                    }
                 if (visibles.Count > 0 )
                 {
                     Animator.SetBool("isWalking", false);
@@ -58,10 +151,11 @@ public class Patrulla : MonoBehaviour
             case Estados.perseguir:
                 if (Hablando)
                 {
+                    Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
                     Estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 2)
+                else if (visibles.Count > 0 && cercanos.Count < 1)
                 {
                     Animator.SetBool("isWalking", true);
                     Navegacion.destination = visibles[0].position;
@@ -69,7 +163,7 @@ public class Patrulla : MonoBehaviour
                 else if (cercanos.Count > 0 )
                 {
                     Navegacion.destination = gameObject.transform.position;
-                    Animator.Play("Enfado_Entrada");
+                    Animator.SetTrigger("Anim_Surprise");
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }

@@ -14,8 +14,6 @@ public class Vision : MonoBehaviour
     public int TiempoDeteccion = 255;
 
     public LayerMask Detectable;
-    public LayerMask Detectable_Sigilo;
-    public LayerMask Detectable_Derretido;
     public LayerMask Obstaculos;
 
     [HideInInspector]
@@ -24,6 +22,10 @@ public class Vision : MonoBehaviour
     public List<Transform> ObjetosCercanos = new List<Transform>();
     [HideInInspector]
     public List<Transform> ObjetosDetectados = new List<Transform>();
+    [HideInInspector]
+    public List<Transform> UltimasPosiciones = new List<Transform>();
+    [HideInInspector]
+    public bool NoVisto = true;
 
     public GameObject camera;
     public GameObject DeteccionUI;
@@ -43,6 +45,7 @@ public class Vision : MonoBehaviour
         ObjetosCercanos.Clear();
         StartCoroutine("FindTargetsWithDelay", .2f);
         DeteccionSprite = DeteccionUI.GetComponent<SpriteRenderer>();
+        DeteccionSprite.enabled = false;
         UIRenderer = DeteccionUI.GetComponent<Renderer>();
         _propBlock = new MaterialPropertyBlock();
     }
@@ -61,10 +64,10 @@ public class Vision : MonoBehaviour
     {
         //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
-        ObjetosCercanos.Clear();
+        //ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
-        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable_Sigilo);
-        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable_Sigilo);
+        Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable);
+        Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable);
 
         //Debug.Log(colisionObjetosVistos[0]);
 
@@ -72,7 +75,7 @@ public class Vision : MonoBehaviour
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (target.gameObject.tag == "Player-Sigilo" && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            /*if (target.gameObject.GetComponent<>(). && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
 
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
@@ -81,16 +84,23 @@ public class Vision : MonoBehaviour
                 {
                     ObjetosVistos.Add(target);
                 }
-            }
-            else {
-                ObjetosCercanos.Add(target);
-            }
+            }*/
+            //else {
+                ObjetosVistos.Add(target);
+            //}
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
         {
             Transform target = colisionObjetosTrueSight[i].transform;
-            ObjetosVistos.Add(target);
+
+            ObjetosDetectados.Add(target);
+
+            DeteccionSprite.enabled = true;
+            UIRenderer.GetPropertyBlock(_propBlock);
+            _propBlock.SetFloat("_Change", 255);
+            UIRenderer.SetPropertyBlock(_propBlock);
+            Deteccion = 255;
         }
 
         for (int i = 0; i < colisionObjetosVistos.Length; i++)
@@ -115,9 +125,32 @@ public class Vision : MonoBehaviour
             if (!CR_running && Deteccion < TiempoDeteccion)
             {
                 CR_running = true;
+                NoVisto = false;
                 StartDetection(t);
             }
+            else if (!CR_running && Deteccion >= TiempoDeteccion)
+            {
+                Detected(t);
+            }
 
+        }
+    }
+
+    private void Detected(Transform t)
+    {
+        if (!ObjetosVistos.Contains(ObjetosDetectados[0]))
+        {
+            UltimasPosiciones.Add(t);
+            StartCoroutine(EndDetection(t));
+            NoVisto = true;
+        }
+        else
+        {
+            NoVisto = false;
+            UIRenderer.GetPropertyBlock(_propBlock);
+            _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
+            UIRenderer.SetPropertyBlock(_propBlock);
+            Deteccion = 255;
         }
     }
 
@@ -136,7 +169,10 @@ public class Vision : MonoBehaviour
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion >= TiempoDeteccion)
         {
-            ObjetosDetectados.Add(t);
+            if (!ObjetosDetectados.Contains(t))
+            {
+                ObjetosDetectados.Add(t);
+            }
             yield return null;
             CR_running = false;
         }
@@ -157,6 +193,9 @@ public class Vision : MonoBehaviour
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion <= 0) {
             DeteccionSprite.enabled = false;
+            ObjetosDetectados.Clear();
+            UltimasPosiciones.Clear();
+            NoVisto = true;
             //HideUI();
             yield return null;
             CR_running = false;

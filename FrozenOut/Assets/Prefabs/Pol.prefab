@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 1968198333438740748}
   - component: {fileID: 1968198333438740749}
   - component: {fileID: 1968198333438740755}
+  - component: {fileID: 6022346976190268926}
   m_Layer: 9
   m_Name: Pol
   m_TagString: Player
@@ -245,13 +246,15 @@ MonoBehaviour:
   Collider: {fileID: 1968198333438740749}
   IsInteracting: 0
   CanMove: 1
+  CanJump: 0
+  MainParent: {fileID: 0}
   MoveSpeed: 4
   JumpForce: 6
   CanJumpDist: 0.51
   RayOrigin: {fileID: 7094166513470298112}
-  IgnoreByRay:
+  WhatIsGround:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   InteractPos: {fileID: 0}
   InteractLook: {fileID: 0}
   Melting:
@@ -368,6 +371,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.25277644
   m_Center: {x: 0, y: 0.25277638, z: 0}
+--- !u!65 &6022346976190268926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968198333438740744}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
+  m_Center: {x: 0, y: -0.051, z: 0}
 --- !u!1 &2183761661567384162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,12 +1903,6 @@ PrefabInstance:
       objectReference: {fileID: 2397446276020552185}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a307123ede17446438efae24cae4bc57, type: 3}
---- !u!4 &7094166513588876437 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3615869079186094606, guid: a307123ede17446438efae24cae4bc57,
-    type: 3}
-  m_PrefabInstance: {fileID: 5790977241816698523}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7069426866550313907 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3622593228165782824, guid: a307123ede17446438efae24cae4bc57,
@@ -1905,3 +1915,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b704608ff9b068843b79e38b9c60ebdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &7094166513588876437 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3615869079186094606, guid: a307123ede17446438efae24cae4bc57,
+    type: 3}
+  m_PrefabInstance: {fileID: 5790977241816698523}
+  m_PrefabAsset: {fileID: 0}

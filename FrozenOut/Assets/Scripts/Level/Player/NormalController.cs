@@ -10,6 +10,7 @@ namespace Scripts.Level.Player
         [Header("States")]
         public bool IsInteracting;
         [SerializeField] bool CanMove;
+        [SerializeField] bool CanJump;
 
 
         [Header("Movement")]
@@ -21,7 +22,7 @@ namespace Scripts.Level.Player
         [Header("Jump")]
         public float CanJumpDist = 0.51f;
         public Transform RayOrigin;
-        public LayerMask IgnoreByRay;
+        public LayerMask WhatIsGround;
 
         [Header("Interact")]
         public Transform InteractPos;
@@ -32,6 +33,7 @@ namespace Scripts.Level.Player
         void Start()
         {
             CanMove = true;
+            CanJump = false;
             IsInteracting = false;
             Collider.enabled = true;
 
@@ -66,8 +68,9 @@ namespace Scripts.Level.Player
 
                     Animator.SetBool("isMoving", Movement != Vector3.zero);
 
-                    if (Input.GetKeyDown(PlayerManager.GetJumpKey())) 
+                    if (Input.GetKeyDown(PlayerManager.GetJumpKey()) && CanJump) 
                     {
+                        CanJump = false;
                         Jump();
                     }
 
@@ -123,16 +126,22 @@ namespace Scripts.Level.Player
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Ground"))
+            Debug.Log("hola");
+            if (other.CompareTag("Ascensor"))
             {
                 Debug.Log("fuera");
                 transform.SetParent(other.transform);
+            }
+
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            {
+                CanJump = true;
             }
         }
 
         void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Ground"))
+            if (other.CompareTag("Ascensor"))
             {
                 Debug.Log("dentro");
                 transform.SetParent(MainParent);
@@ -141,15 +150,12 @@ namespace Scripts.Level.Player
 
         private void Jump() 
         {
-
-            if (CheckGround())
-            {
-                Rigidbody.isKinematic = false;
-                Animator.SetTrigger("isJumping");
-                Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-            }
+            Rigidbody.isKinematic = false;
+            Animator.SetTrigger("isJumping");
+            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
 
+        /*
         private bool CheckGround() 
         {
             RaycastHit hit;
@@ -172,7 +178,9 @@ namespace Scripts.Level.Player
             {
                 return false;
             }
+        
         }
+        */
     }
 
 }
