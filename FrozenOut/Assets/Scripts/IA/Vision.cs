@@ -22,6 +22,10 @@ public class Vision : MonoBehaviour
     public List<Transform> ObjetosCercanos = new List<Transform>();
     [HideInInspector]
     public List<Transform> ObjetosDetectados = new List<Transform>();
+    [HideInInspector]
+    public List<Transform> UltimasPosiciones = new List<Transform>();
+    [HideInInspector]
+    public bool NoVisto = true;
 
     public GameObject camera;
     public GameObject DeteccionUI;
@@ -114,9 +118,32 @@ public class Vision : MonoBehaviour
             if (!CR_running && Deteccion < TiempoDeteccion)
             {
                 CR_running = true;
+                NoVisto = false;
                 StartDetection(t);
             }
+            else if (!CR_running && Deteccion >= TiempoDeteccion)
+            {
+                Detected(t);
+            }
 
+        }
+    }
+
+    private void Detected(Transform t)
+    {
+        if (!ObjetosVistos.Contains(ObjetosDetectados[0]))
+        {
+            UltimasPosiciones.Add(t);
+            StartCoroutine(EndDetection(t));
+            NoVisto = true;
+        }
+        else
+        {
+            NoVisto = false;
+            UIRenderer.GetPropertyBlock(_propBlock);
+            _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
+            UIRenderer.SetPropertyBlock(_propBlock);
+            Deteccion = 255;
         }
     }
 
@@ -135,7 +162,10 @@ public class Vision : MonoBehaviour
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion >= TiempoDeteccion)
         {
-            ObjetosDetectados.Add(t);
+            if (!ObjetosDetectados.Contains(t))
+            {
+                ObjetosDetectados.Add(t);
+            }
             yield return null;
             CR_running = false;
         }
@@ -156,6 +186,9 @@ public class Vision : MonoBehaviour
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion <= 0) {
             DeteccionSprite.enabled = false;
+            ObjetosDetectados.Clear();
+            UltimasPosiciones.Clear();
+            NoVisto = true;
             //HideUI();
             yield return null;
             CR_running = false;

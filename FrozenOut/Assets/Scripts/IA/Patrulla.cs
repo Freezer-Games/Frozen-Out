@@ -15,6 +15,7 @@ public class Patrulla : MonoBehaviour
     public bool PatrullaCiclica;
     public bool PatrullaEstatica;
     private bool orden = true;//true hacia arriba false hacia abajo
+    private bool NoVisto;
 
     // Start is called before the first frame update
     void Start()
@@ -62,20 +63,22 @@ public class Patrulla : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        NoVisto = gameObject.GetComponent<Vision>().NoVisto;
         List<Transform> visibles = gameObject.GetComponent<Vision>().ObjetosDetectados;
         List<Transform> cercanos = gameObject.GetComponent<Vision>().ObjetosCercanos;
+        List<Transform> ultimasPosiciones = gameObject.GetComponent<Vision>().UltimasPosiciones;
         if (!PatrullaEstatica)
         {
-            Patrullar(visibles, cercanos);
+            Patrullar(visibles, cercanos, ultimasPosiciones);
         }
         else
         {
-            Vigilar(visibles, cercanos);
+            Vigilar(visibles, cercanos, ultimasPosiciones);
         }
 
     }
 
-    void Vigilar(List<Transform> visibles, List<Transform> cercanos)
+    void Vigilar(List<Transform> visibles, List<Transform> cercanos, List<Transform> ultimasPosiciones)
     {
         switch (Estado)
         {
@@ -95,7 +98,12 @@ public class Patrulla : MonoBehaviour
                     //Comenzar dialogo
                     Estado = Estados.esperar;
                 }
-                else if (visibles.Count > 0 && cercanos.Count < 1)
+                else if (visibles.Count > 0 && cercanos.Count < 1 && NoVisto)
+                {
+                    Animator.SetBool("isWalking", true);
+                    Navegacion.destination = ultimasPosiciones[0].position;
+                }
+                else if (visibles.Count > 0 && cercanos.Count < 1 && !NoVisto)
                 {
                     Animator.SetBool("isWalking", true);
                     Navegacion.destination = visibles[0].position;
@@ -117,7 +125,7 @@ public class Patrulla : MonoBehaviour
     }
 
 
-    void Patrullar(List<Transform> visibles, List<Transform> cercanos)
+    void Patrullar(List<Transform> visibles, List<Transform> cercanos, List<Transform> ultimasPosiciones)
     {
         switch (Estado)
         {
