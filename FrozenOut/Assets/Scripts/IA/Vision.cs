@@ -93,7 +93,14 @@ public class Vision : MonoBehaviour
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
         {
             Transform target = colisionObjetosTrueSight[i].transform;
+
             ObjetosDetectados.Add(target);
+
+            DeteccionSprite.enabled = true;
+            UIRenderer.GetPropertyBlock(_propBlock);
+            _propBlock.SetFloat("_Change", 255);
+            UIRenderer.SetPropertyBlock(_propBlock);
+            Deteccion = 255;
         }
 
         for (int i = 0; i < colisionObjetosVistos.Length; i++)
