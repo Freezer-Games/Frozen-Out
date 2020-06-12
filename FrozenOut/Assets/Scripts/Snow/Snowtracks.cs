@@ -7,9 +7,10 @@ public class Snowtracks : MonoBehaviour
     public Shader drawShader;
 
     private RenderTexture trackMap;
-    private Material snowMaterial, drawMaterial;
+    private Material drawMaterial;
+    private Material[] snowMaterial;
 
-    public GameObject terrain;
+    public GameObject[] terrains;
     public Transform[] colliders;
 
     RaycastHit groundHit;
@@ -25,11 +26,15 @@ public class Snowtracks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        terrain = this.gameObject;
         layerMask = LayerMask.GetMask("Ground");
         drawMaterial = new Material(drawShader);
-        snowMaterial = terrain.GetComponent<MeshRenderer>().material;
-        snowMaterial.SetTexture("_TrackMap", trackMap = new RenderTexture(2048, 2048, 0, RenderTextureFormat.ARGBFloat));
+        snowMaterial = new Material[terrains.Length];
+        trackMap = new RenderTexture(4096, 4096, 0, RenderTextureFormat.ARGBFloat);
+        for (int i = 0; i < terrains.Length; i++)
+        {
+            snowMaterial[i] = terrains[i].GetComponent<MeshRenderer>().material;
+            snowMaterial[i].SetTexture("_TrackMap", trackMap);
+        }
     }
 
     // Update is called once per frame
@@ -40,53 +45,19 @@ public class Snowtracks : MonoBehaviour
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            //algunos personajes desaparecen, hay que comprobar que aun existen
             if (colliders[i] != null)
             {
-                if (colliders[i].name == "PaloPol")
+                if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit))
                 {
-                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y / 2, layerMask))
-                    {
-                        drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
-                        drawMaterial.SetFloat("_Size", brushSize);
-                        drawMaterial.SetFloat("_Strength", brushStrength);
-                        RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
-                        Graphics.Blit(trackMap, temp);
-                        Graphics.Blit(temp, trackMap, drawMaterial);
-                        RenderTexture.ReleaseTemporary(temp);
-                    }
-                }
-                else
-                {
-                    if (colliders[i].name == "Palo")
-                    {
-                        if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, colliders[i].gameObject.GetComponent<SkinnedMeshRenderer>().bounds.size.y / 3 * 2, layerMask))
-                        {
-                            drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
-                            drawMaterial.SetFloat("_Size", brushSize);
-                            drawMaterial.SetFloat("_Strength", brushStrength);
-                            RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
-                            Graphics.Blit(trackMap, temp);
-                            Graphics.Blit(temp, trackMap, drawMaterial);
-                            RenderTexture.ReleaseTemporary(temp);
-                        }
-                    }
-                    else
-                    {
-                        if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, layerMask))
-                        {
-                            drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
-                            drawMaterial.SetFloat("_Size", brushSize);
-                            drawMaterial.SetFloat("_Strength", brushStrength);
-                            RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
-                            Graphics.Blit(trackMap, temp);
-                            Graphics.Blit(temp, trackMap, drawMaterial);
-                            RenderTexture.ReleaseTemporary(temp);
-                        }
-                    }
+                    drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
+                    drawMaterial.SetFloat("_Size", brushSize);
+                    drawMaterial.SetFloat("_Strength", brushStrength);
+                    RenderTexture temp = RenderTexture.GetTemporary(trackMap.width, trackMap.height, 0, RenderTextureFormat.ARGBFloat);
+                    Graphics.Blit(trackMap, temp);
+                    Graphics.Blit(temp, trackMap, drawMaterial);
+                    RenderTexture.ReleaseTemporary(temp);
                 }
             }
-            
         }
     }
 }
