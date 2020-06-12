@@ -6,11 +6,12 @@ public class Snowtracks : MonoBehaviour
 {
     public Shader drawShader;
 
+    private int mapResolution;
     private RenderTexture trackMap;
     private Material drawMaterial;
     private Material[] snowMaterial;
 
-    public GameObject[] terrains;
+    private GameObject[] terrains;
     public Transform[] colliders;
 
     RaycastHit groundHit;
@@ -29,7 +30,7 @@ public class Snowtracks : MonoBehaviour
         layerMask = LayerMask.GetMask("Ground");
         drawMaterial = new Material(drawShader);
         snowMaterial = new Material[terrains.Length];
-        trackMap = new RenderTexture(4096, 4096, 0, RenderTextureFormat.ARGBFloat);
+        trackMap = new RenderTexture(mapResolution, mapResolution, 0, RenderTextureFormat.ARGBFloat);
         for (int i = 0; i < terrains.Length; i++)
         {
             snowMaterial[i] = terrains[i].GetComponent<MeshRenderer>().material;
