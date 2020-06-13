@@ -6,6 +6,7 @@ using Scripts.Settings;
 
 using Scripts.Level.Sound;
 using Scripts.Level.Item;
+using UnityEngine.ProBuilder;
 
 namespace Scripts.Level.Player
 {
@@ -84,20 +85,20 @@ namespace Scripts.Level.Player
         public void ChangeToNormal() 
         {
             Animator.SetTrigger("isChanging");
-            MeltedController.Collider.enabled = false;
-            NormalController.Collider.enabled = true; 
+
             NormalController.enabled = true;
             MeltedController.enabled = false;
+
             PlayerForm = PlayerForm.Normal;
         }
 
         public void ChangeToMelted()
         {
             Animator.SetTrigger("isChanging");
-            NormalController.Collider.enabled = false;
-            MeltedController.Collider.enabled = true;
+
             NormalController.enabled = false;
             MeltedController.enabled = true;
+
             PlayerForm = PlayerForm.Melted;
         }
 
