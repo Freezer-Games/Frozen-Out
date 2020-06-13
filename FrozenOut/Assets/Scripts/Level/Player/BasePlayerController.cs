@@ -4,20 +4,21 @@ using UnityEngine;
 
 namespace Scripts.Level.Player 
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(CharacterController))]
     public abstract class BasePlayerController: MonoBehaviour
     {
         public PlayerManager PlayerManager;
-        public Rigidbody Rigidbody;
+        public CharacterController CharacterController;
         public Animator Animator;
-        public Collider Collider;
+
+        public float Gravity = 20f;
 
         protected Vector2 MoveInput;
         protected Vector3 Movement;
         protected Vector3 CamForward;
         protected Vector3 CamRight;
 
-        protected abstract void Move();
+        protected abstract void CalculeMove();
 
         public void MoveToTarget(Transform targetPos,Transform targetLook, float distanceToStop, float speed)
         {
@@ -65,12 +66,13 @@ namespace Scripts.Level.Player
 
         public void FaceMovement() 
         {
-            if (Movement != Vector3.zero)
+            if (Movement.x != 0 && Movement.z != 0)
             {
+                Vector3 direction = new Vector3(Movement.x, 0f, Movement.z);
                 transform.rotation = 
                     Quaternion.Slerp(
                         transform.rotation, 
-                        Quaternion.LookRotation(Movement.normalized), 
+                        Quaternion.LookRotation(direction.normalized), 
                         0.2f);
             }
         }

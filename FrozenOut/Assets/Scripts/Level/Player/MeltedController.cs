@@ -16,7 +16,6 @@ namespace Scripts.Level.Player
 
         [Header("Movement")]
         [SerializeField] float MoveSpeed = 4f;
-        [SerializeField] float MovementDelay;
 
 
         [Header("Interact")]
@@ -25,12 +24,16 @@ namespace Scripts.Level.Player
 
         public UnityEvent Recovery;
 
+
         void Start() 
         {
+            CharacterController.center = new Vector3(0f, 0.25f, 0f);
+            CharacterController.radius = 0.25f;
+            CharacterController.height = 0.3f;
+
             CanMove = true;
             IsInteracting = false;
             IsMoving = false;
-            Collider.enabled = true;
 
             if (Recovery == null) 
                 Recovery = new UnityEvent();
@@ -43,37 +46,35 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
-                    Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
                     CanMove = true;
-                    Rigidbody.isKinematic = false;
                 }
 
                 if (CanMove)
                 {
-                    MoveInput = new Vector2(
+                    if (CharacterController.isGrounded)
+                    {
+                        MoveInput = new Vector2(
                         Input.GetAxis("Horizontal"),
                         Input.GetAxis("Vertical"));
-                    MoveInput.Normalize();
+                        MoveInput.Normalize();
 
-                    Animator.SetBool("isMoving", MoveInput != Vector2.zero);
+                        CalculeMove();
 
-                    if (MoveInput != Vector2.zero)
-                    { 
-                        FaceMovement();
+                        Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
+
+                        if (Movement.x != 0f && Movement.z != 0f)
+                        {
+                            FaceMovement();
+                        }
                     }
-                }
-            }
-        }
 
-        void FixedUpdate() 
-        {
-            if (CanMove)
-            {
-                Move();
+                    Movement.y -= Gravity * Time.deltaTime;
+                    CharacterController.Move(Movement * Time.deltaTime);
+                }
             }
         }
 
@@ -82,33 +83,21 @@ namespace Scripts.Level.Player
             CameraVectors();
         }
 
-        void OnDisablae() 
-        {
-            Debug.Log("Desactivnado collider");
-            Collider.enabled = false;
-        }
-
-        protected override void Move()
+        protected override void CalculeMove()
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
             Movement.Normalize();
             
-
+            
             if (IsCharging) 
             {
-                Movement *= (MoveSpeed/3f);
-                Rigidbody.velocity = new Vector3(
-                    Movement.x,
-                    Rigidbody.velocity.y,
-                    Movement.z);
+                Movement.x *= (MoveSpeed/3f);
+                Movement.z *= (MoveSpeed/3f);
             }
             else 
             {
-                Movement *= MoveSpeed;
-                Rigidbody.velocity = new Vector3(
-                    Movement.x,
-                    Rigidbody.velocity.y,
-                    Movement.z);
+                Movement.x *= MoveSpeed;
+                Movement.z *= MoveSpeed;
             }
         }
 

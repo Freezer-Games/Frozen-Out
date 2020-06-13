@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,19 +11,18 @@ namespace Scripts.Level.Player
         [Header("States")]
         public bool IsInteracting;
         [SerializeField] bool CanMove;
-        [SerializeField] bool CanJump;
 
 
         [Header("Movement")]
         [SerializeField] Transform MainParent;
-        [SerializeField] float MoveSpeed = 4f;
-        [SerializeField] float JumpForce = 6f;
+        [SerializeField] float MoveSpeed;
+        [SerializeField] float NormalSpeed = 8f;
+        [SerializeField] float SneakingSpeed = 2.5f; 
+        
 
 
         [Header("Jump")]
-        public float CanJumpDist = 0.51f;
-        public Transform RayOrigin;
-        public LayerMask WhatIsGround;
+        [SerializeField] float JumpDistance = 8f;
 
         [Header("Interact")]
         public Transform InteractPos;
@@ -30,12 +30,16 @@ namespace Scripts.Level.Player
 
         public UnityEvent Melting;
 
+
         void Start()
         {
+            CharacterController.center = new Vector3(0f, 1f, 0f);
+            CharacterController.radius = 0.5f;
+            CharacterController.height = 2f;
+
             CanMove = true;
-            CanJump = false;
             IsInteracting = false;
-            Collider.enabled = true;
+            MoveSpeed = NormalSpeed;
 
             if (Melting == null) 
                 Melting = new UnityEvent();
@@ -44,59 +48,66 @@ namespace Scripts.Level.Player
         void Update() 
         {
             if (PlayerManager.IsEnabled())
-            {
+            { 
                 if (IsInteracting) 
                 {
                     CanMove = false;
-                    Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
                     CanMove = true;
-                    Rigidbody.isKinematic = false;
-                }
-                
+                }     
 
                 if (CanMove)
                 {
-                    MoveInput = new Vector2(
-                        Input.GetAxis("Horizontal"),
-                        Input.GetAxis("Vertical"));
-
-                    MoveInput.Normalize();
-
-                    Animator.SetBool("isMoving", Movement != Vector3.zero);
-
-                    if (Input.GetKeyDown(PlayerManager.GetJumpKey()) && CanJump) 
+                    if (CharacterController.isGrounded)
                     {
-                        CanJump = false;
-                        Jump();
-                    }
+                        MoveInput = new Vector2(
+                            Input.GetAxis("Horizontal"),
+                            Input.GetAxis("Vertical"));
+                        MoveInput.Normalize();
 
-                    if (Movement != Vector3.zero)
-                    {
-                        FaceMovement();
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyCode.V))
+                        Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
+
+                        CalculeMove();
+
+                        //Salto
+                        if (Input.GetKeyDown(KeyCode.Space))
                         {
-                            PlayerManager.ChangeToMelted();
-                            Melting.Invoke();
+                            Jump();
+                        }
+
+                        //Agacharse
+                        if (Input.GetKeyDown(KeyCode.LeftShift))
+                        {
+                            Animator.SetTrigger("IsSneakingIn");
+                            MoveSpeed = SneakingSpeed;
+                        }
+                        
+                        //Enderezarse
+                        if (Input.GetKeyUp(KeyCode.LeftShift))
+                        {
+                            Animator.SetTrigger("IsSneakingOut");
+                            MoveSpeed = NormalSpeed;
+                        }
+
+                        if (Movement.x != 0f && Movement.z != 0f)
+                        {
+                            FaceMovement();
+                        }
+                        else
+                        {
+                            if (Input.GetKeyDown(KeyCode.V))
+                            {
+                                PlayerManager.ChangeToMelted();
+                                Melting.Invoke();
+                            }
                         }
                     }
-                }
-            }
-        }
 
-        void FixedUpdate() 
-        {
-            if (PlayerManager.IsEnabled())
-            {
-                if (CanMove) 
-                {
-                    Move();
+                    Movement.y -= Gravity * Time.deltaTime;
+                    CharacterController.Move(Movement * Time.deltaTime);
                 }
             }
         }
@@ -106,22 +117,19 @@ namespace Scripts.Level.Player
             CameraVectors();
         }
 
-        void OnDisablae() 
-        {
-            Debug.Log("Desactivnado collider");
-            Collider.enabled = false;
-        }
 
-        protected override void Move() 
+        protected override void CalculeMove() 
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
-            Movement.Normalize();
-            Movement *= MoveSpeed;
+            //Movement = transform.TransformDirection(Movement);
+            Movement.x *= MoveSpeed;
+            Movement.z *= MoveSpeed;
+        }
 
-            Rigidbody.velocity = new Vector3(
-                Movement.x,
-                Rigidbody.velocity.y,
-                Movement.z);
+        private void Jump()
+        {
+            Animator.SetTrigger("isJumping");
+            Movement.y = JumpDistance;
         }
 
         void OnTriggerEnter(Collider other)
@@ -131,11 +139,6 @@ namespace Scripts.Level.Player
             {
                 Debug.Log("fuera");
                 transform.SetParent(other.transform);
-            }
-
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                CanJump = true;
             }
         }
 
@@ -147,40 +150,6 @@ namespace Scripts.Level.Player
                 transform.SetParent(MainParent);
             }
         }
-
-        private void Jump() 
-        {
-            Rigidbody.isKinematic = false;
-            Animator.SetTrigger("isJumping");
-            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-        }
-
-        /*
-        private bool CheckGround() 
-        {
-            RaycastHit hit;
-            Ray checker = new Ray(RayOrigin.position, Vector3.down);
-            Debug.DrawRay(RayOrigin.position, Vector3.down, Color.red, 0.1f);
-
-            if (Physics.Raycast(checker, out hit, CanJumpDist, ~IgnoreByRay)) 
-            {
-                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")) 
-                {
-                    Debug.Log("dist origin-hit: " + Vector3.Distance(hit.point, RayOrigin.position));
-                    return true;
-                }
-                else 
-                {
-                    return false;
-                }
-            } 
-            else 
-            {
-                return false;
-            }
-        
-        }
-        */
     }
 
 }
