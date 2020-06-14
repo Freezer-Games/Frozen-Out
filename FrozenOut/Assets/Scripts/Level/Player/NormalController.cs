@@ -11,18 +11,20 @@ namespace Scripts.Level.Player
         [Header("States")]
         public bool IsInteracting;
         [SerializeField] bool CanMove;
+        [SerializeField] bool Grounded;
 
 
         [Header("Movement")]
         [SerializeField] Transform MainParent;
         [SerializeField] float MoveSpeed;
-        [SerializeField] float NormalSpeed = 8f;
+        [SerializeField] float NormalSpeed = 4f;
         [SerializeField] float SneakingSpeed = 2.5f; 
         
 
 
         [Header("Jump")]
-        [SerializeField] float JumpDistance = 8f;
+        [SerializeField] float JumpForce = 6f;
+        [SerializeField] LayerMask WhatIsGround;
 
         [Header("Interact")]
         public Transform InteractPos;
@@ -33,9 +35,11 @@ namespace Scripts.Level.Player
 
         void Start()
         {
-            CharacterController.center = new Vector3(0f, 1f, 0f);
-            CharacterController.radius = 0.5f;
-            CharacterController.height = 2f;
+            Collider.center = new Vector3(0f, 1f, 0f);
+            Collider.radius = 0.5f;
+            Collider.height = 2f;
+
+            AntiWall.SetActive(true);
 
             CanMove = true;
             IsInteracting = false;
@@ -52,62 +56,67 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
+                    Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
                     CanMove = true;
+                    Rigidbody.isKinematic = false;
                 }     
 
                 if (CanMove)
                 {
-                    if (CharacterController.isGrounded)
+                    MoveInput = new Vector2(
+                        Input.GetAxis("Horizontal"),
+                        Input.GetAxis("Vertical"));
+                    MoveInput.Normalize();
+
+                    Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
+
+                    //Salto
+                    if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
                     {
-                        MoveInput = new Vector2(
-                            Input.GetAxis("Horizontal"),
-                            Input.GetAxis("Vertical"));
-                        MoveInput.Normalize();
-
-                        Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
-
-                        CalculeMove();
-
-                        //Salto
-                        if (Input.GetKeyDown(KeyCode.Space))
-                        {
-                            Jump();
-                        }
-
-                        //Agacharse
-                        if (Input.GetKeyDown(KeyCode.LeftShift))
-                        {
-                            Animator.SetTrigger("IsSneakingIn");
-                            MoveSpeed = SneakingSpeed;
-                        }
-                        
-                        //Enderezarse
-                        if (Input.GetKeyUp(KeyCode.LeftShift))
-                        {
-                            Animator.SetTrigger("IsSneakingOut");
-                            MoveSpeed = NormalSpeed;
-                        }
-
-                        if (Movement.x != 0f && Movement.z != 0f)
-                        {
-                            FaceMovement();
-                        }
-                        else
-                        {
-                            if (Input.GetKeyDown(KeyCode.V))
-                            {
-                                PlayerManager.ChangeToMelted();
-                                Melting.Invoke();
-                            }
-                        }
+                        Jump();
                     }
 
-                    Movement.y -= Gravity * Time.deltaTime;
-                    CharacterController.Move(Movement * Time.deltaTime);
+                    //Agacharse
+                    if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
+                    {
+                        Animator.SetTrigger("isSneakingIn");
+                        MoveSpeed = SneakingSpeed;
+                    }
+                        
+                    //Enderezarse
+                    if (Input.GetKeyUp(PlayerManager.GetCrouchKey()))
+                    {
+                        Animator.SetTrigger("isSneakingOut");
+                        MoveSpeed = NormalSpeed;
+                    }
+
+                    if (Movement.x != 0f && Movement.z != 0f)
+                    {
+                        FaceMovement();
+                    }
+                    else
+                    {
+                        if (Input.GetKeyDown(KeyCode.V))
+                        {
+                            PlayerManager.ChangeToMelted();
+                            Melting.Invoke();
+                        }
+                    }
+                }
+            }
+        }
+
+        void FixedUpdate()
+        {
+            if (PlayerManager.IsEnabled())
+            {
+                if (CanMove)
+                {
+                    CalculeMove();
                 }
             }
         }
@@ -121,35 +130,48 @@ namespace Scripts.Level.Player
         protected override void CalculeMove() 
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
-            //Movement = transform.TransformDirection(Movement);
-            Movement.x *= MoveSpeed;
-            Movement.z *= MoveSpeed;
+            Movement.Normalize();
+            Movement *= MoveSpeed;
+
+            Rigidbody.velocity = new Vector3(
+                Movement.x,
+                Rigidbody.velocity.y,
+                Movement.z);
         }
 
         private void Jump()
         {
-            Animator.SetTrigger("isJumping");
-            Movement.y = JumpDistance;
+            if (Grounded)
+            {
+                Animator.SetTrigger("isJumping");
+                Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            }
         }
 
         void OnTriggerEnter(Collider other)
         {
-            Debug.Log("hola");
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            {
+                Grounded = true;
+            }
+
             if (other.CompareTag("Ascensor"))
             {
-                Debug.Log("fuera");
                 transform.SetParent(other.transform);
             }
         }
 
         void OnTriggerExit(Collider other)
         {
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            {
+                Grounded = false;
+            }
+
             if (other.CompareTag("Ascensor"))
             {
-                Debug.Log("dentro");
                 transform.SetParent(MainParent);
             }
         }
     }
-
 }

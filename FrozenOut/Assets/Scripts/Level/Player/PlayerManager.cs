@@ -85,20 +85,16 @@ namespace Scripts.Level.Player
         public void ChangeToNormal() 
         {
             Animator.SetTrigger("isChanging");
-
             NormalController.enabled = true;
             MeltedController.enabled = false;
-
             PlayerForm = PlayerForm.Normal;
         }
 
         public void ChangeToMelted()
         {
             Animator.SetTrigger("isChanging");
-
             NormalController.enabled = false;
             MeltedController.enabled = true;
-
             PlayerForm = PlayerForm.Melted;
         }
 

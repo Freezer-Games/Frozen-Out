@@ -27,9 +27,11 @@ namespace Scripts.Level.Player
 
         void Start() 
         {
-            CharacterController.center = new Vector3(0f, 0.25f, 0f);
-            CharacterController.radius = 0.25f;
-            CharacterController.height = 0.3f;
+            Collider.center = new Vector3(0f, 0.25f, 0f);
+            Collider.radius = 0.25f;
+            Collider.height = 0.3f;
+
+            AntiWall.SetActive(false);
 
             CanMove = true;
             IsInteracting = false;
@@ -46,34 +48,39 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
+                    Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
                     CanMove = true;
+                    Rigidbody.isKinematic = false;
                 }
 
                 if (CanMove)
                 {
-                    if (CharacterController.isGrounded)
+                    MoveInput = new Vector2(
+                    Input.GetAxis("Horizontal"),
+                    Input.GetAxis("Vertical"));
+                    MoveInput.Normalize();
+
+                    Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
+
+                    if (Movement.x != 0f && Movement.z != 0f)
                     {
-                        MoveInput = new Vector2(
-                        Input.GetAxis("Horizontal"),
-                        Input.GetAxis("Vertical"));
-                        MoveInput.Normalize();
-
-                        CalculeMove();
-
-                        Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
-
-                        if (Movement.x != 0f && Movement.z != 0f)
-                        {
-                            FaceMovement();
-                        }
+                        FaceMovement();
                     }
+                }
+            }
+        }
 
-                    Movement.y -= Gravity * Time.deltaTime;
-                    CharacterController.Move(Movement * Time.deltaTime);
+        void FixedUpdate()
+        {
+            if (PlayerManager.IsEnabled())
+            {
+                if (CanMove)
+                {
+                    CalculeMove();
                 }
             }
         }
@@ -91,13 +98,19 @@ namespace Scripts.Level.Player
             
             if (IsCharging) 
             {
-                Movement.x *= (MoveSpeed/3f);
-                Movement.z *= (MoveSpeed/3f);
+                Movement *= (MoveSpeed / 3f);
+                Rigidbody.velocity = new Vector3(
+                    Movement.x,
+                    Rigidbody.velocity.y,
+                    Movement.z);
             }
             else 
             {
-                Movement.x *= MoveSpeed;
-                Movement.z *= MoveSpeed;
+                Movement *= MoveSpeed;
+                Rigidbody.velocity = new Vector3(
+                    Movement.x,
+                    Rigidbody.velocity.y,
+                    Movement.z);
             }
         }
 
