@@ -244,10 +244,9 @@ MonoBehaviour:
   Animator: {fileID: 1968198333438740751}
   Collider: {fileID: 4285950724042759185}
   AntiWall: {fileID: 8178611277383646209}
-  Gravity: 20
   IsInteracting: 0
-  CanMove: 1
   Grounded: 0
+  CanMove: 1
   MainParent: {fileID: 0}
   MoveSpeed: 4
   NormalSpeed: 4
@@ -289,7 +288,6 @@ MonoBehaviour:
   Animator: {fileID: 1968198333438740751}
   Collider: {fileID: 4285950724042759185}
   AntiWall: {fileID: 8178611277383646209}
-  Gravity: 20
   IsInteracting: 0
   CanMove: 1
   IsMoving: 0
@@ -1591,12 +1589,12 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8178611277383646209}
-  m_Material: {fileID: 13400000, guid: 2fb28acd4d08f4347bf7e7f8b19a45fd, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.25, z: 0.7}
-  m_Center: {x: 0, y: 1, z: 0.2}
+  m_Size: {x: 0.8, y: 0.45045066, z: 0.7}
+  m_Center: {x: 0, y: 1.6, z: 0.20000002}
 --- !u!1 &8254656465774302980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1761,7 +1759,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7137997087688164521}
   - component: {fileID: 7393366210160790357}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1776,7 +1774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8800438274640358704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3245732126963219227}
