@@ -4,14 +4,13 @@ using UnityEngine;
 
 namespace Scripts.Level.Player 
 {
-    [RequireComponent(typeof(CharacterController))]
     public abstract class BasePlayerController: MonoBehaviour
     {
         public PlayerManager PlayerManager;
-        public CharacterController CharacterController;
+        public Rigidbody Rigidbody;
         public Animator Animator;
-
-        public float Gravity = 20f;
+        public CapsuleCollider Collider;
+        public GameObject AntiWall;
 
         protected Vector2 MoveInput;
         protected Vector3 Movement;
