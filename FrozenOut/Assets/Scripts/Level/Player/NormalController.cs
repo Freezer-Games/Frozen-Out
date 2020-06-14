@@ -10,16 +10,15 @@ namespace Scripts.Level.Player
     {
         [Header("States")]
         public bool IsInteracting;
+        public bool Grounded;
         [SerializeField] bool CanMove;
-        [SerializeField] bool Grounded;
-
+      
 
         [Header("Movement")]
         [SerializeField] Transform MainParent;
         [SerializeField] float MoveSpeed;
         [SerializeField] float NormalSpeed = 4f;
-        [SerializeField] float SneakingSpeed = 2.5f; 
-        
+        [SerializeField] float SneakingSpeed = 2.5f;   
 
 
         [Header("Jump")]
@@ -171,6 +170,19 @@ namespace Scripts.Level.Player
             if (other.CompareTag("Ascensor"))
             {
                 transform.SetParent(MainParent);
+            }
+        }
+
+        void OnCollisionStay(Collision other)
+        {
+            foreach (ContactPoint contact in other.contacts)
+            {
+                var colName = contact.thisCollider.name;
+
+                if (colName == "Anti Wall" && !Grounded)
+                {
+                    Rigidbody.velocity = new Vector3(0f, -4f, 0);
+                }
             }
         }
     }
