@@ -6,12 +6,12 @@ public class Snowtracks : MonoBehaviour
 {
     public Shader drawShader;
 
-    private int mapResolution;
+    public int mapResolution;
     private RenderTexture trackMap;
     private Material drawMaterial;
     private Material[] snowMaterial;
 
-    private GameObject[] terrains;
+    public GameObject[] terrains;
     public Transform[] colliders;
 
     RaycastHit groundHit;
