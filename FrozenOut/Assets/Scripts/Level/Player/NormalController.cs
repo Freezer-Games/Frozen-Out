@@ -182,7 +182,7 @@ namespace Scripts.Level.Player
                 if (colName == "Anti Wall" && !Grounded)
                 {
                     CanMove = false;
-                    Rigidbody.velocity = new Vector3(0f, -4f, 0);
+                    Rigidbody.velocity = new Vector3(0f, -8f, 0);
                 }
             }
         }
