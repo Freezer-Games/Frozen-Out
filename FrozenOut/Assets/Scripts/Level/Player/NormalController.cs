@@ -18,11 +18,12 @@ namespace Scripts.Level.Player
         [SerializeField] Transform MainParent;
         [SerializeField] float MoveSpeed;
         [SerializeField] float NormalSpeed = 4f;
-        [SerializeField] float SneakingSpeed = 2.5f;   
+        [SerializeField] float SneakingSpeed = 2.5f;
 
 
         [Header("Jump")]
         [SerializeField] float JumpForce = 6f;
+        float DistanceToGround;
         [SerializeField] LayerMask WhatIsGround;
 
         [Header("Interact")]
@@ -39,6 +40,8 @@ namespace Scripts.Level.Player
             Collider.height = 2f;
 
             AntiWall.SetActive(true);
+
+            DistanceToGround = GetComponent<Collider>().bounds.extents.y;
 
             CanMove = true;
             IsInteracting = false;
@@ -66,44 +69,48 @@ namespace Scripts.Level.Player
 
                 if (CanMove)
                 {
-                    MoveInput = new Vector2(
+                    Grounded = Physics.Raycast(transform.position, Vector3.down, DistanceToGround + 0.1f);
+
+                    if (Grounded)
+                    {
+                        MoveInput = new Vector2(
                         Input.GetAxis("Horizontal"),
                         Input.GetAxis("Vertical"));
-                    MoveInput.Normalize();
+                        MoveInput.Normalize();
 
-                    Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
+                        Animator.SetBool("isMoving", Movement != Vector3.zero);
 
-                    //Salto
-                    if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
-                    {
-                        Jump();
+                        if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
+                        {
+                            Jump();
+                            Grounded = false;
+                        }
+
+                        if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
+                        {
+                            Animator.SetTrigger("isSneakingIn");
+                            MoveSpeed = SneakingSpeed;
+                        }
+
+                        if (Input.GetKeyUp(PlayerManager.GetCrouchKey()))
+                        {
+                            Animator.SetTrigger("isSneakingOut");
+                            MoveSpeed = NormalSpeed;
+                        }
+
+                        if (!(Movement != Vector3.zero))
+                        {
+                            if (Input.GetKeyDown(KeyCode.V))
+                            {
+                                PlayerManager.ChangeToMelted();
+                                Melting.Invoke();
+                            }
+                        }
                     }
 
-                    //Agacharse
-                    if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
-                    {
-                        Animator.SetTrigger("isSneakingIn");
-                        MoveSpeed = SneakingSpeed;
-                    }
-                        
-                    //Enderezarse
-                    if (Input.GetKeyUp(PlayerManager.GetCrouchKey()))
-                    {
-                        Animator.SetTrigger("isSneakingOut");
-                        MoveSpeed = NormalSpeed;
-                    }
-
-                    if (Movement.x != 0f && Movement.z != 0f)
+                    if (Movement != Vector3.zero)
                     {
                         FaceMovement();
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyCode.V))
-                        {
-                            PlayerManager.ChangeToMelted();
-                            Melting.Invoke();
-                        }
                     }
                 }
             }
@@ -115,7 +122,10 @@ namespace Scripts.Level.Player
             {
                 if (CanMove)
                 {
-                    CalculeMove();
+                    if (Grounded)
+                    {
+                        CalculeMove();
+                    }
                 }
             }
         }
@@ -132,28 +142,39 @@ namespace Scripts.Level.Player
             Movement.Normalize();
             Movement *= MoveSpeed;
 
-            Rigidbody.velocity = new Vector3(
-                Movement.x,
-                Rigidbody.velocity.y,
-                Movement.z);
+            Vector3 velocity = Rigidbody.velocity;
+            Vector3 velocityChange = (Movement - velocity);
+            velocityChange.x = Mathf.Clamp(velocityChange.x, -MoveSpeed, MoveSpeed);
+            velocityChange.z = Mathf.Clamp(velocityChange.z, -MoveSpeed, MoveSpeed);
+            velocityChange.y = 0f;
+
+            Rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
         }
 
         private void Jump()
         {
-            if (Grounded)
-            {
-                Animator.SetTrigger("isJumping");
-                Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-            }
+            Animator.SetTrigger("isJumping");
+            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
 
-        void OnTriggerEnter(Collider other)
+        void OnCollisionEnter(Collision other)
         {
             if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = true;
             }
+        }
 
+        void OnCollsionExit(Collision other)
+        {
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            {
+                Grounded = false;
+            }
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
             if (other.CompareTag("Ascensor"))
             {
                 transform.SetParent(other.transform);
@@ -162,28 +183,9 @@ namespace Scripts.Level.Player
 
         void OnTriggerExit(Collider other)
         {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                Grounded = false;
-            }
-
             if (other.CompareTag("Ascensor"))
             {
                 transform.SetParent(MainParent);
-            }
-        }
-
-        void OnCollisionStay(Collision other)
-        {
-            foreach (ContactPoint contact in other.contacts)
-            {
-                var colName = contact.thisCollider.name;
-
-                if (colName == "Anti Wall" && !Grounded)
-                {
-                    CanMove = false;
-                    Rigidbody.velocity = new Vector3(0f, -4f, 0);
-                }
             }
         }
     }

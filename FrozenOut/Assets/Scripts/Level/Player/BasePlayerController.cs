@@ -10,7 +10,6 @@ namespace Scripts.Level.Player
         public Rigidbody Rigidbody;
         public Animator Animator;
         public CapsuleCollider Collider;
-        public GameObject AntiWall;
 
         protected Vector2 MoveInput;
         protected Vector3 Movement;
@@ -65,15 +64,12 @@ namespace Scripts.Level.Player
 
         public void FaceMovement() 
         {
-            if (Movement.x != 0 && Movement.z != 0)
-            {
-                Vector3 direction = new Vector3(Movement.x, 0f, Movement.z);
-                transform.rotation = 
-                    Quaternion.Slerp(
-                        transform.rotation, 
-                        Quaternion.LookRotation(direction.normalized), 
-                        0.2f);
-            }
+            Vector3 direction = new Vector3(Movement.x, 0f, Movement.z);
+            transform.rotation = 
+                Quaternion.Slerp(
+                    transform.rotation, 
+                    Quaternion.LookRotation(direction.normalized), 
+                    0.2f);
         }
 
         protected void CameraVectors() 
