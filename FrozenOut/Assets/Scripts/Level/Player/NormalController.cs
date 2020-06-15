@@ -39,8 +39,6 @@ namespace Scripts.Level.Player
             Collider.radius = 0.5f;
             Collider.height = 2f;
 
-            AntiWall.SetActive(true);
-
             DistanceToGround = GetComponent<Collider>().bounds.extents.y;
 
             CanMove = true;
@@ -83,7 +81,6 @@ namespace Scripts.Level.Player
                         if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
                         {
                             Jump();
-                            Grounded = false;
                         }
 
                         if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
@@ -153,6 +150,7 @@ namespace Scripts.Level.Player
 
         private void Jump()
         {
+            Grounded = false;
             Animator.SetTrigger("isJumping");
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
@@ -185,17 +183,7 @@ namespace Scripts.Level.Player
         {
             if (other.CompareTag("Ascensor"))
             {
-<<<<<<< HEAD
                 transform.SetParent(MainParent);
-=======
-                var colName = contact.thisCollider.name;
-
-                if (colName == "Anti Wall" && !Grounded)
-                {
-                    CanMove = false;
-                    Rigidbody.velocity = new Vector3(0f, -8f, 0);
-                }
->>>>>>> eac7ca388b8df571d18fc3f47a8f76ce188e323a
             }
         }
     }

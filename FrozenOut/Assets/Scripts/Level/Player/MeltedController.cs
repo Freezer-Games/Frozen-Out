@@ -10,7 +10,6 @@ namespace Scripts.Level.Player
         [Header("States")]
         public bool IsInteracting;
         [SerializeField] bool CanMove;
-        [SerializeField] bool IsMoving;
         [SerializeField] bool IsCharging;
 
 
@@ -31,11 +30,8 @@ namespace Scripts.Level.Player
             Collider.radius = 0.25f;
             Collider.height = 0.3f;
 
-            AntiWall.SetActive(false);
-
             CanMove = true;
             IsInteracting = false;
-            IsMoving = false;
 
             if (Recovery == null) 
                 Recovery = new UnityEvent();
@@ -94,8 +90,7 @@ namespace Scripts.Level.Player
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
             Movement.Normalize();
-            
-            
+              
             if (IsCharging) 
             {
                 Movement *= (MoveSpeed / 3f);
