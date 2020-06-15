@@ -185,7 +185,17 @@ namespace Scripts.Level.Player
         {
             if (other.CompareTag("Ascensor"))
             {
+<<<<<<< HEAD
                 transform.SetParent(MainParent);
+=======
+                var colName = contact.thisCollider.name;
+
+                if (colName == "Anti Wall" && !Grounded)
+                {
+                    CanMove = false;
+                    Rigidbody.velocity = new Vector3(0f, -8f, 0);
+                }
+>>>>>>> eac7ca388b8df571d18fc3f47a8f76ce188e323a
             }
         }
     }
