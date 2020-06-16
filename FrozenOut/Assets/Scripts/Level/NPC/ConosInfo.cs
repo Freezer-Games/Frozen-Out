@@ -22,14 +22,8 @@ namespace Scripts.Level.NPC
         {
             "Anim_Buried"
         };
-        private readonly string[] WalkingBools = new string[]
-        {
-            "IsWalking"
-        };
-        private readonly string[] PrevailBools = new string[]
-        {
-            "Anim_Prevail"
-        };
+        private readonly string WalkingBool = "IsWalking";
+        private readonly string PrevailBool = "Anim_Prevail";
 
         public override void StartAnimation(string animation)
         {
@@ -51,10 +45,10 @@ namespace Scripts.Level.NPC
                     SetRandomTrigger(BuriedTriggers);
                     break;
                 case "Walk":
-                    SetRandomBool(WalkingBools);
+                    SetBool(WalkingBool, true);
                     break;
                 case "Prevail":
-                    SetRandomBool(PrevailBools);
+                    SetBool(PrevailBool, true);
                     break;
                 default:
                     break;

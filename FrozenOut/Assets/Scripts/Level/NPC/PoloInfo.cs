@@ -1,3 +1,6 @@
+using System.Collections;
+using UnityEngine;
+
 namespace Scripts.Level.NPC
 {
     public class PoloInfo : NPCInfo
@@ -19,17 +22,17 @@ namespace Scripts.Level.NPC
             "Anim_Nod_1",
             "Anim_Nod_2"
         };
-        private readonly string[] DanceBools = new string[]
+        private readonly string DanceBool = "Anim_Dance";
+        private readonly string TiredBool = "Anim_Tired";
+        private readonly string[] WorkTriggers = new string[]
         {
-            "Anim_Dance"
-        };
-        private readonly string[] TiredBools = new string[]
-        {
-            "Anim_Tired"
+            "Anim_Mining"
         };
 
         public override void StartAnimation(string animation)
         {
+            StopAllCoroutines();
+
             switch (animation)
             {
                 case "Awaken":
@@ -42,13 +45,33 @@ namespace Scripts.Level.NPC
                     SetRandomTrigger(NodTriggers);
                     break;
                 case "Dance":
-                    SetRandomBool(DanceBools);
+                    SetBool(DanceBool, true);
                     break;
                 case "Tired":
-                    SetRandomBool(TiredBools);
+                    SetBool(TiredBool, true);
+                    break;
+                case "Work":
+                    StartCoroutine(DoWork());
                     break;
                 default:
                     break;
+            }
+        }
+
+        public override void StopAnimation()
+        {
+            StopAllCoroutines();
+        }
+
+        private IEnumerator DoWork()
+        {
+            yield return new WaitForSeconds(0.5f);
+            while(true)
+            {
+                SetRandomTrigger(WorkTriggers);
+
+                float randomDelay = Random.Range(0.5f, 2.0f);
+                yield return new WaitForSeconds(randomDelay);
             }
         }
     }

@@ -20,10 +20,12 @@ namespace Scripts.Level.NPC
         };
         private int lastMusicIndex = 0;
 
-        private const float AnimationDelay = 1f;
+        private const float DiscursoDelay = 1.0f;
 
         public override void StartAnimation(string animation)
         {
+            StopAllCoroutines();
+
             switch(animation)
             {
                 case "Discurso":
@@ -48,7 +50,7 @@ namespace Scripts.Level.NPC
             {
                 SetRandomTrigger(DiscursoTriggers);
 
-                yield return new WaitForSeconds(AnimationDelay);
+                yield return new WaitForSeconds(DiscursoDelay);
             }
         }
     }
