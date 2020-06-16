@@ -10,7 +10,7 @@ namespace Scripts.Level.Player
     {
         [Header("States")]
         public bool IsInteracting;
-        public bool Grounded;
+        [SerializeField] bool Grounded;
         [SerializeField] bool CanMove;
       
 
@@ -43,6 +43,7 @@ namespace Scripts.Level.Player
 
             CanMove = true;
             IsInteracting = false;
+            Grounded = false;
             MoveSpeed = NormalSpeed;
 
             if (Melting == null) 
@@ -67,22 +68,15 @@ namespace Scripts.Level.Player
 
                 if (CanMove)
                 {
-                    Grounded = Physics.Raycast(transform.position, Vector3.down, DistanceToGround + 0.1f);
+                    MoveInput = new Vector2(
+                        Input.GetAxis("Horizontal"),
+                        Input.GetAxis("Vertical"));
+                    MoveInput.Normalize();
+
+                    Animator.SetBool("isMoving", Movement != Vector3.zero);
 
                     if (Grounded)
                     {
-                        MoveInput = new Vector2(
-                        Input.GetAxis("Horizontal"),
-                        Input.GetAxis("Vertical"));
-                        MoveInput.Normalize();
-
-                        Animator.SetBool("isMoving", Movement != Vector3.zero);
-
-                        if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
-                        {
-                            Jump();
-                        }
-
                         if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
                         {
                             Animator.SetTrigger("isSneakingIn");
@@ -110,6 +104,10 @@ namespace Scripts.Level.Player
                         FaceMovement();
                     }
                 }
+                else
+                {
+                    Animator.SetBool("isMoving", false);
+                }
             }
         }
 
@@ -119,9 +117,14 @@ namespace Scripts.Level.Player
             {
                 if (CanMove)
                 {
+                    CalculeMove();
+
                     if (Grounded)
                     {
-                        CalculeMove();
+                        if (Input.GetKeyUp(PlayerManager.GetJumpKey()))
+                        {
+                            Jump();    
+                        }
                     }
                 }
             }
@@ -150,9 +153,21 @@ namespace Scripts.Level.Player
 
         private void Jump()
         {
-            Grounded = false;
             Animator.SetTrigger("isJumping");
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+
+        private bool IsGrounded()
+        {
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.down, 0.2f);
+            foreach (RaycastHit hit in hits)
+            {
+                if (WhatIsGround == (WhatIsGround | (1 << hit.transform.gameObject.layer)))
+                {
+                    return Grounded = true; ;
+                }
+            }
+            return Grounded = false;
         }
 
         void OnCollisionEnter(Collision other)
@@ -163,7 +178,7 @@ namespace Scripts.Level.Player
             }
         }
 
-        void OnCollsionExit(Collision other)
+        void OnCollisionExit(Collision other)
         {
             if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {

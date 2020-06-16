@@ -7,12 +7,14 @@ namespace Scripts.Level.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        private CinemachineVirtualCamera CurrentVC;
-        private CinemachineVirtualCamera ExchangeVC;
+        [SerializeField] CinemachineVirtualCamera CurrentVC;
         public Transform Player;
         [SerializeField] float diffPlayerCam;
+        [SerializeField] float diffPlyCam4S;
+        [SerializeField] float currentDiff;
 
         public CinemachineVirtualCamera FirstSegmenetVC;
+        public CinemachineVirtualCamera FourthSegmentVC;
 
         void Start()
         {
@@ -23,13 +25,23 @@ namespace Scripts.Level.Camera
         {
             if (CurrentVC != FirstSegmenetVC)
             {
-                float currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
+                currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
 
-                if (currentDiff >= diffPlayerCam)
+                if (CurrentVC == FourthSegmentVC)
+                {
+                    if (currentDiff > diffPlyCam4S && currentDiff >= 0)
+                    {
+                        FirstSegmenetVC.Priority = 30;
+                        CurrentVC.Priority = 20;
+                        Debug.Log("cambio de camara principal");
+                        CurrentVC = FirstSegmenetVC;
+                    }
+                }
+                else if (currentDiff > diffPlayerCam && currentDiff > 0)
                 {
                     FirstSegmenetVC.Priority = 30;
                     CurrentVC.Priority = 20;
-                    Debug.Log("cambio de camra principal");
+                    Debug.Log("cambio de camara principal");
                     CurrentVC = FirstSegmenetVC;
                 }
             }
