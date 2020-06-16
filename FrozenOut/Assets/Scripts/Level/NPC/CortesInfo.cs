@@ -40,7 +40,7 @@ namespace Scripts.Level.NPC
                     SetRandomTrigger(InclinadoEntradaTriggers);
                     break;
                 case "Inclinado_Salida":
-                    SetRandomBool(InclinadoSalidaTriggers);
+                    SetRandomTrigger(InclinadoSalidaTriggers);
                     break;
                 default:
                     break;

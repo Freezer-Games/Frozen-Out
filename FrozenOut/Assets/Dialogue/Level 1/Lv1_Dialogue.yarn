@@ -1,22 +1,26 @@
 title: Naranjito
 tags: 
 colorID: 0
-position: 107,8
+position: 116,0
 ---
 << if not visited("Introduccion") >>
+    << setanim YarnCommands Naranjito Awaken >>
     Naranjito: ... ¿De dónde has salido tú? ...
     Naranjito: Da igual, estoy demasiado cansado para pensar
+    << setanim YarnCommands Naranjito Deny >>
     Naranjito: Deberías volver a la ciudad antes de que te vean los helados
     Naranjito: No permiten que nadie merodee por aquí fuera de su turno
 << endif >>
 Naranjito: <i>Cúbrete detrás de los escombros y usa la “X” para que sea más difícil que te detecten</i>
+<< setanim YarnCommands Naranjito Awaken >>
 Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí
 ===
 title: Guardia1
 tags: 
 colorID: 1
-position: 399,3
+position: 399,1
 ---
+<< setanim YarnCommands Guardia1 Laugh >>
 Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo
 Guardia: Polos número 234 y 56 no me gustaría llevaros a la zona de.. <i><b>reformación</b></i>
 << setanim YarnCommands Guardia1 Laugh >> 
@@ -25,9 +29,10 @@ Guardia: HAHAHAHA.
 title: Chups
 tags: 
 colorID: 0
-position: -108,9
+position: -108,-3
 ---
 << if not visited("Chups") >>
+    << setanim YarnCommands Chups Awaken >>
     Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar
 << endif >>
 Chups: Me pregunto qué harán con todo ese hielo, nunca tienen suficiente
@@ -35,9 +40,10 @@ Chups: Me pregunto qué harán con todo ese hielo, nunca tienen suficiente
 title: Helen
 tags: 
 colorID: 0
-position: -99,236
+position: -109,221
 ---
 << if not visited("Helen") >>
+    << setanim YarnCommands Helen Deny >>
     Helen: Creía que no se iba a acabar nunca, te debo una
 << endif >>
 Helen: Cada vez los turnos son más largos
@@ -46,28 +52,31 @@ Helen: Con este ritmo voy a acabar en la zona de refrigeración
 title: Huranyo
 tags: 
 colorID: 0
-position: -339,240
+position: -332,219
 ---
 << if not visited("Huranyo") >>
+    << setanim YarnCommands Huranyo Deny >> 
     Prefiero que no nos vean hablar
+<< else >>
+    (...)
 << endif >>
-(...)
 ===
 title: Palanquilla
 tags: 
 colorID: 0
-position: -409,476
+position: -334,448
 ---
 << if has_item("lever") >>
     [[ Palanquilla.Ascensor ]]
 << endif >>
 Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
+<< setanim YarnCommands Palanquilla Awaken >>
 Palanquilla: Como se enteren los guardias me van a dejar al Sol
 ===
 title: Olafs
 tags: 
 colorID: 1
-position: 439,456
+position: 399,222
 ---
 << if not visited("Olafs") >>
     Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>1000</b> hielos
@@ -83,10 +92,12 @@ position: 439,456
 title: Alfredo
 tags: 
 colorID: 0
-position: 109,444
+position: 119,446
 ---
 << if not visited("Alfredo") >>
+    << setanim YarnCommands Alfredo Awaken >>
     Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto, se están produciendo muchos derrumbamientos
+    << setanim YarnCommands Alfredo Deny >>
     Alfredo: Además está acabando con todo el hielo y cada vez hace más calor
 << endif >>
 << if used_item("lighter") >>
@@ -97,23 +108,27 @@ Alfredo: Ojalá alguien lo apague antes de que la situación sea irreversible
 title: Alfredo.Motor
 tags: 
 colorID: 0
-position: 99,731
+position: 124,725
 ---
 << if not visited("Alfredo.Motor") >>
     Alfredo: Woow! Cómo han corrido esos helados
     Alfredo: Me gustaría recompensarte con algo, pero solo tengo está llave que encontré por ahí
     << giveitem YarnCommands key 0 >>
+<< else >>
+    Alfredo: La ciudad entera fue construida sobre un casquete de hielo
+    << setanim YarnCommands Alfredo Awaken >>
+    Alfredo: No podemos seguir explotando los recursos a esta velocidad
+    Alfredo: ¡Tenemos que restaurar la cadena del frío!
 << endif >>
-Alfredo: La ciudad entera fue construida sobre un casquete de hielo
-Alfredo: No podemos seguir explotando los recursos a esta velocidad, ¡Tenemos que restaurar la cadena del frío!
 ===
 title: Palanquilla.Ascensor
 tags: 
 colorID: 0
-position: -421,751
+position: -330,725
 ---
-<< if not visited("Palanquilla.Ascensor") >> 
-    << useitem YarnCommands lever 0 >> 
+<< if not visited("Palanquilla.Ascensor") >>
+    << useitem YarnCommands lever 0 >>
+    << setanim YarnCommands Palanquilla Awaken >>
     Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto
 << endif >>
 Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
@@ -121,7 +136,7 @@ Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
 title: Olafs.Hielos
 tags: 
 colorID: 1
-position: 431,727
+position: 400,492
 ---
 << if not visited("Olafs.Hielos") >>
     << useitem YarnCommands ice 1000 >>
@@ -132,7 +147,7 @@ Twolaf: ¿Qué quieres ahora polito?
 title: Guardia2y3
 tags: 
 colorID: 1
-position: 626,5
+position: 625,3
 ---
 << setanim YarnCommands Guardia2 Laugh >>
 Hemos conseguido un buen montón de hielos HAHAHAHAH
@@ -145,17 +160,18 @@ Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos po
 title: Ramon
 tags: 
 colorID: 0
-position: 124,218
+position: 117,222
 ---
 << if not visited("Ramon") >>
     Ramon: Déjame trabajar
+<< else >>
+    Ramon: (...)
 << endif >>
-Ramon: (...)
 ===
 title: Mentolado
 tags: 
 colorID: 0
-position: -363,14
+position: -333,-5
 ---
 Mentolado: Está batidora es capaz de extraer tanto hielo como yo en un mes..
 Mentolado: Los helados nos han amenazado con que, si no aumentamos la producción, vamos a acabar siendo enviados a la zona de refrigeración.
@@ -164,11 +180,13 @@ Mentolado: No quiero ir ahí..
 title: FridaPalo
 tags: 
 colorID: 0
-position: -111,474
+position: -109,448
 ---
 << if not visited("FridaPalo") >>
+    << setanim YarnCommands FridaPalo Exit >>
     Frida Palo: ¡Por fin alguien de hielo y palo por aquí!
     Frida Palo: Cuando empezó esa batidora a funcionar se derrumbó el ascensor, y me quedé aquí atrapada
+    << setanim YarnCommands FridaPalo Awaken >>
     Frida Palo: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?
     << giveitem iceball 1 >>
 << endif >>
@@ -180,27 +198,33 @@ Frida Palo: Saca la bola de nieve y arrástrala por la superficie para hacerla m
 title: FridaPalo.Bola
 tags: 
 colorID: 0
-position: -126,729
+position: -104,726
 ---
 << if not visited("FridaPalo.Bola") >>
     Frida Palo: ¡Nunca había visto una bola tan grade!
+    << setanim YarnCommands FridaPalo Deny >>
 	Frida Palo: pero lo siento no te puedo dar más, eres un peligro para la sociedad
+<< else >>
+    << setanim YarnCommands FridaPalo Deny >>
+    Frida Palo: Lo siento no te puedo dar más, eres un peligro para la sociedad
 << endif >>
-Frida Palo: Lo siento no te puedo dar más, eres un peligro para la sociedad
 ===
 title: Arrestado
 tags: 
-colorID: 1
-position: 402,212
+colorID: 2
+position: 905,7
 ---
+<< setanimall YarnCommands Cono Badass >>
 ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
+<< setanimall YarnCommands Cono Deny >>
 SE TE ACABO EL JUEGO!!
+<< setanimall YarnCommands Cono Laugh >>
 DIRECTO A LA ZONA DE REFRIGERACIÓN!!
 ===
 title: Auriculares
 tags: 
-colorID: 1
-position: 628,212
+colorID: 2
+position: 1133,7
 ---
 << setanimall YarnCommands Auriculares Discurso >>
 Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b>

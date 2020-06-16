@@ -15,7 +15,6 @@ namespace Scripts.Level.NPC
 
         public virtual void StopAnimation()
         {
-
         }
 
         protected T RandomElement<T>(ICollection<T> collection)
@@ -51,11 +50,9 @@ namespace Scripts.Level.NPC
             return nextIndex;
         }
         
-        protected void SetRandomBool(ICollection<string> bools)
+        protected void SetBool(string boolAnimation, bool state)
         {
-            string boolName = RandomElement(bools);
-
-            Animator.SetBool(boolName, true);
+            Animator.SetBool(boolAnimation, state);
         }
     }
 }
