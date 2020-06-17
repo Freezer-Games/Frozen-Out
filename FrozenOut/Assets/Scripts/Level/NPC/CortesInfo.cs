@@ -14,13 +14,9 @@ namespace Scripts.Level.NPC
         {
             "Anim_Negacion"
         };
-        private readonly string[] InclinadoEntradaTriggers = new string[]
+        private readonly string[] InclinadoTriggers = new string[]
         {
-            "Anim_Inclinado_Entrada"
-        };
-        private readonly string[] InclinadoSalidaTriggers = new string[]
-        {
-            "Anim_Inclinado_Salida"
+            "Anim_Inclinado"
         };
 
         public override void StartAnimation(string animation)
@@ -36,11 +32,8 @@ namespace Scripts.Level.NPC
                 case "Deny":
                     SetRandomTrigger(DenyTriggers);
                     break;
-                case "Inclinado_Entrada":
-                    SetRandomTrigger(InclinadoEntradaTriggers);
-                    break;
-                case "Inclinado_Salida":
-                    SetRandomTrigger(InclinadoSalidaTriggers);
+                case "Inclinado":
+                    SetRandomTrigger(InclinadoTriggers);
                     break;
                 default:
                     break;

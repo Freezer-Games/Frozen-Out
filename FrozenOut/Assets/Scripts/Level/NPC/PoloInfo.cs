@@ -1,33 +1,42 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scripts.Level.NPC
 {
     public class PoloInfo : NPCInfo
     {
-        private readonly string[] AwakenTriggers = new string[]
+        protected readonly string[] AwakenTriggers = new string[]
         {
             "Anim_Awaken_1",
             "Anim_Awaken_2",
             "Anim_Awaken_3"
         };
-        private readonly string[] DenyTriggers = new string[]
+        protected readonly string[] DenyTriggers = new string[]
         {
             "Anim_Deny_1",
             "Anim_Deny_2",
             "Anim_Deny_3"
         };
-        private readonly string[] NodTriggers = new string[]
+        protected readonly string[] NodTriggers = new string[]
         {
             "Anim_Nod_1",
             "Anim_Nod_2"
         };
-        private readonly string DanceBool = "Anim_Dance";
-        private readonly string TiredBool = "Anim_Tired";
-        private readonly string[] WorkTriggers = new string[]
+        protected readonly string[] WorkTriggers = new string[]
         {
             "Anim_Mining"
         };
+        protected readonly string[] SneakTriggers = new string[]
+        {
+            "Anim_Sneaking"
+        };
+        protected readonly string[] PalancaTriggers = new string[]
+        {
+            "Anim_Palanca"
+        };
+        protected readonly string DanceBool = "Anim_Dance";
+        protected readonly string TiredBool = "Anim_Tired";
 
         public override void StartAnimation(string animation)
         {
@@ -44,14 +53,17 @@ namespace Scripts.Level.NPC
                 case "Nod":
                     SetRandomTrigger(NodTriggers);
                     break;
+                case "Work":
+                    SetRandomTrigger(WorkTriggers);
+                    break;
+                case "Sneak":
+                    SetRandomTrigger(SneakTriggers);
+                    break;
                 case "Dance":
                     SetBool(DanceBool, true);
                     break;
                 case "Tired":
                     SetBool(TiredBool, true);
-                    break;
-                case "Work":
-                    StartCoroutine(DoWork());
                     break;
                 default:
                     break;
@@ -61,18 +73,6 @@ namespace Scripts.Level.NPC
         public override void StopAnimation()
         {
             StopAllCoroutines();
-        }
-
-        private IEnumerator DoWork()
-        {
-            yield return new WaitForSeconds(0.5f);
-            while(true)
-            {
-                SetRandomTrigger(WorkTriggers);
-
-                float randomDelay = Random.Range(0.5f, 2.0f);
-                yield return new WaitForSeconds(randomDelay);
-            }
         }
     }
 }

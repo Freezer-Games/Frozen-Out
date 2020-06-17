@@ -5,7 +5,7 @@ namespace Scripts.Level.NPC
 {
     public class AuricularesInfo : NPCInfo
     {
-        private readonly string[] DiscursoTriggers = new string[]
+        protected readonly string[] DiscursoTriggers = new string[]
         {
             "Discurso_1",
             "Discurso_2",
@@ -13,7 +13,7 @@ namespace Scripts.Level.NPC
             "Discurso_4",
             "Discurso_5"
         };
-        private readonly string[] MusicTriggers = new string[]
+        protected readonly string[] MusicTriggers = new string[]
         {
             "Musica_Der",
             "Musica_Izq"
