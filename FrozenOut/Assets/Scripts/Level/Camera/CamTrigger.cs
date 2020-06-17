@@ -5,7 +5,7 @@ using Cinemachine;
 
 namespace Scripts.Level.Camera
 {
-    public class CamTrigger : MonoBehaviour
+    public class CamTrigger : TriggerBase
     {
         public CameraController CameraController;
         public CinemachineVirtualCamera SegmentCamera;
@@ -15,7 +15,7 @@ namespace Scripts.Level.Camera
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag(PlayerTag))
             {
                 ChangeCamPriority();  
             }

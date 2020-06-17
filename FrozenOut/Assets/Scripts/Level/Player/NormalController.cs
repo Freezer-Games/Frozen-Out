@@ -121,7 +121,7 @@ namespace Scripts.Level.Player
 
                     if (Grounded)
                     {
-                        if (Input.GetKeyUp(PlayerManager.GetJumpKey()))
+                        if (Input.GetKey(PlayerManager.GetJumpKey()))
                         {
                             Jump();    
                         }
@@ -176,6 +176,12 @@ namespace Scripts.Level.Player
             {
                 Grounded = true;
             }
+
+            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
+            {
+                Debug.Log("se paro esta wea");
+                StopCoroutine(CountdownToDeath());
+            }
         }
 
         void OnCollisionExit(Collision other)
@@ -183,6 +189,12 @@ namespace Scripts.Level.Player
             if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = false;
+            }
+
+            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
+            {
+                Debug.Log("empieza a morir");
+                StartCoroutine(CountdownToDeath());
             }
         }
 

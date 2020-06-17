@@ -6,10 +6,15 @@ namespace Scripts.Level.Player
 {
     public abstract class BasePlayerController: MonoBehaviour
     {
+        private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
+
         public PlayerManager PlayerManager;
         public Rigidbody Rigidbody;
         public Animator Animator;
         public CapsuleCollider Collider;
+
+        public float CdToDeath;
+        public LayerMask DeathZone;
 
         protected Vector2 MoveInput;
         protected Vector3 Movement;
@@ -80,6 +85,15 @@ namespace Scripts.Level.Player
             CamRight.y = 0f;
             CamForward.Normalize();
             CamRight.Normalize();
+        }
+
+        public IEnumerator CountdownToDeath()
+        {
+            yield return new WaitForSeconds(CdToDeath);
+
+            LevelManager.GameOver();
+
+            yield return null;
         }
     }
 }
