@@ -13,8 +13,10 @@ namespace Scripts.Level.Player
         public Animator Animator;
         public CapsuleCollider Collider;
 
-        public float CdToDeath;
+        [SerializeField] float CdToDeath;
         public LayerMask DeathZone;
+        public LayerMask WhatIsGround;
+        public bool InDeathZone;
 
         protected Vector2 MoveInput;
         protected Vector3 Movement;
@@ -89,10 +91,9 @@ namespace Scripts.Level.Player
 
         public IEnumerator CountdownToDeath()
         {
+            Debug.Log("empieza la corutina");
             yield return new WaitForSeconds(CdToDeath);
-
-            LevelManager.GameOver();
-
+            LevelManager.GameOver();     
             yield return null;
         }
     }

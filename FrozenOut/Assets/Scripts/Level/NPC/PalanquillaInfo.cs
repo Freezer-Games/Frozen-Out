@@ -1,8 +1,11 @@
+using UnityEngine;
+
 namespace Scripts.Level.NPC
 {
     public class PalanquillaInfo : PoloInfo
     {
         private bool InPalanca = false;
+        public Animator AscensorAnimator;
 
         void Start()
         {
@@ -23,6 +26,7 @@ namespace Scripts.Level.NPC
                     case "Palanca":
                         InPalanca = true;
                         SetRandomTrigger(PalancaTriggers);
+                        AscensorAnimator.SetTrigger("active");
                         break;
                     default:
                         break;

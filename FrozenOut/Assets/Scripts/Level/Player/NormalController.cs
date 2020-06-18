@@ -23,12 +23,17 @@ namespace Scripts.Level.Player
 
         [Header("Jump")]
         [SerializeField] float JumpForce = 6f;
-        float DistanceToGround;
-        [SerializeField] LayerMask WhatIsGround;
+
+
+        [Header("Particles")]
+        public ParticleSystem MeltingPart;
+        ParticleSystem.EmissionModule PartEmiter;
+
 
         [Header("Interact")]
         public Transform InteractPos;
         public Transform InteractLook;
+
 
         public UnityEvent Melting;
 
@@ -39,12 +44,13 @@ namespace Scripts.Level.Player
             Collider.radius = 0.5f;
             Collider.height = 2f;
 
-            DistanceToGround = GetComponent<Collider>().bounds.extents.y;
-
             CanMove = true;
             IsInteracting = false;
             Grounded = false;
+            InDeathZone = false;
             MoveSpeed = NormalSpeed;
+
+            PartEmiter = MeltingPart.emission;
 
             if (Melting == null) 
                 Melting = new UnityEvent();
@@ -157,30 +163,29 @@ namespace Scripts.Level.Player
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
 
-        private bool IsGrounded()
-        {
-            RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.down, 0.2f);
-            foreach (RaycastHit hit in hits)
-            {
-                if (WhatIsGround == (WhatIsGround | (1 << hit.transform.gameObject.layer)))
-                {
-                    return Grounded = true; ;
-                }
-            }
-            return Grounded = false;
-        }
-
         void OnCollisionEnter(Collision other)
         {
             if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = true;
+
+                if (InDeathZone)
+                {
+                    Debug.Log("me paro");
+                    StopCoroutine(CountdownToDeath());
+                    PartEmiter.enabled = false;
+                    InDeathZone = false;
+                }
             }
 
             if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
             {
-                Debug.Log("se paro esta wea");
-                StopCoroutine(CountdownToDeath());
+                if (!InDeathZone)
+                {
+                    InDeathZone = true;
+                    StartCoroutine(CountdownToDeath());
+                    PartEmiter.enabled = true;
+                }
             }
         }
 
@@ -189,12 +194,6 @@ namespace Scripts.Level.Player
             if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = false;
-            }
-
-            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
-            {
-                Debug.Log("empieza a morir");
-                StartCoroutine(CountdownToDeath());
             }
         }
 
