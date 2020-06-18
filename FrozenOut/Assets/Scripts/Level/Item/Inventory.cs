@@ -5,6 +5,7 @@ using UnityEngine;
 
 using Scripts.Settings;
 using Scripts.Level.Player;
+using Scripts.Level.Sound;
 
 namespace Scripts.Level.Item
 {
@@ -15,6 +16,9 @@ namespace Scripts.Level.Item
         public UIController InventoryMenuController;
         public ItemPickPromptController ItemPickPromptController;
         public ItemUsePromptController ItemUsePromptController;
+
+        [Header("Sound")]
+        public InventorySoundController SoundController;
 
         public List<ItemInfo> LevelItems;
 
