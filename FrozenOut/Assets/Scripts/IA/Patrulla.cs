@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Scripts;
+using Scripts.Level;
+using Scripts.Level.Dialogue;
 
 public class Patrulla : MonoBehaviour
 {
-    public Transform[] Destinos;
-    public int SiguientePunto = 0;
+
+    protected ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
+    protected DialogueActer Acter;
+    private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
+
     private NavMeshAgent Navegacion;
     enum Estados { patrullando, perseguir, esperar }
     Estados Estado;
-    bool Hablando = false;
+    enum TipoPatrulla { Cíclica, VueltaAtras , Estatica }
+    [SerializeField]
+    TipoPatrulla Tipo;
+
+    public Transform[] Destinos;
+    public int SiguientePunto = 0;
+
+    private bool Hablando = false;
     private Animator Animator;
-    public bool PatrullaCiclica;
-    public bool PatrullaEstatica;
     private bool orden = true;//true hacia arriba false hacia abajo
     private bool NoVisto;
 
@@ -24,6 +35,7 @@ public class Patrulla : MonoBehaviour
         Navegacion.autoBraking = false;
         Estado = Estados.patrullando;
         Animator = gameObject.GetComponent<Animator>();
+        Acter = GetComponent<DialogueActer>();
     }
 
     void GotoNextPoint()
@@ -31,7 +43,7 @@ public class Patrulla : MonoBehaviour
         if (Destinos.Length == 0)
             return;
         Navegacion.destination = Destinos[SiguientePunto].position;
-        if (!PatrullaCiclica && SiguientePunto == Destinos.Length)
+        if (Tipo != TipoPatrulla.Cíclica && SiguientePunto == Destinos.Length)
         {
             SiguientePunto = (SiguientePunto - 1);
             orden = false;
@@ -67,7 +79,7 @@ public class Patrulla : MonoBehaviour
         List<Transform> visibles = gameObject.GetComponent<Vision>().ObjetosDetectados;
         List<Transform> cercanos = gameObject.GetComponent<Vision>().ObjetosCercanos;
         List<Transform> ultimasPosiciones = gameObject.GetComponent<Vision>().UltimasPosiciones;
-        if (!PatrullaEstatica)
+        if (Tipo != TipoPatrulla.Estatica)
         {
             Patrullar(visibles, cercanos, ultimasPosiciones);
         }
@@ -112,6 +124,7 @@ public class Patrulla : MonoBehaviour
                 {
                     Navegacion.destination = gameObject.transform.position;
                     Animator.SetTrigger("Anim_Surprise");
+                    IniciarDialogo();
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
@@ -132,7 +145,7 @@ public class Patrulla : MonoBehaviour
             case Estados.patrullando:
                 Animator.SetBool("isWalking", true);
                 if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.1f)
-                    if (!PatrullaCiclica && !orden )
+                    if (Tipo != TipoPatrulla.Cíclica && !orden )
                     {
                         GotoPreviousPoint();
                     }
@@ -149,6 +162,7 @@ public class Patrulla : MonoBehaviour
                 break;
 
             case Estados.perseguir:
+                Debug.Log("Cercanos = " + cercanos.Count);
                 if (Hablando)
                 {
                     Animator.SetBool("isWalking", false);
@@ -164,6 +178,7 @@ public class Patrulla : MonoBehaviour
                 {
                     Navegacion.destination = gameObject.transform.position;
                     Animator.SetTrigger("Anim_Surprise");
+                    IniciarDialogo();
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
@@ -174,5 +189,14 @@ public class Patrulla : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void IniciarDialogo()
+    {
+        Vector3 lookTo = LevelManager.GetPlayerManager().Player.transform.position;
+        lookTo.y = transform.position.y;
+        transform.LookAt(lookTo);
+
+        DialogueManager.OpenTalkPrompt(Acter);
     }
 }

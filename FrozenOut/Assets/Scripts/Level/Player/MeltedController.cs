@@ -20,7 +20,6 @@ namespace Scripts.Level.Player
         [Header("Interact")]
         public Transform InteractPos;
         public Transform InteractLook;
-
         public UnityEvent Recovery;
 
 
@@ -32,6 +31,7 @@ namespace Scripts.Level.Player
 
             CanMove = true;
             IsInteracting = false;
+            InDeathZone = false;
 
             if (Recovery == null) 
                 Recovery = new UnityEvent();
@@ -113,6 +113,27 @@ namespace Scripts.Level.Player
         {
             IsInteracting = false;
             PlayerManager.ChangeToNormal();
+        }
+
+        void OnCollisionEnter(Collision other)
+        {
+            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            {
+                if (InDeathZone)
+                {
+                    Debug.Log("me paro");
+                    StopCoroutine(CountdownToDeath());
+                    InDeathZone = false;
+                }
+            }
+
+            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
+            {
+                if (InDeathZone)
+                {
+                    StartCoroutine(CountdownToDeath());
+                }
+            }
         }
     }
 }
