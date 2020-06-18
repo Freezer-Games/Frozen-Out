@@ -5,7 +5,7 @@ position: 118,-4
 ---
 << if not visited("Introduccion") >>
     << setanim YarnCommands Naranjito Awaken >>
-    Naranjito: ... ¿De dónde has salido tú? ...
+    Naranjito: ¿De dónde has salido tú...?
     Naranjito: Da igual, estoy demasiado cansado para pensar
     << setanim YarnCommands Naranjito Deny >>
     Naranjito: Deberías volver a la ciudad antes de que te vean los helados
@@ -67,6 +67,9 @@ colorID: 0
 position: -334,448
 ---
 << if has_item("lever") >>
+    << if not visited("Palanquilla") >>
+        Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
+    << endif >>
     [[ Palanquilla.Ascensor ]]
 << endif >>
 Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
@@ -179,7 +182,8 @@ colorID: 0
 position: -333,-5
 ---
 Mentolado: Está batidora es capaz de extraer tanto hielo como yo en un mes..
-Mentolado: Los helados nos han amenazado con que, si no aumentamos la producción, vamos a acabar siendo enviados a la zona de refrigeración.
+Mentolado: Los helados nos han amenazado con que, si no aumentamos la producción...
+Mentolado: ...vamos a acabar siendo enviados a la zona de refrigeración.
 Mentolado: No quiero ir ahí..
 ===
 title: Bombon

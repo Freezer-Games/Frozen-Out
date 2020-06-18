@@ -7,8 +7,8 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueIndicator))]
     public class DialogueTalker : DialogueActer
     {
-        private DialogueIndicator Indicator;
-        private Vector3 InitialPosition;
+        protected DialogueIndicator Indicator;
+        private Quaternion InitialRotation;
         private const float RotationSpeed = 1.0f;
 
         protected ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
@@ -19,7 +19,7 @@ namespace Scripts.Level.Dialogue
             SetBlocking();
             SetNonAutomatic();
 
-            InitialPosition = transform.position;
+            InitialRotation = transform.rotation;
         }
 
         public override void OnStartTalk()
@@ -27,7 +27,10 @@ namespace Scripts.Level.Dialogue
             Indicator.HideIndicator();
 
             StopAllCoroutines();
-            StartCoroutine(RotateTowards(LevelManager.GetPlayerManager().Player.transform.position));
+
+            Vector3 playerPosition = LevelManager.GetPlayerManager().Player.transform.position;
+            Quaternion toPlayerRotation = Quaternion.LookRotation(playerPosition - transform.position);
+            StartCoroutine(RotateTowards(toPlayerRotation));
         }
 
         public override void OnEndTalk()
@@ -35,7 +38,7 @@ namespace Scripts.Level.Dialogue
             Indicator.ShowIndicator();
 
             StopAllCoroutines();
-            StartCoroutine(RotateTowards(InitialPosition));
+            StartCoroutine(RotateTowards(InitialRotation));
         }
 
         public override void OnPlayerClose()
@@ -58,15 +61,14 @@ namespace Scripts.Level.Dialogue
             Indicator.HideIndicator();
         }
 
-        private IEnumerator RotateTowards(Vector3 playerPosition)
+        private IEnumerator RotateTowards(Quaternion rotation)
         {
-            Quaternion playerRotation = Quaternion.LookRotation(playerPosition - transform.position);
-            playerRotation.x = 0.0f;
-            playerRotation.z = 0.0f;
+            rotation.x = 0.0f;
+            rotation.z = 0.0f;
 
-            while (transform.rotation != playerRotation)
+            while (transform.rotation != rotation)
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, playerRotation, RotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, RotationSpeed * Time.deltaTime);
 
                 yield return new WaitForFixedUpdate();
             }

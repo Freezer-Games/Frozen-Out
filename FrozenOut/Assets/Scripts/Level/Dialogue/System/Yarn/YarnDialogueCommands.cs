@@ -14,15 +14,19 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         private DialogueRunner DialogueRunner => YarnSystem.DialogueRunner;
 
         [YarnCommand("giveitem")]
-        public void PickItem(string itemVariableName, int quantity)
+        public void PickItem(string itemVariableName, string quantity)
         {
-            YarnSystem.PickItem(itemVariableName, quantity);
+            int realQuantity = int.Parse(quantity);
+
+            YarnSystem.PickItem(itemVariableName, realQuantity);
         }
 
         [YarnCommand("useitem")]
-        public void UseItem(string itemVariableName, int quantity)
+        public void UseItem(string itemVariableName, string quantity)
         {
-            YarnSystem.UseItem(itemVariableName, quantity);
+            int realQuantity = int.Parse(quantity);
+
+            YarnSystem.UseItem(itemVariableName, realQuantity);
         }
 
         [YarnCommand("setanim")]

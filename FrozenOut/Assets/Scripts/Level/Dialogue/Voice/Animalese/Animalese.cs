@@ -50,7 +50,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         public AudioClip Space;
         public AudioClip Period;
 
-        private string[] CurrentSentences;
+        private ICollection<string> CurrentSentences;
 
         private VoiceStyle CurrentStyle;
 
@@ -159,12 +159,12 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         private IEnumerator SpeakSentences()
         {
             string currentSentence;
-            char currentPunctuation;
+            //char currentPunctuation;
 
-            for (int indexSentence = 0; indexSentence < CurrentSentences.Length - 1; indexSentence+=2)
+            for (int indexSentence = 0; indexSentence < CurrentSentences.Count(); indexSentence+=2)
             {
                 currentSentence = CurrentSentences.ElementAt(indexSentence).ToLower();
-                currentPunctuation = CurrentSentences.ElementAtOrDefault(indexSentence + 1).First();
+                //currentPunctuation = CurrentSentences.ElementAtOrDefault(indexSentence + 1).First();
 
                 int indexLetter = 0;
                 while (indexLetter < currentSentence.Length)
