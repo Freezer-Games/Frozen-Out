@@ -19,7 +19,7 @@ namespace Scripts.Level
 
         public PlayerManager PlayerManager;
         public DialogueManager DialogueManager;
-        public SoundManager SoundManager;
+        public MusicManager MusicManager;
         //public CameraManager CameraManager;
         public Inventory Inventory;
         public NPCManager NPCManager;
@@ -43,10 +43,10 @@ namespace Scripts.Level
             }
 
             #region EventBinding
-            if (DialogueManager != null && SoundManager != null)
+            if (DialogueManager != null && MusicManager != null)
             {
-                DialogueManager.Started += (sender, args) => SoundManager.DecreaseVolume();
-                DialogueManager.Ended += (sender, args) => SoundManager.IncreaseVolume();
+                DialogueManager.Started += (sender, args) => MusicManager.DecreaseVolume();
+                DialogueManager.Ended += (sender, args) => MusicManager.IncreaseVolume();
             }
 
             if (DialogueManager != null && PlayerManager != null)
@@ -117,9 +117,9 @@ namespace Scripts.Level
             return DialogueManager;
         }
 
-        public SoundManager GetSoundManager()
+        public MusicManager GetSoundManager()
         {
-            return SoundManager;
+            return MusicManager;
         }
         
         /*public CameraManager GetCameraManager()

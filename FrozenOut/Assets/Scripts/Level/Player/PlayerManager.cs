@@ -26,26 +26,11 @@ namespace Scripts.Level.Player
         public bool IsGrounded = true;
 
         
-        private SoundManager SoundManager => LevelManager.GetSoundManager();
+        private MusicManager SoundManager => LevelManager.GetSoundManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
         private string PickAnimationName = "isPicking";
         [SerializeField] private string InteractAnimation = "";
-
-        public bool IsStepsPlaying()
-        {
-            return SoundManager.Steps.isPlaying;
-        }
-
-        public void PlaySteps()
-        {
-            SoundManager.Steps.Play();
-        }
-
-        public void StopSteps()
-        {
-            SoundManager.Steps.Stop();
-        }
 
         public KeyCode GetJumpKey()
         {
@@ -100,7 +85,6 @@ namespace Scripts.Level.Player
 
         public void DisableController()
         {
-            SoundManager.Steps.Stop();
             NormalController.enabled = false;
             MeltedController.enabled = false;
         }

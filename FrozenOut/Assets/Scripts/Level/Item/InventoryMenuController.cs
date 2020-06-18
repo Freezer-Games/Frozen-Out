@@ -127,7 +127,7 @@ namespace Scripts.Level.Item
             {
                 clampedIndex = Mathf.Clamp(newIndex, 0, Inventory.Items.Count - 1);
 
-                Inventory.SoundController.PlayClipOnce(Inventory.SoundController.Pasar);
+                Inventory.SoundController.PlayClip(Inventory.SoundController.Pasar);
             }
 
             SelectedItemIndex = clampedIndex;
@@ -184,7 +184,7 @@ namespace Scripts.Level.Item
             ItemInfo selectedItem = Inventory.Items[SelectedItemIndex];
             if (selectedItem.IsEquippable)
             {
-                Inventory.SoundController.PlayClipOnce(Inventory.SoundController.Seleccion);
+                Inventory.SoundController.PlayClip(Inventory.SoundController.Seleccion);
 
                 Image selectedItemImage = GetItemImage(SelectedItemIndex);
                 if (IsItemPendingEquipped(selectedItem))
