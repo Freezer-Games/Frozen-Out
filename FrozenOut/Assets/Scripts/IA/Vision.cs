@@ -75,6 +75,7 @@ public class Vision : MonoBehaviour
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
+            ObjetosCercanos.Add(target);
             /*if (target.gameObject.GetComponent<>(). && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
 
