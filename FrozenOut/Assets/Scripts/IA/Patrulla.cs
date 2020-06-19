@@ -108,6 +108,7 @@ public class Patrulla : MonoBehaviour
                 {
                     Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
+                    IniciarDialogo();
                     Estado = Estados.esperar;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 1 && NoVisto)
@@ -123,8 +124,6 @@ public class Patrulla : MonoBehaviour
                 else if (cercanos.Count > 0)
                 {
                     Navegacion.destination = gameObject.transform.position;
-                    Animator.SetTrigger("Anim_Surprise");
-                    IniciarDialogo();
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
@@ -167,6 +166,7 @@ public class Patrulla : MonoBehaviour
                 {
                     Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
+                    IniciarDialogo();
                     Estado = Estados.esperar;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 1)
@@ -177,8 +177,6 @@ public class Patrulla : MonoBehaviour
                 else if (cercanos.Count > 0 )
                 {
                     Navegacion.destination = gameObject.transform.position;
-                    Animator.SetTrigger("Anim_Surprise");
-                    IniciarDialogo();
                     Hablando = true;
                 }
                 if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }

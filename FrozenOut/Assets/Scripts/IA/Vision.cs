@@ -75,7 +75,8 @@ public class Vision : MonoBehaviour
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            ObjetosCercanos.Add(target);
+            //ObjetosCercanos.Add(target);
+
             /*if (target.gameObject.GetComponent<>(). && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
 
@@ -96,7 +97,7 @@ public class Vision : MonoBehaviour
             Transform target = colisionObjetosTrueSight[i].transform;
 
             ObjetosDetectados.Add(target);
-
+            ObjetosCercanos.Add(target);
             DeteccionSprite.enabled = true;
             UIRenderer.GetPropertyBlock(_propBlock);
             _propBlock.SetFloat("_Change", 255);
