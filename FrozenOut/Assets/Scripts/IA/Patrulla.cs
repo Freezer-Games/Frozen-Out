@@ -195,6 +195,6 @@ public class Patrulla : MonoBehaviour
         lookTo.y = transform.position.y;
         transform.LookAt(lookTo);
 
-        DialogueManager.OpenTalkPrompt(Acter);
+        DialogueManager.StartGameOverDialogue();
     }
 }
