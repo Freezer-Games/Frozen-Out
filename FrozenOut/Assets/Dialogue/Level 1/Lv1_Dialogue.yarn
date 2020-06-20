@@ -83,9 +83,9 @@ position: 399,222
 ---
 << if not visited("Olafs") >>
     << setanim YarnCommands Olaf Inclinado >> 
-    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>1000</b> hielos
+    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos
 << endif >>
-<< if quantity_item("ice") < 1000 >>
+<< if quantity_item("ice") < 100 >>
     << setanim YarnCommands Olaf Laugh >>
     << setanim YarnCommands Twolaf Deny >>
     Twolaf: Aún no tienes suficientes... HAHAHAHAH
@@ -144,7 +144,7 @@ colorID: 1
 position: 400,492
 ---
 << if not visited("Olafs.Hielos") >>
-    << useitem YarnCommands ice 1000 >>
+    << useitem YarnCommands ice 100 >>
     << setanim YarnCommands Olaf Giro_Izq >>
     << setanim YarnCommands Twolaf Giro_Der >>
     Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...
