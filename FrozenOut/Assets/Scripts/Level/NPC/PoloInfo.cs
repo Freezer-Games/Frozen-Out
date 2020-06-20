@@ -1,3 +1,4 @@
+using Scripts.Level.Sound;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ namespace Scripts.Level.NPC
 {
     public class PoloInfo : NPCInfo
     {
+        public OreSoundController SoundController;
+
         protected readonly string[] AwakenTriggers = new string[]
         {
             "Anim_Awaken_1",

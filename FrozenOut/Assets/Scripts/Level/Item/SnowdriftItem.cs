@@ -1,12 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using Scripts.Level.Sound;
 
 namespace Scripts.Level.Item 
 {
     public class SnowdriftItem : ItemUser
     {
         public ParticleSystem Particles;
+        public ScoopSoundController SoundController;
+
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
 
@@ -38,6 +41,7 @@ namespace Scripts.Level.Item
         {
             yield return new WaitForSeconds(animDelay);
             Particles.Play();
+            SoundController.PlayRandomClip(SoundController.Scoops);
             yield return new WaitForSeconds(particlesDelay);
             DestroyItem();
             yield return null;

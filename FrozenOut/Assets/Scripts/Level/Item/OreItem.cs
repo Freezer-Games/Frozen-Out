@@ -1,13 +1,15 @@
-﻿using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
+using Scripts.Level.Sound;
 
 namespace Scripts.Level.Item
 {
     public class OreItem : ItemUser
     {
         public ParticleSystem Particles;
+        public OreSoundController SoundController;
+
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
 
@@ -43,10 +45,10 @@ namespace Scripts.Level.Item
         {
             yield return new WaitForSeconds(animDelay);
             Particles.Play();
+            SoundController.PlayRandomClip(SoundController.Ores);
             yield return new WaitForSeconds(particlesDelay);
             DestroyItem();
             yield return null;
-            //gameObject.SetActive(false);
         }
     }
 }

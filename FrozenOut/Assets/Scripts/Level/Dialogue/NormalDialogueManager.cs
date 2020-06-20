@@ -44,6 +44,8 @@ namespace Scripts.Level.Dialogue
         void Start()
         {
             StartStyles();
+
+            SetVariable<string>("crouchKey", SettingsManager.CrouchKey.ToString());
         }
 
         void Update()

@@ -14,12 +14,12 @@ namespace Scripts.Level.Sound
 
         public void DecreaseVolume()
         {
-            AudioSource.volume /= VolumeReduceFactor;
+            AudioSource.volume *= VolumeReduceFactor;
         }
 
         public void IncreaseVolume()
         {
-            AudioSource.volume *= VolumeReduceFactor;
+            AudioSource.volume /= VolumeReduceFactor;
         }
     }
 }
