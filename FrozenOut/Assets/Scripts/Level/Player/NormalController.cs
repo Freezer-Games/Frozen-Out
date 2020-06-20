@@ -12,6 +12,7 @@ namespace Scripts.Level.Player
         public bool IsInteracting;
         [SerializeField] bool Grounded;
         [SerializeField] bool CanMove;
+        [SerializeField] bool inStealth;
       
 
         [Header("Movement")]
@@ -23,6 +24,8 @@ namespace Scripts.Level.Player
 
         [Header("Jump")]
         [SerializeField] float JumpForce = 6f;
+        [SerializeField] LayerMask ignoredLayer;
+        [SerializeField] float groundDistance;
 
 
         [Header("Particles")]
@@ -48,6 +51,7 @@ namespace Scripts.Level.Player
             IsInteracting = false;
             Grounded = false;
             InDeathZone = false;
+            inStealth = false;
             MoveSpeed = NormalSpeed;
 
             PartEmiter = MeltingPart.emission;
@@ -63,6 +67,7 @@ namespace Scripts.Level.Player
                 if (IsInteracting) 
                 {
                     CanMove = false;
+                    inStealth = false;
                     Rigidbody.isKinematic = true;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
@@ -81,17 +86,20 @@ namespace Scripts.Level.Player
 
                     Animator.SetBool("isMoving", Movement != Vector3.zero);
 
+                    CheckWithRay();
+
                     if (Grounded)
                     {
-                        if (Input.GetKeyDown(PlayerManager.GetCrouchKey()))
+                        if (Input.GetKey(PlayerManager.GetCrouchKey()))
                         {
                             Animator.SetTrigger("isSneakingIn");
+                            inStealth = true;
                             MoveSpeed = SneakingSpeed;
                         }
-
-                        if (Input.GetKeyUp(PlayerManager.GetCrouchKey()))
+                        else if(Input.GetKeyUp(PlayerManager.GetCrouchKey()) && inStealth)
                         {
                             Animator.SetTrigger("isSneakingOut");
+                            inStealth = false;
                             MoveSpeed = NormalSpeed;
                         }
 
@@ -112,6 +120,7 @@ namespace Scripts.Level.Player
                 }
                 else
                 {
+                    Animator.SetTrigger("isSneakingOut");
                     Animator.SetBool("isMoving", false);
                 }
             }
@@ -124,10 +133,11 @@ namespace Scripts.Level.Player
                 if (CanMove)
                 {
                     CalculeMove();
+                    CheckWithRay();
 
                     if (Grounded)
                     {
-                        if (Input.GetKey(PlayerManager.GetJumpKey()))
+                        if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
                         {
                             Jump();    
                         }
@@ -157,15 +167,39 @@ namespace Scripts.Level.Player
             Rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
         }
 
-        private void Jump()
+        void Jump()
         {
             Animator.SetTrigger("isJumping");
+            Grounded = false;
+            Animator.SetBool("isGrounded", false);
             Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
+
+        void CheckWithRay()
+        {
+            Debug.DrawRay(transform.position, -transform.up * groundDistance, Color.red);
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, -Vector3.up, out hit, groundDistance + 0.1f, ~ignoredLayer))
+            {
+                if (WhatIsGround == (WhatIsGround | (1 << hit.transform.gameObject.layer)))
+                {
+                    Grounded = true;
+                    InDeathZone = false;
+                    Animator.SetBool("isGrounded", true);
+                }
+
+                if (DeathZone == (DeathZone | (1 << hit.transform.gameObject.layer)))
+                {
+
+                    StartCoroutine(CountdownToDeath());
+                }
+            }
         }
 
         void OnCollisionEnter(Collision other)
         {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            /*if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = true;
 
@@ -182,19 +216,18 @@ namespace Scripts.Level.Player
             {
                 if (!InDeathZone)
                 {
-                    InDeathZone = true;
                     StartCoroutine(CountdownToDeath());
                     PartEmiter.enabled = true;
                 }
-            }
+            }*/
         }
 
         void OnCollisionExit(Collision other)
         {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
+            /*if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
             {
                 Grounded = false;
-            }
+            }*/
         }
 
         void OnTriggerEnter(Collider other)
