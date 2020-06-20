@@ -5,17 +5,18 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
+    [RequireComponent(typeof(RectTransform))]
     public class TextStyleController : MonoBehaviour
     {
         public GameObject LinePrefab;
         public GameObject WordPrefab;
         public GameObject LetterPrefab;
-        
+
         private GameObject CurrentLine;
         private GameObject CurrentWord;
 
-        private int CurrentLineLetters;
-        private const int MaxLettersPerLine = 35;
+        private float CurrentLineWidth => CurrentLine != null? CurrentLine.GetComponent<RectTransform>().rect.width : 0.0f;
+        private float MaxWidthPerLine;
 
         private ICollection<Animator> TextAnimators;
         private TextStyle CurrentStyle;
@@ -37,6 +38,9 @@ namespace Scripts.Level.Dialogue
 
         void Awake()
         {
+            RectTransform holderTransform = GetComponent<RectTransform>();
+            MaxWidthPerLine = holderTransform.rect.width - 100.0f;
+
             TextAnimators = new List<Animator>();
         }
 
@@ -53,7 +57,6 @@ namespace Scripts.Level.Dialogue
             }
             CurrentLine = null;
             CurrentWord = null;
-            CurrentLineLetters = 0;
 
             foreach (Transform child in transform)
             {
@@ -84,12 +87,10 @@ namespace Scripts.Level.Dialogue
         private void SetText(string letter, TextStyle style)
         {
             bool IsSpace = letter.Contains(" ");
-            if(CurrentLineLetters >= MaxLettersPerLine && IsSpace)
+            if(CurrentLineWidth >= MaxWidthPerLine && IsSpace)
             {
                 CreateLine();
-                CurrentLineLetters = 0;
             }
-            CurrentLineLetters++;
 
             GameObject currentLetter;
             if(IsSpace)
@@ -114,6 +115,7 @@ namespace Scripts.Level.Dialogue
             textHolder.text = letter;
             textHolder.font = style.Font;
             textHolder.fontSize = style.Size;
+            //CurrentLineWidth += textHolder.GetComponent<RectTransform>().rect.width;
 
             UnityEngine.UI.Text textComponent = currentLetter.GetComponentsInChildren<UnityEngine.UI.Text>().Last(); //Excluir holder de antes
             textComponent.text = letter;
