@@ -24,6 +24,7 @@ namespace Scripts.Level.Player
         public List<ItemEquipper> EquippableObjects;
 
         public bool IsGrounded = true;
+        public bool CanMove;
 
         
         private MusicManager SoundManager => LevelManager.GetSoundManager();
@@ -101,12 +102,12 @@ namespace Scripts.Level.Player
 
         public void SetInteractiveItem(Transform itemPos, Transform itemLook)
         {
-            if (NormalController.isActiveAndEnabled == true) 
+            if (NormalController.isActiveAndEnabled) 
             {
                 NormalController.InteractPos = itemPos;
                 NormalController.InteractLook = itemLook;
             }
-            else if (MeltedController.isActiveAndEnabled == true)
+            else if (MeltedController.isActiveAndEnabled)
             {
                 MeltedController.InteractPos = itemPos;
                 MeltedController.InteractLook = itemLook;
@@ -115,11 +116,11 @@ namespace Scripts.Level.Player
 
         public bool GetIsInteracting()
         {
-            if (NormalController.isActiveAndEnabled == true)
+            if (NormalController.isActiveAndEnabled)
             {
                 return NormalController.IsInteracting;
             }
-            else if (MeltedController.isActiveAndEnabled == true)
+            else if (MeltedController.isActiveAndEnabled)
             {
                 return MeltedController.IsInteracting;
             }
@@ -129,13 +130,25 @@ namespace Scripts.Level.Player
 
         public void SetIsInteracting(bool state)
         {
-            if (NormalController.isActiveAndEnabled == true)
+            if (NormalController.isActiveAndEnabled)
             {
                 NormalController.IsInteracting = state;
             }
-            else if (MeltedController.isActiveAndEnabled == true)
+            else if (MeltedController.isActiveAndEnabled)
             {
                 MeltedController.IsInteracting = state;
+            }
+        }
+
+        public void SetPlayerCanMove(bool state)
+        {
+            if (NormalController.isActiveAndEnabled)
+            {
+                NormalController.CanMove = state;
+            }
+            else if (MeltedController.isActiveAndEnabled)
+            {
+                MeltedController.CanMove = state;
             }
         }
 

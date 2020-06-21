@@ -9,7 +9,7 @@ namespace Scripts.Level.Player
     {
         [Header("States")]
         public bool IsInteracting;
-        [SerializeField] bool CanMove;
+        public bool CanMove;
         [SerializeField] bool IsCharging;
 
 
