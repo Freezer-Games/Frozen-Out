@@ -10,8 +10,10 @@ namespace Scripts.Level.Player
     {
         [Header("States")]
         public bool IsInteracting;
+        public bool CanMove;
         [SerializeField] bool Grounded;
-        [SerializeField] bool CanMove;
+        Coroutine deathCoroutine;
+
         [SerializeField] bool inStealth;
       
 
@@ -46,6 +48,8 @@ namespace Scripts.Level.Player
             Collider.center = new Vector3(0f, 1f, 0f);
             Collider.radius = 0.5f;
             Collider.height = 2f;
+
+            deathCoroutine = null;
 
             CanMove = true;
             IsInteracting = false;
@@ -151,7 +155,6 @@ namespace Scripts.Level.Player
             CameraVectors();
         }
 
-
         protected override void CalculeMove() 
         {
             Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
@@ -169,65 +172,39 @@ namespace Scripts.Level.Player
 
         void Jump()
         {
-            Animator.SetTrigger("isJumping");
             Grounded = false;
+            Animator.SetTrigger("isJumping");
             Animator.SetBool("isGrounded", false);
-            Rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, JumpForce, Rigidbody.velocity.z);
         }
 
         void CheckWithRay()
         {
-            Debug.DrawRay(transform.position, -transform.up * groundDistance, Color.red);
+            Debug.DrawRay(transform.position, -transform.up * groundDistance, Color.red, 1f);
             RaycastHit hit;
 
-            if (Physics.Raycast(transform.position, -Vector3.up, out hit, groundDistance + 0.1f, ~ignoredLayer))
+            if (Physics.Raycast(transform.position, -Vector3.up, out hit, groundDistance, ~ignoredLayer))
             {
                 if (WhatIsGround == (WhatIsGround | (1 << hit.transform.gameObject.layer)))
                 {
                     Grounded = true;
-                    InDeathZone = false;
                     Animator.SetBool("isGrounded", true);
+                    
+                    if (InDeathZone)
+                    {
+                        StopCoroutine(deathCoroutine);
+                        InDeathZone = false;
+                    }
                 }
 
                 if (DeathZone == (DeathZone | (1 << hit.transform.gameObject.layer)))
                 {
-
-                    StartCoroutine(CountdownToDeath());
+                    if (!InDeathZone)
+                    {
+                        deathCoroutine = StartCoroutine(CountdownToDeath());
+                    }
                 }
             }
-        }
-
-        void OnCollisionEnter(Collision other)
-        {
-            /*if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                Grounded = true;
-
-                if (InDeathZone)
-                {
-                    Debug.Log("me paro");
-                    StopCoroutine(CountdownToDeath());
-                    PartEmiter.enabled = false;
-                    InDeathZone = false;
-                }
-            }
-
-            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
-            {
-                if (!InDeathZone)
-                {
-                    StartCoroutine(CountdownToDeath());
-                    PartEmiter.enabled = true;
-                }
-            }*/
-        }
-
-        void OnCollisionExit(Collision other)
-        {
-            /*if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                Grounded = false;
-            }*/
         }
 
         void OnTriggerEnter(Collider other)

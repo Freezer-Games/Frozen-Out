@@ -91,7 +91,7 @@ namespace Scripts.Level.Player
 
         public IEnumerator CountdownToDeath()
         {
-            Debug.Log("empieza la corutina");
+            InDeathZone = true;
             yield return new WaitForSeconds(CdToDeath);
             LevelManager.GameOver();     
             yield return null;
