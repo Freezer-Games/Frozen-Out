@@ -11,13 +11,14 @@ public class Snowball : MonoBehaviour
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
+        Rigidbody.Sleep();
     }
 
     void Update()
     {
         RbVelocity = Rigidbody.velocity;
 
-        if (transform.localScale.x < 123)
+        if (transform.localScale.x < 120)
         {
             if (RbVelocity != Vector3.zero)
             {
