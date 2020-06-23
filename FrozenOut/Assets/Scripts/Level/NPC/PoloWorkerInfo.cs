@@ -23,9 +23,7 @@ namespace Scripts.Level.NPC
 
         private void WorkIntervals()
         {
-            StartCoroutine(DoTriggerInterval(WorkTriggers, 0.5f, 2.0f, () => {
-                SoundController.PlayRandomClip(SoundController.Ores);
-            }));
+            StartCoroutine(DoTriggerInterval(WorkTriggers, 0.5f, 2.0f));
         }
     }
 }

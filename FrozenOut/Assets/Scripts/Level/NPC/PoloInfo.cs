@@ -7,8 +7,6 @@ namespace Scripts.Level.NPC
 {
     public class PoloInfo : NPCInfo
     {
-        public OreSoundController SoundController;
-
         protected readonly string[] AwakenTriggers = new string[]
         {
             "Anim_Awaken_1",

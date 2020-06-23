@@ -37,7 +37,6 @@ namespace Scripts.Level.NPC
             while (true)
             {
                 SetRandomTrigger(WorkTriggers);
-                SoundController.PlayRandomClip(SoundController.Ores);
 
                 float randomDelay = Random.Range(minDelay, maxDelay);
                 yield return new WaitForSeconds(randomDelay);

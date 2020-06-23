@@ -55,14 +55,13 @@ namespace Scripts.Level.NPC
             Animator.SetBool(boolAnimation, state);
         }
 
-        protected IEnumerator DoTriggerInterval(ICollection<string> triggers, float minDelay, float maxDelay, System.Action onAnimated = null)
+        protected IEnumerator DoTriggerInterval(ICollection<string> triggers, float minDelay, float maxDelay)
         {
             yield return new WaitForSeconds(maxDelay);
 
             while (true)
             {
                 SetRandomTrigger(triggers);
-                onAnimated?.Invoke();
 
                 float randomDelay = Random.Range(minDelay, maxDelay);
                 yield return new WaitForSeconds(randomDelay);
