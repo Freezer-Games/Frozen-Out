@@ -168,43 +168,6 @@ MonoBehaviour:
   kernelSize:
     overrideState: 1
     value: 2
---- !u!114 &-542703558665450066
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
-  m_Name: AutoExposure
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  filtering:
-    overrideState: 1
-    value: {x: 32.584415, y: 77.58435}
-  minLuminance:
-    overrideState: 1
-    value: -0
-  maxLuminance:
-    overrideState: 1
-    value: 9
-  keyValue:
-    overrideState: 1
-    value: 1
-  eyeAdaptation:
-    overrideState: 0
-    value: 0
-  speedUp:
-    overrideState: 0
-    value: 2
-  speedDown:
-    overrideState: 0
-    value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,13 +183,13 @@ MonoBehaviour:
   settings:
   - {fileID: -7427220243194979815}
   - {fileID: -3007522975323245734}
-  - {fileID: -542703558665450066}
   - {fileID: 5443030482750122546}
   - {fileID: -3952044241524332796}
   - {fileID: 6988156177327953081}
   - {fileID: 4207951347267902913}
   - {fileID: -6868809555398454026}
   - {fileID: 1166145245268969474}
+  - {fileID: 8747573123093917612}
 --- !u!114 &1166145245268969474
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1610,7 +1573,41 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.25
+    value: 0.447
   fastMode:
     overrideState: 0
     value: 0
+--- !u!114 &8747573123093917612
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
+  m_Name: LensDistortion
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  intensity:
+    overrideState: 1
+    value: 35
+  intensityX:
+    overrideState: 0
+    value: 1
+  intensityY:
+    overrideState: 0
+    value: 1
+  centerX:
+    overrideState: 0
+    value: 0
+  centerY:
+    overrideState: 0
+    value: 0
+  scale:
+    overrideState: 0
+    value: 1
