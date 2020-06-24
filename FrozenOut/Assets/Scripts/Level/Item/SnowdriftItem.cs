@@ -41,6 +41,7 @@ namespace Scripts.Level.Item
             Particles.Play();
             SoundController.PlayRandomClip(SoundController.Scoops);
             yield return new WaitForSeconds(particlesDelay);
+            Particles.Stop();
 
             if (!TriggerTimeline) DestroyItem();
 
