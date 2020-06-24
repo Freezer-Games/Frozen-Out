@@ -52,7 +52,10 @@ namespace Scripts.Level
             if (DialogueManager != null && PlayerManager != null)
             {
                 DialogueManager.Started += (sender, args) => PlayerManager.Disable();
+                DialogueManager.Started += (sender, args) => PlayerManager.SetPlayerCanMove(false);
+
                 DialogueManager.Ended += (sender, args) => PlayerManager.Enable();
+                DialogueManager.Ended += (sender, args) => PlayerManager.SetPlayerCanMove(true);
             }
 
             if (Inventory != null && PlayerManager != null)
