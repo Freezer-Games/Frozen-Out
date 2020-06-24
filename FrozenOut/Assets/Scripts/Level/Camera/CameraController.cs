@@ -9,11 +9,14 @@ namespace Scripts.Level.Camera
     {
         [SerializeField] CinemachineVirtualCamera CurrentVC;
         public Transform Player;
-        [SerializeField] float diffPlayerCam;
-        [SerializeField] float diffPlyCam4S;
+        [SerializeField] float diffPlyrCam2;
+        [SerializeField] float diffPlyrCam3;
+        [SerializeField] float diffPlyrCam4;
         [SerializeField] float currentDiff;
 
         public CinemachineVirtualCamera FirstSegmenetVC;
+        public CinemachineVirtualCamera SecondSegmentVC;
+        public CinemachineVirtualCamera ThirdSegmentVC;
         public CinemachineVirtualCamera FourthSegmentVC;
 
         void Start()
@@ -27,22 +30,32 @@ namespace Scripts.Level.Camera
             {
                 currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
 
-                if (CurrentVC == FourthSegmentVC)
+                if (CurrentVC == SecondSegmentVC)
                 {
-                    if (currentDiff > diffPlyCam4S && currentDiff >= 0)
+                    if (currentDiff > diffPlyrCam2 && currentDiff >= 0)
                     {
                         FirstSegmenetVC.Priority = 30;
                         CurrentVC.Priority = 20;
-                        Debug.Log("cambio de camara principal");
                         CurrentVC = FirstSegmenetVC;
                     }
                 }
-                else if (currentDiff > diffPlayerCam && currentDiff > 0)
+                else if (CurrentVC == ThirdSegmentVC)
                 {
-                    FirstSegmenetVC.Priority = 30;
-                    CurrentVC.Priority = 20;
-                    Debug.Log("cambio de camara principal");
-                    CurrentVC = FirstSegmenetVC;
+                    if (currentDiff > diffPlyrCam3 && currentDiff >= 0)
+                    {
+                        FirstSegmenetVC.Priority = 30;
+                        CurrentVC.Priority = 20;
+                        CurrentVC = FirstSegmenetVC;
+                    }
+                }
+                else if (CurrentVC == FourthSegmentVC)
+                {
+                    if (currentDiff > diffPlyrCam4 && currentDiff >= 0)
+                    {
+                        FirstSegmenetVC.Priority = 30;
+                        CurrentVC.Priority = 20;
+                        CurrentVC = FirstSegmenetVC;
+                    }
                 }
             }
         }
