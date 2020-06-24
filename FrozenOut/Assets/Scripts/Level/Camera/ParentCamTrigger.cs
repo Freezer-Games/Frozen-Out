@@ -7,7 +7,7 @@ namespace Scripts.Level.Camera
 {
     public class ParentCamTrigger : MonoBehaviour
     {
-        private CameraController CameraController;
+        public CameraController CameraController;
         public CinemachineVirtualCamera SegmentCamera;
         public CinemachineVirtualCamera AreaCamera;
 
