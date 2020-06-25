@@ -26,12 +26,10 @@ namespace Scripts.Menu.Main
 
         public override void Open()
         {
-            base.Open();
         }
 
         public override void Close()
         {
-            base.Close();
         }
 
         private void Exit()

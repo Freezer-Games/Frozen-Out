@@ -11,15 +11,13 @@ namespace Scripts.Menu.Main
     {
         public UIController MainMenuController;
         public UIController OptionsMenuController;
+        public MainMenuCameraTransition CameraTransition;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
 
         void Start()
         {
-            MainMenuController.Open();
-            OptionsMenuController.Close();
-
             //Cursor.visible = true;
             //Cursor.lockState = CursorLockMode.None;
         }
@@ -42,11 +40,13 @@ namespace Scripts.Menu.Main
         public void OpenOptionsMenu()
         {
             OptionsMenuController.Open();
+            CameraTransition.GoToOptions();
         }
 
         public void OpenMainMenu()
         {
             MainMenuController.Open();
+            CameraTransition.GoToMain();
         }
 
         public float GetMusicVolume()
