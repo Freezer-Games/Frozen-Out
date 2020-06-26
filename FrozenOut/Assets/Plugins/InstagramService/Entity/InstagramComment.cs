@@ -1,24 +1,24 @@
 ﻿using System.Collections.Generic;
 
-namespace Scripts.Level.Dialogue.Instagram.Entity
+namespace InstagramConnection.Entity
 {
-    public class InstagramMediaData
+    public class InstagramCommentData
     {
-        public InstagramMediaData()
+        public InstagramCommentData()
         {
-            Data = new List<InstagramMedia>();
+            Data = new List<InstagramComment>();
         }
 
-        public List<InstagramMedia> Data
+        public List<InstagramComment> Data
         {
             get;
             set;
         }
     }
 
-    public class InstagramMedia
+    public class InstagramComment
     {
-        public InstagramMedia()
+        public InstagramComment()
         {
         }
 
@@ -32,12 +32,7 @@ namespace Scripts.Level.Dialogue.Instagram.Entity
             get;
             set;
         }
-        public string Caption
-        {
-            get;
-            set;
-        }
-        public InstagramCommentData Comments
+        public string Text
         {
             get;
             set;
@@ -48,11 +43,6 @@ namespace Scripts.Level.Dialogue.Instagram.Entity
             set;
         }
         public string Like_count
-        {
-            get;
-            set;
-        }
-        public string Comments_count
         {
             get;
             set;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Scripts.Level.Dialogue.Instagram.Utils
+namespace InstagramConnection.Utils
 {
     public class DataReaderUtils
     {

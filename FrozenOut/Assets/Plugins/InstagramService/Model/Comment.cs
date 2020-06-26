@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace Scripts.Level.Dialogue.Instagram.Model
+namespace InstagramConnection.Model
 {
-    public class Post
+    public class Comment
     {
-        public Post()
+        public Comment()
         {
-            Comments = new List<Comment>();
         }
 
         public string Id
@@ -21,11 +19,6 @@ namespace Scripts.Level.Dialogue.Instagram.Model
             set;
         }
         public string Text
-        {
-            get;
-            set;
-        }
-        public ICollection<Comment> Comments
         {
             get;
             set;

@@ -2,11 +2,11 @@
 
 using RestSharp;
 
-using Scripts.Level.Dialogue.Instagram.Entity;
-using Scripts.Level.Dialogue.Instagram.Model;
-using Scripts.Level.Dialogue.Instagram.Utils;
+using InstagramConnection.Entity;
+using InstagramConnection.Model;
+using InstagramConnection.Utils;
 
-namespace Scripts.Level.Dialogue.Instagram
+namespace InstagramConnection
 {
     public class InstagramRepository
     {

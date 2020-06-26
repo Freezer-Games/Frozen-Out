@@ -1,4 +1,4 @@
-﻿namespace Scripts.Level.Dialogue.Instagram.Entity
+﻿namespace InstagramConnection.Model
 {
     public class FacebookUser
     {

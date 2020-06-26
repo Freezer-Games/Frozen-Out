@@ -2,9 +2,8 @@
 using System.Security.Authentication;
 
 using RestSharp;
-using RestSharp.Authenticators;
 
-namespace Scripts.Level.Dialogue.Instagram
+namespace InstagramConnection
 {
     public class InstagramGraphAPIAccess : IAPIAccess
     {

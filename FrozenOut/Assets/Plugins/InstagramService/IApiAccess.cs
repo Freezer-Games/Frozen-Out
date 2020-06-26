@@ -1,6 +1,6 @@
 ﻿using RestSharp;
 
-namespace Scripts.Level.Dialogue.Instagram
+namespace InstagramConnection
 {
     public abstract class IAPIAccess
     {
