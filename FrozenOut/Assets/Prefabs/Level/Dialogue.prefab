@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 8053255632408415940}
   - component: {fileID: 5846210282944421995}
   - component: {fileID: 4482957861322837528}
+  - component: {fileID: 6032390023961494607}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -397,10 +398,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23baeb1d3fb2bbc4793d3563bfa529f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DialogueSystem: {fileID: 6396317386609314355}
   VoiceManager: {fileID: 2027616947712974722}
   TextManager: {fileID: 7831057841332498951}
   LevelManager: {fileID: 0}
+  InstagramDialogueSystem: {fileID: 6032390023961494607}
+  NPCDialogueSystem: {fileID: 6396317386609314355}
   PromptController: {fileID: 7338004676506038069}
   GameOverActer: {fileID: 1346938333752069259}
   DefaultStyle:
@@ -529,6 +531,19 @@ MonoBehaviour:
   LineDialogueUpdated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6032390023961494607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396317386609314359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fe9ed430ec5c14fa9a6f86b148ba90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueManager: {fileID: 2401489547208408697}
 --- !u!1 &6396317386882989828
 GameObject:
   m_ObjectHideFlags: 0
