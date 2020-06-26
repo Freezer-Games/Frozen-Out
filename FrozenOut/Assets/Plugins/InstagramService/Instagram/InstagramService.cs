@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using Scripts.Level.Dialogue.Instagram.Model;
+using InstagramConnection.Model;
 
-namespace Scripts.Level.Dialogue.Instagram
+namespace InstagramConnection
 {
     public class InstagramService
     {

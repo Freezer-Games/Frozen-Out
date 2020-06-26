@@ -1,8 +1,8 @@
-﻿namespace Scripts.Level.Dialogue.Instagram.Entity
+﻿namespace InstagramConnection.Entity
 {
-    public class InstagramAccount
+    public class FacebookUser
     {
-        public InstagramAccount()
+        public FacebookUser()
         {
         }
 

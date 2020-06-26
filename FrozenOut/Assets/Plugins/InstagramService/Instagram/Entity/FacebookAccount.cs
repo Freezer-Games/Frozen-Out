@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Scripts.Level.Dialogue.Instagram.Entity
+namespace InstagramConnection.Entity
 {
     public class FacebookAccountData
     {

@@ -1,8 +1,8 @@
-﻿namespace Scripts.Level.Dialogue.Instagram.Model
+﻿namespace InstagramConnection.Model
 {
-    public class FacebookUser
+    public class FacebookPage
     {
-        public FacebookUser()
+        public FacebookPage()
         {
         }
 

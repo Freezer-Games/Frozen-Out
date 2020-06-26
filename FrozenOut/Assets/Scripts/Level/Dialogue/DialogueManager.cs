@@ -12,9 +12,9 @@ namespace Scripts.Level.Dialogue
     public abstract class DialogueManager : BaseManager
     {
         /// <summary>
-        /// Encargado de recoger las lineas de diálogo
+        /// Sistema actual encargado de recoger las lineas de diálogo
         /// </summary>
-        public DialogueSystem DialogueSystem;
+        protected DialogueSystem DialogueSystem;
 
         /// <summary>
         /// Encargado de dar voz a las líneas de diálogo

@@ -8,12 +8,18 @@ using Scripts.Settings;
 using Scripts.Level.Item;
 using Scripts.Level.NPC;
 using Scripts.Level.Dialogue.Utils;
+using Scripts.Level.Dialogue.Runner.Instagram;
+using Scripts.Level.Dialogue.Runner;
 
 namespace Scripts.Level.Dialogue
 {
     public class NormalDialogueManager : DialogueManager
     {
         public LevelManager LevelManager;
+
+        public InstagramSystem InstagramDialogueSystem;
+        public DialogueSystem NPCDialogueSystem;
+        //public ConversationSystem ConversationDialogueSystem;
 
         public DialoguePromptController PromptController;
 
@@ -38,6 +44,7 @@ namespace Scripts.Level.Dialogue
 
         void Awake()
         {
+            DialogueSystem = NPCDialogueSystem;
             SetLanguage();
         }
 
@@ -155,6 +162,15 @@ namespace Scripts.Level.Dialogue
                     AddStyle(characterStyle.Name, characterStyle.Style);
                 }
 
+                if(acter is DialogueInstagram)
+                {
+                    DialogueSystem = InstagramDialogueSystem;
+                }
+                else
+                {
+                    DialogueSystem = NPCDialogueSystem;
+                }
+
                 DialogueSystem.StartDialogue(acter);
             }
         }
@@ -178,22 +194,22 @@ namespace Scripts.Level.Dialogue
         #region Variables
         public override bool GetBoolVariable(string variableName, bool includeLeading = true)
         {
-            return DialogueSystem.GetBoolVariable(variableName, includeLeading);
+            return NPCDialogueSystem.GetBoolVariable(variableName, includeLeading);
         }
 
         public override string GetStringVariable(string variableName, bool includeLeading = true)
         {
-            return DialogueSystem.GetStringVariable(variableName, includeLeading);
+            return NPCDialogueSystem.GetStringVariable(variableName, includeLeading);
         }
 
         public override float GetNumberVariable(string variableName, bool includeLeading = true)
         {
-            return DialogueSystem.GetNumberVariable(variableName, includeLeading);
+            return NPCDialogueSystem.GetNumberVariable(variableName, includeLeading);
         }
 
         public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
         {
-            DialogueSystem.SetVariable<T>(variableName, value, includeLeading);
+            NPCDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
         }
         #endregion
 

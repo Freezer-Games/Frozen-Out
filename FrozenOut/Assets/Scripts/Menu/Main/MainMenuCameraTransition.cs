@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
 
-namespace Scripts.Menu
+namespace Scripts.Menu.Main
 {
     public class MainMenuCameraTransition : MonoBehaviour
     {
