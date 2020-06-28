@@ -10,8 +10,6 @@ namespace Scripts.Level.Item
         public bool readyToPlay;
         public PlayableDirector Timeline;
 
-        public Rigidbody Rigidbody;
-
         public override void OnPlayerAway() {}
 
         public override void OnPlayerClose() {}

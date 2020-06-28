@@ -202,8 +202,6 @@ GameObject:
   - component: {fileID: 3479845850056557729}
   - component: {fileID: 3309698044623077407}
   - component: {fileID: 3309698044623077406}
-  - component: {fileID: 3309698044623077405}
-  - component: {fileID: 3309698044623077404}
   m_Layer: 0
   m_Name: Lever
   m_TagString: Untagged
@@ -223,7 +221,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 340734404186727707}
-  - {fileID: 3713922476965085300}
   m_Father: {fileID: 2456681033195806895}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -253,37 +250,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1319762, y: 1.1319945, z: 1.0988761}
   m_Center: {x: -0.000010848045, y: -0.00003671646, z: 0.69333833}
---- !u!114 &3309698044623077405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3309698044623077395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1b081416d993a499421ef87dc912b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3309698044623077404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3309698044623077395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b49bb6c93d371e4fbd5ca1ebcb317d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Item:
-    VariableName: 
-  ItemPos: {fileID: 3713922476965085300}
-  ItemLook: {fileID: 3479845850056557729}
-  animDelay: 0.75
-  Lever: {fileID: 5601685850992567735}
-  LiftAnimator: {fileID: 3713922476222545527}
 --- !u!1 &3370464228050737531
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,36 +380,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &3713922476965085259
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3713922476965085300}
-  m_Layer: 0
-  m_Name: Interact Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3713922476965085300
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3713922476965085259}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.262}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3479845850056557729}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4433796979270441746
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,9 +475,9 @@ GameObject:
   - component: {fileID: 4576702669477115281}
   - component: {fileID: 4576702669477115282}
   - component: {fileID: 4576702669477115283}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pedal Plat
-  m_TagString: Ground
+  m_TagString: Ascensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

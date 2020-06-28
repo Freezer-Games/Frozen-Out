@@ -132,7 +132,6 @@ position: -330,725
 ---
 << if not visited("Palanquilla.Ascensor") >>
     << useitem YarnCommands lever 0 >>
-    << setanim YarnCommands Palanquilla Awaken >>
     Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto
     << setanim YarnCommands Palanquilla Palanca >>
 << else >>

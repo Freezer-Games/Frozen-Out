@@ -26,7 +26,6 @@ namespace Scripts.Level.NPC
                     case "Palanca":
                         InPalanca = true;
                         SetRandomTrigger(PalancaTriggers);
-                        AscensorAnimator.SetTrigger("active");
                         break;
                     default:
                         break;
