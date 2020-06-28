@@ -40,9 +40,9 @@ namespace Scripts.Level.Item
 
         public override void Close()
         {
-            base.Close();
-
             CandidatePicker = null;
+
+            base.Close();
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Scripts.Level.Item
 
             if (TriggerTimeline)
             {
+                GetComponent<Collider>().enabled = false;
                 Timeline.Play();
             }
         }
@@ -43,9 +44,10 @@ namespace Scripts.Level.Item
             yield return new WaitForSeconds(particlesDelay);
             Particles.Stop();
 
-            if (!TriggerTimeline) DestroyItem();
-
-            yield return null;
+            if (!TriggerTimeline)
+            {
+                DestroyItem();
+            }
         }
     }
 }

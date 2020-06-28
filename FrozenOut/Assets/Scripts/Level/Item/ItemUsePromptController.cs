@@ -34,9 +34,9 @@ namespace Scripts.Level.Item
 
         public override void Close()
         {
-            base.Close();
-
             CandidateUser = null;
+
+            base.Close();
         }
     }
 }

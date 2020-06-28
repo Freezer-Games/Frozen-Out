@@ -257,8 +257,6 @@ namespace Scripts.Level.Item
                 PlayerManager.PlayInteractAnimation();
                 
             user.OnUse();
-
-            yield return null;
         }
 
         #region Events
