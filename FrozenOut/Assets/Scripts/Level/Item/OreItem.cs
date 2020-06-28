@@ -13,8 +13,8 @@ namespace Scripts.Level.Item
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
 
-        //public ItemPickerInfo Ice;
-        //private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
+        public ItemPickerInfo Ice;
+        private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
         public override void OnPlayerAway()
         {
@@ -38,7 +38,7 @@ namespace Scripts.Level.Item
         public override void OnUse()
         {
             StartCoroutine(PlayParticles());
-            //Inventory.PickItem(Ice);
+            Inventory.PickItem(Ice);
         }
 
         IEnumerator PlayParticles()

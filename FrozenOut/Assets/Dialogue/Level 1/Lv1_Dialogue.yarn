@@ -221,10 +221,10 @@ tags:
 colorID: 2
 position: 905,7
 ---
-<< if random_bool >>
+<< if random_bool() >>
 	<< setanimall YarnCommands Cono Badass >>
 	¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
-<< elseif random_bool >>
+<< elseif random_bool() >>
 	<< setanimall YarnCommands Cono Deny >>
 	SE TE ACABO EL JUEGO!!
 << else >>
