@@ -37,6 +37,7 @@ namespace Scripts.Level.Dialogue
         public abstract KeyCode GetInteractKey();
         public abstract bool IsItemInInventory(string itemVariableName);
         public abstract bool IsItemUsed(string itemVariableName);
+        public abstract int QuantityOfItem(string itemVariableName);
         public abstract void PickItem(string itemVariableName, int quantity);
         public abstract void UseItem(string itemVariableName, int quantity);
         public abstract void SetNPCAnimation(string npcName, string animation);

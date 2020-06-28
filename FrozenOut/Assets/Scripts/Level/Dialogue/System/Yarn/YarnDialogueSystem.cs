@@ -67,6 +67,10 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         {
             return DialogueManager.IsItemUsed(itemVariableName);
         }
+        public int QuantityOfItem(string itemVariableName)
+        {
+            return DialogueManager.QuantityOfItem(itemVariableName);
+        }
         public void PickItem(string itemVariableName, int quantity)
         {
             DialogueManager.PickItem(itemVariableName, quantity);

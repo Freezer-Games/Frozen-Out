@@ -135,8 +135,9 @@ position: -330,725
     << setanim YarnCommands Palanquilla Awaken >>
     Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto
     << setanim YarnCommands Palanquilla Palanca >>
+<< else >>
+	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
 << endif >>
-Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
 ===
 title: Olafs.Hielos
 tags: 
@@ -145,8 +146,6 @@ position: 400,492
 ---
 << if not visited("Olafs.Hielos") >>
     << useitem YarnCommands ice 100 >>
-    << setanim YarnCommands Olaf Giro_Izq >>
-    << setanim YarnCommands Twolaf Giro_Der >>
     Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...
 << else >>
     Twolaf: ¿Qué quieres ahora polito?
@@ -223,12 +222,16 @@ tags:
 colorID: 2
 position: 905,7
 ---
-<< setanimall YarnCommands Cono Badass >>
-¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
-<< setanimall YarnCommands Cono Deny >>
-SE TE ACABO EL JUEGO!!
-<< setanimall YarnCommands Cono Laugh >>
-DIRECTO A LA ZONA DE REFRIGERACIÓN!!
+<< if random_bool >>
+	<< setanimall YarnCommands Cono Badass >>
+	¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
+<< elseif random_bool >>
+	<< setanimall YarnCommands Cono Deny >>
+	SE TE ACABO EL JUEGO!!
+<< else >>
+	<< setanimall YarnCommands Cono Laugh >>
+	DIRECTO A LA ZONA DE REFRIGERACIÓN!!
+<< endif >>
 ===
 title: Auriculares
 tags: 
