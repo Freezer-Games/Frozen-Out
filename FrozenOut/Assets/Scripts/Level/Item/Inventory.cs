@@ -239,9 +239,30 @@ namespace Scripts.Level.Item
 
         public bool IsItemUsed(ItemBase item)
         {
-            ItemInfo inventoryItem = this.Items.Find( temp => temp.Equals(item) );
+            if(IsItemInInventory(item))
+            {
+                ItemInfo inventoryItem = this.Items.Find(temp => temp.Equals(item));
 
-            return inventoryItem.IsUsed;
+                return inventoryItem.IsUsed;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public int QuantityOfItem(ItemBase item)
+        {
+            if(IsItemInInventory(item))
+            {
+                ItemInfo inventoryItem = this.Items.Find(temp => temp.Equals(item));
+
+                return inventoryItem.Quantity;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         IEnumerator WaitingPlayer(ItemUser user, bool needTool)

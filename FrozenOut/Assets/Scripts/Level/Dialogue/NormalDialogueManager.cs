@@ -95,6 +95,14 @@ namespace Scripts.Level.Dialogue
             };
             return Inventory.IsItemUsed(item);
         }
+        public override int QuantityOfItem(string itemVariableName)
+        {
+            ItemBase item = new ItemBase()
+            {
+                VariableName = itemVariableName
+            };
+            return Inventory.QuantityOfItem(item);
+        }
         public override void PickItem(string itemVariableName, int quantity)
         {
             ItemPickerInfo pickerInfo = new ItemPickerInfo()

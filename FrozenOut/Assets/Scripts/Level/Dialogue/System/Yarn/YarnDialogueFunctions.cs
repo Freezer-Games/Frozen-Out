@@ -32,6 +32,18 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
                 string itemVariableName = parameters[0].AsString;
                 return YarnSystem.IsItemUsed(itemVariableName);
             });
+
+            DialogueRunner.AddFunction("quantity_item", 1, delegate (Yarn.Value[] parameters)
+            {
+                string itemVariableName = parameters[0].AsString;
+                return YarnSystem.QuantityOfItem(itemVariableName);
+            });
+
+            DialogueRunner.AddFunction("random_bool", 0, delegate (Yarn.Value[] parameters)
+            {
+                float random = Random.value;
+                return random > 0.5f;
+            });
         }
 
         public void NodeComplete(string nodeName) {
