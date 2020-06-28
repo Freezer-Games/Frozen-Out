@@ -211,6 +211,7 @@ namespace Scripts.Level.Player
         {
             if (other.CompareTag("Ascensor"))
             {
+                Debug.Log("en el ascensor");
                 transform.SetParent(other.transform);
             }
         }
