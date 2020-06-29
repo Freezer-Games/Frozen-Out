@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Cinemachine;
+using System.Collections;
 
 namespace Scripts.Menu.Main
 {
@@ -7,6 +8,7 @@ namespace Scripts.Menu.Main
     {
         public CinemachineVirtualCamera MainCamera;
         public CinemachineVirtualCamera OptionsCamera;
+        public GameObject ScreenCamera;
 
         private int MainCameraPriority;
 
@@ -18,11 +20,19 @@ namespace Scripts.Menu.Main
         public void GoToOptions()
         {
             MainCamera.Priority = 0;
+            ScreenCamera.SetActive(false);
         }
 
         public void GoToMain()
         {
             MainCamera.Priority = MainCameraPriority;
+            StartCoroutine(ActiveScreenCamera());
+        }
+
+        private IEnumerator ActiveScreenCamera()
+        {
+            yield return new WaitForSeconds(1f);
+            ScreenCamera.SetActive(true);
         }
 
         /*private IEnumerator DoGoToMain()
