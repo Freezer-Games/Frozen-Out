@@ -21,7 +21,6 @@ namespace Scripts.Level.Item
             if(other.CompareTag(PlayerTag))
             {
                 ItemPicker.OnPlayerClose();
-
                 Inventory.OpenPickPrompt(ItemPicker);
             }
         }
@@ -31,10 +30,8 @@ namespace Scripts.Level.Item
             if(other.CompareTag(PlayerTag))
             {
                 ItemPicker.OnPlayerAway();
-
                 Inventory.ClosePickPrompt();
             }
         }
-
     }
 }

@@ -16,15 +16,6 @@ namespace Scripts.Level.Item
         public ItemPickerInfo Ice;
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
 
-        public override void OnPlayerAway()
-        {
-            
-        }
-
-        public override void OnPlayerClose()
-        {
-        }
-
         public override void OnPlayerCol()
         {
 

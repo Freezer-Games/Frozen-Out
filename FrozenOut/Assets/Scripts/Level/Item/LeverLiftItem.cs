@@ -10,10 +10,6 @@ namespace Scripts.Level.Item
         public GameObject Lever;
         public Animator LiftAnimator;
 
-        public override void OnPlayerAway() {}
-        
-        public override void OnPlayerClose() {}
-
         public override void OnPlayerCol() {}
 
         public override void OnPlayerExitCol() {}

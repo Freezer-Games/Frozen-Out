@@ -30,12 +30,8 @@ namespace Scripts.Level.Item
 
         public override void OnPlayerAway()
         {
+            base.OnPlayerAway();
             SeparateFromPlayer();
-        }
-
-        public override void OnPlayerClose()
-        {
-            
         }
 
         public override void OnPlayerExitCol()
