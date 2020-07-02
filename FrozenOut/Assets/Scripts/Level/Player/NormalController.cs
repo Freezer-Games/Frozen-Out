@@ -14,7 +14,7 @@ namespace Scripts.Level.Player
         [SerializeField] bool Grounded;
         Coroutine deathCoroutine;
 
-        [SerializeField] bool inStealth;
+        public bool inStealth;
       
 
         [Header("Movement")]
@@ -129,6 +129,13 @@ namespace Scripts.Level.Player
                     Animator.SetTrigger("isSneakingOut");
                     Animator.SetBool("isMoving", false);
                 }
+            }
+            else
+            {
+                CanMove = false;
+
+                Animator.SetTrigger("isSneakingOut");
+                Animator.SetBool("isMoving", false);
             }
         }
 
