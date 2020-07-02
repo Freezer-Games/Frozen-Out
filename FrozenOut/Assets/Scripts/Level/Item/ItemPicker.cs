@@ -6,6 +6,7 @@ namespace Scripts.Level.Item
     public class ItemPicker : MonoBehaviour
     {
         public ItemPickerInfo Item;
+        public Renderer Renderer;
 
         public void OnPickup()
         {
@@ -15,12 +16,17 @@ namespace Scripts.Level.Item
 
         public void OnPlayerClose()
         {
-            //TODO glow?
+            HighlightItem(true);
         }
 
         public void OnPlayerAway()
         {
-            //TODO unglow?
+            HighlightItem(false);
+        }
+
+        void HighlightItem(bool state)
+        {
+            Renderer.material.SetFloat("_Selected", state ? 1f : 0f);
         }
     }
 }

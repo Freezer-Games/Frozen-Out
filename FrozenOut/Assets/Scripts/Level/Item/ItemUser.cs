@@ -11,17 +11,30 @@ namespace Scripts.Level.Item
         //Punto al que mirará el jugador al interacutar
         public Transform ItemLook;
 
+        public Renderer Renderer;
+
         public abstract void OnUse();
 
-        public abstract void OnPlayerClose();
+        public virtual void OnPlayerClose()
+        {
+            HighlightItem(true);
+        }
 
-        public abstract void OnPlayerAway();
+        public virtual void OnPlayerAway()
+        {
+            HighlightItem(false);
+        }
 
         public abstract void OnPlayerCol();
 
         public abstract void OnPlayerExitCol();
 
         public void DestroyItem() { Destroy(gameObject); }
+
+        void HighlightItem(bool state)
+        {
+            Renderer.material.SetFloat("_Selected", state ? 1f : 0f);
+        }
 
         public Transform GetItemPos() { return ItemPos; }
 

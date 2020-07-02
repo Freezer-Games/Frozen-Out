@@ -10,10 +10,6 @@ namespace Scripts.Level.Item
         public bool readyToPlay;
         public PlayableDirector Timeline;
 
-        public override void OnPlayerAway() {}
-
-        public override void OnPlayerClose() {}
-
         public override void OnPlayerCol() {}
 
         public override void OnPlayerExitCol() {}
