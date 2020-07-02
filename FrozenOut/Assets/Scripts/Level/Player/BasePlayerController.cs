@@ -46,19 +46,20 @@ namespace Scripts.Level.Player
             //Se mueve a la posicion deseada minetras mira y luego interactua
             else 
             {
+                Debug.Log("interaccion con dos puntos");
                 Vector3 lookPos = targetLook.position;
                 lookPos.y = transform.position.y;
                 transform.LookAt(lookPos);
 
                 Vector3 goPos = targetPos.position;
-                goPos.y = 0f;
+                goPos.y = transform.position.y;
 
                 if (Vector3.Distance(goPos, transform.position) > distanceToStop) 
                 {     
                     Animator.SetBool("isMoving", true);
 
                     transform.position = 
-                        Vector3.MoveTowards(transform.position, goPos, speed * Time.fixedDeltaTime);
+                        Vector3.MoveTowards(transform.position, goPos, speed);
                 }
                 else 
                 {

@@ -162,30 +162,36 @@ namespace Scripts.Level.Dialogue
         {
             if (IsEnabled() && IsReady())
             {
-                CurrentActer = acter;
-
-                AddStyle(acter.Style.Name, acter.Style.Style);
-                foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
-                {
-                    AddStyle(characterStyle.Name, characterStyle.Style);
-                }
-
-                if(acter is DialogueInstagram)
-                {
-                    DialogueSystem = InstagramDialogueSystem;
-                }
-                else
-                {
-                    DialogueSystem = NPCDialogueSystem;
-                }
-
-                DialogueSystem.StartDialogue(acter);
+                MakeStartDialogue(acter);
             }
         }
 
         public override void StartGameOverDialogue()
         {
             StartDialogue(GameOverActer);
+            this.Disable();
+        }
+
+        private void MakeStartDialogue(DialogueActer acter)
+        {
+            CurrentActer = acter;
+
+            AddStyle(acter.Style.Name, acter.Style.Style);
+            foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
+            {
+                AddStyle(characterStyle.Name, characterStyle.Style);
+            }
+
+            if (acter is DialogueInstagram)
+            {
+                DialogueSystem = InstagramDialogueSystem;
+            }
+            else
+            {
+                DialogueSystem = NPCDialogueSystem;
+            }
+
+            DialogueSystem.StartDialogue(acter);
         }
 
         public override void StopDialogue()

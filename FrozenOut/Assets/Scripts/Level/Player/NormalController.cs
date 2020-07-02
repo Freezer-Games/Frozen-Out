@@ -14,7 +14,7 @@ namespace Scripts.Level.Player
         [SerializeField] bool Grounded;
         Coroutine deathCoroutine;
 
-        [SerializeField] bool inStealth;
+        public bool inStealth;
       
 
         [Header("Movement")]
@@ -73,12 +73,14 @@ namespace Scripts.Level.Player
                     CanMove = false;
                     inStealth = false;
                     Rigidbody.isKinematic = true;
+                    Rigidbody.useGravity = false;
                     MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
                 else
                 {
                     CanMove = true;
                     Rigidbody.isKinematic = false;
+                    Rigidbody.useGravity = true;
                 }     
 
                 if (CanMove)
@@ -127,6 +129,13 @@ namespace Scripts.Level.Player
                     Animator.SetTrigger("isSneakingOut");
                     Animator.SetBool("isMoving", false);
                 }
+            }
+            else
+            {
+                CanMove = false;
+
+                Animator.SetTrigger("isSneakingOut");
+                Animator.SetBool("isMoving", false);
             }
         }
 
