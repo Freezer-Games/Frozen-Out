@@ -49,6 +49,13 @@ namespace Scripts.Level.Dialogue
             this.TextStyle.Size = normalisedSize;
         }
 
+        public void NormalisePitch(float defaultPitch, float minPitch, float maxPitch)
+        {
+            float normalisedPitch = NormaliseRelative(this.VoiceStyle.RelativePitch, defaultPitch, minPitch, maxPitch);
+
+            this.VoiceStyle.Pitch = normalisedPitch;
+        }
+
         private static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
         {
             float percentage = 1.0f + relativeValue;
