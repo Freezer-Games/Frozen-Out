@@ -17,10 +17,6 @@ namespace Scripts.Level.Item
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
 
-        public override void OnPlayerAway() {}
-
-        public override void OnPlayerClose() {}
-
         public override void OnPlayerCol() {}
 
         public override void OnPlayerExitCol() {}
