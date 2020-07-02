@@ -14,7 +14,7 @@ namespace Scripts.Level.Player
         [SerializeField] bool Grounded;
         Coroutine deathCoroutine;
 
-        [SerializeField] bool inStealth;
+        public bool inStealth;
       
 
         [Header("Movement")]
