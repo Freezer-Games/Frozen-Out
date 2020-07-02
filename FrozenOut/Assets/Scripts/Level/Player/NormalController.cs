@@ -128,6 +128,13 @@ namespace Scripts.Level.Player
                     Animator.SetBool("isMoving", false);
                 }
             }
+            else
+            {
+                CanMove = false;
+
+                Animator.SetTrigger("isSneakingOut");
+                Animator.SetBool("isMoving", false);
+            }
         }
 
         void FixedUpdate()
