@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripts.Level.Player;
 
 public class Vision : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class Vision : MonoBehaviour
     private SpriteRenderer DeteccionSprite;
     private Renderer UIRenderer;
     private MaterialPropertyBlock _propBlock;
+    private Animator anim;
 
     private bool CR_running = false;
     int Deteccion = 0;
@@ -48,6 +50,7 @@ public class Vision : MonoBehaviour
         DeteccionSprite.enabled = false;
         UIRenderer = DeteccionUI.GetComponent<Renderer>();
         _propBlock = new MaterialPropertyBlock();
+        anim = GetComponentInChildren<Animator>();
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -77,7 +80,7 @@ public class Vision : MonoBehaviour
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             //ObjetosCercanos.Add(target);
 
-            /*if (target.gameObject.GetComponent<>(). && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            if (target.gameObject.GetComponent<NormalController>().inStealth && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
 
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
@@ -86,10 +89,10 @@ public class Vision : MonoBehaviour
                 {
                     ObjetosVistos.Add(target);
                 }
-            }*/
-            //else {
+            }
+            else {
                 ObjetosVistos.Add(target);
-            //}
+            }
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
@@ -176,6 +179,7 @@ public class Vision : MonoBehaviour
                 ObjetosDetectados.Add(t);
             }
             yield return null;
+            anim.SetBool("Detectado", true);
             CR_running = false;
         }
         else if (ObjetosVistos.Contains(t))
@@ -190,6 +194,7 @@ public class Vision : MonoBehaviour
 
     private IEnumerator EndDetection(Transform t)
     {
+        anim.SetBool("Detectado", false);
         UIRenderer.GetPropertyBlock(_propBlock);
         _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
         UIRenderer.SetPropertyBlock(_propBlock);
