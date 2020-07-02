@@ -7,6 +7,8 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueActer))]
     public abstract class TriggerActDialogue : TriggerBase
     {
+        protected DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
+
         protected DialogueActer Acter;
 
         void Start()
@@ -38,12 +40,15 @@ namespace Scripts.Level.Dialogue
         {
             Acter.OnPlayerAway();
         }
+
+        public void StartTalk()
+        {
+            DialogueManager.StartDialogue(Acter);
+        }
     }
 
     public class TriggerTalkDialogue : TriggerActDialogue
     {
-        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
-
         protected override void OnPlayerEnter()
         {
             base.OnPlayerEnter();

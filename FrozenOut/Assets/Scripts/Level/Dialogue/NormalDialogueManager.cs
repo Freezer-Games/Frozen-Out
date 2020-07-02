@@ -162,36 +162,30 @@ namespace Scripts.Level.Dialogue
         {
             if (IsEnabled() && IsReady())
             {
-                MakeStartDialogue(acter);
+                CurrentActer = acter;
+
+                AddStyle(acter.Style.Name, acter.Style.Style);
+                foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
+                {
+                    AddStyle(characterStyle.Name, characterStyle.Style);
+                }
+
+                if (acter is DialogueInstagram)
+                {
+                    DialogueSystem = InstagramDialogueSystem;
+                }
+                else
+                {
+                    DialogueSystem = NPCDialogueSystem;
+                }
+
+                DialogueSystem.StartDialogue(acter);
             }
         }
 
         public override void StartGameOverDialogue()
         {
             StartDialogue(GameOverActer);
-            this.Disable();
-        }
-
-        private void MakeStartDialogue(DialogueActer acter)
-        {
-            CurrentActer = acter;
-
-            AddStyle(acter.Style.Name, acter.Style.Style);
-            foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
-            {
-                AddStyle(characterStyle.Name, characterStyle.Style);
-            }
-
-            if (acter is DialogueInstagram)
-            {
-                DialogueSystem = InstagramDialogueSystem;
-            }
-            else
-            {
-                DialogueSystem = NPCDialogueSystem;
-            }
-
-            DialogueSystem.StartDialogue(acter);
         }
 
         public override void StopDialogue()
@@ -248,6 +242,7 @@ namespace Scripts.Level.Dialogue
             style.NormaliseDelay(LetterDelay, 0.1f, 1.0f);
             style.NormaliseSize(GetTextSize(), 14, 24);
             style.NormaliseVolume(1.0f, 0.1f, 1.0f);
+            style.NormalisePitch(2.0f, 1.0f, 3.0f);
 
             style.TextStyle.UpdateOptionals(DefaultStyle.TextStyle);
             style.VoiceStyle.UpdateOptionals(DefaultStyle.VoiceStyle);
