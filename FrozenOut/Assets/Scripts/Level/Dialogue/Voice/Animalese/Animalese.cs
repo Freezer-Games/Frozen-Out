@@ -108,6 +108,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             CurrentStyle = style;
 
             AudioSource.volume = CurrentStyle.Volume;
+            AudioSource.pitch = CurrentStyle.Pitch;
 
             switch (CurrentStyle.Effect)
             {
