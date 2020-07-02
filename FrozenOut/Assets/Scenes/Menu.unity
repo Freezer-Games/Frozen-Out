@@ -886,6 +886,7 @@ MonoBehaviour:
   MainCamera: {fileID: 1086069343}
   OptionsCamera: {fileID: 1234185923}
   ScreenCamera: {fileID: 0}
+  WhiteOverlay: {fileID: 0}
 --- !u!1 &1086069341
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,7 +1258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1502796792
 Animator:
   serializedVersion: 3
@@ -1716,6 +1717,11 @@ PrefabInstance:
       propertyPath: ScreenCamera
       value: 
       objectReference: {fileID: 1933686875}
+    - target: {fileID: 9191173965494461085, guid: 6754c1fec22b2cd4b914a1f594b0f6fe,
+        type: 3}
+      propertyPath: WhiteOverlay
+      value: 
+      objectReference: {fileID: 1502796791}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6754c1fec22b2cd4b914a1f594b0f6fe, type: 3}
 --- !u!1 &1920126749
@@ -1829,7 +1835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1933686876
 MonoBehaviour:
   m_ObjectHideFlags: 0

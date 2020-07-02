@@ -9,30 +9,39 @@ namespace Scripts.Menu.Main
         public CinemachineVirtualCamera MainCamera;
         public CinemachineVirtualCamera OptionsCamera;
         public GameObject ScreenCamera;
+        public GameObject WhiteOverlay;
 
         private int MainCameraPriority;
 
         void Start()
         {
             MainCameraPriority = MainCamera.Priority;
+            StartCoroutine(ActiveMenu(true));
         }
 
         public void GoToOptions()
         {
             MainCamera.Priority = 0;
             ScreenCamera.SetActive(false);
+            WhiteOverlay.SetActive(false);
         }
 
         public void GoToMain()
         {
             MainCamera.Priority = MainCameraPriority;
-            StartCoroutine(ActiveScreenCamera());
+            StartCoroutine(ActiveMenu(false));
         }
 
-        private IEnumerator ActiveScreenCamera()
+        private IEnumerator ActiveMenu(bool start)
         {
-            yield return new WaitForSeconds(1f);
+            if (!start)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            WhiteOverlay.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
             ScreenCamera.SetActive(true);
+           
         }
 
         /*private IEnumerator DoGoToMain()
