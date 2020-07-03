@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace Scripts.Level.Item
 {
     public class IceUserListener : MonoBehaviour
     {
         public ItemBase IceItem;
+        public PlayableDirector timeline;
 
         private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
         private Inventory Inventory => LevelManager.GetInventory();
@@ -20,7 +22,7 @@ namespace Scripts.Level.Item
         {
             if(item.Equals(IceItem))
             {
-                this.gameObject.SetActive(false);
+                timeline.Play();
             }
         }
     }

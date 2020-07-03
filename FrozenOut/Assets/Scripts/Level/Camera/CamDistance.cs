@@ -19,9 +19,11 @@ namespace Scripts.Level.Camera
         public float nearDistance;
         public bool VNisActive;
 
+        [SerializeField] float Dist;
+
         void Update()
         {
-            float Dist = Vector3.Distance(Player.position, GenCam.transform.position);
+            Dist = Vector3.Distance(Player.position, GenCam.transform.position);
 
             AuxCollRotMove(Dist);
 
@@ -57,13 +59,12 @@ namespace Scripts.Level.Camera
         private void AuxCollRotMove(float distance)
         {
             Vector3 genCamPos = GenCam.transform.position;
-            Coll.position = new Vector3(genCamPos.x, Coll.position.y, genCamPos.z);
+            Coll.position = new Vector3(genCamPos.x, Coll.position.y, genCamPos.z + 1f);
 
-            var lookPos = Player.position - Coll.position;
-            lookPos.y = 0;
+            var lookPos = Player.position;
             var rotation = Quaternion.LookRotation(lookPos);
 
-            if (distance < 4)
+            if (distance > 4)
             {
                 Coll.rotation = Quaternion.Slerp(Coll.rotation, rotation, 0.1f);
             }
@@ -74,7 +75,7 @@ namespace Scripts.Level.Camera
             if (other.CompareTag("Player"))
             {
                 Debug.Log("hola");
-                VNisActive = !VNisActive;
+                VNisActive = true;
             }
         }
     }
