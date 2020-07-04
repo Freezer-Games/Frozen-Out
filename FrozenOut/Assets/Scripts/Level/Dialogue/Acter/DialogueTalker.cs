@@ -7,6 +7,8 @@ namespace Scripts.Level.Dialogue
     [RequireComponent(typeof(DialogueIndicator))]
     public class DialogueTalker : DialogueActer
     {
+        public bool FacePlayer = false;
+
         protected DialogueIndicator Indicator;
         private Quaternion InitialRotation;
         private const float RotationSpeed = 1.0f;
@@ -15,35 +17,36 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
-            Indicator = GetComponent<DialogueIndicator>();
             SetBlocking();
             SetNonAutomatic();
 
             InitialRotation = transform.rotation;
+            Indicator = GetComponent<DialogueIndicator>();
         }
 
         public override void OnStartTalk()
         {
             Indicator.HideIndicator();
 
-            StopAllCoroutines();
-
-            Vector3 playerPosition = LevelManager.GetPlayerManager().Player.transform.position;
-            Quaternion toPlayerRotation = Quaternion.LookRotation(playerPosition - transform.position);
-            StartCoroutine(RotateTowards(toPlayerRotation));
+            if (FacePlayer)
+            {
+                RotateFacePlayer();
+            }
         }
 
         public override void OnEndTalk()
         {
             Indicator.ShowIndicator();
 
-            StopAllCoroutines();
-            StartCoroutine(RotateTowards(InitialRotation));
+            if (FacePlayer)
+            {
+                RotateFaceBack();
+            }
         }
 
         public override void OnPlayerClose()
         {
-            //Indicator.ShowIndicator();
+            
         }
 
         public override void OnPlayerAway()
@@ -61,7 +64,23 @@ namespace Scripts.Level.Dialogue
             Indicator.HideIndicator();
         }
 
-        private IEnumerator RotateTowards(Quaternion rotation)
+        protected void RotateFacePlayer()
+        {
+            StopAllCoroutines();
+
+            Vector3 playerPosition = LevelManager.GetPlayerManager().Player.transform.position;
+            Quaternion toPlayerRotation = Quaternion.LookRotation(playerPosition - transform.position);
+            StartCoroutine(DoRotateTowards(toPlayerRotation));
+        }
+
+        protected void RotateFaceBack()
+        {
+            StopAllCoroutines();
+
+            StartCoroutine(DoRotateTowards(InitialRotation));
+        }
+
+        private IEnumerator DoRotateTowards(Quaternion rotation)
         {
             rotation.x = 0.0f;
             rotation.z = 0.0f;

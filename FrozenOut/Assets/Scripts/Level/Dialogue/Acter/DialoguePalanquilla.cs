@@ -11,18 +11,14 @@ namespace Scripts.Level.Dialogue
 
         public override void OnStartTalk()
         {
-            Indicator.HideIndicator();
-
-            StopAllCoroutines();
+            base.OnStartTalk();
 
             PoloInfo.StopAnimation();
         }
 
         public override void OnEndTalk()
         {
-            Indicator.ShowIndicator();
-
-            StopAllCoroutines();
+            base.OnEndTalk();
 
             PoloInfo.StartAnimation("DenyIntervals");
         }
