@@ -30,10 +30,11 @@ public class Vision : MonoBehaviour
 
     public GameObject camera;
     public GameObject DeteccionUI;
+    public GameObject DeteccionUI2;
     private SpriteRenderer DeteccionSprite;
     private Renderer UIRenderer;
     private MaterialPropertyBlock _propBlock;
-    private Animator anim;
+    private StartDetectionUIAnimation anim;
 
     private bool CR_running = false;
     int Deteccion = 0;
@@ -50,7 +51,7 @@ public class Vision : MonoBehaviour
         DeteccionSprite.enabled = false;
         UIRenderer = DeteccionUI.GetComponent<Renderer>();
         _propBlock = new MaterialPropertyBlock();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponentInChildren<StartDetectionUIAnimation>();
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -179,7 +180,7 @@ public class Vision : MonoBehaviour
                 ObjetosDetectados.Add(t);
             }
             yield return null;
-            anim.SetBool("Detectado", true);
+            anim.StartAnimation();
             CR_running = false;
         }
         else if (ObjetosVistos.Contains(t))
@@ -194,7 +195,7 @@ public class Vision : MonoBehaviour
 
     private IEnumerator EndDetection(Transform t)
     {
-        anim.SetBool("Detectado", false);
+        anim.StopAnimation();
         UIRenderer.GetPropertyBlock(_propBlock);
         _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
         UIRenderer.SetPropertyBlock(_propBlock);
@@ -236,5 +237,6 @@ public class Vision : MonoBehaviour
     private void Update()
     {
         DeteccionUI.transform.LookAt(camera.transform);
+        DeteccionUI2.transform.LookAt(camera.transform);
     }
 }
