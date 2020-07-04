@@ -31,10 +31,13 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            GetComponent<Collider>().enabled = false;
+            if (GetComponent<Collider>().enabled)
+            {
+                StartCoroutine(PlayParticles());
+                Inventory.PickItem(Ice);
+            }
 
-            StartCoroutine(PlayParticles());
-            Inventory.PickItem(Ice);
+            GetComponent<Collider>().enabled = false;
         }
 
         public override void OnUnableUse()
