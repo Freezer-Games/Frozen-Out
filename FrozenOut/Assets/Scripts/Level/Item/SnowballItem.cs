@@ -22,5 +22,10 @@ namespace Scripts.Level.Item
                 DestroyItem();
             }
         }
+
+        public override void OnUnableUse()
+        {
+            
+        }
     }
 }

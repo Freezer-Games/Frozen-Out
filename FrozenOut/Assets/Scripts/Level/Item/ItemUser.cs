@@ -15,6 +15,8 @@ namespace Scripts.Level.Item
 
         public abstract void OnUse();
 
+        public abstract void OnUnableUse();
+
         public virtual void OnPlayerClose()
         {
             HighlightItem(true);
