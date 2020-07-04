@@ -173,15 +173,31 @@ namespace Scripts.Level.Item
             if (string.IsNullOrEmpty(user.Item.VariableName))
             {
                 PlayerManager.SetIsInteracting(true);
-                Debug.Log("Palo");
                 StartCoroutine(WaitingPlayer(user, false));
             }
             else if(IsItemInInventory(user.Item))
             {
-                PlayerManager.SetIsInteracting(true);
-                StartCoroutine(WaitingPlayer(user, true));
+                //Pasarlo a ItemInfo del inventario
+                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(user.Item));
+
+                if (inventoryItem.IsEquippable)
+                {
+                    if (IsItemEquipped(inventoryItem))
+                    {
+                        PlayerManager.SetIsInteracting(true);
+                        StartCoroutine(WaitingPlayer(user, true));
+                    }
+                    else
+                    {
+                        user.OnUnableUse();
+                    }
+                }
 
                 UseItem(user.Item);
+            }
+            else
+            {
+                user.OnUnableUse();
             }
         }
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 using Scripts.Level.Sound;
+using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.Item 
 {
@@ -10,12 +11,15 @@ namespace Scripts.Level.Item
     {
         public ParticleSystem Particles;
         public ScoopSoundController SoundController;
+        public DialogueActer UnableTalker;
 
         public bool TriggerTimeline;
         public PlayableDirector Timeline;
 
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
+
+        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
         public override void OnPlayerCol() {}
 
@@ -30,6 +34,11 @@ namespace Scripts.Level.Item
                 GetComponent<Collider>().enabled = false;
                 Timeline.Play();
             }
+        }
+
+        public override void OnUnableUse()
+        {
+            DialogueManager.StartDialogue(UnableTalker);
         }
 
         IEnumerator PlayParticles()

@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using Scripts.Level.Sound;
+using Scripts.Level.Dialogue;
 
 namespace Scripts.Level.Item
 {
@@ -9,12 +10,14 @@ namespace Scripts.Level.Item
     {
         public ParticleSystem Particles;
         public OreSoundController SoundController;
+        public DialogueActer UnableTalker;
 
         [SerializeField] float animDelay;
         [SerializeField] float particlesDelay = 1f;
 
         public ItemPickerInfo Ice;
         private Inventory Inventory => GameManager.Instance.CurrentLevelManager.GetInventory();
+        private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
         public override void OnPlayerCol()
         {
@@ -28,8 +31,18 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            StartCoroutine(PlayParticles());
-            Inventory.PickItem(Ice);
+            if (GetComponent<Collider>().enabled)
+            {
+                StartCoroutine(PlayParticles());
+                Inventory.PickItem(Ice);
+            }
+
+            GetComponent<Collider>().enabled = false;
+        }
+
+        public override void OnUnableUse()
+        {
+            DialogueManager.StartDialogue(UnableTalker);
         }
 
         IEnumerator PlayParticles()

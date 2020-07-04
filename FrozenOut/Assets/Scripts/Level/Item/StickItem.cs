@@ -49,6 +49,11 @@ namespace Scripts.Level.Item
             Recovery();
         }
 
+        public override void OnUnableUse()
+        {
+
+        }
+
         void SeparateFromPlayer()
         {
             Debug.Log("Separando de jugador");
