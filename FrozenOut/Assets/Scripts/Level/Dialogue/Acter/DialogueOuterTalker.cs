@@ -10,7 +10,7 @@ namespace Scripts.Level.Dialogue
         void Start()
         {
             SetBlocking();
-            SetAutomatic();
+            SetNonAutomatic();
         }
 
         public override void OnStartTalk()
