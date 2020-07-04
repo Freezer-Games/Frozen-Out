@@ -12,6 +12,7 @@ namespace Scripts.Level.Camera
         public CinemachineVirtualCamera AreaCamera;
 
         [SerializeField] bool IsMain;
+        [SerializeField] bool Disable;
 
         void OnTriggerEnter(Collider other)
         {
@@ -23,17 +24,23 @@ namespace Scripts.Level.Camera
 
         void ChangeCamPriority() 
         {
-            //Is active
-            if (AreaCamera.Priority == 20)
+            //Activate segment cam
+            if (SegmentCamera.Priority == 20)
             {
-                SegmentCamera.Priority = 20;
-                AreaCamera.Priority = 30;
+                SegmentCamera.Priority = 30;
+                AreaCamera.Priority = 20;
+
+                if (Disable)
+                {
+                    GetComponent<Collider>().enabled = false;
+                }
+                
             }
-            //Isn't active
+            //Deactivate segment cam
             else 
             {
-                SegmentCamera.Priority = 40;
-                AreaCamera.Priority = 20;
+                SegmentCamera.Priority = 20;
+                AreaCamera.Priority = 40;
 
                 //That's mean the segment camera is the main of each segment
                 if (IsMain)
