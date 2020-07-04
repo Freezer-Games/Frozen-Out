@@ -195,7 +195,7 @@ position: -109,448
     Bombón: Cuando empezó esa batidora a funcionar se derrumbó el ascensor, y me quedé aquí atrapada
     << setanim YarnCommands Bombon Awaken >>
     Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?
-    << giveitem iceball 1 >>
+    << giveitem iceball 0 >>
 << endif >>
 << if used_item("iceball") >>
     [[ Bombon.Bola ]] 
@@ -255,12 +255,19 @@ tags:
 colorID: 4
 position: 1424,7
 ---
-(Me hace falta el pico para esto)
+Pol: (Me hace falta el pico para esto)
 ===
 title: SinCuchara
 tags: 
 colorID: 4
 position: 1654,6
 ---
-(Creo que necesito una cuchara aquí)
+Pol: (Creo que necesito una cuchara aquí)
+===
+title: SinBola
+tags: 
+colorID: 4
+position: 1654,6
+---
+Pol: (Debería ayudar a ese polo antes)
 ===
