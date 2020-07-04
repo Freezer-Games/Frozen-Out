@@ -5,7 +5,6 @@ namespace Scripts.Level.NPC
     public class PalanquillaInfo : PoloInfo
     {
         private bool InPalanca = false;
-        public Animator AscensorAnimator;
 
         void Start()
         {
@@ -23,10 +22,10 @@ namespace Scripts.Level.NPC
                     case "DenyIntervals":
                         DenyIntervals();
                         break;
-                    case "Palanca":
-                        InPalanca = true;
-                        SetRandomTrigger(PalancaTriggers);
-                        break;
+                    //case "Palanca":
+                        //InPalanca = true;
+                        //SetRandomTrigger(PalancaTriggers);
+                        //break;
                     default:
                         break;
                 }
