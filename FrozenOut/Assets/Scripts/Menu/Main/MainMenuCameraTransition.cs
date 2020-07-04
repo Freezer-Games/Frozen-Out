@@ -36,10 +36,10 @@ namespace Scripts.Menu.Main
         {
             if (!start)
             {
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.9f);
             }
             WhiteOverlay.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
             ScreenCamera.SetActive(true);
            
         }
