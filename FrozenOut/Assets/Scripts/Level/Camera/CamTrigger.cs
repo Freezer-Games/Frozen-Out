@@ -25,10 +25,10 @@ namespace Scripts.Level.Camera
         void ChangeCamPriority() 
         {
             //Activate segment cam
-            if (SegmentCamera.Priority == 20)
+            if (AreaCamera.Priority == 20)
             {
-                SegmentCamera.Priority = 30;
-                AreaCamera.Priority = 20;
+                AreaCamera.Priority = 30;
+                SegmentCamera.Priority = 20;
 
                 if (Disable)
                 {
@@ -39,8 +39,8 @@ namespace Scripts.Level.Camera
             //Deactivate segment cam
             else 
             {
-                SegmentCamera.Priority = 20;
-                AreaCamera.Priority = 40;
+                AreaCamera.Priority = 20;
+                SegmentCamera.Priority = 40;
 
                 //That's mean the segment camera is the main of each segment
                 if (IsMain)

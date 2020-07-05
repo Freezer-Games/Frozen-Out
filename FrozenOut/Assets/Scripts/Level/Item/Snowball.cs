@@ -41,6 +41,5 @@ public class Snowball : MonoBehaviour
                 Rigidbody.isKinematic = true;
             }
         }
-
     }
 }

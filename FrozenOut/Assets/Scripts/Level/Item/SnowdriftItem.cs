@@ -12,6 +12,7 @@ namespace Scripts.Level.Item
         public ParticleSystem Particles;
         public ScoopSoundController SoundController;
         public DialogueActer UnableTalker;
+        public Collider Collider;
 
         public bool TriggerTimeline;
         public PlayableDirector Timeline;
@@ -31,7 +32,8 @@ namespace Scripts.Level.Item
 
             if (TriggerTimeline)
             {
-                GetComponent<Collider>().enabled = false;
+                HighlightItem(false);
+                Collider.enabled = false;
                 Timeline.Play();
             }
         }
