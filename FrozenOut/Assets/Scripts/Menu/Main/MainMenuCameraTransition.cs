@@ -46,7 +46,7 @@ namespace Scripts.Menu.Main
                 yield return new WaitForSeconds(0.9f);
             }
             WhiteOverlay.SetActive(true);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1.0f);
             ScreenCamera.SetActive(true);
            
         }
