@@ -151,7 +151,7 @@ namespace Scripts.Level.Item
                 if (IsItemInInventory(userInfo))
                 {
                     //Pasarlo a ItemInfo del inventario
-                    ItemInfo inventoryItem = Items.Find(temp => temp.Equals(userInfo));
+                    ItemInfo inventoryItem = GetInventoryItem(userInfo);
 
                     if (inventoryItem.IsEquippable)
                     {
@@ -178,7 +178,7 @@ namespace Scripts.Level.Item
             else if(IsItemInInventory(user.Item))
             {
                 //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(user.Item));
+                ItemInfo inventoryItem = GetInventoryItem(user.Item);
 
                 if (inventoryItem.IsEquippable)
                 {
@@ -217,7 +217,7 @@ namespace Scripts.Level.Item
             if (pickerInfo.Quantity > 0)
             {
                 //Pasarlo a ItemInfo del inventario
-                ItemInfo inventoryItem = Items.Find(temp => temp.Equals(pickerInfo));
+                ItemInfo inventoryItem = GetInventoryItem(pickerInfo);
 
                 int currentQuantity = inventoryItem.Quantity;
                 int newQuantity = currentQuantity + pickerInfo.Quantity;
@@ -253,11 +253,16 @@ namespace Scripts.Level.Item
             return EquippedItem != null && EquippedItem.Equals(item);
         }
 
+        public ItemInfo GetInventoryItem(ItemBase item)
+        {
+            return Items.Find(temp => temp.Equals(item));
+        }
+
         public bool IsItemUsed(ItemBase item)
         {
             if(IsItemInInventory(item))
             {
-                ItemInfo inventoryItem = this.Items.Find(temp => temp.Equals(item));
+                ItemInfo inventoryItem = GetInventoryItem(item);
 
                 return inventoryItem.IsUsed;
             }
@@ -271,7 +276,7 @@ namespace Scripts.Level.Item
         {
             if(IsItemInInventory(item))
             {
-                ItemInfo inventoryItem = this.Items.Find(temp => temp.Equals(item));
+                ItemInfo inventoryItem = GetInventoryItem(item);
 
                 return inventoryItem.Quantity;
             }

@@ -1,5 +1,4 @@
-using System.Collections;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +20,7 @@ namespace Scripts.Level.Item
         
         private int SelectedItemIndex;
         private ItemInfo PendingEquippedItem;
+        private List<ItemImage> ItemImages;
 
         private LocalizedString LocalizeScriptName => NameObject.GetComponent<LocalizeStringBehaviour>().StringReference;
         private LocalizedString LocalizeScriptDescription => DescriptionObject.GetComponent<LocalizeStringBehaviour>().StringReference;
@@ -32,6 +32,7 @@ namespace Scripts.Level.Item
             {
                 Destroy(itemObject.gameObject);
             }
+            ItemImages = new List<ItemImage>();
 
             Inventory.ItemPicked += (sender, args) => AddItemImage(args.Item);
             Inventory.ItemRemoved += (sender, args) => RemoveItemImage(args.Item);
@@ -84,54 +85,42 @@ namespace Scripts.Level.Item
 
         private void AddItemImage(ItemInfo itemAdded)
         {
-            GameObject itemElement = GameObject.Instantiate(ItemImagePrefab, ItemsGroup.transform);
-            Image itemImage = itemElement.GetComponent<Image>();
-            itemImage.sprite = itemAdded.Sprite;
-            if(Inventory.IsItemEquipped(itemAdded))
-            {
-                itemImage.sprite = itemAdded.EquippedSprite;
-            }
-            if(itemAdded.Quantity > 0)
-            {
-                UpdateImageQuantity(itemImage, itemAdded.Quantity);
-            }
+            GameObject itemObject = GameObject.Instantiate(ItemImagePrefab, ItemsGroup.transform);
+            ItemImage itemImage = itemObject.GetComponent<ItemImage>();
+
+            itemImage.SetItem(itemAdded);
+            itemImage.SetSprite(itemAdded.Sprite);
+            itemImage.SetQuantityText(itemAdded.Quantity);
+
+            ItemImages.Add(itemImage);
         }
 
         private void UpdateItemImage(ItemInfo itemUpdated)
         {
-            Image itemImage = GetItemImage(Inventory.Items.IndexOf(itemUpdated));
-            if(itemUpdated.Quantity > 0)
-            {
-                UpdateImageQuantity(itemImage, itemUpdated.Quantity);
-            }
-        }
+            ItemImage itemImage = GetItemImage(itemUpdated);
 
-        private void UpdateImageQuantity(Image itemImage, int newQuantity)
-        {
-            Text itemQuantityText = itemImage.GetComponentInChildren<Text>();
-            itemQuantityText.enabled = true;
-            itemQuantityText.text = "x" + newQuantity.ToString();
+            itemImage.SetQuantityText(itemUpdated.Quantity);
         }
 
         private void RemoveItemImage(ItemInfo itemRemoved)
         {
-            Image itemImage = GetItemImage(Inventory.Items.IndexOf(itemRemoved));
+            ItemImage itemImage = GetItemImage(itemRemoved);
 
+            ItemImages.Remove(itemImage);
             Destroy(itemImage.gameObject);
         }
 
         private void ChangeSelectedItem(int newIndex)
         {
             int clampedIndex = -1;
-            if(Inventory.Items.Count > 0)
+            if(ItemImages.Count > 0)
             {
-                clampedIndex = Mathf.Clamp(newIndex, 0, Inventory.Items.Count - 1);
+                clampedIndex = Mathf.Clamp(newIndex, 0, ItemImages.Count - 1);
 
                 Inventory.SoundController.PlayClip(Inventory.SoundController.Pasar);
             }
 
             SelectedItemIndex = clampedIndex;
-            //PendingEquippedItem = Inventory.EquippedItem;
             UpdateTexts();
             UpdateArrow();
         }
@@ -140,7 +129,9 @@ namespace Scripts.Level.Item
         {
             if(SelectedItemIndex >= 0)
             {
-                ItemInfo selectedItem = Inventory.Items.ElementAt(SelectedItemIndex);
+                ItemImage selectedItemImage = GetItemImage(SelectedItemIndex);
+                ItemBase selectedItem = selectedItemImage.Item;
+
                 LocalizeScriptName.TableEntryReference = selectedItem.VariableName;
                 LocalizeScriptDescription.TableEntryReference = selectedItem.VariableName;
             }
@@ -158,12 +149,11 @@ namespace Scripts.Level.Item
             {
                 Arrow.SetActive(true);
 
-                Image selectedItemImage = GetItemImage(SelectedItemIndex);
-                Transform arrowPoint = selectedItemImage.transform.GetChild(0).transform;
+                ItemImage selectedItemImage = GetItemImage(SelectedItemIndex);
+                Transform arrowPoint = selectedItemImage.ArrowPoint;
 
-                Transform arrowTransform = Arrow.transform;
                 Vector3 newArrowPosition = arrowPoint.position;
-                arrowTransform.position = newArrowPosition;
+                Arrow.transform.position = newArrowPosition;
             }
         }
 
@@ -181,12 +171,13 @@ namespace Scripts.Level.Item
 
         private void UpdateEquipUnequipPending()
         {
-            ItemInfo selectedItem = Inventory.Items[SelectedItemIndex];
+            ItemImage selectedItemImage = GetItemImage(SelectedItemIndex);
+            ItemInfo selectedItem = Inventory.GetInventoryItem(selectedItemImage.Item);
+
             if (selectedItem.IsEquippable)
             {
                 Inventory.SoundController.PlayClip(Inventory.SoundController.Seleccion);
 
-                Image selectedItemImage = GetItemImage(SelectedItemIndex);
                 if (IsItemPendingEquipped(selectedItem))
                 {
                     UpdateUnequipPending(selectedItemImage, selectedItem);
@@ -198,34 +189,40 @@ namespace Scripts.Level.Item
             }
         }
 
-        private void UpdateUnequipPending(Image selectedItemImage, ItemInfo selectedItem)
+        private void UpdateUnequipPending(ItemImage selectedItemImage, ItemInfo selectedItem)
         {
-            selectedItemImage.sprite = selectedItem.Sprite;
+            selectedItemImage.SetSprite(selectedItem.Sprite);
 
             PendingEquippedItem = null;
         }
 
-        private void UpdateEquipPending(Image selectedItemImage, ItemInfo selectedItem)
+        private void UpdateEquipPending(ItemImage selectedItemImage, ItemInfo selectedItem)
         {
             if (PendingEquippedItem != null)
             {
-                Image previousEquippedImage = GetItemImage(Inventory.Items.IndexOf(PendingEquippedItem));
-                previousEquippedImage.sprite = PendingEquippedItem.Sprite;
+                ItemImage previousEquippedImage = GetItemImage(PendingEquippedItem);
+                previousEquippedImage.SetSprite(PendingEquippedItem.Sprite);
             }
-            selectedItemImage.sprite = selectedItem.EquippedSprite;
+            selectedItemImage.SetSprite(selectedItem.EquippedSprite);
 
             PendingEquippedItem = selectedItem;
         }
 
-        private Image GetItemImage(int index)
+        private ItemImage GetItemImage(ItemBase itemInfo)
         {
-            Transform itemObject = ItemsGroup.transform.GetChild(index);
-            Image itemImage = itemObject.GetComponent<Image>();
+            ItemImage itemImage = ItemImages.Find(temp => temp.Item.Equals(itemInfo));
 
             return itemImage;
         }
 
-        public bool IsItemPendingEquipped(ItemInfo item)
+        private ItemImage GetItemImage(int index)
+        {
+            ItemImage itemImage = ItemImages.ElementAt(index);
+
+            return itemImage;
+        }
+
+        public bool IsItemPendingEquipped(ItemBase item)
         {
             return PendingEquippedItem != null && PendingEquippedItem.Equals(item);
         }
