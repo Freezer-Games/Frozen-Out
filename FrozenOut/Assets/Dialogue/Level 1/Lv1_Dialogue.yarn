@@ -223,13 +223,13 @@ position: 905,7
 ---
 << if random_bool() >>
 	<< setanimall YarnCommands Cono Badass >>
-	¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
+	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
 << elseif random_bool() >>
 	<< setanimall YarnCommands Cono Deny >>
-	SE TE ACABO EL JUEGO!!
+	++Arrestado: SE TE ACABO EL JUEGO!!
 << else >>
 	<< setanimall YarnCommands Cono Laugh >>
-	DIRECTO A LA ZONA DE REFRIGERACIÓN!!
+	++Arrestado: DIRECTO A LA ZONA DE REFRIGERACIÓN!!
 << endif >>
 ===
 title: Auriculares

@@ -5,7 +5,6 @@ using UnityEngine;
 
 using Scripts.Level.Dialogue.Text;
 using Scripts.Level.Dialogue.Runner;
-using Scripts.Level.Item;
 
 namespace Scripts.Level.Dialogue
 {
@@ -24,6 +23,11 @@ namespace Scripts.Level.Dialogue
         /// Encargado de mostrar las líneas de diálogo
         /// </summary>
         public TextManager TextManager;
+
+        /// <summary>
+        /// Encargado de guardar y actualizar los estilos para cada personaje
+        /// </summary>
+        public StylesController StylesController;
 
         public abstract bool IsRunning();
         public abstract bool IsReady();

@@ -17,8 +17,7 @@ namespace Scripts.Level.Dialogue
             private set;
         }
 
-        public CharacterDialogueStyle Style;
-        public List<CharacterDialogueStyle> ExtraStyles;
+        protected ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
 
         public void SetBlocking()
         {

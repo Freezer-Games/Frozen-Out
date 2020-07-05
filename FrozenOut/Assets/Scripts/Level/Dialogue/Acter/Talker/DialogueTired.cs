@@ -5,7 +5,7 @@ using Scripts.Level.NPC;
 
 namespace Scripts.Level.Dialogue
 {
-    public class DialogueTired : DialogueTalker
+    public class DialogueTired : DialogueTalkerDirect
     {
         public PoloInfo PoloInfo;
 

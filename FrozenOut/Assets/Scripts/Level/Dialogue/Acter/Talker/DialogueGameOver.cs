@@ -16,25 +16,5 @@ namespace Scripts.Level.Dialogue
         {
             LevelManager.GameOver();
         }
-
-        public override void OnPlayerClose()
-        {
-            
-        }
-
-        public override void OnPlayerAway()
-        {
-            
-        }
-
-        public override void OnSelected()
-        {
-            
-        }
-
-        public override void OnDeselected()
-        {
-            
-        }
     }
 }

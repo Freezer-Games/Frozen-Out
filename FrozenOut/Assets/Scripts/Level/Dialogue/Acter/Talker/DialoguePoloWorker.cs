@@ -5,7 +5,7 @@ using Scripts.Level.NPC;
 
 namespace Scripts.Level.Dialogue
 {
-    public class DialoguePalanquilla : DialogueTalker
+    public class DialoguePoloWorker : DialogueTalkerDirect
     {
         public PoloInfo PoloInfo;
 
@@ -20,7 +20,7 @@ namespace Scripts.Level.Dialogue
         {
             base.OnEndTalk();
 
-            PoloInfo.StartAnimation("DenyIntervals");
+            PoloInfo.StartAnimation("WorkIntervals");
         }
     }
 }
