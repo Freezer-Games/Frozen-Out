@@ -5,21 +5,17 @@ using UnityEngine;
 namespace Scripts.Level.Dialogue
 {
     [RequireComponent(typeof(DialogueIndicator))]
-    public class DialogueTalker : DialogueActer
+    public class DialogueTalkerDirect : DialogueTalker
     {
         public bool FacePlayer = false;
 
         protected DialogueIndicator Indicator;
+
         private Quaternion InitialRotation;
         private const float RotationSpeed = 1.0f;
 
-        protected ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
-
         void Start()
         {
-            SetBlocking();
-            SetNonAutomatic();
-
             InitialRotation = transform.rotation;
             Indicator = GetComponent<DialogueIndicator>();
         }
@@ -42,11 +38,6 @@ namespace Scripts.Level.Dialogue
             {
                 RotateFaceBack();
             }
-        }
-
-        public override void OnPlayerClose()
-        {
-            
         }
 
         public override void OnPlayerAway()

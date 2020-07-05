@@ -23,24 +23,19 @@ namespace Scripts.Level.Dialogue
 
         public DialoguePromptController PromptController;
 
-        private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
-        private Inventory Inventory => LevelManager.GetInventory();
-        private NPCManager NPCManager => LevelManager.GetNPCManager();
-
         public DialogueActer GameOverActer;
 
         private DialogueActer CurrentActer;
         private DialogueStyle CurrentStyle;
-        
-        private IDictionary<string, DialogueStyle> Styles;
-        public DialogueStyle DefaultStyle;
 
         private bool UserRequestedAllLine;
         private bool UserRequestedNextLine;
 
-        private const float LetterDelay = 0.1f;
         private const float NextDialogueDelay = 0.3f;
-        private const string PlayerName = "Pol";
+
+        private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
+        private Inventory Inventory => LevelManager.GetInventory();
+        private NPCManager NPCManager => LevelManager.GetNPCManager();
 
         void Awake()
         {
@@ -50,8 +45,6 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
-            StartStyles();
-
             SetVariable<string>("crouchKey", SettingsManager.CrouchKey.ToString());
         }
 
@@ -164,12 +157,6 @@ namespace Scripts.Level.Dialogue
             {
                 CurrentActer = acter;
 
-                AddStyle(acter.Style.Name, acter.Style.Style);
-                foreach (CharacterDialogueStyle characterStyle in acter.ExtraStyles)
-                {
-                    AddStyle(characterStyle.Name, characterStyle.Style);
-                }
-
                 if (acter is DialogueInstagram)
                 {
                     DialogueSystem = InstagramDialogueSystem;
@@ -233,48 +220,6 @@ namespace Scripts.Level.Dialogue
         {
             PromptController.Close(dialogueActer);
         }
-
-        #region Style
-        private DialogueStyle GetUpdatedStyle(string characterName)
-        {
-            DialogueStyle style = GetStyle(characterName);
-
-            style.NormaliseDelay(LetterDelay, 0.1f, 1.0f);
-            style.NormaliseSize(GetTextSize(), 14, 24);
-            style.NormaliseVolume(1.0f, 0.1f, 1.0f);
-            style.NormalisePitch(2.0f, 1.0f, 3.0f);
-
-            style.TextStyle.UpdateOptionals(DefaultStyle.TextStyle);
-            style.VoiceStyle.UpdateOptionals(DefaultStyle.VoiceStyle);
-
-            return style;
-        }
-
-        private DialogueStyle GetStyle(string characterName)
-        {
-            DialogueStyle characterStyle = DefaultStyle;
-            if (Styles.ContainsKey(characterName))
-            {
-                characterStyle = Styles[characterName];
-            }
-
-            return characterStyle;
-        }
-
-        private void AddStyle(string characterName, DialogueStyle characterStyle)
-        {
-            if (characterStyle != null)
-            {
-                Styles[characterName] = characterStyle;
-            }
-        }
-
-        private void StartStyles()
-        {
-            Styles = new Dictionary<string, DialogueStyle>();
-            AddStyle(PlayerName, DefaultStyle);
-        }
-        #endregion
 
         #region Parser
         private void ProcessDialogue(string dialogue)
@@ -392,7 +337,7 @@ namespace Scripts.Level.Dialogue
 
         public override void OnLineStyleUpdated(string styleName)
         {
-            DialogueStyle characterStyle = GetUpdatedStyle(styleName);
+            DialogueStyle characterStyle = StylesController.GetStyle(styleName);
             CurrentStyle = characterStyle;
 
             TextManager.SetStyle(characterStyle.TextStyle);
