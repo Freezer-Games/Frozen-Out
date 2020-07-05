@@ -10,14 +10,12 @@ namespace Scripts.Level.Camera
         public CinemachineVirtualCamera GenCam;
         public CinemachineVirtualCamera FarCam;
         public CinemachineVirtualCamera NearCam;
-        public CinemachineVirtualCamera VNearCam;
 
         public Transform Coll;
 
         public Transform Player;
         public float farDistance;
         public float nearDistance;
-        public bool VNisActive;
 
         [SerializeField] float Dist;
 
@@ -25,59 +23,26 @@ namespace Scripts.Level.Camera
         {
             Dist = Vector3.Distance(Player.position, GenCam.transform.position);
 
-            AuxCollRotMove(Dist);
-
-            if (VNisActive)
+            if (Dist > farDistance)
             {
-                VNearCam.Priority = 50;
+                FarCam.Priority = 30;
+                GenCam.Priority = 20;
+                NearCam.Priority = 20;
             }
-            else
+            else if (Dist < farDistance && Dist > nearDistance)
             {
-                VNearCam.Priority = 10;
-
-                if (Dist > farDistance)
-                {
-                    FarCam.Priority = 30;
-                    GenCam.Priority = 20;
-                    NearCam.Priority = 20;
-                }
-                else if (Dist < farDistance && Dist > nearDistance)
-                {
-                    FarCam.Priority = 20;
-                    NearCam.Priority = 20;
-                    GenCam.Priority = 30;
-                }
-                else if (Dist < nearDistance)
-                {
-                    FarCam.Priority = 20;
-                    NearCam.Priority = 30;
-                    GenCam.Priority = 20;
-                }
+                FarCam.Priority = 20;
+                NearCam.Priority = 20;
+                GenCam.Priority = 30;
+            }
+            else if (Dist < nearDistance)
+            {
+                FarCam.Priority = 20;
+                NearCam.Priority = 30;
+                GenCam.Priority = 20;
             }
         }
 
-        private void AuxCollRotMove(float distance)
-        {
-            Vector3 genCamPos = GenCam.transform.position;
-            Coll.position = new Vector3(genCamPos.x, Coll.position.y, genCamPos.z + 1f);
-
-            var lookPos = Player.position;
-            var rotation = Quaternion.LookRotation(lookPos);
-
-            if (distance > 4)
-            {
-                Coll.rotation = Quaternion.Slerp(Coll.rotation, rotation, 0.1f);
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                Debug.Log("hola");
-                VNisActive = true;
-            }
-        }
     }
 }
 

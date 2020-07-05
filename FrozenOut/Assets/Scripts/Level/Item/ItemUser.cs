@@ -33,7 +33,7 @@ namespace Scripts.Level.Item
 
         public void DestroyItem() { Destroy(gameObject); }
 
-        void HighlightItem(bool state)
+        protected void HighlightItem(bool state)
         {
             Renderer.material.SetFloat("_Selected", state ? 1f : 0f);
         }
