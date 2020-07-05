@@ -7,29 +7,36 @@ namespace Scripts.Menu.Main
     public class MainMenuCameraTransition : MonoBehaviour
     {
         public CinemachineVirtualCamera MainCamera;
+        public CinemachineVirtualCamera MiddleCamera;
         public CinemachineVirtualCamera OptionsCamera;
+
         public GameObject ScreenCamera;
         public GameObject WhiteOverlay;
 
         private int MainCameraPriority;
+        private int MiddleCameraPriority;
+        private const float TransitionDelay = 1.0f;
 
         void Start()
         {
             MainCameraPriority = MainCamera.Priority;
+            MiddleCameraPriority = MiddleCamera.Priority;
             StartCoroutine(ActiveMenu(true));
         }
 
         public void GoToOptions()
         {
-            MainCamera.Priority = 0;
             ScreenCamera.SetActive(false);
             WhiteOverlay.SetActive(false);
+
+            StartCoroutine(DoGoToOptions());
         }
 
         public void GoToMain()
         {
-            MainCamera.Priority = MainCameraPriority;
             StartCoroutine(ActiveMenu(false));
+
+            StartCoroutine(DoGoToMain());
         }
 
         private IEnumerator ActiveMenu(bool start)
@@ -44,7 +51,7 @@ namespace Scripts.Menu.Main
            
         }
 
-        /*private IEnumerator DoGoToMain()
+        private IEnumerator DoGoToMain()
         {
             MiddleCamera.Priority = MiddleCameraPriority;
 
@@ -64,6 +71,6 @@ namespace Scripts.Menu.Main
             MiddleCamera.Priority = 0;
 
             yield return new WaitForSeconds(TransitionDelay);
-        }*/
+        }
     }
 }
