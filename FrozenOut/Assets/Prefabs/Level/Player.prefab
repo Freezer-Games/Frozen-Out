@@ -67,6 +67,7 @@ MonoBehaviour:
   - {fileID: 6804120101123802485}
   - {fileID: 918583017106455152}
   IsGrounded: 1
+  CanMove: 0
   InteractAnimation: 
 --- !u!1 &8003717178662037827
 GameObject:
@@ -206,6 +207,16 @@ PrefabInstance:
       propertyPath: IgnoreByRay.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 5713953301291040040, guid: f423819ef18944845b5d22b6330a015e,
+        type: 3}
+      propertyPath: MeltingPart
+      value: 
+      objectReference: {fileID: 198423735462549565}
+    - target: {fileID: 5713953301291040040, guid: f423819ef18944845b5d22b6330a015e,
+        type: 3}
+      propertyPath: JumpForce
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7430569792839175703, guid: f423819ef18944845b5d22b6330a015e,
         type: 3}
       propertyPath: m_IsActive
@@ -249,7 +260,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 2180141186263788640}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365102935473022312}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a216e68d775309549a3654bed3982817, type: 3}
   m_Name: 
@@ -257,6 +268,12 @@ MonoBehaviour:
 --- !u!95 &365102935473022319 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 1968198333438740751, guid: f423819ef18944845b5d22b6330a015e,
+    type: 3}
+  m_PrefabInstance: {fileID: 2180141186263788640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &198423735462549565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2054093937839436893, guid: f423819ef18944845b5d22b6330a015e,
     type: 3}
   m_PrefabInstance: {fileID: 2180141186263788640}
   m_PrefabAsset: {fileID: 0}
