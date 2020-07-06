@@ -68,7 +68,7 @@ public class Vision : MonoBehaviour
     {
         //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
-        //ObjetosCercanos.Clear();
+        ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
         Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable);
         Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable);
@@ -169,27 +169,28 @@ public class Vision : MonoBehaviour
     }
 
     private IEnumerator ContinueDetection(Transform t) {
-        Deteccion++;
+        if (Deteccion < TiempoDeteccion) { Deteccion++; }
         UIRenderer.GetPropertyBlock(_propBlock);
         _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion)/255f));
         UIRenderer.SetPropertyBlock(_propBlock);
-        if (Deteccion >= TiempoDeteccion)
+        if (Deteccion < TiempoDeteccion && ObjetosVistos.Contains(t))
+        {
+            yield return new WaitForSeconds(0.008f);
+            StartCoroutine(ContinueDetection(t));
+        }
+        else if (!ObjetosVistos.Contains(t))
+        {
+            yield return StartCoroutine(EndDetection(t));
+        }
+        else
         {
             if (!ObjetosDetectados.Contains(t))
             {
                 ObjetosDetectados.Add(t);
             }
-            yield return null;
             anim.StartAnimation();
-            CR_running = false;
-        }
-        else if (ObjetosVistos.Contains(t))
-        {
             yield return new WaitForSeconds(0.008f);
             StartCoroutine(ContinueDetection(t));
-        } else
-        {
-            yield return StartCoroutine(EndDetection(t));
         }
     }
 

@@ -14,13 +14,15 @@ public class Patrulla : MonoBehaviour
     private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
     private NavMeshAgent Navegacion;
-    enum Estados { patrullando, perseguir, esperar }
+    enum Estados { patrullando, perseguir, esperar, regresar }
     Estados Estado;
-    enum TipoPatrulla { Cíclica, VueltaAtras , Estatica }
+    enum TipoPatrulla { Cíclica, VueltaAtras, Estatica }
     [SerializeField]
+    
     TipoPatrulla Tipo;
 
     public Transform[] Destinos;
+    public Transform mira;
     public int SiguientePunto = 0;
 
     private bool Hablando = false;
@@ -36,6 +38,8 @@ public class Patrulla : MonoBehaviour
         Estado = Estados.patrullando;
         Animator = gameObject.GetComponent<Animator>();
         Acter = GetComponent<DialogueActer>();
+        if (Tipo == TipoPatrulla.Estatica)
+        gameObject.transform.LookAt(mira);
     }
 
     void GotoNextPoint()
@@ -96,8 +100,10 @@ public class Patrulla : MonoBehaviour
         {
             case Estados.patrullando:
                 Animator.SetBool("isWalking", false);
+                gameObject.transform.LookAt(mira);
                 if (visibles.Count > 0)
                 {
+                    Debug.Log("persigo");
                     Animator.SetTrigger("Anim_Surprise");
                     Estado = Estados.perseguir;
                 }
@@ -126,7 +132,19 @@ public class Patrulla : MonoBehaviour
                     Navegacion.destination = gameObject.transform.position;
                     Hablando = true;
                 }
-                if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.patrullando; }
+                if (visibles.Count == 0 && Navegacion.pathStatus == NavMeshPathStatus.PathComplete) { Estado = Estados.regresar; }
+                break;
+
+            case Estados.regresar:
+                Navegacion.destination = Destinos[0].position;
+
+                if (Navegacion.remainingDistance <= Navegacion.stoppingDistance)
+                {
+                    if (!Navegacion.hasPath || Navegacion.velocity.sqrMagnitude == 0f)
+                    {
+                        Estado = Estados.patrullando;
+                    }
+                }
                 break;
 
             case Estados.esperar:
@@ -161,7 +179,6 @@ public class Patrulla : MonoBehaviour
                 break;
 
             case Estados.perseguir:
-                Debug.Log("Cercanos = " + cercanos.Count);
                 if (Hablando)
                 {
                     Animator.SetBool("isWalking", false);
