@@ -232,10 +232,12 @@ namespace Scripts.Level.Item
             if(IsOpen)
             {
                 Close();
+                Inventory.Enable();
             }
             else
             {
                 Open();
+                Inventory.Disable();
             }
         }
 
