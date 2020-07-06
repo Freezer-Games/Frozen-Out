@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Snowball : MonoBehaviour
 {
     private Rigidbody Rigidbody;
     public Vector3 RbVelocity;
-    public SnowballItem item;
+    public PlayableDirector Timeline;
     public float growtRate = 5.0f;
 
     void Start()
@@ -37,8 +38,9 @@ public class Snowball : MonoBehaviour
             if (transform.localScale.x >= 120)
             {
                 Debug.Log("redy para interactuar");
-                item.readyToPlay = true;
                 Rigidbody.isKinematic = true;
+                Timeline.Play();
+                Destroy(transform.gameObject);
             }
         }
     }
