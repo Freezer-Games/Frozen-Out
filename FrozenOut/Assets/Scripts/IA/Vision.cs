@@ -68,61 +68,70 @@ public class Vision : MonoBehaviour
     {
         //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
-        //ObjetosCercanos.Clear();
+        ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
         Collider[] colisionObjetosCercanos = Physics.OverlapSphere(transform.position, RadioCercanos, Detectable);
         Collider[] colisionObjetosTrueSight = Physics.OverlapSphere(transform.position, trueSightRadius, Detectable);
-
-        //Debug.Log(colisionObjetosVistos[0]);
 
         for (int i = 0; i < colisionObjetosCercanos.Length; i++)
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             //ObjetosCercanos.Add(target);
-
-            if (target.gameObject.GetComponent<NormalController>().inStealth && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            double dif = target.position.y - gameObject.transform.position.y;
+            if (dif > -2.5 && dif < 2.5)
             {
+                if (target.gameObject.GetComponent<NormalController>().inStealth && Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+                {
 
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
+                    float dstToTarget = Vector3.Distance(transform.position, target.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
+                    if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
+                    {
+                        ObjetosVistos.Add(target);
+                    }
+                }
+                else
                 {
                     ObjetosVistos.Add(target);
                 }
-            }
-            else {
-                ObjetosVistos.Add(target);
             }
         }
 
         for (int i = 0; i < colisionObjetosTrueSight.Length; i++)
         {
             Transform target = colisionObjetosTrueSight[i].transform;
-
-            ObjetosDetectados.Add(target);
-            ObjetosCercanos.Add(target);
-            DeteccionSprite.enabled = true;
-            UIRenderer.GetPropertyBlock(_propBlock);
-            _propBlock.SetFloat("_Change", 255);
-            UIRenderer.SetPropertyBlock(_propBlock);
-            Deteccion = 255;
+            double dif = target.position.y - gameObject.transform.position.y;
+            if (dif > -2.5 && dif < 2.5)
+            {
+                ObjetosDetectados.Add(target);
+                ObjetosCercanos.Add(target);
+                DeteccionSprite.enabled = true;
+                UIRenderer.GetPropertyBlock(_propBlock);
+                _propBlock.SetFloat("_Change", 255);
+                UIRenderer.SetPropertyBlock(_propBlock);
+                Deteccion = 255;
+            }
         }
 
         for (int i = 0; i < colisionObjetosVistos.Length; i++)
         {
 
             Transform target = colisionObjetosVistos[i].transform;
+            double dif = target.position.y - gameObject.transform.position.y;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
 
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            if (dif > -2.5 && dif < 2.5)
             {
-
-                float dstToTarget = Vector3.Distance(transform.position, target.position);
-
-                if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
+                if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
                 {
-                    ObjetosVistos.Add(target);
+
+                    float dstToTarget = Vector3.Distance(transform.position, target.position);
+
+                    if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, Obstaculos))
+                    {
+                        ObjetosVistos.Add(target);
+                    }
                 }
             }
         }
@@ -169,27 +178,28 @@ public class Vision : MonoBehaviour
     }
 
     private IEnumerator ContinueDetection(Transform t) {
-        Deteccion++;
+        if (Deteccion < TiempoDeteccion) { Deteccion++; }
         UIRenderer.GetPropertyBlock(_propBlock);
         _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion)/255f));
         UIRenderer.SetPropertyBlock(_propBlock);
-        if (Deteccion >= TiempoDeteccion)
+        if (Deteccion < TiempoDeteccion && ObjetosVistos.Contains(t))
+        {
+            yield return new WaitForSeconds(0.008f);
+            StartCoroutine(ContinueDetection(t));
+        }
+        else if (!ObjetosVistos.Contains(t))
+        {
+            yield return StartCoroutine(EndDetection(t));
+        }
+        else
         {
             if (!ObjetosDetectados.Contains(t))
             {
                 ObjetosDetectados.Add(t);
             }
-            yield return null;
             anim.StartAnimation();
-            CR_running = false;
-        }
-        else if (ObjetosVistos.Contains(t))
-        {
             yield return new WaitForSeconds(0.008f);
             StartCoroutine(ContinueDetection(t));
-        } else
-        {
-            yield return StartCoroutine(EndDetection(t));
         }
     }
 

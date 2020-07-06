@@ -31,8 +31,7 @@ namespace Scripts.Level.Player
 
 
         [Header("Particles")]
-        public ParticleSystem MeltingPart;
-        ParticleSystem.EmissionModule PartEmiter;
+        public GameObject MeltingPart;
 
 
         [Header("Interact")]
@@ -57,8 +56,6 @@ namespace Scripts.Level.Player
             InDeathZone = false;
             inStealth = false;
             MoveSpeed = NormalSpeed;
-
-            PartEmiter = MeltingPart.emission;
 
             if (Melting == null) 
                 Melting = new UnityEvent();
@@ -202,6 +199,7 @@ namespace Scripts.Level.Player
                     if (InDeathZone)
                     {
                         StopCoroutine(deathCoroutine);
+                        MeltingPart.SetActive(false);
                         InDeathZone = false;
                     }
                 }
@@ -211,6 +209,7 @@ namespace Scripts.Level.Player
                     if (!InDeathZone)
                     {
                         deathCoroutine = StartCoroutine(CountdownToDeath());
+                        MeltingPart.SetActive(true);
                     }
                 }
             }
