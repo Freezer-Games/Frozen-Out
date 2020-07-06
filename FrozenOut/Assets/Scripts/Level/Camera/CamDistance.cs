@@ -11,8 +11,6 @@ namespace Scripts.Level.Camera
         public CinemachineVirtualCamera FarCam;
         public CinemachineVirtualCamera NearCam;
 
-        public Transform Coll;
-
         public Transform Player;
         public float farDistance;
         public float nearDistance;
