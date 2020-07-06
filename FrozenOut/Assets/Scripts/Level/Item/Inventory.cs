@@ -98,28 +98,22 @@ namespace Scripts.Level.Item
         /// Equipa el item si no estaba equipado, no hace nada si ya lo estaba
         public void EquipItem(ItemInfo item)
         {
-            if (IsEnabled())
+            if (IsItemInInventory(item) && item.IsEquippable)
             {
-                if (IsItemInInventory(item) && item.IsEquippable)
-                {
-                    EquippedItem = item;
-                    PlayerManager.SetInteractAnimation(EquippedItem.Animation);
+                EquippedItem = item;
+                PlayerManager.SetInteractAnimation(EquippedItem.Animation);
 
-                    OnItemEquipped(item);
-                }
+                OnItemEquipped(item);
             }
         }
 
         /// Desequipa el item equipado
         public void UnequipItem()
         {
-            if (IsEnabled())
-            {
-                EquippedItem = null;
-                PlayerManager.SetInteractAnimation("");
+            EquippedItem = null;
+            PlayerManager.SetInteractAnimation("");
 
-                OnItemUnequipped();
-            }
+            OnItemUnequipped();
         }
 
         public void PickItem(ItemPickerInfo pickerInfo)
