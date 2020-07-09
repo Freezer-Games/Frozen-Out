@@ -13,6 +13,11 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
 
         private DialogueRunner DialogueRunner => YarnSystem.DialogueRunner;
 
+        private void Awake()
+        {
+            DialogueRunner.AddCommandHandler("startinstagram", StartInstagram);
+        }
+
         [YarnCommand("giveitem")]
         public void PickItem(string itemVariableName, string quantity)
         {
@@ -51,6 +56,11 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         public void StopAnimationAll(string npcName)
         {
             YarnSystem.StopNPCAnimationWithSimilarName(npcName);
+        }
+
+        public void StartInstagram(string[] parameters, System.Action onComplete)
+        {
+            YarnSystem.DialogueManager.SwitchToInstagram(onComplete);
         }
     }
 }
