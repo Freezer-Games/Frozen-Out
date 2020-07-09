@@ -86,10 +86,4 @@ namespace Scripts.Level.Dialogue
         public abstract void OnOptionSelected(DialogueOption option);
         #endregion
     }
-
-    public class DialogueOption
-    {
-        public string Text;
-        public int ID;
-    }
 }
