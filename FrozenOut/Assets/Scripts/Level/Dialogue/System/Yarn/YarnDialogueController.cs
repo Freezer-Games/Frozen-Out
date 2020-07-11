@@ -1,8 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 using Yarn.Unity;
 
@@ -16,6 +13,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         private const string DialogueSeparator = ": ";
 
         private bool RequestedNextLine;
+        private System.Action<int> OptionSelectionHandler;
 
         public void RequestNextLine()
         {
@@ -71,7 +69,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
 
         public override void RunOptions(Yarn.OptionSet optionSet, ILineLocalisationProvider localisationProvider, System.Action<int> onOptionSelected)
         {
-            
+            DialogueSystem.OnOptionsStarted(optionSet.Options, localisationProvider);
+
+            OptionSelectionHandler = onOptionSelected;
         }
 
         public override Yarn.Dialogue.HandlerExecutionType RunCommand(Yarn.Command command, System.Action onCommandComplete)
@@ -106,6 +106,11 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
                 }
                 dialogue = text.Substring(indexOfDialogueSeparator + DialogueSeparator.Length);
             }
+        }
+
+        public void SelectOption(int optionID)
+        {
+            OptionSelectionHandler?.Invoke(optionID);
         }
 
         #region Events

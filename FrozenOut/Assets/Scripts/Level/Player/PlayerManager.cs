@@ -16,6 +16,7 @@ namespace Scripts.Level.Player
     {
         public LevelManager LevelManager;
 
+        public PlayerBase PlayerBase;
         public NormalController NormalController;
         public MeltedController MeltedController;
         public GameObject Player;
@@ -102,54 +103,23 @@ namespace Scripts.Level.Player
 
         public void SetInteractiveItem(Transform itemPos, Transform itemLook)
         {
-            if (NormalController.isActiveAndEnabled) 
-            {
-                NormalController.InteractPos = itemPos;
-                NormalController.InteractLook = itemLook;
-            }
-            else if (MeltedController.isActiveAndEnabled)
-            {
-                MeltedController.InteractPos = itemPos;
-                MeltedController.InteractLook = itemLook;
-            }
+            PlayerBase.InteractPos = itemPos;
+            PlayerBase.InteractLook = itemLook;
         }
 
         public bool GetIsInteracting()
         {
-            if (NormalController.isActiveAndEnabled)
-            {
-                return NormalController.IsInteracting;
-            }
-            else if (MeltedController.isActiveAndEnabled)
-            {
-                return MeltedController.IsInteracting;
-            }
-
-            return false;
+            return PlayerBase.IsInteracting;
         }
 
         public void SetIsInteracting(bool state)
         {
-            if (NormalController.isActiveAndEnabled)
-            {
-                NormalController.IsInteracting = state;
-            }
-            else if (MeltedController.isActiveAndEnabled)
-            {
-                MeltedController.IsInteracting = state;
-            }
+            PlayerBase.IsInteracting = state;
         }
 
         public void SetPlayerCanMove(bool state)
         {
-            if (NormalController.isActiveAndEnabled)
-            {
-                NormalController.CanMove = state;
-            }
-            else if (MeltedController.isActiveAndEnabled)
-            {
-                MeltedController.CanMove = state;
-            }
+            PlayerBase.CanMove = state;
         }
 
         public void EquipItem(ItemInfo itemEquipped)

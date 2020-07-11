@@ -5,33 +5,26 @@ using UnityEngine.Events;
 
 namespace Scripts.Level.Player
 {
-    public class MeltedController : BasePlayerController
+    public class MeltedController : MonoBehaviour
     {
+        public PlayerBase PlayerBase;
+        public Rigidbody Rigidbody;
+        public Animator Animator;
+
         [Header("States")]
-        public bool IsInteracting;
-        public bool CanMove;
         [SerializeField] bool IsCharging;
 
-
         [Header("Movement")]
+        private Vector3 MovementDir;
         [SerializeField] float MoveSpeed = 4f;
 
-
         [Header("Interact")]
-        public Transform InteractPos;
-        public Transform InteractLook;
         public UnityEvent Recovery;
-
 
         void Start() 
         {
-            Collider.center = new Vector3(0f, 0.25f, 0f);
-            Collider.radius = 0.25f;
-            Collider.height = 0.3f;
-
-            CanMove = true;
-            IsInteracting = false;
-            InDeathZone = false;
+            PlayerBase.CanMove = true;
+            PlayerBase.IsInteracting = false;
 
             if (Recovery == null) 
                 Recovery = new UnityEvent();
@@ -39,32 +32,15 @@ namespace Scripts.Level.Player
 
         void Update()
         {
-            if (PlayerManager.IsEnabled())
+            if (PlayerBase.PlayerManager.IsEnabled())
             {
-                if (IsInteracting) 
+                if (PlayerBase.CanMove)
                 {
-                    CanMove = false;
-                    Rigidbody.isKinematic = true;
-                    MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
-                }
-                else
-                {
-                    CanMove = true;
-                    Rigidbody.isKinematic = false;
-                }
+                    Animator.SetBool("isMoving", MovementDir != Vector3.zero);
 
-                if (CanMove)
-                {
-                    MoveInput = new Vector2(
-                    Input.GetAxis("Horizontal"),
-                    Input.GetAxis("Vertical"));
-                    MoveInput.Normalize();
-
-                    Animator.SetBool("isMoving", Movement.x != 0f && Movement.z != 0f);
-
-                    if (Movement.x != 0f && Movement.z != 0f)
+                    if (MovementDir != Vector3.zero)
                     {
-                        FaceMovement();
+                        PlayerBase.FaceMovement();
                     }
                 }
             }
@@ -72,68 +48,44 @@ namespace Scripts.Level.Player
 
         void FixedUpdate()
         {
-            if (PlayerManager.IsEnabled())
+            if (PlayerBase.PlayerManager.IsEnabled())
             {
-                if (CanMove)
+                if (PlayerBase.CanMove)
                 {
-                    CalculeMove();
+                    if (PlayerBase.Grounded)
+                    {
+                        CalculeMove();
+                    } 
                 }
             }
         }
 
-        void LateUpdate() 
+        protected void CalculeMove()
         {
-            CameraVectors();
-        }
-
-        protected override void CalculeMove()
-        {
-            Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
-            Movement.Normalize();
+            MovementDir = PlayerBase.GetMovement();
               
             if (IsCharging) 
             {
-                Movement *= (MoveSpeed / 3f);
+                MovementDir *= (MoveSpeed / 3f);
                 Rigidbody.velocity = new Vector3(
-                    Movement.x,
+                    MovementDir.x,
                     Rigidbody.velocity.y,
-                    Movement.z);
+                    MovementDir.z);
             }
             else 
             {
-                Movement *= MoveSpeed;
+                MovementDir *= MoveSpeed;
                 Rigidbody.velocity = new Vector3(
-                    Movement.x,
+                    MovementDir.x,
                     Rigidbody.velocity.y,
-                    Movement.z);
+                    MovementDir.z);
             }
         }
 
         public void ChangeToNormal()
         {
-            IsInteracting = false;
-            PlayerManager.ChangeToNormal();
-        }
-
-        void OnCollisionEnter(Collision other)
-        {
-            if (WhatIsGround == (WhatIsGround | (1 << other.gameObject.layer)))
-            {
-                if (InDeathZone)
-                {
-                    Debug.Log("me paro");
-                    StopCoroutine(CountdownToDeath());
-                    InDeathZone = false;
-                }
-            }
-
-            if (DeathZone == (DeathZone | (1 << other.gameObject.layer)))
-            {
-                if (InDeathZone)
-                {
-                    StartCoroutine(CountdownToDeath());
-                }
-            }
+            PlayerBase.IsInteracting = false;
+            PlayerBase.PlayerManager.ChangeToNormal();
         }
     }
 }

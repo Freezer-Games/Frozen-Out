@@ -1,15 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Localization;
 
 using Yarn.Unity;
 
-using UnityEngine.Localization;
-
 namespace Scripts.Level.Dialogue.Runner.YarnSpinner
 {
-    public class YarnDialogueSystem : DialogueSystem
+    public class YarnDialogueSystem : MainDialogueSystem
     {
         public DialogueManager DialogueManager;
 
@@ -48,9 +46,15 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             DialogueController.RequestNextLine();
         }
 
+        public override void RequestSelectOption(DialogueOption option)
+        {
+            DialogueController.SelectOption(option.ID);
+        }
+
         public override void Stop()
         {
             DialogueRunner.Stop();
+
             DialogueManager.OnDialogueEnded();
         }
 
@@ -153,9 +157,35 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         {
             DialogueController.DialogueStarted.AddListener(DialogueManager.OnDialogueStarted);
             DialogueController.DialogueEnded.AddListener(DialogueManager.OnDialogueEnded);
+
             DialogueController.LineStyleUpdated.AddListener(DialogueManager.OnLineStyleUpdated);
             DialogueController.LineNameUpdated.AddListener(DialogueManager.OnLineNameUpdated);
             DialogueController.LineDialogueUpdated.AddListener(DialogueManager.OnLineDialogueUpdated);
+        }
+
+        public void OnOptionsStarted(Yarn.OptionSet.Option[] options, ILineLocalisationProvider localisationProvider)
+        {
+            IEnumerable<DialogueOption> dialogueOptions = options.Select((option) => {
+
+                string text = localisationProvider.GetLocalisedTextForLine(option.Line);
+
+                // Sanity check
+                if (text == null)
+                {
+                    Debug.LogWarning($"Line {option.Line.ID} doesn't have any localised text.");
+                    text = option.Line.ID;
+                }
+
+                DialogueOption dialogueOption = new DialogueOption()
+                {
+                    Text = text,
+                    ID = option.ID
+                };
+
+                return dialogueOption;
+            });
+
+            DialogueManager.OnOptionsStarted(dialogueOptions);
         }
         #endregion
     }
