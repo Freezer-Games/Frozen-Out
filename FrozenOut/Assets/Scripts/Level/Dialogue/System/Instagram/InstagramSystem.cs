@@ -7,10 +7,11 @@ using UnityEngine.Localization;
 using InstagramConnection;
 using InstagramConnection.Model;
 using System.Linq;
+using CsvHelper.Configuration;
 
 namespace Scripts.Level.Dialogue.Runner.Instagram
 {
-    public class InstagramSystem : DialogueSystem
+    public class InstagramSystem : SecondaryDialogueSystem
     {
         public DialogueManager DialogueManager;
 
@@ -18,8 +19,6 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
 
         private bool Running;
         private bool RequestedNextLine;
-
-        private const string NoInternetDialogue = "Parece que este cacharro no funciona hoy";
 
         private void Start()
         {
@@ -39,21 +38,6 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
 
         }
 
-        public override bool GetBoolVariable(string variableName, bool includeLeading = true)
-        {
-            return false;
-        }
-
-        public override float GetNumberVariable(string variableName, bool includeLeading = true)
-        {
-            return 0.0f;
-        }
-
-        public override string GetStringVariable(string variableName, bool includeLeading = true)
-        {
-            return "";
-        }
-
         public override bool IsRunning()
         {
             return Running;
@@ -61,7 +45,14 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
 
         public override void RequestNextLine()
         {
-            RequestedNextLine = true;
+            if (!IsRunning())
+            {
+                StartDialogue();
+            }
+            else
+            {
+                RequestedNextLine = true;
+            }
         }
 
         public override void SetLanguage(Locale locale)
@@ -69,55 +60,38 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
             return;
         }
 
-        public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
+        public override void StartDialogue()
         {
-            return;
-        }
-
-        public override void StartDialogue(DialogueActer acter)
-        {
-            DialogueManager.OnDialogueStarted();
             Running = true;
 
-            StartCoroutine(DoShowLastComments(acter.TalkToNode));
+            StartCoroutine(DoShowLastComments());
         }
 
         public override void Stop()
         {
             StopAllCoroutines();
+            Running = false;
 
             DialogueManager.OnDialogueEnded();
         }
 
-        private IEnumerator DoShowLastComments(string name)
+        private IEnumerator DoShowLastComments()
         {
-            DialogueManager.OnLineStyleUpdated(name);
-            DialogueManager.OnLineNameUpdated(name);
-            DialogueManager.OnLineDialogueUpdated("Ehem... vamos a ver que dice la gente");
-
-            while (!RequestedNextLine)
-            {
-                yield return null;
-            }
-            RequestedNextLine = false;
-            yield return new WaitForEndOfFrame();
-
             if(Service != null)
             {
                 ICollection<Comment> lastComments = Service.GetLatestPostComments();
 
                 foreach (Comment comment in lastComments.Take(3))
                 {
-                    // Regex para quitar emojis ;( no soportados por Unity.Text
-                    string commentTextClean = Regex.Replace(comment.Text, @"\p{Cs}", "");
-                    if (comment.Text.Length > 80)
-                    {
-                        commentTextClean = commentTextClean.Substring(0, 75) + "...";
-                    }
+                    string nameText = comment.Username;
+                    nameText = CleanComment(nameText);
 
-                    string commentFormatted = "Dice <i>" + comment.Username + "</i> que " + "\"" + commentTextClean + "\"";
-                    DialogueManager.OnLineStyleUpdated(name);
-                    DialogueManager.OnLineNameUpdated(name);
+                    string commentText = comment.Text;
+                    commentText = CleanComment(commentText);
+                    commentText = TrimComment(commentText);
+
+                    string commentFormatted = "<i>" + nameText + "</i>: " + "\"" + commentText + "\"";
+                    DialogueManager.OnLineStyleUpdated("");
                     DialogueManager.OnLineDialogueUpdated(commentFormatted);
 
                     while (!RequestedNextLine)
@@ -129,33 +103,26 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
                     yield return new WaitForEndOfFrame();
                 }
             }
-            else
-            {
-                DialogueManager.OnLineStyleUpdated(name);
-                DialogueManager.OnLineNameUpdated(name);
-                DialogueManager.OnLineDialogueUpdated("Vaya");
-
-                while (!RequestedNextLine)
-                {
-                    yield return null;
-                }
-                RequestedNextLine = false;
-                yield return new WaitForEndOfFrame();
-                
-                DialogueManager.OnLineStyleUpdated(name);
-                DialogueManager.OnLineNameUpdated(name);
-                DialogueManager.OnLineDialogueUpdated(NoInternetDialogue);
-
-                while (!RequestedNextLine)
-                {
-                    yield return null;
-                }
-                RequestedNextLine = false;
-                yield return new WaitForEndOfFrame();
-            }
 
             Running = false;
-            DialogueManager.OnDialogueEnded();
+            DialogueManager.SwitchToMain();
+        }
+
+        private string CleanComment(string comment)
+        {
+            // Regex para quitar emojis ;( no soportados por Unity.Text
+            return Regex.Replace(comment, @"\p{Cs}", "");
+        }
+
+        private string TrimComment(string comment)
+        {
+            string trimmedComment = comment;
+            if (comment.Length > 80)
+            {
+                trimmedComment = comment.Substring(0, 75) + "...";
+            }
+
+            return trimmedComment;
         }
     }
 }

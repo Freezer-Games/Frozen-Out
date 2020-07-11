@@ -36,6 +36,9 @@ namespace Scripts.Level.Dialogue
         public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
 
+        public abstract void SwitchToInstagram(System.Action onComplete);
+        public abstract void SwitchToMain();
+
         public abstract int GetTextSize();
         public abstract KeyCode GetNextDialogueKey();
         public abstract KeyCode GetInteractKey();
@@ -77,6 +80,10 @@ namespace Scripts.Level.Dialogue
         public abstract void OnLineNameUpdated(string name);
 
         public abstract void OnLineDialogueUpdated(string dialogue);
+
+        public abstract void OnOptionsStarted(IEnumerable<DialogueOption> dialogueOptions);
+
+        public abstract void OnOptionSelected(DialogueOption option);
         #endregion
     }
 }

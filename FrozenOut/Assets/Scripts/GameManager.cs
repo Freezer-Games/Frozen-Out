@@ -194,8 +194,8 @@ namespace Scripts
             LoadingScreenManager.HideLoading();
             PauseMenuManager.Enable();
 
-            CurrentLevelManager = Object.FindObjectOfType<LevelManager>(); //Opción 1: GameManager encuentra LevelManager
-            CurrentLevelManager.Load();
+            CurrentLevelManager = Object.FindObjectOfType<LevelManager>();
+            if (CurrentLevelManager != null) CurrentLevelManager.Load();
         }
 
         private void AfterLoadMainMenu()

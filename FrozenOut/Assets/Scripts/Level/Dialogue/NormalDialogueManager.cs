@@ -8,8 +8,8 @@ using Scripts.Settings;
 using Scripts.Level.Item;
 using Scripts.Level.NPC;
 using Scripts.Level.Dialogue.Utils;
-using Scripts.Level.Dialogue.Runner.Instagram;
 using Scripts.Level.Dialogue.Runner;
+using Scripts.Level.Dialogue.Runner.Conversation;
 
 namespace Scripts.Level.Dialogue
 {
@@ -17,9 +17,9 @@ namespace Scripts.Level.Dialogue
     {
         public LevelManager LevelManager;
 
-        public InstagramSystem InstagramDialogueSystem;
-        public DialogueSystem NPCDialogueSystem;
-        //public ConversationSystem ConversationDialogueSystem;
+        public MainDialogueSystem MainDialogueSystem;
+        public SecondaryDialogueSystem InstagramDialogueSystem;
+        public ConversationSystem ConversationDialogueSystem;
 
         public DialoguePromptController PromptController;
 
@@ -39,7 +39,7 @@ namespace Scripts.Level.Dialogue
 
         void Awake()
         {
-            DialogueSystem = NPCDialogueSystem;
+            SwitchToMain();
             SetLanguage();
         }
 
@@ -157,16 +157,8 @@ namespace Scripts.Level.Dialogue
             {
                 CurrentActer = acter;
 
-                if (acter is DialogueInstagram)
-                {
-                    DialogueSystem = InstagramDialogueSystem;
-                }
-                else
-                {
-                    DialogueSystem = NPCDialogueSystem;
-                }
-
-                DialogueSystem.StartDialogue(acter);
+                SwitchToMain();
+                MainDialogueSystem.StartDialogue(acter);
             }
         }
 
@@ -184,27 +176,44 @@ namespace Scripts.Level.Dialogue
         {
             DialogueSystem.SetLanguage(SettingsManager.Locale);
         }
+
+        private System.Action onSwitchBack;
+        public override void SwitchToInstagram(System.Action onComplete)
+        {
+            DialogueSystem = InstagramDialogueSystem;
+            DialogueSystem.RequestNextLine();
+
+            onSwitchBack = onComplete;
+        }
+
+        public override void SwitchToMain()
+        {
+            onSwitchBack?.Invoke();
+            onSwitchBack = null;
+
+            DialogueSystem = MainDialogueSystem;
+        }
         #endregion
 
         #region Variables
         public override bool GetBoolVariable(string variableName, bool includeLeading = true)
         {
-            return NPCDialogueSystem.GetBoolVariable(variableName, includeLeading);
+            return MainDialogueSystem.GetBoolVariable(variableName, includeLeading);
         }
 
         public override string GetStringVariable(string variableName, bool includeLeading = true)
         {
-            return NPCDialogueSystem.GetStringVariable(variableName, includeLeading);
+            return MainDialogueSystem.GetStringVariable(variableName, includeLeading);
         }
 
         public override float GetNumberVariable(string variableName, bool includeLeading = true)
         {
-            return NPCDialogueSystem.GetNumberVariable(variableName, includeLeading);
+            return MainDialogueSystem.GetNumberVariable(variableName, includeLeading);
         }
 
         public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
         {
-            NPCDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
+            MainDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
         }
         #endregion
 
@@ -353,6 +362,16 @@ namespace Scripts.Level.Dialogue
         public override void OnLineDialogueUpdated(string dialogue)
         {
             ProcessDialogue(dialogue);
+        }
+
+        public override void OnOptionsStarted(IEnumerable<DialogueOption> dialogueOptions)
+        {
+            ConversationDialogueSystem.StartOptions(dialogueOptions);
+        }
+
+        public override void OnOptionSelected(DialogueOption option)
+        {
+            MainDialogueSystem.RequestSelectOption(option);
         }
         #endregion
     }

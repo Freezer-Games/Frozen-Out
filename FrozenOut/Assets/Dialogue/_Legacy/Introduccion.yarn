@@ -7,7 +7,6 @@ Pol: ¡Eeh! ¿Quién eres? ¿Adonde vas? #line:0143081
 ===
 
 title: Introduccion
-animator_name: PACO
 ---
 <<if visited("Introduccion") is false>>
 	<<set $Tutti_Escape1 to true>>
@@ -28,6 +27,7 @@ animator_name: PACO
 	Pol: (Debería ver dónde ha ido) #line:0b2c653
 <<endif>>
 ===
+
 title: Robot
 ---
 ???++Yell: fzz fzzz #line:0421c99
@@ -41,7 +41,6 @@ Robot: Bye, bye, espero no haber roto nada #line:0db9f85
 ===
 
 title: Albert
-animator_name: ALBERT
 ---
 <<if visited("Albert") is false>>
 	Pol: Disculpe, ¿ha visto…? #line:03f7eaa
@@ -54,4 +53,32 @@ animator_name: ALBERT
 	Albert: Deberías preguntarle a ese de ahí. Puede que sepa algo. O no. #line:02600fd
 <<endif>>
 Pol: Emm.. gracias. #line:0416979
+===
+
+title: Instagramo
+---
+Instagramo: Bueno, vamos a ver que dice la gente. #line:0b32ab2
+<< startinstagram >>
+Instagramo: Pues eso ha sido todo #line:00753fa
+===
+
+title: Options
+---
+Options: Vamos a ver como va esto: #line:0258c5c
+[[google, search, result, suggestion, yahoo|Google]] #line:0c10584
+[[japan, cartoon, anime, dragon ball|Anime]] #line:0a606a2
+[[default|DefaultOption]] #line:098fd04
+===
+
+title: Google
+---
+You wanna know about Google. #line:0484e26
+===
+title: Anime
+---
+You wanna know about Anime. #line:025c4fb
+===
+title: DefaultOption
+---
+I don't undertand what you want. #line:0e94312
 ===
