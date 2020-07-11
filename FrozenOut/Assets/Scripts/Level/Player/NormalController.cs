@@ -6,54 +6,36 @@ using UnityEngine.Events;
 
 namespace Scripts.Level.Player 
 {
-    public class NormalController : BasePlayerController
+    public class NormalController : MonoBehaviour
     {
-        [Header("States")]
-        public bool IsInteracting;
-        public bool CanMove;
-        [SerializeField] bool Grounded;
-        Coroutine deathCoroutine;
+        public PlayerBase PlayerBase;
+        public Rigidbody Rigidbody;
+        public Animator Animator;
 
+        [Header("States")]
         public bool inStealth;
       
-
         [Header("Movement")]
         [SerializeField] Transform MainParent;
-        [SerializeField] float MoveSpeed;
+        private Vector3 MovementDir;
+        float MoveSpeed;
         [SerializeField] float NormalSpeed = 4f;
         [SerializeField] float SneakingSpeed = 2.5f;
 
-
         [Header("Jump")]
         [SerializeField] float JumpForce = 6f;
-        [SerializeField] LayerMask ignoredLayer;
-        [SerializeField] float groundDistance;
 
-
-        [Header("Particles")]
+        [Header("Effects")]
         public GameObject MeltingPart;
 
-
         [Header("Interact")]
-        public Transform InteractPos;
-        public Transform InteractLook;
-
-
         public UnityEvent Melting;
-
 
         void Start()
         {
-            Collider.center = new Vector3(0f, 1f, 0f);
-            Collider.radius = 0.5f;
-            Collider.height = 2f;
-
-            deathCoroutine = null;
-
-            CanMove = true;
-            IsInteracting = false;
-            Grounded = false;
-            InDeathZone = false;
+            PlayerBase.CanMove = true;
+            PlayerBase.IsInteracting = false;
+            PlayerBase.Grounded = false;
             inStealth = false;
             MoveSpeed = NormalSpeed;
 
@@ -63,91 +45,64 @@ namespace Scripts.Level.Player
 
         void Update() 
         {
-            if (PlayerManager.IsEnabled())
+            if (PlayerBase.PlayerManager.IsEnabled())
             { 
-                if (IsInteracting) 
+                if (PlayerBase.IsInteracting) 
                 {
-                    CanMove = false;
                     inStealth = false;
-                    Rigidbody.isKinematic = true;
-                    Rigidbody.useGravity = false;
-                    MoveToTarget(InteractPos, InteractLook, 0.01f, 0.5f);
                 }
-                else
+   
+                if (PlayerBase.CanMove)
                 {
-                    CanMove = true;
-                    Rigidbody.isKinematic = false;
-                    Rigidbody.useGravity = true;
-                }     
+                    Animator.SetBool("isMoving", MovementDir != Vector3.zero);
 
-                if (CanMove)
-                {
-                    MoveInput = new Vector2(
-                        Input.GetAxis("Horizontal"),
-                        Input.GetAxis("Vertical"));
-                    MoveInput.Normalize();
+                    if (PlayerBase.InDeathZone) MeltingPart.SetActive(true);
+                    else MeltingPart.SetActive(false);
 
-                    Animator.SetBool("isMoving", Movement != Vector3.zero);
-
-                    CheckWithRay();
-
-                    if (Grounded)
+                    if (PlayerBase.Grounded)
                     {
-                        if (Input.GetKey(PlayerManager.GetCrouchKey()))
+                        if (Input.GetKey(PlayerBase.PlayerManager.GetCrouchKey()))
                         {
                             Animator.SetTrigger("isSneakingIn");
                             inStealth = true;
                             MoveSpeed = SneakingSpeed;
                         }
-                        else if(Input.GetKeyUp(PlayerManager.GetCrouchKey()) && inStealth)
+                        else if(Input.GetKeyUp(PlayerBase.PlayerManager.GetCrouchKey()) && inStealth)
                         {
                             Animator.SetTrigger("isSneakingOut");
                             inStealth = false;
                             MoveSpeed = NormalSpeed;
                         }
 
-                        if (!(Movement != Vector3.zero))
+                        if (!(MovementDir != Vector3.zero))
                         {
                             if (Input.GetKeyDown(KeyCode.V))
                             {
-                                PlayerManager.ChangeToMelted();
+                                PlayerBase.PlayerManager.ChangeToMelted();
                                 Melting.Invoke();
                             }
                         }
                     }
 
-                    if (Movement != Vector3.zero)
+                    if (MovementDir != Vector3.zero)
                     {
-                        FaceMovement();
+                        PlayerBase.FaceMovement();
                     }
                 }
-                else
-                {
-                    Animator.SetTrigger("isSneakingOut");
-                    Animator.SetBool("isMoving", false);
-                }
-            }
-            else
-            {
-                CanMove = false;
-
-                Animator.SetTrigger("isSneakingOut");
-                Animator.SetBool("isMoving", false);
             }
         }
 
         void FixedUpdate()
         {
-            if (PlayerManager.IsEnabled())
+            if (PlayerBase.PlayerManager.IsEnabled())
             {
-                if (CanMove)
+                if (PlayerBase.CanMove)
                 {
                     CalculeMove();
-                    CheckWithRay();
 
-                    if (Grounded)
+                    if (PlayerBase.Grounded)
                     {
-                        if (Input.GetKeyDown(PlayerManager.GetJumpKey()))
+                        if (Input.GetKeyDown(PlayerBase.PlayerManager.GetJumpKey()))
                         {
                             Jump();    
                         }
@@ -156,19 +111,13 @@ namespace Scripts.Level.Player
             }
         }
 
-        void LateUpdate() 
+        protected void CalculeMove() 
         {
-            CameraVectors();
-        }
+            MovementDir = PlayerBase.GetMovement();
+            MovementDir *= MoveSpeed;
 
-        protected override void CalculeMove() 
-        {
-            Movement = MoveInput.x * CamRight + MoveInput.y * CamForward;
-            Movement.Normalize();
-            Movement *= MoveSpeed;
-
-            Vector3 velocity = Rigidbody.velocity;
-            Vector3 velocityChange = (Movement - velocity);
+            Vector3 velocity = PlayerBase.Rigidbody.velocity;
+            Vector3 velocityChange = (MovementDir - velocity);
             velocityChange.x = Mathf.Clamp(velocityChange.x, -MoveSpeed, MoveSpeed);
             velocityChange.z = Mathf.Clamp(velocityChange.z, -MoveSpeed, MoveSpeed);
             velocityChange.y = 0f;
@@ -178,48 +127,16 @@ namespace Scripts.Level.Player
 
         void Jump()
         {
-            Grounded = false;
+            PlayerBase.Grounded = false;
             Animator.SetTrigger("isJumping");
             Animator.SetBool("isGrounded", false);
             Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, JumpForce, Rigidbody.velocity.z);
-        }
-
-        void CheckWithRay()
-        {
-            Debug.DrawRay(transform.position, -transform.up * groundDistance, Color.red, 1f);
-            RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, -Vector3.up, out hit, groundDistance, ~ignoredLayer))
-            {
-                if (WhatIsGround == (WhatIsGround | (1 << hit.transform.gameObject.layer)))
-                {
-                    Grounded = true;
-                    Animator.SetBool("isGrounded", true);
-                    
-                    if (InDeathZone)
-                    {
-                        StopCoroutine(deathCoroutine);
-                        MeltingPart.SetActive(false);
-                        InDeathZone = false;
-                    }
-                }
-
-                if (DeathZone == (DeathZone | (1 << hit.transform.gameObject.layer)))
-                {
-                    if (!InDeathZone)
-                    {
-                        deathCoroutine = StartCoroutine(CountdownToDeath());
-                        MeltingPart.SetActive(true);
-                    }
-                }
-            }
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Ascensor"))
             {
-                Debug.Log("en el ascensor");
                 transform.SetParent(other.transform);
             }
         }

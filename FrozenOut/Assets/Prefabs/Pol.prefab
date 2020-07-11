@@ -195,12 +195,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3245732126963219227}
+  - component: {fileID: 7589325298118544738}
   - component: {fileID: 5713953301291040040}
   - component: {fileID: 2397446276020552185}
+  - component: {fileID: 7507145152442699650}
   - component: {fileID: 1968198333438740751}
   - component: {fileID: 2181923363216724824}
   - component: {fileID: 4285950724042759185}
-  - component: {fileID: 7507145152442699650}
   - component: {fileID: 6452936857903058000}
   m_Layer: 9
   m_Name: Pol
@@ -228,6 +229,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7589325298118544738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968198333438740744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba8747b159903440871fd4f1f7036f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerManager: {fileID: 0}
+  NormalController: {fileID: 5713953301291040040}
+  MeltedController: {fileID: 2397446276020552185}
+  Rigidbody: {fileID: 2181923363216724824}
+  Animator: {fileID: 1968198333438740751}
+  Collider: {fileID: 4285950724042759185}
+  IsInteracting: 0
+  CanMove: 0
+  Grounded: 0
+  InteractPos: {fileID: 0}
+  InteractLook: {fileID: 0}
+  DeathZone:
+    serializedVersion: 2
+    m_Bits: 4096
+  Ground:
+    serializedVersion: 2
+    m_Bits: 256
+  Ignored:
+    serializedVersion: 2
+    m_Bits: 512
+  groundDistance: 0.1
+  CdToDeath: 3
+  InDeathZone: 0
 --- !u!114 &5713953301291040040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,34 +276,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f613803c534b746bebb5e6b10f5a84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerManager: {fileID: 0}
+  PlayerBase: {fileID: 7589325298118544738}
   Rigidbody: {fileID: 2181923363216724824}
   Animator: {fileID: 1968198333438740751}
-  Collider: {fileID: 4285950724042759185}
-  CdToDeath: 3
-  DeathZone:
-    serializedVersion: 2
-    m_Bits: 4096
-  WhatIsGround:
-    serializedVersion: 2
-    m_Bits: 256
-  InDeathZone: 0
-  IsInteracting: 0
-  CanMove: 1
-  Grounded: 0
   inStealth: 0
   MainParent: {fileID: 0}
-  MoveSpeed: 4
   NormalSpeed: 4
   SneakingSpeed: 2.5
   JumpForce: 5
-  ignoredLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  groundDistance: 0.1
-  MeltingPart: {fileID: 2054093937839436834}
-  InteractPos: {fileID: 0}
-  InteractLook: {fileID: 0}
+  MeltingPart: {fileID: 2054093937839436893}
   Melting:
     m_PersistentCalls:
       m_Calls:
@@ -294,24 +311,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a216e68d775309549a3654bed3982817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerManager: {fileID: 0}
+  PlayerBase: {fileID: 7589325298118544738}
   Rigidbody: {fileID: 2181923363216724824}
   Animator: {fileID: 1968198333438740751}
-  Collider: {fileID: 4285950724042759185}
-  CdToDeath: 0
-  DeathZone:
-    serializedVersion: 2
-    m_Bits: 0
-  WhatIsGround:
-    serializedVersion: 2
-    m_Bits: 0
-  InDeathZone: 0
-  IsInteracting: 0
-  CanMove: 1
   IsCharging: 0
   MoveSpeed: 4
-  InteractPos: {fileID: 0}
-  InteractLook: {fileID: 0}
   Recovery:
     m_PersistentCalls:
       m_Calls:
@@ -326,6 +330,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7507145152442699650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968198333438740744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a55bee1a4d983684c95543f84305110c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioSource: {fileID: 6452936857903058000}
+  SnowFootSteps:
+  - {fileID: 8300000, guid: 36d87a7b2982b6e43bdc15c3f4b99f26, type: 3}
+  - {fileID: 8300000, guid: a57d3a53e015f874cac4b3e1a8bae7d1, type: 3}
+  - {fileID: 8300000, guid: d7b4129b0a186f847a7bdfebb9723b05, type: 3}
+  - {fileID: 8300000, guid: 91118c42ee8128340a82b8da27110b54, type: 3}
+  - {fileID: 8300000, guid: bfe7b36be18bd2847b0c7f4a558dc863, type: 3}
+  - {fileID: 8300000, guid: c3785c446b15cd04f80ea54aed1ddeb7, type: 3}
+  - {fileID: 8300000, guid: e2212d70cd54dc44886431bd573c3598, type: 3}
+  - {fileID: 8300000, guid: 46bb439d65581604ca9bf51b8af7bed4, type: 3}
+  - {fileID: 8300000, guid: 52c261cc3e7aae244bab8e3d0dde9628, type: 3}
 --- !u!95 &1968198333438740751
 Animator:
   serializedVersion: 3
@@ -375,29 +402,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &7507145152442699650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968198333438740744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a55bee1a4d983684c95543f84305110c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AudioSource: {fileID: 6452936857903058000}
-  SnowFootSteps:
-  - {fileID: 8300000, guid: 36d87a7b2982b6e43bdc15c3f4b99f26, type: 3}
-  - {fileID: 8300000, guid: a57d3a53e015f874cac4b3e1a8bae7d1, type: 3}
-  - {fileID: 8300000, guid: d7b4129b0a186f847a7bdfebb9723b05, type: 3}
-  - {fileID: 8300000, guid: 91118c42ee8128340a82b8da27110b54, type: 3}
-  - {fileID: 8300000, guid: bfe7b36be18bd2847b0c7f4a558dc863, type: 3}
-  - {fileID: 8300000, guid: c3785c446b15cd04f80ea54aed1ddeb7, type: 3}
-  - {fileID: 8300000, guid: e2212d70cd54dc44886431bd573c3598, type: 3}
-  - {fileID: 8300000, guid: 46bb439d65581604ca9bf51b8af7bed4, type: 3}
-  - {fileID: 8300000, guid: 52c261cc3e7aae244bab8e3d0dde9628, type: 3}
 --- !u!82 &6452936857903058000
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1931,9 +1935,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1236572306540598355}
   m_PrefabAsset: {fileID: 0}
---- !u!198 &2054093937839436834 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 984234961676787825, guid: faadc84e8c3cb0545a2f9443080114a8,
+--- !u!1 &2054093937839436893 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 984234961676787726, guid: faadc84e8c3cb0545a2f9443080114a8,
     type: 3}
   m_PrefabInstance: {fileID: 1236572306540598355}
   m_PrefabAsset: {fileID: 0}
