@@ -18,7 +18,7 @@ namespace Scripts.Level.Dialogue.Runner
     {
         public abstract void StartDialogue(DialogueActer acter);
 
-        public abstract void RequestSelectOption(DialogueOption option);
+        public abstract void RequestSelectChoice(DialogueChoice choice);
 
         public abstract bool GetBoolVariable(string variableName, bool includeLeading = true);
         public abstract string GetStringVariable(string variableName, bool includeLeading = true);
