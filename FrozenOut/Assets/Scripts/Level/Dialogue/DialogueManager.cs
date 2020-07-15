@@ -31,7 +31,6 @@ namespace Scripts.Level.Dialogue
 
         public abstract bool IsRunning();
         public abstract bool IsReady();
-        public abstract void SetLanguage();
         public abstract void StartDialogue(DialogueActer acter);
         public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
@@ -56,11 +55,6 @@ namespace Scripts.Level.Dialogue
         public abstract void OpenTalkPrompt(DialogueActer dialogueActer);
         public abstract void CloseTalkPrompt(DialogueActer dialogueActer);
 
-        public abstract bool GetBoolVariable(string variableName, bool includeLeading = true);
-        public abstract string GetStringVariable(string variableName, bool includeLeading = true);
-        public abstract float GetNumberVariable(string variableName, bool includeLeading = true);
-        public abstract void SetVariable<T>(string variableName, T value, bool includeLeading = true);
-
         #region Events
         public event EventHandler Started;
         public event EventHandler Ended;
@@ -81,9 +75,9 @@ namespace Scripts.Level.Dialogue
 
         public abstract void OnLineDialogueUpdated(string dialogue);
 
-        public abstract void OnOptionsStarted(IEnumerable<DialogueOption> dialogueOptions);
+        public abstract void OnChoicesStarted(IEnumerable<DialogueChoice> dialogueChoices);
 
-        public abstract void OnOptionSelected(DialogueOption option);
+        public abstract void OnChoiceSelected(DialogueChoice choice);
         #endregion
     }
 }

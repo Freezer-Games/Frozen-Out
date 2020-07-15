@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue.Runner
 {
-    public abstract class ConversationSystem : MonoBehaviour
+    public abstract class ChoiceSystem : MonoBehaviour
     {
         public abstract bool IsRunning();
 
-        public abstract void StartOptions(IEnumerable<DialogueOption> options);
+        public abstract void StartChoice(IEnumerable<DialogueChoice> options);
     }
 }

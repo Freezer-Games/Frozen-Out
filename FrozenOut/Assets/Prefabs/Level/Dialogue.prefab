@@ -606,9 +606,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4429440824072539158}
-  - component: {fileID: 8662630678667020697}
+  - component: {fileID: 1873779156556100963}
   m_Layer: 0
-  m_Name: InputConversationSystem
+  m_Name: InputChoiceSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -628,7 +628,7 @@ Transform:
   m_Father: {fileID: 5540703929600547700}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8662630678667020697
+--- !u!114 &1873779156556100963
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -637,11 +637,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4680061428918536422}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a6f6ff3333a924da7cb3f19bb6132b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1744ae50f8601fc4a89b5d49171d837a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueManager: {fileID: 2401489547208408697}
-  OptionsController: {fileID: 5152461523389904855}
+  ChoiceController: {fileID: 5152461523389904855}
 --- !u!1 &5431862365576841665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1003,7 @@ MonoBehaviour:
   LevelManager: {fileID: 0}
   MainDialogueSystem: {fileID: 5464782872001893715}
   InstagramDialogueSystem: {fileID: 6224036704003824184}
-  ConversationDialogueSystem: {fileID: 8662630678667020697}
+  ChoiceSystem: {fileID: 1873779156556100963}
   PromptController: {fileID: 7338004676506038069}
   GameOverActer: {fileID: 1346938333752069259}
 --- !u!114 &6988597559176021006
@@ -1612,5 +1612,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c4a3432dfcf3c147a62c23c8acc8792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConversationSystem: {fileID: 8662630678667020697}
+  ChoiceSystem: {fileID: 1873779156556100963}
   TextField: {fileID: 6552656572398507117}

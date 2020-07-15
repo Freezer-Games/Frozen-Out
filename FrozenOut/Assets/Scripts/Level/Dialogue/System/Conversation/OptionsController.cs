@@ -5,7 +5,7 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
 {
     public class OptionsController : UIController
     {
-        public InputConversationSystem ConversationSystem;
+        public InputChoiceSystem ChoiceSystem;
 
         public InputField TextField;
 
@@ -24,8 +24,8 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
 
         private void OnTextInput(string inputText)
         {
-            DialogueOption selectedOption = ConversationSystem.DialogueOptions.Last();
-            foreach (DialogueOption option in ConversationSystem.DialogueOptions)
+            DialogueChoice selectedOption = ChoiceSystem.DialogueChoices.Last();
+            foreach (DialogueChoice option in ChoiceSystem.DialogueChoices)
             {
                 if (option.Text.Contains(inputText))
                 {
@@ -33,7 +33,7 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
                 }
             }
 
-            ConversationSystem.SelectOption(selectedOption);
+            ChoiceSystem.SelectChoice(selectedOption);
         }
     }
 }

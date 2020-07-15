@@ -1,6 +1,6 @@
 ﻿namespace Scripts.Level.Dialogue
 {
-    public class DialogueOption
+    public class DialogueChoice
     {
         public string Text;
         public int ID;

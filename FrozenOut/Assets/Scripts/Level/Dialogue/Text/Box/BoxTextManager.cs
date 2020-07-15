@@ -5,7 +5,7 @@ using UnityEngine.Events;
 namespace Scripts.Level.Dialogue.Text.Unity
 {
     [RequireComponent(typeof(Canvas))]
-    public class UnityTextManager : TextManager
+    public class BoxTextManager : TextManager
     {
         public Canvas DialogueCanvas;
 

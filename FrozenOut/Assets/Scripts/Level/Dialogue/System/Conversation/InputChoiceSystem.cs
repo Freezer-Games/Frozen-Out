@@ -6,13 +6,13 @@ using UnityEngine.Localization;
 
 namespace Scripts.Level.Dialogue.Runner.Conversation
 {
-    public class InputConversationSystem : ConversationSystem
+    public class InputChoiceSystem : ChoiceSystem
     {
         public DialogueManager DialogueManager;
 
-        public UIController OptionsController;
+        public UIController ChoiceController;
 
-        public IEnumerable<DialogueOption> DialogueOptions;
+        public IEnumerable<DialogueChoice> DialogueChoices;
 
         private bool Running;
 
@@ -24,12 +24,12 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
 
         private void OpenInput()
         {
-            OptionsController.Open();
+            ChoiceController.Open();
         }
 
         private void CloseInput()
         {
-            OptionsController.Close();
+            ChoiceController.Close();
         }
 
         public override bool IsRunning()
@@ -37,17 +37,17 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
             return Running;
         }
 
-        public override void StartOptions(IEnumerable<DialogueOption> options)
+        public override void StartChoice(IEnumerable<DialogueChoice> choices)
         {
-            DialogueOptions = options;
+            DialogueChoices = choices;
 
             Running = true;
             OpenInput();
         }
 
-        public void SelectOption(DialogueOption selectedOption)
+        public void SelectChoice(DialogueChoice selectedChoice)
         {
-            DialogueManager.OnOptionSelected(selectedOption);
+            DialogueManager.OnChoiceSelected(selectedChoice);
 
             Running = false;
             CloseInput();
