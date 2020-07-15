@@ -46,9 +46,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             DialogueController.RequestNextLine();
         }
 
-        public override void RequestSelectOption(DialogueOption option)
+        public override void RequestSelectChoice(DialogueChoice choice)
         {
-            DialogueController.SelectOption(option.ID);
+            DialogueController.SelectChoice(choice.ID);
         }
 
         public override void Stop()
@@ -163,9 +163,9 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             DialogueController.LineDialogueUpdated.AddListener(DialogueManager.OnLineDialogueUpdated);
         }
 
-        public void OnOptionsStarted(Yarn.OptionSet.Option[] options, ILineLocalisationProvider localisationProvider)
+        public void OnChoicesStarted(Yarn.OptionSet.Option[] options, ILineLocalisationProvider localisationProvider)
         {
-            IEnumerable<DialogueOption> dialogueOptions = options.Select((option) => {
+            IEnumerable<DialogueChoice> dialogueChoices = options.Select((option) => {
 
                 string text = localisationProvider.GetLocalisedTextForLine(option.Line);
 
@@ -176,16 +176,16 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
                     text = option.Line.ID;
                 }
 
-                DialogueOption dialogueOption = new DialogueOption()
+                DialogueChoice dialogueChoice = new DialogueChoice()
                 {
                     Text = text,
                     ID = option.ID
                 };
 
-                return dialogueOption;
+                return dialogueChoice;
             });
 
-            DialogueManager.OnOptionsStarted(dialogueOptions);
+            DialogueManager.OnChoicesStarted(dialogueChoices);
         }
         #endregion
     }

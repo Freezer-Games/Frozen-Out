@@ -19,7 +19,7 @@ namespace Scripts.Level.Dialogue
 
         public MainDialogueSystem MainDialogueSystem;
         public SecondaryDialogueSystem InstagramDialogueSystem;
-        public ConversationSystem ConversationDialogueSystem;
+        public ChoiceSystem ChoiceSystem;
 
         public DialoguePromptController PromptController;
 
@@ -55,6 +55,16 @@ namespace Scripts.Level.Dialogue
                 UserRequestedAllLine = true;
                 UserRequestedNextLine = true;
             }
+        }
+
+        public void SetLanguage()
+        {
+            DialogueSystem.SetLanguage(SettingsManager.Locale);
+        }
+
+        public void SetVariable<T>(string variableName, T value, bool includeLeading = true)
+        {
+            MainDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
         }
 
         #region Settings
@@ -172,11 +182,6 @@ namespace Scripts.Level.Dialogue
             DialogueSystem.Stop();
         }
 
-        public override void SetLanguage()
-        {
-            DialogueSystem.SetLanguage(SettingsManager.Locale);
-        }
-
         private System.Action onSwitchBack;
         public override void SwitchToInstagram(System.Action onComplete)
         {
@@ -192,28 +197,6 @@ namespace Scripts.Level.Dialogue
             onSwitchBack = null;
 
             DialogueSystem = MainDialogueSystem;
-        }
-        #endregion
-
-        #region Variables
-        public override bool GetBoolVariable(string variableName, bool includeLeading = true)
-        {
-            return MainDialogueSystem.GetBoolVariable(variableName, includeLeading);
-        }
-
-        public override string GetStringVariable(string variableName, bool includeLeading = true)
-        {
-            return MainDialogueSystem.GetStringVariable(variableName, includeLeading);
-        }
-
-        public override float GetNumberVariable(string variableName, bool includeLeading = true)
-        {
-            return MainDialogueSystem.GetNumberVariable(variableName, includeLeading);
-        }
-
-        public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
-        {
-            MainDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
         }
         #endregion
 
@@ -364,14 +347,14 @@ namespace Scripts.Level.Dialogue
             ProcessDialogue(dialogue);
         }
 
-        public override void OnOptionsStarted(IEnumerable<DialogueOption> dialogueOptions)
+        public override void OnChoicesStarted(IEnumerable<DialogueChoice> dialogueChoice)
         {
-            ConversationDialogueSystem.StartOptions(dialogueOptions);
+            ChoiceSystem.StartChoice(dialogueChoice);
         }
 
-        public override void OnOptionSelected(DialogueOption option)
+        public override void OnChoiceSelected(DialogueChoice choice)
         {
-            MainDialogueSystem.RequestSelectOption(option);
+            MainDialogueSystem.RequestSelectChoice(choice);
         }
         #endregion
     }

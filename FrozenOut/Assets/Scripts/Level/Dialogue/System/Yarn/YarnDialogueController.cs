@@ -69,7 +69,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
 
         public override void RunOptions(Yarn.OptionSet optionSet, ILineLocalisationProvider localisationProvider, System.Action<int> onOptionSelected)
         {
-            DialogueSystem.OnOptionsStarted(optionSet.Options, localisationProvider);
+            DialogueSystem.OnChoicesStarted(optionSet.Options, localisationProvider);
 
             OptionSelectionHandler = onOptionSelected;
         }
@@ -108,7 +108,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             }
         }
 
-        public void SelectOption(int optionID)
+        public void SelectChoice(int optionID)
         {
             OptionSelectionHandler?.Invoke(optionID);
         }
