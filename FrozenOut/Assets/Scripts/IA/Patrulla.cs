@@ -30,6 +30,11 @@ public class Patrulla : MonoBehaviour
     private bool orden = true;//true hacia arriba false hacia abajo
     private bool NoVisto;
 
+    public bool TienePausas;
+    public Transform[] Pausas;
+    public Transform[] MiraPausas;
+    public float[] TiemposPausas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +49,19 @@ public class Patrulla : MonoBehaviour
 
     void GotoNextPoint()
     {
+        if (TienePausas)
+        {
+            for (int i = 0; i < Pausas.Length; i++)
+            {
+                if (Navegacion.destination == Pausas[i].position)
+                {
+                    StartCoroutine(Esperar(TiemposPausas[i],i));
+                }
+
+            }
+            
+        }
+
         if (Destinos.Length == 0)
             return;
         Navegacion.destination = Destinos[SiguientePunto].position;
@@ -213,5 +231,11 @@ public class Patrulla : MonoBehaviour
         transform.LookAt(lookTo);
 
         DialogueManager.StartGameOverDialogue();
+    }
+
+    private IEnumerator Esperar(float tiempo, int position)
+    {
+        transform.LookAt(MiraPausas[position]);
+        yield return new WaitForSeconds(tiempo);
     }
 }
