@@ -9,7 +9,6 @@ namespace Scripts.Level.Item
 {
     public class SnowdriftItem : ItemUser
     {
-        public ParticleSystem Particles;
         public ScoopSoundController SoundController;
         public DialogueActer UnableTalker;
         public Collider Collider;
@@ -46,10 +45,7 @@ namespace Scripts.Level.Item
         IEnumerator PlayParticles()
         {
             yield return new WaitForSeconds(animDelay);
-            Particles.Play();
             SoundController.PlayRandomClip(SoundController.Scoops);
-            yield return new WaitForSeconds(particlesDelay);
-            Particles.Stop();
 
             if (!TriggerTimeline)
             {
