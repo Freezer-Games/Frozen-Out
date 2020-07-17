@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.Localization;
+﻿using System.Collections.Generic;
 
-namespace Scripts.Level.Dialogue.Runner.Conversation
+namespace Scripts.Level.Dialogue.System.Choice
 {
     public class InputChoiceSystem : ChoiceSystem
     {
@@ -14,11 +10,8 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
 
         public IEnumerable<DialogueChoice> DialogueChoices;
 
-        private bool Running;
-
         private void Start()
         {
-            Running = false;
             CloseInput();
         }
 
@@ -32,16 +25,10 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
             ChoiceController.Close();
         }
 
-        public override bool IsRunning()
-        {
-            return Running;
-        }
-
         public override void StartChoice(IEnumerable<DialogueChoice> choices)
         {
             DialogueChoices = choices;
 
-            Running = true;
             OpenInput();
         }
 
@@ -49,7 +36,6 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
         {
             DialogueManager.OnChoiceSelected(selectedChoice);
 
-            Running = false;
             CloseInput();
         }
     }

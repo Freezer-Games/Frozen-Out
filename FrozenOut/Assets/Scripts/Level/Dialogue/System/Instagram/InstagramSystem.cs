@@ -9,7 +9,7 @@ using InstagramConnection.Model;
 using System.Linq;
 using CsvHelper.Configuration;
 
-namespace Scripts.Level.Dialogue.Runner.Instagram
+namespace Scripts.Level.Dialogue.System.Instagram
 {
     public class InstagramSystem : SecondaryDialogueSystem
     {
@@ -32,7 +32,7 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
             {
                 Service = new InstagramService();
             }
-            catch (System.InvalidOperationException)
+            catch (global::System.InvalidOperationException)
             {
             }
 
@@ -91,7 +91,7 @@ namespace Scripts.Level.Dialogue.Runner.Instagram
                     commentText = TrimComment(commentText);
 
                     string commentFormatted = "<i>" + nameText + "</i>: " + "\"" + commentText + "\"";
-                    DialogueManager.OnLineStyleUpdated("");
+                    DialogueManager.OnLineStarted();
                     DialogueManager.OnLineDialogueUpdated(commentFormatted);
 
                     while (!RequestedNextLine)

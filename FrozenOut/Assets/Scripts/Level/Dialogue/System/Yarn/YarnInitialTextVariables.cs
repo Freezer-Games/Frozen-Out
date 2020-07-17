@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Scripts.Level.Dialogue.Utils;
 
-namespace Scripts.Level.Dialogue.Runner.YarnSpinner
+namespace Scripts.Level.Dialogue.System.YarnSpinner
 {
     public class YarnInitialTextVariables : MonoBehaviour
     {
@@ -12,16 +12,16 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
 
         public TextAsset VariableFile;
 
-        private FileVariableReader variableReader;
+        private FileVariableReader VariableReader;
 
         void Awake()
         {
-            variableReader = FileVariableReader.EqualFileVariableReader;
+            VariableReader = FileVariableReader.EqualFileVariableReader;
         }
 
         public void SetInitialVariables()
         {
-            IDictionary<string, string> variables = variableReader.Extract(VariableFile.text);
+            IDictionary<string, string> variables = VariableReader.Extract(VariableFile.text);
 
             if (VariableFile != null)
             {

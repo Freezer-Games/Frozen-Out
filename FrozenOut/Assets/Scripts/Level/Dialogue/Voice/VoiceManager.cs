@@ -9,9 +9,10 @@ namespace Scripts.Level.Dialogue
         public abstract void Open();
         public abstract void Close();
 
-        public abstract void SetStyle(VoiceStyle style);
+        public abstract void StartLine();
 
-        public abstract void Speak(string dialogue);
-        public abstract void Speak(char newDialogueLetter);
+        public abstract void SetStyle(VoiceStyle style);
+        public abstract void SpeakDialogueAccumulated(string dialogue);
+        public abstract void SpeakDialogueSingle(string dialogueLetter);
     }
 }

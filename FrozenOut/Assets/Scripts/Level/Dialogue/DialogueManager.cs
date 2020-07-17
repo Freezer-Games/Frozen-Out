@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 using Scripts.Level.Dialogue.Text;
-using Scripts.Level.Dialogue.Runner;
+using Scripts.Level.Dialogue.System;
 
 namespace Scripts.Level.Dialogue
 {
@@ -35,7 +35,7 @@ namespace Scripts.Level.Dialogue
         public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
 
-        public abstract void SwitchToInstagram(System.Action onComplete);
+        public abstract void SwitchToInstagram(global::System.Action onComplete);
         public abstract void SwitchToMain();
 
         public abstract int GetTextSize();
@@ -68,6 +68,8 @@ namespace Scripts.Level.Dialogue
         {
             Ended?.Invoke(this, EventArgs.Empty);
         }
+
+        public abstract void OnLineStarted();
 
         public abstract void OnLineStyleUpdated(string styleName);
 

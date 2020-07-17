@@ -89,27 +89,6 @@ namespace Scripts.Level.Dialogue.Utils
             }
         }
 
-        /// <summary>
-        /// Analiza el <paramref name="text"/> indicado, y lo clasifica según el tipo de <see cref="IDialogueText"/> que es (si contiene o no tags, etc.)
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static IDialogueText AnalyzeText(string text)
-        {
-            IDialogueText resultDialogueText;
-
-            if (TagFormat.RichTextTagFormat.HasAnyTags(text))
-            {
-                resultDialogueText = DialogueTaggedText.AnalyzeText(text, TagFormat.RichTextTagFormat);
-            }
-            else
-            {
-                resultDialogueText = new DialogueText(text);
-            }
-
-            return resultDialogueText;
-        }
-
         public string ToStringClean() => Texts.Aggregate("", (completeText, text) => completeText + text.ToStringClean());
         public string ToStringFull() => Texts.Aggregate("", (completeText, text) => completeText + text.ToStringFull());
     }

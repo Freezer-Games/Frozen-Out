@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine.UI;
 
-namespace Scripts.Level.Dialogue.Runner.Conversation
+namespace Scripts.Level.Dialogue.System.Choice
 {
     public class OptionsController : UIController
     {
@@ -18,8 +18,15 @@ namespace Scripts.Level.Dialogue.Runner.Conversation
         {
             base.Open();
 
-            // Sanity check
+            TextField.enabled = true;
             TextField.text = "";
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            TextField.enabled = false;
         }
 
         private void OnTextInput(string inputText)

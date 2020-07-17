@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue.Runner.YarnSpinner
+namespace Scripts.Level.Dialogue.System.YarnSpinner
 {
     public class YarnDialogueFunctions : MonoBehaviour
     {
