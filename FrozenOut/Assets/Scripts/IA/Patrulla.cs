@@ -179,7 +179,7 @@ public class Patrulla : MonoBehaviour
         {
             case Estados.patrullando:
                 //Animator.SetBool("isWalking", true);
-                if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.1f)
+                if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.35f)
                     if (Tipo != TipoPatrulla.Cíclica && !orden )
                     {
                         StartCoroutine(Esperar(2));
