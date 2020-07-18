@@ -45,7 +45,6 @@ namespace Scripts
         public GameOverManager GameOverManager;
         public SettingsManager SettingsManager;
         public SaveManager SaveManager;
-        public PlayerInfo PlayerInfo;
 
         private int CurrentLevelIndex = 0;
         

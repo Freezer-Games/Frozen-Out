@@ -297,7 +297,7 @@ namespace Scripts.Settings
         {
             SupportedLanguages = LocalizationSettings.AvailableLocales.Locales;
             
-            Locale = LocalizationSettings.AvailableLocales.Locales[0];
+            Locale = LocalizationSettings.SelectedLocale;
         }
 
         private void AssignGraphics()
