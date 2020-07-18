@@ -1,15 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 namespace Scripts.Level.Mission
 {
-    public class MissionInfo : MonoBehaviour
+    [Serializable]
+    public class MissionInfo
     {
-        
-        public string Nombre;
+        public string Name;
         public string Description;
-        public List<string> SubObjectives;
+        public bool IsDone;
+    }
 
+    [Serializable]
+    public class MissionBase
+    {
+        public string VariableName;
+
+        public override bool Equals(object obj)
+        {
+            if ((obj == null) || !(obj is MissionBase))
+            {
+                return false;
+            }
+
+            MissionBase other = (MissionBase)obj;
+            return this.VariableName.Equals(other.VariableName);
+        }
     }
 }

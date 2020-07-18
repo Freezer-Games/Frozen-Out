@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 using Scripts.Settings;
@@ -23,7 +21,7 @@ namespace Scripts.Level
         //public CameraManager CameraManager;
         public Inventory Inventory;
         public NPCManager NPCManager;
-        public MissionInfo[] Missions;
+        public MissionManager MissionManager;
 
         private GameManager GameManager => GameManager.Instance;
         private SettingsManager SettingsManager => GameManager.SettingsManager;
@@ -138,9 +136,9 @@ namespace Scripts.Level
             return NPCManager;
         }
 
-        public IEnumerable<MissionInfo> GetMissions()
+        public MissionManager GetMissionManager()
         {
-            return Missions;
+            return MissionManager;
         }
 
     }

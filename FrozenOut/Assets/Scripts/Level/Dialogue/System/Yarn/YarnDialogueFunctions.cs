@@ -39,6 +39,12 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
                 return YarnSystem.QuantityOfItem(itemVariableName);
             });
 
+            DialogueRunner.AddFunction("done_mission", 1, delegate (Yarn.Value[] parameters)
+            {
+                string missionVariableName = parameters[0].AsString;
+                return YarnSystem.MarkMissionDone(missionVariableName);
+            });
+
             DialogueRunner.AddFunction("random_bool", 0, delegate (Yarn.Value[] parameters)
             {
                 float random = Random.value;

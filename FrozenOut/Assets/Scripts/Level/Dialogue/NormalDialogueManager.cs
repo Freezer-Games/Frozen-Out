@@ -9,6 +9,7 @@ using Scripts.Level.Item;
 using Scripts.Level.NPC;
 using Scripts.Level.Dialogue.Utils;
 using Scripts.Level.Dialogue.System;
+using Scripts.Level.Mission;
 
 namespace Scripts.Level.Dialogue
 {
@@ -34,6 +35,7 @@ namespace Scripts.Level.Dialogue
 
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
         private Inventory Inventory => LevelManager.GetInventory();
+        private MissionManager MissionManager => LevelManager.GetMissionManager();
         private NPCManager NPCManager => LevelManager.GetNPCManager();
 
         void Awake()
@@ -104,6 +106,14 @@ namespace Scripts.Level.Dialogue
                 VariableName = itemVariableName
             };
             return Inventory.QuantityOfItem(item);
+        }
+        public override bool MarkMissionDone(string missionVariableName)
+        {
+            MissionBase mission = new MissionBase()
+            {
+                VariableName = missionVariableName
+            };
+            return MissionManager.IsMissionDone(mission);
         }
         public override void PickItem(string itemVariableName, int quantity)
         {

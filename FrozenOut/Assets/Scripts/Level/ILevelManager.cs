@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using Scripts.Settings;
 
 using Scripts.Level.Sound;
@@ -30,6 +27,6 @@ namespace Scripts.Level
         //CameraManager GetCameraManager();
         Inventory GetInventory();
         NPCManager GetNPCManager();
-        IEnumerable<MissionInfo> GetMissions();
+        MissionManager GetMissionManager();
     }
 }
