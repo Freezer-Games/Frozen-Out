@@ -30,6 +30,7 @@ public class Patrulla : MonoBehaviour
     private bool orden = true;//true hacia arriba false hacia abajo
     private bool NoVisto;
 
+    bool pausado;
     public bool TienePausas;
     public Transform[] Pausas;
     public Transform[] MiraPausas;
@@ -49,19 +50,6 @@ public class Patrulla : MonoBehaviour
 
     void GotoNextPoint()
     {
-        if (TienePausas)
-        {
-            for (int i = 0; i < Pausas.Length; i++)
-            {
-                if (Navegacion.destination == Pausas[i].position)
-                {
-                    StartCoroutine(Esperar(TiemposPausas[i],i));
-                }
-
-            }
-            
-        }
-
         if (Destinos.Length == 0)
             return;
         Navegacion.destination = Destinos[SiguientePunto].position;
@@ -97,17 +85,29 @@ public class Patrulla : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool shouldMove = (Navegacion.remainingDistance <= Navegacion.stoppingDistance && Navegacion.velocity.magnitude < 0.1f);
+        if (shouldMove)
+        {
+            Animator.SetBool("isWalking", false);
+        }
+        else
+        {
+            Animator.SetBool("isWalking", true);
+        }
         NoVisto = gameObject.GetComponent<Vision>().NoVisto;
         List<Transform> visibles = gameObject.GetComponent<Vision>().ObjetosDetectados;
         List<Transform> cercanos = gameObject.GetComponent<Vision>().ObjetosCercanos;
         List<Transform> ultimasPosiciones = gameObject.GetComponent<Vision>().UltimasPosiciones;
-        if (Tipo != TipoPatrulla.Estatica)
+        if (!pausado)
         {
-            Patrullar(visibles, cercanos, ultimasPosiciones);
-        }
-        else
-        {
-            Vigilar(visibles, cercanos, ultimasPosiciones);
+            if (Tipo != TipoPatrulla.Estatica)
+            {
+                Patrullar(visibles, cercanos, ultimasPosiciones);
+            }
+            else
+            {
+                Vigilar(visibles, cercanos, ultimasPosiciones);
+            }
         }
 
     }
@@ -117,7 +117,7 @@ public class Patrulla : MonoBehaviour
         switch (Estado)
         {
             case Estados.patrullando:
-                Animator.SetBool("isWalking", false);
+                //Animator.SetBool("isWalking", false);
                 gameObject.transform.LookAt(mira);
                 if (visibles.Count > 0)
                 {
@@ -130,19 +130,19 @@ public class Patrulla : MonoBehaviour
             case Estados.perseguir:
                 if (Hablando)
                 {
-                    Animator.SetBool("isWalking", false);
+                    //Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
                     IniciarDialogo();
                     Estado = Estados.esperar;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 1 && NoVisto)
                 {
-                    Animator.SetBool("isWalking", true);
+                    //Animator.SetBool("isWalking", true);
                     Navegacion.destination = ultimasPosiciones[0].position;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 1 && !NoVisto)
                 {
-                    Animator.SetBool("isWalking", true);
+                    //Animator.SetBool("isWalking", true);
                     Navegacion.destination = visibles[0].position;
                 }
                 else if (cercanos.Count > 0)
@@ -178,19 +178,19 @@ public class Patrulla : MonoBehaviour
         switch (Estado)
         {
             case Estados.patrullando:
-                Animator.SetBool("isWalking", true);
+                //Animator.SetBool("isWalking", true);
                 if (!Navegacion.pathPending && Navegacion.remainingDistance < 0.1f)
                     if (Tipo != TipoPatrulla.Cíclica && !orden )
                     {
-                        GotoPreviousPoint();
+                        StartCoroutine(Esperar(2));
                     }
                     else 
                     {
-                        GotoNextPoint();
+                        StartCoroutine(Esperar(1));
                     }
                 if (visibles.Count > 0 )
                 {
-                    Animator.SetBool("isWalking", false);
+                    //Animator.SetBool("isWalking", false);
                     Animator.Play("Sorpresa");
                     Estado = Estados.perseguir;
                 }
@@ -199,14 +199,14 @@ public class Patrulla : MonoBehaviour
             case Estados.perseguir:
                 if (Hablando)
                 {
-                    Animator.SetBool("isWalking", false);
+                    //Animator.SetBool("isWalking", false);
                     //Comenzar dialogo
                     IniciarDialogo();
                     Estado = Estados.esperar;
                 }
                 else if (visibles.Count > 0 && cercanos.Count < 1)
                 {
-                    Animator.SetBool("isWalking", true);
+                    //Animator.SetBool("isWalking", true);
                     Navegacion.destination = visibles[0].position;
                 }
                 else if (cercanos.Count > 0 )
@@ -233,9 +233,25 @@ public class Patrulla : MonoBehaviour
         DialogueManager.StartGameOverDialogue();
     }
 
-    private IEnumerator Esperar(float tiempo, int position)
+    private IEnumerator Esperar(int tipo)//1 para NextPoint, 2 para PreviousPoint
     {
-        transform.LookAt(MiraPausas[position]);
-        yield return new WaitForSeconds(tiempo);
+        if (TienePausas)
+        {
+            for (int i = 0; i < Pausas.Length; i++)
+            {
+                if (Vector3.Distance(Navegacion.destination, Pausas[i].position) < 0.1)
+                {
+                    transform.LookAt(MiraPausas[i]);
+                    pausado = true;
+                    //Animator.SetBool("isWalking", false);
+                    Navegacion.destination = gameObject.transform.position;
+                    yield return new WaitForSeconds(TiemposPausas[i]);
+                    //Animator.SetBool("isWalking", true);
+                    pausado = false;
+                }
+            }
+        }
+        if (tipo == 1) { GotoNextPoint(); }
+        else { GotoPreviousPoint(); }
     }
 }
