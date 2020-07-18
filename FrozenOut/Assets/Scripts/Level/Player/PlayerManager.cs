@@ -165,6 +165,8 @@ namespace Scripts.Level.Player
         #region Events
         public event EventHandler<PlayerControllerEventArgs> Moving;
         public event EventHandler Idle;
+        public event EventHandler NormalOclussion;
+        public event EventHandler OrangeOclussion;
 
         public void OnMoving()
         {
@@ -175,6 +177,16 @@ namespace Scripts.Level.Player
         public void OnIdle()
         {
             Idle?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnNormalZone()
+        {
+            NormalOclussion?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnDeathZone()
+        {
+            OrangeOclussion?.Invoke(this, EventArgs.Empty);
         }
         #endregion
     }

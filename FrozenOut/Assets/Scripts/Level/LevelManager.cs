@@ -3,7 +3,6 @@ using UnityEngine;
 using Scripts.Settings;
 
 using Scripts.Level.Sound;
-using Scripts.Level.Camera;
 using Scripts.Level.Player;
 using Scripts.Level.Dialogue;
 using Scripts.Level.Mission;
@@ -18,7 +17,6 @@ namespace Scripts.Level
         public PlayerManager PlayerManager;
         public DialogueManager DialogueManager;
         public MusicManager MusicManager;
-        //public CameraManager CameraManager;
         public Inventory Inventory;
         public NPCManager NPCManager;
         public MissionManager MissionManager;
@@ -120,11 +118,6 @@ namespace Scripts.Level
         {
             return MusicManager;
         }
-        
-        /*public CameraManager GetCameraManager()
-        {
-            return CameraManager;
-        }*/
 
         public Inventory GetInventory()
         {
