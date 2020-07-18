@@ -17,7 +17,7 @@ namespace Scripts.Menu.Main
         public Button JumpKey;
         public Button CrouchKey;
         public Button InteractKey;
-        public Button MissionsKey;
+        public Button InventoryKey;
         public Button NextDialogueKey;
         
         Event KeyEvent;
@@ -35,7 +35,7 @@ namespace Scripts.Menu.Main
             JumpKey.GetComponentInChildren<Text>().text = MainMenuManager.GetJumpKey().ToString();
             CrouchKey.GetComponentInChildren<Text>().text = MainMenuManager.GetCrouchKey().ToString();
             InteractKey.GetComponentInChildren<Text>().text = MainMenuManager.GetInteractKey().ToString();
-            MissionsKey.GetComponentInChildren<Text>().text = MainMenuManager.GetMissionsKey().ToString();
+            InventoryKey.GetComponentInChildren<Text>().text = MainMenuManager.GetInventoryKey().ToString();
             NextDialogueKey.GetComponentInChildren<Text>().text = MainMenuManager.GetNextDialogueKey().ToString();
 
             ForwardKey.onClick.AddListener(() => StartAssignment(nameof(ForwardKey)));
@@ -45,7 +45,7 @@ namespace Scripts.Menu.Main
             JumpKey.onClick.AddListener(() => StartAssignment(nameof(JumpKey)));
             CrouchKey.onClick.AddListener(() => StartAssignment(nameof(CrouchKey)));
             InteractKey.onClick.AddListener(() => StartAssignment(nameof(InteractKey)));
-            MissionsKey.onClick.AddListener(() => StartAssignment(nameof(MissionsKey)));
+            InventoryKey.onClick.AddListener(() => StartAssignment(nameof(InventoryKey)));
             NextDialogueKey.onClick.AddListener(() => StartAssignment(nameof(NextDialogueKey)));
         }
 
@@ -122,9 +122,9 @@ namespace Scripts.Menu.Main
                     MainMenuManager.SetInteractKey(NewKey);
                     InteractKey.GetComponentInChildren<Text>().text = NewKey.ToString();
                     break;
-                case nameof(MissionsKey):
-                    MainMenuManager.SetMissionsKey(NewKey);
-                    MissionsKey.GetComponentInChildren<Text>().text = NewKey.ToString();
+                case nameof(InventoryKey):
+                    MainMenuManager.SetInventoryKey(NewKey);
+                    InventoryKey.GetComponentInChildren<Text>().text = NewKey.ToString();
                     break;
                 case nameof(NextDialogueKey):
                     MainMenuManager.SetNextDialogueKey(NewKey);

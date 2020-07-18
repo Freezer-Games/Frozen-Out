@@ -10,16 +10,12 @@ namespace Scripts.Menu.Pause
         public PauseMenuManager PauseMenuManager;
         
         public Button ContinueButton;
-        public Button SaveButton;
-        public Button LoadButton;
         public Button RestartButton;
         public Button ExitButton;
 
         void Start()
         {
             ContinueButton.onClick.AddListener(CloseOpenMenu);
-            SaveButton.onClick.AddListener(SaveGame);
-            LoadButton.onClick.AddListener(LoadGame);
             RestartButton.onClick.AddListener(Restart);
             ExitButton.onClick.AddListener(Exit);
         }
@@ -37,19 +33,6 @@ namespace Scripts.Menu.Pause
             Close();
 
             PauseMenuManager.RestartLevel();
-        }
-
-        private void SaveGame()
-        {
-            PauseMenuManager.SaveGame();
-        }
-
-        private void LoadGame()
-        {
-            Close();
-
-            //TODO
-            //PauseMenuManager.LoadGame();
         }
 
         private void Exit()

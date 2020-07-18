@@ -3,10 +3,8 @@ using System;
 namespace Scripts.Level.Mission
 {
     [Serializable]
-    public class MissionInfo
+    public class MissionInfo : MissionBase
     {
-        public string Name;
-        public string Description;
         public bool IsDone;
     }
 

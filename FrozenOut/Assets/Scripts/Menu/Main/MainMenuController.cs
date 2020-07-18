@@ -10,16 +10,12 @@ namespace Scripts.Menu.Main
         public MainMenuManager MainMenuManager;
 
         public Button StartButton;
-        public Button ContinueButton;
-        public Button LoadButton;
         public Button OptionsButton;
         public Button ExitButton;
 
         void Start()
         {
             StartButton.onClick.AddListener(StartGame);
-            ContinueButton.onClick.AddListener(ContinueGame);
-            LoadButton.onClick.AddListener(OpenSelectLoad);
             OptionsButton.onClick.AddListener(OpenOptionsMenu);
             ExitButton.onClick.AddListener(Exit);
         }
@@ -40,16 +36,6 @@ namespace Scripts.Menu.Main
         private void StartGame()
         {
             MainMenuManager.StartGame();
-        }
-
-        private void OpenSelectLoad()
-        {
-            //TODO
-        }
-
-        private void ContinueGame()
-        {
-            MainMenuManager.ContinueGame();
         }
 
         private void OpenOptionsMenu()

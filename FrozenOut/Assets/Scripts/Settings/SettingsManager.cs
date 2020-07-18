@@ -56,17 +56,12 @@ namespace Scripts.Settings
             get;
             private set;
         }
-        public KeyCode MissionsKey
+        public KeyCode InventoryKey
         {
             get;
             private set;
         }
         public KeyCode PauseKey
-        {
-            get;
-            private set;
-        }
-        public KeyCode InventoryKey
         {
             get;
             private set;
@@ -215,10 +210,10 @@ namespace Scripts.Settings
             SetPlayerPrefsKey(nameof(InteractKey), InteractKey);
         }
 
-        public void SetMissionsKey(KeyCode keyCode)
+        public void SetInventoryKey(KeyCode keyCode)
         {
-            MissionsKey = keyCode;
-            SetPlayerPrefsKey(nameof(MissionsKey), MissionsKey);
+            InventoryKey = keyCode;
+            SetPlayerPrefsKey(nameof(InventoryKey), InventoryKey);
         }
 
         public void SetNextDialogueKey(KeyCode keyCode)
@@ -360,9 +355,8 @@ namespace Scripts.Settings
             CrouchKey = GetPlayerPrefsKey(nameof(CrouchKey), "LeftControl");
             InteractKey = GetPlayerPrefsKey(nameof(InteractKey), "F");
             NextDialogueKey = GetPlayerPrefsKey(nameof(NextDialogueKey), "Space");
-            MissionsKey = GetPlayerPrefsKey(nameof(MissionsKey), "Tab");
-            PauseKey = GetPlayerPrefsKey(nameof(PauseKey), "Escape");
             InventoryKey = GetPlayerPrefsKey(nameof(InventoryKey), "Tab");
+            PauseKey = GetPlayerPrefsKey(nameof(PauseKey), "Escape");
         }
 
         private KeyCode GetPlayerPrefsKey(string name, string defaultValue)

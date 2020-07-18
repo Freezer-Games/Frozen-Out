@@ -5,11 +5,7 @@ namespace Scripts.Level.Mission
 {
     public class MissionManager : MonoBehaviour
     {
-        public List<MissionInfo> Missions
-        {
-            get;
-            private set;
-        }
+        public List<MissionInfo> Missions;
 
         public bool IsMissionDone(MissionBase mission)
         {

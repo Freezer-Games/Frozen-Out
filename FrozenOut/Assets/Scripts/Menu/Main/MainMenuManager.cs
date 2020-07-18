@@ -234,14 +234,14 @@ namespace Scripts.Menu.Main
             SettingsManager.SetInteractKey(keyCode);
         }
 
-        public KeyCode GetMissionsKey()
+        public KeyCode GetInventoryKey()
         {
-            return SettingsManager.MissionsKey;
+            return SettingsManager.InventoryKey;
         }
 
-        public void SetMissionsKey(KeyCode keyCode)
+        public void SetInventoryKey(KeyCode keyCode)
         {
-            SettingsManager.SetMissionsKey(keyCode);
+            SettingsManager.SetInventoryKey(keyCode);
         }
 
         public KeyCode GetNextDialogueKey()
