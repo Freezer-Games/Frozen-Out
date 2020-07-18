@@ -60,5 +60,38 @@ namespace Scripts.Level.Dialogue.Utils
 
         public string ToStringClean() => this.Text;
         public string ToStringFull() => this.Text;
+
+
+        /*private readonly List<char> GarbageLetters = new List<char>()
+        {
+            '#',
+            '$',
+            '?',
+            '@',
+            '-',
+            '*',
+            '&',
+            '%'
+        };
+
+        private string RandomGarbageWord(string word)
+        {
+            char[] letters = word.ToCharArray();
+
+            Random random = new Random();
+            for (int index = 0; index < letters.Count(); index++)
+            {
+                bool useRandom = random.Next(0, 11) > 7; // 30% of random
+
+                int randomIndex = random.Next(0, GarbageLetters.Count());
+
+                if (useRandom)
+                {
+                    letters[index] = GarbageLetters.ElementAt(randomIndex);
+                }
+            }
+
+            return new string(letters);
+        }*/
     }
 }

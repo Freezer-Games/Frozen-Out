@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace Scripts.Level.Dialogue.Runner
+namespace Scripts.Level.Dialogue.System
 {
     public abstract class DialogueSystem : MonoBehaviour
     {

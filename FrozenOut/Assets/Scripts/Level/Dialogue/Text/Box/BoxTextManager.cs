@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 namespace Scripts.Level.Dialogue.Text.Unity
 {
@@ -9,9 +7,9 @@ namespace Scripts.Level.Dialogue.Text.Unity
     {
         public Canvas DialogueCanvas;
 
-        private bool IsOpen => DialogueCanvas.enabled;
+        public UnityEngine.UI.Text NameText;
+        public DialogueBoxController DialogueBoxController;
 
-        private string CurrentSentence;
         private TextStyle CurrentStyle;
 
         void Awake()
@@ -22,78 +20,52 @@ namespace Scripts.Level.Dialogue.Text.Unity
         public override void Open()
         {
             DialogueCanvas.enabled = true;
-            OnDialogueStart();
+            Clear();
         }
 
         public override void Close()
         {
             DialogueCanvas.enabled = false;
-            OnDialogueEnd();
+        }
+
+        public override void StartLine()
+        {
+            DialogueBoxController.Clear(); //May want to mantain name
         }
 
         public override void SetStyle(TextStyle style)
         {
             CurrentStyle = style;
-            OnStyleLineUpdate(style);
         }
 
         public override void ShowName(string name)
         {
-            OnNameLineUpdate(name);
+            NameText.text = name;
         }
 
         public override void ShowDialogueAccumulated(string dialogue)
         {
-            OnDialogueLineUpdate(dialogue);
+            DialogueBoxController.Clear();
+            foreach (char letter in dialogue)
+            {
+                ShowDialogueSingle(letter.ToString());
+            }
         }
 
         public override void ShowDialogueSingle(string dialogueLetter)
         {
-            OnDialogueLetterUpdate(dialogueLetter);
+            DialogueBoxController.SetText(dialogueLetter, CurrentStyle);
         }
 
-        #region Events
-        public UnityEvent DialogueStarted;
-        public UnityEvent DialogueEnded;
-        public StringUnityEvent LineNameUpdated;
-        public StringUnityEvent LineDialogueUpdated;
-        public StringUnityEvent LetterDialogueUpdated;
-        public StyleUnityEvent LineStyleUpdated;
-
-        private void OnDialogueStart()
+        private void Clear()
         {
-            DialogueStarted?.Invoke();
+            ClearName();
+            DialogueBoxController.Clear();
         }
 
-        private void OnDialogueEnd()
+        private void ClearName()
         {
-            DialogueEnded?.Invoke();
+            NameText.text = "";
         }
-
-        private void OnNameLineUpdate(string nameToDisplay)
-        {
-            LineNameUpdated?.Invoke(nameToDisplay);
-        }
-
-        private void OnDialogueLineUpdate(string dialogueToDisplay)
-        {
-            LineDialogueUpdated?.Invoke(dialogueToDisplay);
-        }
-
-        private void OnDialogueLetterUpdate(string letterToDisplay)
-        {
-            LetterDialogueUpdated?.Invoke(letterToDisplay);
-        }
-
-        private void OnStyleLineUpdate(TextStyle dialogueStyle)
-        {
-            LineStyleUpdated?.Invoke(dialogueStyle);
-        }
-        #endregion
     }
-
-    [Serializable]
-    public class StyleUnityEvent : UnityEvent<TextStyle> { }
-    [Serializable]
-    public class StringUnityEvent : UnityEvent<string> { }
 }

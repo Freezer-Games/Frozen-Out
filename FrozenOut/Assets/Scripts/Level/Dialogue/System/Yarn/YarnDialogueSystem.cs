@@ -5,7 +5,7 @@ using UnityEngine.Localization;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue.Runner.YarnSpinner
+namespace Scripts.Level.Dialogue.System.YarnSpinner
 {
     public class YarnDialogueSystem : MainDialogueSystem
     {
@@ -158,6 +158,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             DialogueController.DialogueStarted.AddListener(DialogueManager.OnDialogueStarted);
             DialogueController.DialogueEnded.AddListener(DialogueManager.OnDialogueEnded);
 
+            DialogueController.LineStarted.AddListener(DialogueManager.OnLineStarted);
             DialogueController.LineStyleUpdated.AddListener(DialogueManager.OnLineStyleUpdated);
             DialogueController.LineNameUpdated.AddListener(DialogueManager.OnLineNameUpdated);
             DialogueController.LineDialogueUpdated.AddListener(DialogueManager.OnLineDialogueUpdated);

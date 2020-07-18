@@ -3,7 +3,7 @@ using UnityEngine;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue.Runner.YarnSpinner
+namespace Scripts.Level.Dialogue.System.YarnSpinner
 {
     public class YarnDialogueController : DialogueUIBehaviour
     {
@@ -13,7 +13,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         private const string DialogueSeparator = ": ";
 
         private bool RequestedNextLine;
-        private System.Action<int> OptionSelectionHandler;
+        private global::System.Action<int> OptionSelectionHandler;
 
         public void RequestNextLine()
         {
@@ -30,13 +30,13 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             OnDialogueEnd();
         }
 
-        public override Yarn.Dialogue.HandlerExecutionType RunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, System.Action onLineComplete)
+        public override Yarn.Dialogue.HandlerExecutionType RunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, global::System.Action onLineComplete)
         {
             StartCoroutine(DoRunLine(line, localisationProvider, onLineComplete));
             return Yarn.Dialogue.HandlerExecutionType.PauseExecution;
         }
 
-        private IEnumerator DoRunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, System.Action onComplete)
+        private IEnumerator DoRunLine(Yarn.Line line, ILineLocalisationProvider localisationProvider, global::System.Action onComplete)
         {
             OnLineStart();
 
@@ -67,14 +67,14 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             onComplete();
         }
 
-        public override void RunOptions(Yarn.OptionSet optionSet, ILineLocalisationProvider localisationProvider, System.Action<int> onOptionSelected)
+        public override void RunOptions(Yarn.OptionSet optionSet, ILineLocalisationProvider localisationProvider, global::System.Action<int> onOptionSelected)
         {
             DialogueSystem.OnChoicesStarted(optionSet.Options, localisationProvider);
 
             OptionSelectionHandler = onOptionSelected;
         }
 
-        public override Yarn.Dialogue.HandlerExecutionType RunCommand(Yarn.Command command, System.Action onCommandComplete)
+        public override Yarn.Dialogue.HandlerExecutionType RunCommand(Yarn.Command command, global::System.Action onCommandComplete)
         {
             return Yarn.Dialogue.HandlerExecutionType.ContinueExecution;
         }
@@ -111,6 +111,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
         public void SelectChoice(int optionID)
         {
             OptionSelectionHandler?.Invoke(optionID);
+            OptionSelectionHandler = null;
         }
 
         #region Events

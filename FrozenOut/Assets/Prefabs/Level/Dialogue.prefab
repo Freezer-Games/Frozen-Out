@@ -259,7 +259,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 01f5450ab06cd994db7d05e025d7091b, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -878,7 +878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6396317386531443632}
-  - component: {fileID: 2837224860858464632}
+  - component: {fileID: 8361299025976784714}
   - component: {fileID: 1535499961479878572}
   m_Layer: 0
   m_Name: Dialogue
@@ -906,7 +906,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 450, y: 90}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &2837224860858464632
+--- !u!114 &8361299025976784714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -915,14 +915,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6396317386531443633}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d102d4d482b2ce40ae04d409ab53c3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e0a65bc4c74a994e8c4c580c7d4b59d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LinePrefab: {fileID: 4059836956802131976, guid: 4e13b2b2174614040aabfc2df89456c9,
     type: 3}
   WordPrefab: {fileID: 3843403274466725396, guid: 9013bff6f28d84141a3aefad948b36c8,
     type: 3}
-  LetterPrefab: {fileID: 3866270226837990917, guid: 1691416eef9b2a44b84439eecd97ca47,
+  LetterPrefab: {fileID: 3866270226837990917, guid: 89cfd5e55f400c24b97f8ed99513e341,
     type: 3}
 --- !u!114 &1535499961479878572
 MonoBehaviour:
@@ -1145,112 +1145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueCanvas: {fileID: 6396317386882989824}
-  DialogueStarted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6396317387458423133}
-        m_MethodName: set_text
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2837224860858464632}
-        m_MethodName: Clear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  DialogueEnded:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6396317387458423133}
-        m_MethodName: set_text
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2837224860858464632}
-        m_MethodName: Clear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  LineNameUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6396317387458423133}
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  LineDialogueUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2837224860858464632}
-        m_MethodName: SetTextLine
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  LetterDialogueUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2837224860858464632}
-        m_MethodName: SetTextLetter
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  LineStyleUpdated:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2837224860858464632}
-        m_MethodName: SetStyle
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  NameText: {fileID: 6396317387458423133}
+  DialogueBoxController: {fileID: 8361299025976784714}
 --- !u!1 &6396317387016724947
 GameObject:
   m_ObjectHideFlags: 0

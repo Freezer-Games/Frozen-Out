@@ -8,8 +8,7 @@ using Scripts.Settings;
 using Scripts.Level.Item;
 using Scripts.Level.NPC;
 using Scripts.Level.Dialogue.Utils;
-using Scripts.Level.Dialogue.Runner;
-using Scripts.Level.Dialogue.Runner.Conversation;
+using Scripts.Level.Dialogue.System;
 
 namespace Scripts.Level.Dialogue
 {
@@ -182,8 +181,8 @@ namespace Scripts.Level.Dialogue
             DialogueSystem.Stop();
         }
 
-        private System.Action onSwitchBack;
-        public override void SwitchToInstagram(System.Action onComplete)
+        private global::System.Action onSwitchBack;
+        public override void SwitchToInstagram(global::System.Action onComplete)
         {
             DialogueSystem = InstagramDialogueSystem;
             DialogueSystem.RequestNextLine();
@@ -217,7 +216,7 @@ namespace Scripts.Level.Dialogue
         private void ProcessDialogue(string dialogue)
         {
             // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
-            IDialogueText classifiedCharacterDialogue = ComplexDialogueText.AnalyzeText(dialogue);
+            IDialogueText classifiedCharacterDialogue = DialogueTextAnalyser.AnalyseText(dialogue);
 
             if (CurrentStyle.Delay > 0.0f)
             {
@@ -229,7 +228,7 @@ namespace Scripts.Level.Dialogue
                 TextManager.ShowDialogueAccumulated(dialogue);
             }
 
-            VoiceManager.Speak(classifiedCharacterDialogue.ToStringClean());
+            VoiceManager.SpeakDialogueAccumulated(classifiedCharacterDialogue.ToStringClean());
         }
 
         private IEnumerator DoParseAccumulated(IDialogueText dialogueText)
@@ -325,6 +324,12 @@ namespace Scripts.Level.Dialogue
 
             TextManager.Close();
             VoiceManager.Close();
+        }
+
+        public override void OnLineStarted()
+        {
+            TextManager.StartLine();
+            VoiceManager.StartLine();
         }
 
         public override void OnLineStyleUpdated(string styleName)

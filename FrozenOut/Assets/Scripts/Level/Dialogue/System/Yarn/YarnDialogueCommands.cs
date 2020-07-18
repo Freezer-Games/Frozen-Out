@@ -5,7 +5,7 @@ using UnityEngine;
 
 using Yarn.Unity;
 
-namespace Scripts.Level.Dialogue.Runner.YarnSpinner
+namespace Scripts.Level.Dialogue.System.YarnSpinner
 {
     public class YarnDialogueCommands : MonoBehaviour
     {
@@ -58,7 +58,7 @@ namespace Scripts.Level.Dialogue.Runner.YarnSpinner
             YarnSystem.StopNPCAnimationWithSimilarName(npcName);
         }
 
-        public void StartInstagram(string[] parameters, System.Action onComplete)
+        public void StartInstagram(string[] parameters, global::System.Action onComplete)
         {
             YarnSystem.DialogueManager.SwitchToInstagram(onComplete);
         }

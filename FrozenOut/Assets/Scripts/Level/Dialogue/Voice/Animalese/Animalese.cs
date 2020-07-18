@@ -103,6 +103,11 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             Stop();
         }
 
+        public override void StartLine()
+        {
+            Stop();
+        }
+
         public override void SetStyle(VoiceStyle style)
         {
             CurrentStyle = style;
@@ -122,10 +127,8 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             // TODO
         }
 
-        public override void Speak(string dialogue)
+        public override void SpeakDialogueAccumulated(string dialogue)
         {
-            Stop();
-
             char lastCharacter = dialogue.Last();
             if (!IsPunctuation(lastCharacter))
             {
@@ -139,11 +142,9 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             StartCoroutine(SpeakSentences());
         }
 
-        public override void Speak(char newDialogueLetter)
+        public override void SpeakDialogueSingle(string newDialogueLetter)
         {
-            Stop();
-
-            PlayLetter(newDialogueLetter);
+            PlayLetter(newDialogueLetter.First());
         }
 
         private void Stop()

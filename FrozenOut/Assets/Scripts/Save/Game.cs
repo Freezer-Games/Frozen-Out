@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
-using Scripts.Level.Dialogue.Runner.YarnSpinner;
+using Scripts.Level.Dialogue.System.YarnSpinner;
 
 namespace Scripts.Save
 {
