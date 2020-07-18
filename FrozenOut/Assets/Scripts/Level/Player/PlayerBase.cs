@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -200,6 +201,7 @@ namespace Scripts.Level.Player
                     {
                         StopCoroutine(deathCoroutine);
                         InDeathZone = false;
+                        PlayerManager.OnNormalZone();
                     }
                 }
 
@@ -208,6 +210,7 @@ namespace Scripts.Level.Player
                     if (!InDeathZone)
                     {
                         deathCoroutine = StartCoroutine(CountdownToDeath());
+                        PlayerManager.OnDeathZone();
                     }
                 }
             }
