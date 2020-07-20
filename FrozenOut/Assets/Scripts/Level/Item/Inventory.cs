@@ -118,16 +118,13 @@ namespace Scripts.Level.Item
 
         public void PickItem(ItemPickerInfo pickerInfo)
         {
-            if (IsEnabled())
+            if (IsItemInInventory(pickerInfo))
             {
-                if (IsItemInInventory(pickerInfo))
-                {
-                    UpdateItem(pickerInfo);
-                }
-                else
-                {
-                    AddItem(pickerInfo);
-                }
+                UpdateItem(pickerInfo);
+            }
+            else
+            {
+                AddItem(pickerInfo);
             }
         }
         public void PickItem(ItemPicker picker)
@@ -140,24 +137,21 @@ namespace Scripts.Level.Item
 
         public void UseItem(ItemUserInfo userInfo)
         {
-            if (IsEnabled())
+            if (IsItemInInventory(userInfo))
             {
-                if (IsItemInInventory(userInfo))
-                {
-                    //Pasarlo a ItemInfo del inventario
-                    ItemInfo inventoryItem = GetInventoryItem(userInfo);
+                //Pasarlo a ItemInfo del inventario
+                ItemInfo inventoryItem = GetInventoryItem(userInfo);
 
-                    if (inventoryItem.IsEquippable)
+                if (inventoryItem.IsEquippable)
+                {
+                    if (IsItemEquipped(inventoryItem))
                     {
-                        if (IsItemEquipped(inventoryItem))
-                        {
-                            UseEquippedItem(inventoryItem);
-                        }
+                        UseEquippedItem(inventoryItem);
                     }
-                    else
-                    {
-                        UseConsumableItem(inventoryItem);
-                    }
+                }
+                else
+                {
+                    UseConsumableItem(inventoryItem);
                 }
             }
         }
@@ -180,6 +174,8 @@ namespace Scripts.Level.Item
                     {
                         PlayerManager.SetIsInteracting(true);
                         StartCoroutine(WaitingPlayer(user, true));
+
+                        CloseUsePrompt();
                     }
                     else
                     {

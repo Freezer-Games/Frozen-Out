@@ -9,7 +9,7 @@ namespace Scripts.Level.Item
     {
         public Inventory Inventory;
 
-        protected override bool IsOpen => base.IsOpen && CandidatePicker != null;
+        protected override bool IsOpen => Inventory.IsEnabled() && base.IsOpen && CandidatePicker != null;
         protected ItemPicker CandidatePicker;
 
         void Start()

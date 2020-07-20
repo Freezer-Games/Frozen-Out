@@ -229,15 +229,15 @@ namespace Scripts.Level.Item
 
         private void CloseOpenMenu()
         {
-            if(IsOpen)
-            {
-                Close();
-                Inventory.Enable();
-            }
-            else
+            if(!IsOpen && Inventory.IsEnabled())
             {
                 Open();
-                Inventory.Disable();
+                Inventory.LevelManager.DisableAll();
+            }
+            else if(IsOpen)
+            {
+                Close();
+                Inventory.LevelManager.EnableAll();
             }
         }
 

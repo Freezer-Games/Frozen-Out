@@ -14,8 +14,8 @@ namespace Scripts.Level
     {
         void Load();
         void Unload();
-        void Enable();
-        void Disable();
+        void EnableAll();
+        void DisableAll();
 
         void GameOver();
 

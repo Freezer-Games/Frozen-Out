@@ -8,7 +8,7 @@ namespace Scripts.Level.Item
     {
         public Inventory Inventory;
 
-        protected override bool IsOpen => base.IsOpen && CandidateUser != null;
+        protected override bool IsOpen => Inventory.IsEnabled() && base.IsOpen && CandidateUser != null;
         protected ItemUser CandidateUser;
 
         void Update()
@@ -16,7 +16,7 @@ namespace Scripts.Level.Item
             if(IsOpen && Input.GetKey(Inventory.GetInteractKey()))
             {
                 Inventory.UseItem(CandidateUser);
-                Close();
+                //Close();
             }
         }
         

@@ -26,7 +26,7 @@ namespace Scripts.Level
 
         public void Load()
         {
-            Enable();
+            EnableAll();
             //Cursor.visible = false;
             //Cursor.lockState = CursorLockMode.Locked;
 
@@ -47,9 +47,8 @@ namespace Scripts.Level
 
             if (DialogueManager != null && PlayerManager != null)
             {
-                DialogueManager.Started += (sender, args) => PlayerManager.Disable();
-
-                DialogueManager.Ended += (sender, args) => PlayerManager.Enable();    
+                DialogueManager.Started += (sender, args) => DisableExceptDialogue();
+                DialogueManager.Ended += (sender, args) => EnableAll();
             }
 
             if (Inventory != null && PlayerManager != null)
@@ -69,23 +68,35 @@ namespace Scripts.Level
             // TODO
         }
 
-        public void Enable()
+        public void EnableAll()
         {
             PlayerManager.Enable();
             DialogueManager.Enable();
             Inventory.Enable();
         }
 
-        public void Disable()
+        public void DisableAll()
         {
             PlayerManager.Disable();
             DialogueManager.Disable();
             Inventory.Disable();
         }
 
+        public void DisableExceptDialogue()
+        {
+            PlayerManager.Disable();
+            Inventory.Disable();
+        }
+
+        public void DisableExceptInventory()
+        {
+            PlayerManager.Disable();
+            DialogueManager.Disable();
+        }
+
         public void GameOver()
         {
-            Disable();
+            DisableAll();
             GameManager.GameOver();
         }
 
