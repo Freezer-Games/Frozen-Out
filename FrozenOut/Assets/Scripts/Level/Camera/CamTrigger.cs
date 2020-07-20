@@ -9,7 +9,7 @@ namespace Scripts.Level.Camera
     {
         public CameraController CameraController;
         public CinemachineVirtualCamera SegmentCamera;
-        public CinemachineVirtualCamera AreaCamera;
+        public CinemachineVirtualCamera PreviousCamera;
 
         [SerializeField] bool IsMain;
         [SerializeField] bool Disable;
@@ -24,22 +24,24 @@ namespace Scripts.Level.Camera
 
         void ChangeCamPriority() 
         {
-            //Activate segment cam
-            if (AreaCamera.Priority == 20)
+            /*
+                Activate the previous camera of the new zone, 
+                it used to be the camera of the lower zone
+            */
+            if (PreviousCamera.Priority == 20)
             {
-                AreaCamera.Priority = 30;
+                PreviousCamera.Priority = 30;
                 SegmentCamera.Priority = 20;
 
                 if (Disable)
                 {
                     GetComponent<Collider>().enabled = false;
                 }
-                
             }
-            //Deactivate segment cam
+            //Activate the camera of the segment the player is going
             else 
             {
-                AreaCamera.Priority = 20;
+                PreviousCamera.Priority = 20;
                 SegmentCamera.Priority = 40;
 
                 //That's mean the segment camera is the main of each segment
