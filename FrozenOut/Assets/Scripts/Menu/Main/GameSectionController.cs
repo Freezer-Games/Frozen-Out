@@ -17,6 +17,8 @@ namespace Scripts.Menu.Main
         void Start()
         {
             SizeSlider.value = MainMenuManager.GetTextSize();
+            SizeText.text = MainMenuManager.GetTextSize().ToString();
+
             LanguageDropdown.AddOptions(
                 MainMenuManager.GetSupportedLanguages()
             );
