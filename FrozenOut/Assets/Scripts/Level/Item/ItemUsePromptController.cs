@@ -8,7 +8,7 @@ namespace Scripts.Level.Item
     {
         public Inventory Inventory;
 
-        protected override bool IsOpen => Inventory.IsEnabled() && base.IsOpen && CandidateUser != null;
+        public override bool IsOpen => Inventory.IsEnabled() && base.IsOpen && CandidateUser != null;
         protected ItemUser CandidateUser;
 
         void Update()
