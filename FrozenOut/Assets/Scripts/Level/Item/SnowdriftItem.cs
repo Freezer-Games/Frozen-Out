@@ -12,6 +12,7 @@ namespace Scripts.Level.Item
         public ScoopSoundController SoundController;
         public DialogueActer UnableTalker;
         public Collider Collider;
+        public bool End;
 
         public bool TriggerTimeline;
         public PlayableDirector Timeline;
@@ -36,7 +37,12 @@ namespace Scripts.Level.Item
             {
                 StartCoroutine(Destroy());
             }
-            DestroyItem();
+            
+            if (End)
+            {
+                DestroyItem();
+            }
+            
         }
 
         public override void OnUnableUse()

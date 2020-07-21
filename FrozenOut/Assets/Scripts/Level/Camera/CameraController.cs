@@ -10,6 +10,7 @@ namespace Scripts.Level.Camera
         [SerializeField] CinemachineVirtualCamera CurrentVC;
         public Transform Player;
         [SerializeField] float diffPlyrCam2;
+        [SerializeField] float diffPlyrCam2TL;
         [SerializeField] float diffPlyrCam3;
         [SerializeField] float diffPlyrCam4;
         [SerializeField] float currentDiff;
@@ -31,9 +32,18 @@ namespace Scripts.Level.Camera
             {
                 currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
 
-                if (CurrentVC == SecondSegmentVC || CurrentVC == ScndSegTLVC)
+                if (CurrentVC == SecondSegmentVC)
                 {
                     if (currentDiff > diffPlyrCam2 && currentDiff >= 0)
+                    {
+                        FirstSegmenetVC.Priority = 30;
+                        CurrentVC.Priority = 20;
+                        CurrentVC = FirstSegmenetVC;
+                    }
+                }
+                else if (CurrentVC == ScndSegTLVC)
+                {
+                    if (currentDiff > diffPlyrCam2TL && currentDiff >= 0)
                     {
                         FirstSegmenetVC.Priority = 30;
                         CurrentVC.Priority = 20;
