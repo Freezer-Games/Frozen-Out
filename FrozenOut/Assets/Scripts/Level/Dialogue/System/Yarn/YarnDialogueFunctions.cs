@@ -12,12 +12,19 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
 
         private DialogueRunner DialogueRunner => YarnSystem.DialogueRunner;
 
+        private HashSet<string> VisitedNodes;
+
+        private void Start()
+        {
+            VisitedNodes = new HashSet<string>();
+        }
+
         public void Load()
         {
             DialogueRunner.AddFunction("visited", 1, delegate (Yarn.Value[] parameters)
             {
                 string nodeName = parameters[0].AsString;
-                return YarnSystem.GetBoolVariable("visited_" + nodeName);
+                return VisitedNodes.Contains(nodeName);
             });
             DialogueRunner.onNodeComplete.AddListener(NodeComplete);
 
@@ -54,7 +61,7 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
 
         public void NodeComplete(string nodeName) {
             // Log that the node has been run
-            YarnSystem.SetVariable<bool>("visited_" + nodeName, true);
+            VisitedNodes.Add(nodeName);
         }
     }
 }
