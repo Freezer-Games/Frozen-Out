@@ -13,6 +13,9 @@ namespace Scripts.Menu.GameOver
 
         public void Open()
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
             GameOverController.Open();
         }
 
