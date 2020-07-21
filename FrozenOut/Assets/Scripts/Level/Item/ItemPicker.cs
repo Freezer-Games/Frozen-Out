@@ -10,6 +10,7 @@ namespace Scripts.Level.Item
 
         public void OnPickup()
         {
+            HighlightItem(false);
             gameObject.SetActive(false);
             //TODO
         }
