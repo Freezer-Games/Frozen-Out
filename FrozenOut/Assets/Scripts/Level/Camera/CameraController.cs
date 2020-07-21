@@ -16,6 +16,7 @@ namespace Scripts.Level.Camera
 
         public CinemachineVirtualCamera FirstSegmenetVC;
         public CinemachineVirtualCamera SecondSegmentVC;
+        public CinemachineVirtualCamera ScndSegTLVC;
         public CinemachineVirtualCamera ThirdSegmentVC;
         public CinemachineVirtualCamera FourthSegmentVC;
 
@@ -30,7 +31,7 @@ namespace Scripts.Level.Camera
             {
                 currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
 
-                if (CurrentVC == SecondSegmentVC)
+                if (CurrentVC == SecondSegmentVC || CurrentVC == ScndSegTLVC)
                 {
                     if (currentDiff > diffPlyrCam2 && currentDiff >= 0)
                     {
