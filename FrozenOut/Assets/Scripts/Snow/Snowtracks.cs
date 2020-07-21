@@ -16,6 +16,7 @@ public class Snowtracks : MonoBehaviour
 
     RaycastHit groundHit;
     public float playerDistance;
+    private int layerMask;
 
     [Range(0, 2)]
     public float brushSize;
@@ -27,6 +28,7 @@ public class Snowtracks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        layerMask = LayerMask.GetMask("SnowtrackHit");
         drawMaterial = new Material(drawShader);
         snowMaterial = new Material[terrains.Length];
         trackMap = new RenderTexture(mapResolution, mapResolution, 0, RenderTextureFormat.ARGBFloat);
@@ -49,7 +51,7 @@ public class Snowtracks : MonoBehaviour
             {
                 if (colliders[i].name == "Pol")
                 {
-                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, playerDistance))
+                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, playerDistance, layerMask))
                     {
                         drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
                         drawMaterial.SetFloat("_Size", brushSize);
@@ -62,7 +64,7 @@ public class Snowtracks : MonoBehaviour
                 }
                 else
                 {
-                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit))
+                    if (Physics.Raycast(colliders[i].position, -Vector3.up, out groundHit, layerMask))
                     {
                         drawMaterial.SetVector("_Coordinate", new Vector4(groundHit.textureCoord.x, groundHit.textureCoord.y, 0, 0));
                         drawMaterial.SetFloat("_Size", brushSize);
