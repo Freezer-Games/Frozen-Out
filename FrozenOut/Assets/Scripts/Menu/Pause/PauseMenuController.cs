@@ -45,6 +45,7 @@ namespace Scripts.Menu.Pause
         public override void Open()
         {
             base.Open();
+            PauseMenuManager.DisableLevel();
 
             Time.timeScale = 0;
             Cursor.visible = true;
@@ -54,6 +55,7 @@ namespace Scripts.Menu.Pause
         public override void Close()
         {
             base.Close();
+            PauseMenuManager.EnableLevel();
 
             Time.timeScale = 1;
             Cursor.visible = false;
