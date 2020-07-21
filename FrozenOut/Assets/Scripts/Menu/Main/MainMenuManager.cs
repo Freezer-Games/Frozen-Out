@@ -18,8 +18,8 @@ namespace Scripts.Menu.Main
 
         void Start()
         {
-            //Cursor.visible = true;
-            //Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
         
         public void ContinueGame()

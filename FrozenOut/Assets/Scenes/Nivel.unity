@@ -33523,12 +33523,12 @@ PrefabInstance:
     - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.024640521
+      value: 0.02464056
       objectReference: {fileID: 0}
     - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0779174
+      value: 0.077917516
       objectReference: {fileID: 0}
     - target: {fileID: 6654117483845232889, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -33648,12 +33648,7 @@ PrefabInstance:
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.068469495
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.068469495
+      value: 0.0684692
       objectReference: {fileID: 0}
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -33678,22 +33673,12 @@ PrefabInstance:
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.06544457
+      value: -0.065444276
       objectReference: {fileID: 0}
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7196451
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.06544457
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.7196451
+      value: -0.71964514
       objectReference: {fileID: 0}
     - target: {fileID: 7585597529087992459, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -33773,32 +33758,17 @@ PrefabInstance:
     - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0040793424
+      value: 0.004079349
       objectReference: {fileID: 0}
     - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.05121377
+      value: -0.05121376
       objectReference: {fileID: 0}
     - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.079296865
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.0040793424
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.05121377
-      objectReference: {fileID: 0}
-    - target: {fileID: 7585597529446696233, guid: d0469bd696440774c84531425ced64af,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.079296865
+      value: 0.079297006
       objectReference: {fileID: 0}
     - target: {fileID: 7585597529484979472, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -41204,6 +41174,7 @@ GameObject:
   - component: {fileID: 1372131887}
   - component: {fileID: 1372131886}
   - component: {fileID: 1372131885}
+  - component: {fileID: 1372131888}
   m_Layer: 0
   m_Name: ConosHielosTrigger
   m_TagString: Untagged
@@ -41264,6 +41235,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1372131888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372131883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: d5f5d5fa21a1fe84490775d04a2b635a, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1372131887}
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1383092357
 GameObject:
   m_ObjectHideFlags: 3

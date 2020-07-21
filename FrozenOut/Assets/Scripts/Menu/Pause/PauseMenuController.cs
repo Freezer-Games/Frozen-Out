@@ -47,8 +47,8 @@ namespace Scripts.Menu.Pause
             base.Open();
 
             Time.timeScale = 0;
-            //Cursor.visible = true;
-            //Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         public override void Close()
@@ -56,8 +56,8 @@ namespace Scripts.Menu.Pause
             base.Close();
 
             Time.timeScale = 1;
-            //Cursor.visible = false;
-            //Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void CloseOpenMenu()

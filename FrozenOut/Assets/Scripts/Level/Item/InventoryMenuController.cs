@@ -52,11 +52,11 @@ namespace Scripts.Level.Item
                 {
                     UpdateEquipUnequipPending();
                 }
-                if(Input.GetKeyDown(KeyCode.RightArrow))
+                if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(Inventory.GetRightKey()))
                 {
                     ChangeSelectedItem(SelectedItemIndex + 1);
                 }
-                else if(Input.GetKeyDown(KeyCode.LeftArrow))
+                else if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(Inventory.GetLeftKey()))
                 {
                     ChangeSelectedItem(SelectedItemIndex - 1);
                 }

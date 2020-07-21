@@ -27,8 +27,8 @@ namespace Scripts.Level
         public void Load()
         {
             EnableAll();
-            //Cursor.visible = false;
-            //Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
 
             AudioListener.volume = Mathf.Clamp(SettingsManager.MusicVolume / 100f, 0, 1);
 

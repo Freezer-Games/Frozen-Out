@@ -89,6 +89,16 @@ namespace Scripts.Level.Item
         {
             return SettingsManager.InteractKey;
         }
+        
+        public KeyCode GetRightKey()
+        {
+            return SettingsManager.RightKey;
+        }
+
+        public KeyCode GetLeftKey()
+        {
+            return SettingsManager.LeftKey;
+        }
 
         public KeyCode GetInventoryKey()
         {
