@@ -18,12 +18,14 @@ namespace Scripts.Menu.Pause
             if (IsEnabled())
             {
                 PauseMenuController.Open();
+                GameManager.DisableLevel();
             }
         }
 
         public void Close()
         {
             PauseMenuController.Close();
+            GameManager.EnableLevel();
         }
         
         public KeyCode GetPauseKey()

@@ -9,7 +9,7 @@ namespace Scripts
     public abstract class UIController : MonoBehaviour
     {
         protected Canvas ControllerCanvas;
-        protected virtual bool IsOpen => ControllerCanvas.enabled;
+        public virtual bool IsOpen => ControllerCanvas.enabled;
 
         void Awake()
         {

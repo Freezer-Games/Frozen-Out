@@ -33,6 +33,8 @@ namespace Scripts.Level.Item
             private set;
         }
 
+        public bool MenuEnabled;
+
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
         private PlayerManager PlayerManager => LevelManager.GetPlayerManager();
 
@@ -56,7 +58,7 @@ namespace Scripts.Level.Item
 
         public void OpenUsePrompt(ItemUser user)
         {
-            if (IsEnabled())
+            if (IsEnabled() && !InventoryMenuController.IsOpen)
             {
                 ItemUsePromptController.Open(user);
                 PlayerManager.SetInteractiveItem(user.GetItemPos(), user.GetItemLook());
@@ -74,7 +76,7 @@ namespace Scripts.Level.Item
 
         public void OpenPickPrompt(ItemPicker picker)
         {
-            if (IsEnabled())
+            if (IsEnabled() && !InventoryMenuController.IsOpen)
             {
                 ItemPickPromptController.Open(picker);
             }

@@ -232,7 +232,7 @@ namespace Scripts.Level.Item
             if(!IsOpen && Inventory.IsEnabled())
             {
                 Open();
-                Inventory.LevelManager.DisableAll();
+                Inventory.LevelManager.DisableExceptInventory();
             }
             else if(IsOpen)
             {

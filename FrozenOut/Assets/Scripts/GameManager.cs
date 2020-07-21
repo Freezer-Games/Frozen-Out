@@ -105,6 +105,16 @@ namespace Scripts
             GameOverManager.Open();
         }
 
+        public void EnableLevel()
+        {
+            CurrentLevelManager?.EnableAll();
+        }
+
+        public void DisableLevel()
+        {
+            CurrentLevelManager?.DisableAll();
+        }
+
         #region Load
         private void StartGame()
         {
