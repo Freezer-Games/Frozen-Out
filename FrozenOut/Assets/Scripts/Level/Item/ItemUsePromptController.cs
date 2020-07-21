@@ -13,10 +13,10 @@ namespace Scripts.Level.Item
 
         void Update()
         {
-            if(IsOpen && Input.GetKey(Inventory.GetInteractKey()))
+            if(IsOpen && Input.GetKeyDown(Inventory.GetInteractKey()))
             {
                 Inventory.UseItem(CandidateUser);
-                //Close();
+                Close();
             }
         }
         

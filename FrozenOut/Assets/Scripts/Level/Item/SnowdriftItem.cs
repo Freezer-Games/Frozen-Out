@@ -17,7 +17,6 @@ namespace Scripts.Level.Item
         public PlayableDirector Timeline;
 
         [SerializeField] float animDelay;
-        [SerializeField] float particlesDelay = 1f;
 
         private DialogueManager DialogueManager => GameManager.Instance.CurrentLevelManager.GetDialogueManager();
 
@@ -27,14 +26,17 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            StartCoroutine(PlayParticles());
-
             if (TriggerTimeline)
             {
                 HighlightItem(false);
                 Collider.enabled = false;
                 Timeline.Play();
             }
+            else
+            {
+                StartCoroutine(Destroy());
+            }
+            gameObject.SetActive(false);
         }
 
         public override void OnUnableUse()
@@ -42,15 +44,11 @@ namespace Scripts.Level.Item
             DialogueManager.StartDialogue(UnableTalker);
         }
 
-        IEnumerator PlayParticles()
+        IEnumerator Destroy()
         {
             yield return new WaitForSeconds(animDelay);
             SoundController.PlayRandomClip(SoundController.Scoops);
-
-            if (!TriggerTimeline)
-            {
-                DestroyItem();
-            }
+            DestroyItem();
         }
     }
 }

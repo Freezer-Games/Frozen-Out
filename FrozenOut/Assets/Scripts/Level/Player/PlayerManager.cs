@@ -149,11 +149,13 @@ namespace Scripts.Level.Player
 
         public void PickAnimation()
         {
+            Debug.Log("animacion interactuar");
             Animator.SetTrigger(PickAnimationName);
         }
 
         public void PlayInteractAnimation()
         {
+            Debug.Log("animacion interactuar");
             Animator.SetTrigger(InteractAnimation);
         }
 

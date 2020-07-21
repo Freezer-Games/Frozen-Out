@@ -10,6 +10,7 @@ namespace Scripts.Level.Item
     {
         public OreSoundController SoundController;
         public DialogueActer UnableTalker;
+        public bool played;
 
         [SerializeField] float animDelay;
 
@@ -29,11 +30,17 @@ namespace Scripts.Level.Item
 
         public override void OnUse()
         {
-            GetComponent<Collider>().enabled = false;
+            if (!played)
+            {
+                played = true;
 
-            StartCoroutine(PlayParticles());
-            Inventory.PickItem(Ice);
-            Ice.Quantity = 0;
+                GetComponent<Collider>().enabled = false;
+
+                StartCoroutine(PlayParticles());
+                Inventory.PickItem(Ice);
+                Ice.Quantity = 0;
+            }
+
         }
 
         public override void OnUnableUse()

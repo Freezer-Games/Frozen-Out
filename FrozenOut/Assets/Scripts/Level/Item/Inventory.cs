@@ -299,6 +299,7 @@ namespace Scripts.Level.Item
                 PlayerManager.PlayInteractAnimation();
                 
             user.OnUse();
+            Debug.Log("usado");
         }
 
         #region Events
