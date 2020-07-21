@@ -11232,6 +11232,7 @@ MonoBehaviour:
   - {fileID: 808117521}
   - {fileID: 380848658}
   - {fileID: 397556747}
+  - {fileID: 1634829541}
   colliders:
   - {fileID: 1396721997}
   - {fileID: 1810934220}
@@ -20770,100 +20771,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7712023524073142541, guid: 3aa3d1ac7362f414ab738e68d9ee8f70, type: 3}
---- !u!1 &573708776
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 573708777}
-  - component: {fileID: 573708780}
-  - component: {fileID: 573708779}
-  - component: {fileID: 573708778}
-  m_Layer: 15
-  m_Name: SnowtrackCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &573708777
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573708776}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -10.6, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
-  m_Children: []
-  m_Father: {fileID: 602407107}
-  m_RootOrder: 19
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &573708778
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573708776}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &573708779
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573708776}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &573708780
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 573708776}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &573860270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21757,7 +21664,6 @@ Transform:
   - {fileID: 729360900}
   - {fileID: 1934632716}
   - {fileID: 640601493}
-  - {fileID: 573708777}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33498,6 +33404,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
         type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.3005126
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.7782111
       objectReference: {fileID: 0}
@@ -33510,6 +33421,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 52.33139
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.02464057
+      objectReference: {fileID: 0}
+    - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.077917546
       objectReference: {fileID: 0}
     - target: {fileID: 6654117483845232870, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -33599,6 +33520,16 @@ PrefabInstance:
     - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.w
+      value: 0.9254003
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.05703697
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.w
       value: 0.9189363
       objectReference: {fileID: 0}
     - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
@@ -33623,6 +33554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
         type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.37396502
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585597528714076950, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: 9.874635
       objectReference: {fileID: 0}
@@ -33636,6 +33572,11 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1752609026}
+    - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.06846918
+      objectReference: {fileID: 0}
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
       propertyPath: m_LocalRotation.y
@@ -33660,6 +33601,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.x
       value: -0.6878517
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.06544426
       objectReference: {fileID: 0}
     - target: {fileID: 7585597528965908003, guid: d0469bd696440774c84531425ced64af,
         type: 3}
@@ -52179,7 +52125,7 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52190,13 +52136,13 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[0].Name
-      value: Guardia
+      value: Arrestado
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[0].Style.TextStyle.Font
       value: 
-      objectReference: {fileID: 12800000, guid: dde385eb806126143ac4c3d73675dcc1,
+      objectReference: {fileID: 12800000, guid: 01f5450ab06cd994db7d05e025d7091b,
         type: 3}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52206,12 +52152,12 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[0].Style.TextStyle.Colour.g
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[0].Style.TextStyle.Colour.b
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52221,7 +52167,7 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[1].Name
-      value: Arrestado
+      value: Auriculares
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52237,12 +52183,12 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[1].Style.TextStyle.Colour.g
-      value: 0.7264151
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[1].Style.TextStyle.Colour.b
-      value: 0.7264151
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52252,7 +52198,7 @@ PrefabInstance:
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
       propertyPath: CharacterStyles.Array.data[1].Style.TextStyle.Effect
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
@@ -52299,6 +52245,21 @@ PrefabInstance:
         type: 3}
       propertyPath: CharacterStyles.Array.data[2].Style.RelativeIntensity
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
+        type: 3}
+      propertyPath: CharacterStyles.Array.data[0].Style.TextStyle.Effect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
+        type: 3}
+      propertyPath: CharacterStyles.Array.data[1].Style.RelativeIntensity
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8359625028491988447, guid: 86af905f96312cf428d141e999906cc0,
+        type: 3}
+      propertyPath: CharacterStyles.Array.data[1].Style.VoiceStyle.Effect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8397154419931046266, guid: 86af905f96312cf428d141e999906cc0,
         type: 3}
