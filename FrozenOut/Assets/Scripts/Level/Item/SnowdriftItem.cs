@@ -36,7 +36,7 @@ namespace Scripts.Level.Item
             {
                 StartCoroutine(Destroy());
             }
-            gameObject.SetActive(false);
+            DestroyItem();
         }
 
         public override void OnUnableUse()
