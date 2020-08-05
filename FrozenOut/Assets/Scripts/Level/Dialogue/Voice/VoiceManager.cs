@@ -6,6 +6,8 @@ namespace Scripts.Level.Dialogue
 {
     public abstract class VoiceManager : MonoBehaviour
     {
+        public VoiceStyleConfiguration VoiceConfiguration;
+
         public abstract void Open();
         public abstract void Close();
 

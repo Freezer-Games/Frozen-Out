@@ -4,6 +4,8 @@ namespace Scripts.Level.Dialogue.Text
 {
     public abstract class TextManager : MonoBehaviour
     {
+        public TextStyleConfiguration TextConfiguration;
+
         public abstract void Open();
         public abstract void Close();
 

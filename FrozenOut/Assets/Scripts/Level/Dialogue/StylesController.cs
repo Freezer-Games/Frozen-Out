@@ -23,12 +23,10 @@ namespace Scripts.Level.Dialogue
         {
             DialogueStyle style = GetRawStyle(characterName);
 
-            style.NormaliseDelay(0.1f, 0.1f, 1.0f);
-            style.NormaliseSize(DialogueManager.GetTextSize(), 25, 50);
-            style.NormaliseVolume(1.0f, 0.1f, 1.0f);
-            style.NormalisePitch(2.0f, 1.0f, 3.0f);
-
+            style.NormaliseText(DialogueManager.TextManager.TextConfiguration);
             style.TextStyle.UpdateOptionals(DefaultStyle.TextStyle);
+
+            style.NormaliseVoice(DialogueManager.VoiceManager.VoiceConfiguration);
             style.VoiceStyle.UpdateOptionals(DefaultStyle.VoiceStyle);
 
             return style;

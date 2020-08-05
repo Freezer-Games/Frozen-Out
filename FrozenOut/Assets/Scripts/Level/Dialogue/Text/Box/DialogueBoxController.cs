@@ -95,7 +95,9 @@ namespace Scripts.Level.Dialogue.Text
 
             UnityEngine.UI.Text textComponent = currentLetter.GetComponentsInChildren<UnityEngine.UI.Text>().Last(); //Excluir holder de antes
             textComponent.text = letter;
-            SetUIStyle(textComponent, style);
+            textComponent.font = style.Font;
+            textComponent.fontSize = style.Size;
+            textComponent.color = style.Colour;
 
             if (style.Effect != TextStyle.TextEffect.None && style.Effect != TextStyle.TextEffect.Interrupted)
             {
@@ -143,13 +145,6 @@ namespace Scripts.Level.Dialogue.Text
             GameObject separatorObject = GameObject.Instantiate(LetterPrefab, CurrentLine.transform);
 
             return separatorObject;
-        }
-
-        private void SetUIStyle(UnityEngine.UI.Text text, TextStyle style)
-        {
-            text.font = style.Font;
-            text.fontSize = style.Size;
-            text.color = style.Colour;
         }
 
         private string RandomGarbageLetter(string originalLetter)

@@ -26,7 +26,7 @@ namespace Scripts.Level.Dialogue
         public DialogueActer GameOverActer;
 
         private DialogueActer CurrentActer;
-        private DialogueStyle CurrentStyle;
+        private float Delay;
 
         private bool UserRequestedAllLine;
         private bool UserRequestedNextLine;
@@ -42,6 +42,8 @@ namespace Scripts.Level.Dialogue
         {
             SwitchToMain();
             SetLanguage();
+
+            TextManager.TextConfiguration.SizeConfiguration.Default = GetTextSize();
         }
 
         void Start()
@@ -228,7 +230,7 @@ namespace Scripts.Level.Dialogue
             // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
             IDialogueText classifiedCharacterDialogue = DialogueTextAnalyser.AnalyseText(dialogue);
 
-            if (CurrentStyle.Delay > 0.0f)
+            if (Delay > 0.0f)
             {
                 //StartCoroutine(DoParseAccumulated(classifiedCharacterDialogue));
                 StartCoroutine(DoParseSingle(classifiedCharacterDialogue));
@@ -255,7 +257,7 @@ namespace Scripts.Level.Dialogue
                     break;
                 }
 
-                yield return new WaitForSeconds(CurrentStyle.Delay);
+                yield return new WaitForSeconds(Delay);
             }
 
             yield return new WaitForSeconds(NextDialogueDelay);
@@ -283,7 +285,7 @@ namespace Scripts.Level.Dialogue
                 }
                 else
                 {
-                    yield return new WaitForSeconds(CurrentStyle.Delay);
+                    yield return new WaitForSeconds(Delay);
                 }
             }
 
@@ -345,7 +347,7 @@ namespace Scripts.Level.Dialogue
         public override void OnLineStyleUpdated(string styleName)
         {
             DialogueStyle characterStyle = StylesController.GetStyle(styleName);
-            CurrentStyle = characterStyle;
+            Delay = characterStyle.TextStyle.Delay;
 
             TextManager.SetStyle(characterStyle.TextStyle);
 

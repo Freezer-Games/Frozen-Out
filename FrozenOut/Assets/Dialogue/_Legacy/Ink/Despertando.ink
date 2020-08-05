@@ -1,0 +1,3 @@
+Pol: ¿Qué ha pasado? Apenas recuerdo nada...
+Pol: ¿Mmmm?
+Pol: ¡Eeh! ¿Quién eres? ¿Adonde vas?

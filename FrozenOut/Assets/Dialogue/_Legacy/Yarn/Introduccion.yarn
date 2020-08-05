@@ -1,0 +1,84 @@
+title: Despertando
+---
+<< setanim YarnCommands Polo Awaken >>
+Pol: ¿Qué ha pasado? Apenas recuerdo nada... #line:06f0f81
+Pol: ¿Mmmm? #line:0c818b5
+Pol: ¡Eeh! ¿Quién eres? ¿Adonde vas? #line:0143081
+===
+
+title: Introduccion
+---
+<<if visited("Introduccion") is false>>
+	<<set $Tutti_Escape1 to true>>
+	<<setanim PACO Awaken>>
+	Yell: Oye, se ha ido un tutti colina arriba. #line:00f1b7d
+	<<setanim PACO Awaken>>
+	Yell: Salía de tu cubitera, parecía ir con prisa. #line:0e17415
+	<<setanim PACO Agree_1>>
+	Pol: ¿De verdad? Mmm... #line:09106ac
+	<<setanim PACO Agree_1>>
+	Pol: (Debería ver dónde ha ido) #line:08c1a13
+	Pol: (sigue siendo mejor plan que ir a trabajar) #line:01b8985
+	<<set $introduccion_Completada to true>>
+<<else>>
+	<<setanim PACO Awaken>>
+	Yell: No he visto mucho más, lo siento #line:0b5d637
+	<<setanim PACO Agree_2>>
+	Pol: (Debería ver dónde ha ido) #line:0b2c653
+<<endif>>
+===
+
+title: Robot
+---
+???++Yell: fzz fzzz #line:0421c99
+???++Yell: beep boop #line:0a24eb9
+Robot: Ahora soy un robot, voy a hacer unas pruebas #line:0060dc0
+Robot: {$textSize} #line:0570fcf
+Robot: Esto es <size={$textSize + 10}>Texto más grande</size> #line:0962446
+Robot: {$Paco} #line:07a869f
+Robot: Y este es <size={$textSize + 20}>{$Ramon}</size> #line:0914cfe
+Robot: Bye, bye, espero no haber roto nada #line:0db9f85
+===
+
+title: Albert
+---
+<<if visited("Albert") is false>>
+	Pol: Disculpe, ¿ha visto…? #line:03f7eaa
+	<<setanim ALBERT Awaken>>
+	Albert: ¿Que si he visto qué? No sé de qué me estás hablando. #line:040ab77
+	Pol: Que si ha visto un polo… #line:047213d
+	<<setanim ALBERT Denial_1>>
+	Albert: ¿Un polo? Yo no sé de polos. Salvo que yo soy uno. O eso creo. #line:0c682e9
+	<<setanim ALBERT Agree_1>>
+	Albert: Deberías preguntarle a ese de ahí. Puede que sepa algo. O no. #line:02600fd
+<<endif>>
+Pol: Emm.. gracias. #line:0416979
+===
+
+title: Instagramo
+---
+Instagramo: Bueno, vamos a ver que dice la gente. #line:0b32ab2
+<< startinstagram >>
+Instagramo: Pues eso ha sido todo #line:00753fa
+===
+
+title: Options
+---
+Options: Vamos a ver como va esto: #line:0258c5c
+[[google, search, result, suggestion, yahoo|Google]] #line:0c10584
+[[japan, cartoon, anime, dragon ball|Anime]] #line:0a606a2
+[[default|DefaultOption]] #line:098fd04
+===
+
+title: Google
+---
+You wanna know about Google. #line:0484e26
+===
+title: Anime
+---
+You wanna know about Anime. #line:025c4fb
+===
+title: DefaultOption
+---
+I don't understand what you want. #line:0e94312
+===

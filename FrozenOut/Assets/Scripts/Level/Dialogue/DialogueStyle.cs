@@ -17,8 +17,6 @@ namespace Scripts.Level.Dialogue
         [Tooltip("Afecta velocidad de texto y de habla\nPositivo para que vaya más lento\nNegativo para que vaya más rápido")]
         [Range(-1.0f, 1.0f)]
         public float RelativeDelay;
-        [NonSerialized]
-        public float Delay;
 
         [Tooltip("Afecta tamaño de texto y volumen de habla\nPositivo para que sea más grande\nNegativo para que sea más pequeño")]
         [Range(-1.0f, 1.0f)]
@@ -27,36 +25,26 @@ namespace Scripts.Level.Dialogue
         public TextStyle TextStyle;
         public VoiceStyle VoiceStyle;
 
-        public void NormaliseDelay(float defaultDelay, float minDelay, float maxDelay)
+        public void NormaliseText(TextStyleConfiguration textConfiguration)
         {
-            float normalisedDelay = NormaliseRelative(this.RelativeDelay, defaultDelay, minDelay, maxDelay);
-
-            this.Delay = normalisedDelay;
-            this.VoiceStyle.Delay = normalisedDelay;
+            TextStyle.Delay = NormaliseRelative(RelativeDelay, textConfiguration.DelayConfiguration);
+            TextStyle.Size = (int) NormaliseRelative(RelativeIntensity, textConfiguration.SizeConfiguration);
         }
 
-        public void NormaliseVolume(float defaultVolume, float minVolume, float maxVolume)
+        public void NormaliseVoice(VoiceStyleConfiguration voiceConfiguration)
         {
-            float normalisedVolume = NormaliseRelative(this.RelativeIntensity, defaultVolume, minVolume, maxVolume);
+            VoiceStyle.Delay = NormaliseRelative(RelativeDelay, voiceConfiguration.DelayConfiguration);
+            VoiceStyle.Volume = NormaliseRelative(RelativeIntensity, voiceConfiguration.VolumeConfiguration);
 
-            this.VoiceStyle.Volume = normalisedVolume;
+            VoiceStyle.Pitch = NormaliseRelative(VoiceStyle.RelativePitch, voiceConfiguration.PitchConfiguration);
         }
 
-        public void NormaliseSize(int defaultSize, int minSize, int maxSize)
+        private static float NormaliseRelative(float relativeValue, StyleConfiguration configuration)
         {
-            int normalisedSize = (int) NormaliseRelative(this.RelativeIntensity, defaultSize, minSize, maxSize);
-
-            this.TextStyle.Size = normalisedSize;
+            return NormaliseRelative(relativeValue, configuration.Default, configuration.Minimum, configuration.Maximum);
         }
 
-        public void NormalisePitch(float defaultPitch, float minPitch, float maxPitch)
-        {
-            float normalisedPitch = NormaliseRelative(this.VoiceStyle.RelativePitch, defaultPitch, minPitch, maxPitch);
-
-            this.VoiceStyle.Pitch = normalisedPitch;
-        }
-
-        private static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
+        public static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
         {
             float percentage = 1.0f + relativeValue;
             float rawValue = defaultValue * percentage;
@@ -74,8 +62,11 @@ namespace Scripts.Level.Dialogue
         public Font Font;
         [Tooltip("Afecta al color del texto")]
         public Color Colour;
+
         [NonSerialized]
         public int Size;
+        [NonSerialized]
+        public float Delay;
 
         [Header("Efectos")]
         public TextEffect Effect;
@@ -106,20 +97,12 @@ namespace Scripts.Level.Dialogue
         public float RelativePitch;
         [NonSerialized]
         public float Pitch;
-        [Range(-1.0f, 1.0f)]
-        public float RelativeGender;
-        [NonSerialized]
-        public float Gender;
-        [Range(-1.0f, 1.0f)]
-        public float RelativeTone;
-        [NonSerialized]
-        public float Tone;
 
         [NonSerialized]
         public float Volume;
         [NonSerialized]
         public float Delay;
-        
+
         [Header("Efectos")]
         public VoiceEffect Effect;
 
@@ -134,5 +117,30 @@ namespace Scripts.Level.Dialogue
         {
 
         }
+    }
+
+    [Serializable]
+    public class StyleConfiguration
+    {
+        public float Default;
+        public float Minimum;
+        public float Maximum;
+    }
+
+    [Serializable]
+    public class TextStyleConfiguration
+    {
+        public StyleConfiguration DelayConfiguration;
+
+        public StyleConfiguration SizeConfiguration;
+    }
+
+    [Serializable]
+    public class VoiceStyleConfiguration
+    {
+        public StyleConfiguration DelayConfiguration;
+
+        public StyleConfiguration PitchConfiguration;
+        public StyleConfiguration VolumeConfiguration;
     }
 }

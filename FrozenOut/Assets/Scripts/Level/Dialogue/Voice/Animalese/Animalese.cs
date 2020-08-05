@@ -50,6 +50,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         public AudioClip Space;
         public AudioClip Period;
 
+
         private ICollection<string> CurrentSentences;
 
         private VoiceStyle CurrentStyle;
@@ -112,10 +113,10 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
         {
             CurrentStyle = style;
 
-            AudioSource.volume = CurrentStyle.Volume;
-            AudioSource.pitch = CurrentStyle.Pitch;
+            AudioSource.volume = style.Volume;
+            AudioSource.pitch = style.Pitch;
 
-            switch (CurrentStyle.Effect)
+            switch (style.Effect)
             {
                 case VoiceStyle.VoiceEffect.Radio:
                     AudioSource.outputAudioMixerGroup = RadioMixerGroup;
