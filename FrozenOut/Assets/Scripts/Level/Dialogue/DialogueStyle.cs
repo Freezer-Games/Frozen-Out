@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Scripts.Level.Dialogue
@@ -25,26 +24,26 @@ namespace Scripts.Level.Dialogue
         public TextStyle TextStyle;
         public VoiceStyle VoiceStyle;
 
-        public void NormaliseText(TextStyleConfiguration textConfiguration)
+        public void UpdateText(TextStyleConfiguration textConfiguration)
         {
-            TextStyle.Delay = NormaliseRelative(RelativeDelay, textConfiguration.DelayConfiguration);
-            TextStyle.Size = (int) NormaliseRelative(RelativeIntensity, textConfiguration.SizeConfiguration);
+            TextStyle.Delay = InterpolateRelative(RelativeDelay, textConfiguration.DelayConfiguration);
+            TextStyle.Size = (int) InterpolateRelative(RelativeIntensity, textConfiguration.SizeConfiguration);
         }
 
-        public void NormaliseVoice(VoiceStyleConfiguration voiceConfiguration)
+        public void UpdateVoice(VoiceStyleConfiguration voiceConfiguration)
         {
-            VoiceStyle.Delay = NormaliseRelative(RelativeDelay, voiceConfiguration.DelayConfiguration);
-            VoiceStyle.Volume = NormaliseRelative(RelativeIntensity, voiceConfiguration.VolumeConfiguration);
+            VoiceStyle.Delay = InterpolateRelative(RelativeDelay, voiceConfiguration.DelayConfiguration);
+            VoiceStyle.Volume = InterpolateRelative(RelativeIntensity, voiceConfiguration.VolumeConfiguration);
 
-            VoiceStyle.Pitch = NormaliseRelative(VoiceStyle.RelativePitch, voiceConfiguration.PitchConfiguration);
+            VoiceStyle.Pitch = InterpolateRelative(VoiceStyle.RelativePitch, voiceConfiguration.PitchConfiguration);
         }
 
-        private static float NormaliseRelative(float relativeValue, StyleConfiguration configuration)
+        private static float InterpolateRelative(float relativeValue, StyleConfiguration configuration)
         {
-            return NormaliseRelative(relativeValue, configuration.Default, configuration.Minimum, configuration.Maximum);
+            return InterpolateRelative(relativeValue, configuration.Default, configuration.Minimum, configuration.Maximum);
         }
 
-        public static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
+        public static float InterpolateRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
         {
             float finalValue = defaultValue;
 
