@@ -3,7 +3,12 @@ using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
-    public class StylesController : MonoBehaviour
+    public abstract class StylesStorage
+    {
+        public abstract DialogueStyle GetStyle(string characterName);
+    }
+
+    public class DictionaryStylesStorage : StylesStorage
     {
         public DialogueManager DialogueManager;
 
@@ -19,7 +24,7 @@ namespace Scripts.Level.Dialogue
             AddStyles();
         }
 
-        public DialogueStyle GetStyle(string characterName)
+        public override DialogueStyle GetStyle(string characterName)
         {
             DialogueStyle style = GetRawStyle(characterName);
 

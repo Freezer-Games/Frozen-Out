@@ -346,7 +346,7 @@ namespace Scripts.Level.Dialogue
 
         public override void OnLineStyleUpdated(string styleName)
         {
-            DialogueStyle characterStyle = StylesController.GetStyle(styleName);
+            DialogueStyle characterStyle = StylesStorage.GetStyle(styleName);
             Delay = characterStyle.TextStyle.Delay;
 
             TextManager.SetStyle(characterStyle.TextStyle);

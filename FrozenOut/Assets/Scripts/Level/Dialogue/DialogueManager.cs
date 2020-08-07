@@ -27,7 +27,7 @@ namespace Scripts.Level.Dialogue
         /// <summary>
         /// Encargado de guardar y actualizar los estilos para cada personaje
         /// </summary>
-        public StylesController StylesController;
+        public StylesStorage StylesStorage;
 
         public abstract bool IsRunning();
         public abstract bool IsReady();
