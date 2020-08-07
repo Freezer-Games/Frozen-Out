@@ -24,10 +24,8 @@ namespace Scripts.Level.Dialogue
             DialogueStyle style = GetRawStyle(characterName);
 
             style.NormaliseText(DialogueManager.TextManager.TextConfiguration);
-            style.TextStyle.UpdateOptionals(DefaultStyle.TextStyle);
 
             style.NormaliseVoice(DialogueManager.VoiceManager.VoiceConfiguration);
-            style.VoiceStyle.UpdateOptionals(DefaultStyle.VoiceStyle);
 
             return style;
         }

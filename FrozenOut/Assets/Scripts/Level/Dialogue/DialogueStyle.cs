@@ -58,15 +58,15 @@ namespace Scripts.Level.Dialogue
     [Serializable]
     public class TextStyle
     {
-        [Tooltip("Afecta a la fuente del texto\nSi se deja vacío se usara la fuente por defecto")]
+        [Tooltip("Afecta a la fuente del texto")]
         public Font Font;
         [Tooltip("Afecta al color del texto")]
         public Color Colour;
 
         [NonSerialized]
-        public int Size;
-        [NonSerialized]
         public float Delay;
+        [NonSerialized]
+        public int Size;
 
         [Header("Efectos")]
         public TextEffect Effect;
@@ -80,14 +80,6 @@ namespace Scripts.Level.Dialogue
             Highlighted,
             Interrupted
         }
-
-        public void UpdateOptionals(TextStyle defaultStyle)
-        {
-            if (this.Font == null)
-            {
-                this.Font = defaultStyle.Font;
-            }
-        }
     }
 
     [Serializable]
@@ -99,9 +91,9 @@ namespace Scripts.Level.Dialogue
         public float Pitch;
 
         [NonSerialized]
-        public float Volume;
-        [NonSerialized]
         public float Delay;
+        [NonSerialized]
+        public float Volume;
 
         [Header("Efectos")]
         public VoiceEffect Effect;
@@ -111,11 +103,6 @@ namespace Scripts.Level.Dialogue
         {
             None,
             Radio
-        }
-
-        public void UpdateOptionals(VoiceStyle defaultStyle)
-        {
-
         }
     }
 
@@ -131,7 +118,6 @@ namespace Scripts.Level.Dialogue
     public class TextStyleConfiguration
     {
         public StyleConfiguration DelayConfiguration;
-
         public StyleConfiguration SizeConfiguration;
     }
 
@@ -139,8 +125,8 @@ namespace Scripts.Level.Dialogue
     public class VoiceStyleConfiguration
     {
         public StyleConfiguration DelayConfiguration;
+        public StyleConfiguration VolumeConfiguration;
 
         public StyleConfiguration PitchConfiguration;
-        public StyleConfiguration VolumeConfiguration;
     }
 }
