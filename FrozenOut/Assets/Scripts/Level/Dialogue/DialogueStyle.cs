@@ -46,12 +46,18 @@ namespace Scripts.Level.Dialogue
 
         public static float NormaliseRelative(float relativeValue, float defaultValue, float minValue, float maxValue)
         {
-            float percentage = 1.0f + relativeValue;
-            float rawValue = defaultValue * percentage;
+            float finalValue = defaultValue;
 
-            float clampedVolume = Mathf.Clamp(rawValue, minValue, maxValue);
+            if(relativeValue < 0)
+            {
+                finalValue = Mathf.Lerp(minValue, defaultValue, -(relativeValue));
+            }
+            else if(relativeValue > 0)
+            {
+                finalValue = Mathf.Lerp(defaultValue, maxValue, relativeValue);
+            }
 
-            return clampedVolume;
+            return finalValue;
         }
     }
 
