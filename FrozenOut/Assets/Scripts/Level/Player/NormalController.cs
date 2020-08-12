@@ -76,11 +76,13 @@ namespace Scripts.Level.Player
 
                         if (!(MovementDir != Vector3.zero))
                         {
+                            /*
                             if (Input.GetKeyDown(KeyCode.V))
                             {
                                 PlayerBase.PlayerManager.ChangeToMelted();
                                 Melting.Invoke();
                             }
+                            */
                         }
                     }
 
