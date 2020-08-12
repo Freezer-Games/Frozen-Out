@@ -21,8 +21,6 @@ namespace Scripts.Level.Dialogue
         public SecondaryDialogueSystem InstagramDialogueSystem;
         public ChoiceSystem ChoiceSystem;
 
-        public DialoguePromptController PromptController;
-
         public DialogueActer GameOverActer;
 
         private DialogueActer CurrentActer;
@@ -62,7 +60,7 @@ namespace Scripts.Level.Dialogue
 
         public void SetLanguage()
         {
-            DialogueSystem.SetLanguage(SettingsManager.Locale);
+            DialogueSystem.SetLanguage(SettingsManager.SupportedLanguages.Last());
         }
 
         public void SetVariable<T>(string variableName, T value, bool includeLeading = true)
@@ -228,12 +226,11 @@ namespace Scripts.Level.Dialogue
         private void ProcessDialogue(string dialogue)
         {
             // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
-            IDialogueText classifiedCharacterDialogue = DialogueTextAnalyser.AnalyseText(dialogue);
+            IDialogueText classifiedCharacterDialogue = new DialogueText(dialogue); //DialogueTextAnalyser.AnalyseText(dialogue);
 
             if (Delay > 0.0f)
             {
-                //StartCoroutine(DoParseAccumulated(classifiedCharacterDialogue));
-                StartCoroutine(DoParseSingle(classifiedCharacterDialogue));
+                StartCoroutine(DoParse(classifiedCharacterDialogue));
             }
             else
             {
@@ -243,35 +240,7 @@ namespace Scripts.Level.Dialogue
             VoiceManager.SpeakDialogueAccumulated(classifiedCharacterDialogue.ToStringClean());
         }
 
-        private IEnumerator DoParseAccumulated(IDialogueText dialogueText)
-        {
-            UserRequestedAllLine = false;
-
-            foreach (string currentText in dialogueText.ParseAccumulated())
-            {
-                TextManager.ShowDialogueAccumulated(currentText);
-
-                if (UserRequestedAllLine)
-                {
-                    TextManager.ShowDialogueAccumulated(dialogueText.ToStringFull());
-                    break;
-                }
-
-                yield return new WaitForSeconds(Delay);
-            }
-
-            yield return new WaitForSeconds(NextDialogueDelay);
-
-            UserRequestedNextLine = false;
-            while (!UserRequestedNextLine)
-            {
-                yield return null;
-            }
-
-            DialogueSystem.RequestNextLine();
-        }
-
-        public IEnumerator DoParseSingle(IDialogueText dialogueText)
+        public IEnumerator DoParse(IDialogueText dialogueText)
         {
             UserRequestedAllLine = false;
 

@@ -17,11 +17,6 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
         public YarnDialogueController DialogueController;
 
         private VariableStorageBehaviour VariableStorage => DialogueRunner.variableStorage;
-
-        void Awake()
-        {
-            DialogueRunner.variableStorage = YarnVariableStorage.Instance;
-        }
         
         void Start()
         {

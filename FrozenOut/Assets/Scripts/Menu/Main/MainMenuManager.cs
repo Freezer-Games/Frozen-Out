@@ -21,11 +21,6 @@ namespace Scripts.Menu.Main
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
-        
-        public void ContinueGame()
-        {
-            GameManager.ContinueGame();
-        }
 
         public void StartGame()
         {

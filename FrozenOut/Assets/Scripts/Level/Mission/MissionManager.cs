@@ -11,7 +11,13 @@ namespace Scripts.Level.Mission
         {
             MissionInfo missionInfo = GetMission(mission);
 
-            return missionInfo.IsDone;
+            bool state = false;
+            if(missionInfo != null)
+            {
+                state = missionInfo.IsDone;
+            }
+
+            return state;
         }
 
         public MissionInfo GetMission(MissionBase mission)

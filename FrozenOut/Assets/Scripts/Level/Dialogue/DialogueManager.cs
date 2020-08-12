@@ -29,6 +29,8 @@ namespace Scripts.Level.Dialogue
         /// </summary>
         public StylesStorage StylesStorage;
 
+        public DialoguePromptController PromptController;
+
         public abstract bool IsRunning();
         public abstract bool IsReady();
         public abstract void StartDialogue(DialogueActer acter);

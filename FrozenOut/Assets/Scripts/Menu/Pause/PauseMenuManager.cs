@@ -46,16 +46,6 @@ namespace Scripts.Menu.Pause
             GameManager.RestartLevel();
         }
 
-        public void SaveGame()
-        {
-            GameManager.SaveGame();
-        }
-
-        public void LoadGame(int loadIndex)
-        {
-            GameManager.LoadGame(loadIndex);
-        }
-
         public void Exit()
         {
             GameManager.LoadMainMenu();

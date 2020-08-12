@@ -44,7 +44,6 @@ namespace Scripts
         public LoadingScreenManager LoadingScreenManager;
         public GameOverManager GameOverManager;
         public SettingsManager SettingsManager;
-        public SaveManager SaveManager;
 
         private int CurrentLevelIndex = 0;
         
@@ -77,24 +76,6 @@ namespace Scripts
         {
             SettingsManager.SetMusicVolume(newVolume);
             AudioListener.volume = Mathf.Clamp(newVolume / 100f, 0, 1);
-        }
-        #endregion
-
-        #region SaveManager
-        public void SaveGame()
-        {
-            SaveManager.Save();
-        }
-
-        public void LoadGame(int loadIndex)
-        {
-            SaveManager.Load(loadIndex);
-        }
-
-        public void ContinueGame()
-        {
-            SaveManager.LoadLastLevel();
-            // TODO
         }
         #endregion
 

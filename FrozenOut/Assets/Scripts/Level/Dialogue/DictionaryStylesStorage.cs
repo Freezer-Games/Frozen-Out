@@ -1,13 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 namespace Scripts.Level.Dialogue
 {
-    public abstract class StylesStorage
-    {
-        public abstract DialogueStyle GetStyle(string characterName);
-    }
-
     public class DictionaryStylesStorage : StylesStorage
     {
         public DialogueManager DialogueManager;
