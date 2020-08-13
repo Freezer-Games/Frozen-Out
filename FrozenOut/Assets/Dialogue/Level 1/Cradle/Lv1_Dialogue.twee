@@ -1,73 +1,61 @@
 :: Naranjito
 << if not visited("Introduccion") >>
-    << setanim YarnCommands Naranjito Awaken >>
-    Naranjito: ¿De dónde has salido tú...? #line:0e59459
-    Naranjito: Da igual, estoy demasiado cansado para pensar #line:0eedcd1
-    << setanim YarnCommands Naranjito Deny >>
-    Naranjito: Deberías volver a la ciudad antes de que te vean los helados #line:0628603
-    Naranjito: No permiten que nadie merodee por aquí fuera de su turno #line:0e1915c
+    Naranjito: ¿De dónde has salido tú...?
+    Naranjito: Da igual, estoy demasiado cansado para pensar
+    Naranjito: Deberías volver a la ciudad antes de que te vean los helados
+    Naranjito: No permiten que nadie merodee por aquí fuera de su turno
 << endif >>
-Naranjito: <i>Cúbrete detrás de los escombros</i> #line:0e01947
-Naranjito: <i>y usa "{$crouchKey}" para que sea más difícil que te detecten</i>... #line:0ddbf2f
-<< setanim YarnCommands Naranjito Awaken >>
-Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí #line:049a6c3
+Naranjito: <i>Cúbrete detrás de los escombros</i>
+Naranjito: <i>y usa "{$crouchKey}" para que sea más difícil que te detecten</i>...
+Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí
 
 
 :: Guardia1
-<< setanim YarnCommands Guardia1 Laugh >>
-Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo #line:0e2cc49
-Guardia: Polos número 234 y 56 no me gustaría llevaros a la zona de.. <i><b>reformación</b></i> #line:0fb4496
-<< setanim YarnCommands Guardia1 Laugh >> 
-Guardia: HAHAHAHA. #line:07c88a2
+Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo
+Guardia: Polos número 234 y 56 no me gustaría llevaros a la zona de.. <i><b>reformación</b></i>
+Guardia: HAHAHAHA.
 
 
 :: Chups
 << if not visited("Chups") >>
-    << setanim YarnCommands Chups Awaken >>
-    Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar #line:0b60e16
+    Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar
 << endif >>
-Chups: Me pregunto qué harán con todo ese hielo, nunca tienen suficiente #line:0186623
+Chups: Me pregunto qué harán con todo ese hielo, nunca tienen suficiente
 
 
 :: Helen
 << if not visited("Helen") >>
-    << setanim YarnCommands Helen Deny >>
-    Helen: Creía que no se iba a acabar nunca, te debo una #line:01537df
+    Helen: Creía que no se iba a acabar nunca, te debo una
 << endif >>
-Helen: Cada vez los turnos son más largos #line:0358e04
-Helen: Con este ritmo voy a acabar en la zona de reformación #line:06ac2ce
+Helen: Cada vez los turnos son más largos
+Helen: Con este ritmo voy a acabar en la zona de reformación
 
 
 :: Huranyo
 << if not visited("Huranyo") >>
-    << setanim YarnCommands Huranyo Deny >> 
-    Prefiero que no nos vean hablar #line:09898ed
+    Prefiero que no nos vean hablar
 << else >>
-    (...) #line:0f2a813
+    (...)
 << endif >>
 
 
 :: Palanquilla
 << if has_item("lever") >>
     << if not visited("Palanquilla") >>
-        Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0dccd81
+        Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
     << endif >>
     [[ Palanquilla.Ascensor ]]
 << endif >>
-Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0b3d00d
-<< setanim YarnCommands Palanquilla Awaken >>
-Palanquilla: Como se enteren los guardias me van a dejar al Sol #line:0221493
+Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
+Palanquilla: Como se enteren los guardias me van a dejar al Sol
 
 
 :: Olafs
 << if not visited("Olafs") >>
-    << setanim YarnCommands Olaf Inclinado >> 
-    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos #line:062324b
+    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos
 << endif >>
 << if quantity_item("ice") < 100 >>
-    << setanim YarnCommands Olaf Laugh >>
-    << setanim YarnCommands Twolaf Deny >>
-    Twolaf: Aún no tienes suficientes... HAHAHAHAH #line:01da91f
+    Twolaf: Aún no tienes suficientes... HAHAHAHAH
 << else >>
     [[ Olafs.Hielos ]]
 << endif >>
@@ -75,132 +63,114 @@ Palanquilla: Como se enteren los guardias me van a dejar al Sol #line:0221493
 
 :: Alfredo
 << if not visited("Alfredo") >>
-    << setanim YarnCommands Alfredo Awaken >>
-    Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto... #line:0240608
-	Alfredo: se están produciendo muchos derrumbamientos #line:0463ec3
-    << setanim YarnCommands Alfredo Deny >>
-    Alfredo: Además está acabando con todo el hielo y cada vez hace más calor #line:064e5a8
+    Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto...
+	Alfredo: se están produciendo muchos derrumbamientos
+    Alfredo: Además está acabando con todo el hielo y cada vez hace más calor
 << endif >>
 << if done_mission("rollball") >>
     [[ Alfredo.Motor ]]
 << endif >>
-Alfredo: Ojalá alguien lo apague antes de que la situación sea irreversible #line:09b456c
+Alfredo: Ojalá alguien lo apague antes de que la situación sea irreversible
 
 
 :: Alfredo.Motor
 << if not visited("Alfredo.Motor") >>
-    Alfredo: Woow! Cómo han corrido esos helados #line:0e6ac9e
+    Alfredo: Woow! Cómo han corrido esos helados
 << else >>
-    Alfredo: La ciudad entera fue construida sobre un casquete de hielo #line:0130a49
-    << setanim YarnCommands Alfredo Awaken >>
-    Alfredo: No podemos seguir explotando los recursos a esta velocidad #line:09b7fb2
-    Alfredo: ¡Tenemos que restaurar la cadena del frío! #line:0b33bd3
+    Alfredo: La ciudad entera fue construida sobre un casquete de hielo
+    Alfredo: No podemos seguir explotando los recursos a esta velocidad
+    Alfredo: ¡Tenemos que restaurar la cadena del frío!
 << endif >>
 
 
 :: Palanquilla.Ascensor
 << if not visited("Palanquilla.Ascensor") >>
-    << useitem YarnCommands lever 0 >>
-    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto #line:0f87ade
-    << setanim YarnCommands Palanquilla Palanca >>
+    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto
 << else >>
-	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí #line:0723cae
+	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
 << endif >>
 
 
 :: Olafs.Hielos
 << if not visited("Olafs.Hielos") >>
-    << useitem YarnCommands ice 100 >>
-    Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa... #line:04fcc69
+    Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...
 << else >>
-    Twolaf: ¿Qué quieres ahora polito? #line:051d4b9
+    Twolaf: ¿Qué quieres ahora polito?
 << endif >>
 
 
 :: Guardia2y3
-<< setanim YarnCommands Guardia2 Laugh >>
-Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH #line:06b3d7e
-<< setanim YarnCommands Guardia3 Laugh >>
-Guardia: Seguro que el jefe nos da una buena comisión #line:0ee63b1
-<< setanim YarnCommands Guardia2 Laugh >>
-<< setanim YarnCommands Guardia3 Laugh >>
-Guardia: Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos polos #line:0a984b6
+Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH
+Guardia: Seguro que el jefe nos da una buena comisión
+Guardia: Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos polos
 
 
 :: Ramon
 << if not visited("Ramon") >>
-    Ramon: Estoy muy cansado... #line:0d44406
+    Ramon: Estoy muy cansado...
 << else >>
-    Ramon: (...) #line:0a4cf21
+    Ramon: (...)
 << endif >>
 
 
 :: Mentolado
-Mentolado: Está batidora es capaz de extraer tanto hielo como yo en un mes.. #line:0130bf0
-Mentolado: Los helados nos han amenazado con que, si no aumentamos la producción... #line:066b98a
-Mentolado: vamos a acabar en la <b>zona de reformación</b> #line:036ba8d
-Mentolado: No quiero ir ahí... por eso estoy aquí escondido #line:0914ad8
+Mentolado: Está batidora es capaz de extraer tanto hielo como yo en un mes..
+Mentolado: Los helados nos han amenazado con que, si no aumentamos la producción...
+Mentolado: vamos a acabar en la <b>zona de reformación</b>
+Mentolado: No quiero ir ahí... por eso estoy aquí escondido
 
 
 :: Bombon
 << if not visited("Bombon") >>
-    Bombón: ¡Por fin alguien de hielo y palo por aquí! #line:0909e35
-    Bombón: Cuando empezó esa batidora a funcionar se derrumbó el ascensor... #line:019201e
-	Bombón: y me quedé aquí atrapado #line:0455a66
-    << setanim YarnCommands Bombon Awaken >>
-    Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar? #line:03b951f
+    Bombón: ¡Por fin alguien de hielo y palo por aquí!
+    Bombón: Cuando empezó esa batidora a funcionar se derrumbó el ascensor...
+	Bombón: y me quedé aquí atrapado
+    Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?
 << endif >>
 << if done_mission("rollball") >>
     [[ Bombon.Bola ]] 
 << endif >> 
-Bombón: Saca la bola de nieve y arrástrala por la superficie para hacerla más grande #line:0da3eb9
+Bombón: Saca la bola de nieve y arrástrala por la superficie para hacerla más grande
 
 
 :: Bombon.Bola
 << if not visited("Bombon.Bola") >>
-    Bombón: ¡Nunca había visto una bola tan grade! #line:0d69fdc
-    << setanim YarnCommands Bombon Deny >>
-	Bombón: pero lo siento no te puedo dar más, eres un peligro para la sociedad #line:0ad589c
+    Bombón: ¡Nunca había visto una bola tan grade!
+	Bombón: pero lo siento no te puedo dar más, eres un peligro para la sociedad
 << else >>
-    << setanim YarnCommands Bombon Deny >>
-    Bombón: Lo siento no te puedo dar más, eres un peligro para la sociedad #line:0621595
+    Bombón: Lo siento no te puedo dar más, eres un peligro para la sociedad
 << endif >>
 
 
 :: Arrestado
 << if random_bool() >>
-	<< setanimall YarnCommands Cono Badass >>
-	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!! #line:0aac3a2
+	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
 << elseif random_bool() >>
-	<< setanimall YarnCommands Cono Deny >>
-	++Arrestado: SE TE ACABO EL JUEGO!! #line:093efb5
+	++Arrestado: SE TE ACABO EL JUEGO!!
 << else >>
-	<< setanimall YarnCommands Cono Laugh >>
-	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!! #line:02acb23
+	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!!
 << endif >>
 
 
 :: Auriculares
-<< setanimall YarnCommands Auriculares Discurso >>
-Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b> #line:0377221
-Auriculares: SIGAN TRABAJANDO DURO, LA NEVERA NO PERDONA LA DEBILIDAD #line:0c7eb39
-Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO #line:0cad6c9
-<< stopanimall YarnCommands Auriculares >>
+Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b>
+Auriculares: SIGAN TRABAJANDO DURO, LA NEVERA NO PERDONA LA DEBILIDAD
+Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO
 
 
 :: Alfredo.Bola
-Alfredo: Carámbanos! #line:01c473f
+Alfredo: Carámbanos!
 
 
 :: SinPico
-Pol: (Me hace falta el pico para esto) #line:07cabb4
+Pol: (Me hace falta el pico para esto)
 
 
 :: SinCuchara
-Pol: (Creo que necesito una cuchara aquí) #line:044d3db
+Pol: (Creo que necesito una cuchara aquí)
 
 
 :: SinBola
-Pol: (Debería ayudar a ese polo antes) #line:0f71290
+Pol: (Debería ayudar a ese polo antes)
 
 

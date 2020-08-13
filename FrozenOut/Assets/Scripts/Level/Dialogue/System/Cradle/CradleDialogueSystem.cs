@@ -11,6 +11,8 @@ namespace Scripts.Level.Dialogue.System.Cradle
 
         public Story Story;
 
+        private bool RequestedNextLine;
+        private bool Running;
         private readonly DialogueLineSeparator DialogueSeparator = new DialogueLineSeparator("++", ": ");
 
         void Start()
@@ -20,14 +22,18 @@ namespace Scripts.Level.Dialogue.System.Cradle
 
         public override bool IsRunning()
         {
-            return Story.State == StoryState.Playing;
+            return Running;
         }
 
         public override void StartDialogue(DialogueActer acter)
         {
-            //Story.Begin();
-            Story.GoTo(acter.StoryNode);
-            DialogueManager.OnDialogueStarted();
+            if(!IsRunning())
+            {
+                DialogueManager.OnDialogueStarted();
+
+                Story.GoTo(acter.StoryNode);
+                Running = true;
+            }
         }
 
         public override void RequestNextLine()
@@ -43,6 +49,7 @@ namespace Scripts.Level.Dialogue.System.Cradle
         public override void Stop()
         {
             Story.Pause();
+            Running = false;
         }
 
         public override void SetLanguage(Locale locale)
@@ -56,6 +63,22 @@ namespace Scripts.Level.Dialogue.System.Cradle
         }
 
         #region Proxy
+        public bool IsItemInInventory(string itemVariableName)
+        {
+            return DialogueManager.IsItemInInventory(itemVariableName);
+        }
+        public bool IsItemUsed(string itemVariableName)
+        {
+            return DialogueManager.IsItemUsed(itemVariableName);
+        }
+        public int QuantityOfItem(string itemVariableName)
+        {
+            return DialogueManager.QuantityOfItem(itemVariableName);
+        }
+        public bool MarkMissionDone(string missionVariableName)
+        {
+            return DialogueManager.MarkMissionDone(missionVariableName);
+        }
         public void PickItem(string itemVariableName, int quantity)
         {
             DialogueManager.PickItem(itemVariableName, quantity);
@@ -137,7 +160,14 @@ namespace Scripts.Level.Dialogue.System.Cradle
         private void ConvertEvents()
         {
             Story.OnOutput += OnOutput;
-            Story.OnPassageEnter += OnPassageEnter; 
+            Story.OnPassageEnter += OnPassageEnter;
+            Story.OnPassageDone += OnPassageDone;
+        }
+
+        private void OnPassageDone(StoryPassage obj)
+        {
+            Running = false;
+            DialogueManager.OnDialogueEnded();
         }
 
         private void OnPassageEnter(StoryPassage obj)
@@ -149,6 +179,8 @@ namespace Scripts.Level.Dialogue.System.Cradle
         {
             if(output is StoryText)
             {
+                DialogueManager.OnLineStarted();
+
                 string line = output.Text;
 
                 DialogueSeparator.Separate(line, out string characterStyleName, out string characterName, out string characterDialogue);
@@ -156,6 +188,8 @@ namespace Scripts.Level.Dialogue.System.Cradle
                 DialogueManager.OnLineStyleUpdated(characterStyleName);
                 DialogueManager.OnLineNameUpdated(characterName);
                 DialogueManager.OnLineDialogueUpdated(characterDialogue);
+
+                Story.Pause();
             }
             else if(output is StoryLink)
             {
