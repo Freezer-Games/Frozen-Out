@@ -60,7 +60,7 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
 
         public void StartInstagram(string[] parameters, global::System.Action onComplete)
         {
-            YarnSystem.DialogueManager.SwitchToInstagram(onComplete);
+            YarnSystem.SwitchToSecondary("Instagram", onComplete);
         }
     }
 }

@@ -11,12 +11,16 @@ namespace Scripts.Level.Dialogue.System.Ink
     public class InkDialogueSystem : MainDialogueSystem
     {
         public DialogueManager DialogueManager;
+        public InkCommands InkCommands;
 
         public List<TextAsset> NodeStories;
 
         private IDictionary<string, TextAsset> Stories;
 
         private Story Story;
+        private bool RequestedContinue;
+
+        private readonly DialogueLineSeparator DialogueSeparator = new DialogueLineSeparator("++", ": ");
 
         private void Start()
         {
@@ -34,9 +38,9 @@ namespace Scripts.Level.Dialogue.System.Ink
 
         public override void StartDialogue(DialogueActer acter)
         {
-            if(Stories.ContainsKey(acter.TalkToNode))
+            if(Stories.ContainsKey(acter.StoryNode))
             {
-                TextAsset selectedStory = Stories[acter.TalkToNode];
+                TextAsset selectedStory = Stories[acter.StoryNode];
 
                 Story = new Story(selectedStory.text);
 
@@ -44,7 +48,7 @@ namespace Scripts.Level.Dialogue.System.Ink
             }
             else
             {
-                Debug.LogError("The current node to talk does not exist - " + acter.TalkToNode);
+                Debug.LogError("The current node to talk does not exist - " + acter.StoryNode);
             }
         }
 
@@ -66,22 +70,42 @@ namespace Scripts.Level.Dialogue.System.Ink
             Story = null;
         }
 
-        public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
+        public override void Switch()
         {
-            if (IsRunning())
-            {
-                if (includeLeading)
-                {
-                    variableName = AddLeading(variableName);
-                }
-
-                Story.variablesState[variableName] = value;
-            }
+            // TODO
         }
 
-        public override bool GetBoolVariable(string variableName, bool includeLeading = true)
+        #region Proxy
+        public void PickItem(string itemVariableName, int quantity)
         {
-            object variable = GetObjectValue(variableName, includeLeading);
+            DialogueManager.PickItem(itemVariableName, quantity);
+        }
+        public void UseItem(string itemVariableName, int quantity)
+        {
+            DialogueManager.UseItem(itemVariableName, quantity);
+        }
+        public void SetNPCAnimation(string npcName, string animation)
+        {
+            DialogueManager.SetNPCAnimation(npcName, animation);
+        }
+        public void SetNPCAnimationWithSimilarName(string npcName, string animation)
+        {
+            DialogueManager.SetNPCAnimationWithSimilarName(npcName, animation);
+        }
+        public void StopNPCAnimation(string npcName)
+        {
+            DialogueManager.StopNPCAnimation(npcName);
+        }
+        public void StopNPCAnimationWithSimilarName(string npcName)
+        {
+            DialogueManager.StopNPCAnimationWithSimilarName(npcName);
+        }
+        #endregion
+
+
+        public override bool GetBoolVariable(string variableName)
+        {
+            object variable = GetObjectValue(variableName);
 
             bool success = bool.TryParse(variable.ToString(), out bool result);
 
@@ -93,18 +117,18 @@ namespace Scripts.Level.Dialogue.System.Ink
             return result;
         }
 
-        public override string GetStringVariable(string variableName, bool includeLeading = true)
+        public override string GetStringVariable(string variableName)
         {
-            object variable = GetObjectValue(variableName, includeLeading);
+            object variable = GetObjectValue(variableName);
 
             string result = variable.ToString();
 
             return result;
         }
 
-        public override float GetNumberVariable(string variableName, bool includeLeading = true)
+        public override float GetNumberVariable(string variableName)
         {
-            object variable = GetObjectValue(variableName, includeLeading);
+            object variable = GetObjectValue(variableName);
 
             bool success = float.TryParse(variable.ToString(), out float result);
 
@@ -116,34 +140,28 @@ namespace Scripts.Level.Dialogue.System.Ink
             return result;
         }
 
-        private object GetObjectValue(string variableName, bool includeLeading = true)
+        private object GetObjectValue(string variableName)
         {
             if (IsRunning())
             {
-                if (includeLeading)
-                {
-                    variableName = AddLeading(variableName);
-                }
-
                 return Story.variablesState[variableName];
             }
 
             return "";
         }
 
-        private string AddLeading(string variableName)
+        public override void SetVariable<T>(string variableName, T value)
         {
-            return "$" + variableName;
+            if (IsRunning())
+            {
+                Story.variablesState[variableName] = value;
+            }
         }
 
         public override void SetLanguage(Locale locale)
         {
             // TODO
         }
-
-        private const string StyleSeparator = "++";
-        private const string DialogueSeparator = ": ";
-        private bool RequestedContinue;
 
         private IEnumerator DoStory()
         {
@@ -156,12 +174,15 @@ namespace Scripts.Level.Dialogue.System.Ink
                     DialogueManager.OnLineStarted();
 
                     string line = Story.Continue();
+                    IEnumerable<string> tags = Story.currentTags;
 
-                    SeparateNameAndDialogue(line, out string characterStyleName, out string characterName, out string characterDialogue);
+                    DialogueSeparator.Separate(line, out string characterStyleName, out string characterName, out string characterDialogue);
 
                     DialogueManager.OnLineStyleUpdated(characterStyleName);
                     DialogueManager.OnLineNameUpdated(characterName);
                     DialogueManager.OnLineDialogueUpdated(characterDialogue);
+
+                    InkCommands.ChooseFunctionFromTags(tags);
 
                     while (!RequestedContinue)
                     {
@@ -202,35 +223,6 @@ namespace Scripts.Level.Dialogue.System.Ink
             yield return new WaitForEndOfFrame();
 
             DialogueManager.OnDialogueEnded();
-        }
-
-        private void SeparateNameAndDialogue(string text, out string style, out string name, out string dialogue)
-        {
-            int indexOfStyleSeparator = text.IndexOf(StyleSeparator);
-            int indexOfDialogueSeparator = text.IndexOf(DialogueSeparator);
-
-            if (indexOfDialogueSeparator == -1) // No se especifica nombre
-            {
-                name = "";
-                style = "";
-                dialogue = text;
-            }
-            else
-            {
-                if (indexOfStyleSeparator == -1) // No hay estilo adicional
-                {
-                    name = text.Substring(0, indexOfDialogueSeparator);
-                    style = name;
-                }
-                else
-                {
-                    name = text.Substring(0, indexOfStyleSeparator);
-
-                    int styleLength = indexOfDialogueSeparator - (indexOfStyleSeparator + StyleSeparator.Length);
-                    style = text.Substring(indexOfStyleSeparator + StyleSeparator.Length, styleLength);
-                }
-                dialogue = text.Substring(indexOfDialogueSeparator + DialogueSeparator.Length);
-            }
         }
     }
 }

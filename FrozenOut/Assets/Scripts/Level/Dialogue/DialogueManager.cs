@@ -37,7 +37,7 @@ namespace Scripts.Level.Dialogue
         public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
 
-        public abstract void SwitchToInstagram(global::System.Action onComplete);
+        public abstract void SwitchToSecondary(string systemName);
         public abstract void SwitchToMain();
 
         public abstract int GetTextSize();

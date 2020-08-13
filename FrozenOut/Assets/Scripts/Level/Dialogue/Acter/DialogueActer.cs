@@ -5,7 +5,7 @@ namespace Scripts.Level.Dialogue
 {
     public abstract class DialogueActer : MonoBehaviour
     {
-        public string TalkToNode = "";
+        public string StoryNode = "";
         public bool IsBlocking
         {
             get;

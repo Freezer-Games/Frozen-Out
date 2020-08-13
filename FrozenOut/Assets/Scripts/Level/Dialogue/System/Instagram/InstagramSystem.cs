@@ -45,14 +45,12 @@ namespace Scripts.Level.Dialogue.System.Instagram
 
         public override void RequestNextLine()
         {
-            if (!IsRunning())
-            {
-                StartDialogue();
-            }
-            else
-            {
-                RequestedNextLine = true;
-            }
+            RequestedNextLine = true;
+        }
+
+        public override void Switch()
+        {
+            StartDialogue();
         }
 
         public override void SetLanguage(Locale locale)

@@ -33,7 +33,7 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
 
         public override void StartDialogue(DialogueActer acter)
         {
-            DialogueRunner.StartDialogue(acter.TalkToNode);
+            DialogueRunner.StartDialogue(acter.StoryNode);
         }
 
         public override void RequestNextLine()
@@ -58,6 +58,21 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
             DialogueRunner.textLanguage = locale.Identifier.Code;
         }
 
+        public override void Switch()
+        {
+            onSwitchBack?.Invoke();
+            onSwitchBack = null;
+        }
+
+        private global::System.Action onSwitchBack;
+        public void SwitchToSecondary(string systemName, global::System.Action onComplete)
+        {
+            onSwitchBack = onComplete;
+
+            DialogueManager.SwitchToSecondary(systemName);
+        }
+
+        #region Proxy
         public bool IsItemInInventory(string itemVariableName)
         {
             return DialogueManager.IsItemInInventory(itemVariableName);
@@ -98,43 +113,38 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
         {
             DialogueManager.StopNPCAnimationWithSimilarName(npcName);
         }
+        #endregion
 
-        public override bool GetBoolVariable(string variableName, bool includeLeading = true)
+        public override bool GetBoolVariable(string variableName)
         {
-            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            Yarn.Value yarnValue = GetObjectValue(variableName);
             return yarnValue.AsBool;
         }
 
-        public override string GetStringVariable(string variableName, bool includeLeading = true)
+        public override string GetStringVariable(string variableName)
         {
-            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            Yarn.Value yarnValue = GetObjectValue(variableName);
             return yarnValue.AsString;
         }
 
-        public override float GetNumberVariable(string variableName, bool includeLeading = true)
+        public override float GetNumberVariable(string variableName)
         {
-            Yarn.Value yarnValue = GetObjectValue(variableName, includeLeading);
+            Yarn.Value yarnValue = GetObjectValue(variableName);
             return yarnValue.AsNumber;
         }
         
-        public override void SetVariable<T>(string variableName, T value, bool includeLeading = true)
+        public override void SetVariable<T>(string variableName, T value)
         {
-            Yarn.Value yarnValue = new Yarn.Value(value);
+            variableName = AddLeading(variableName);
 
-            if(includeLeading)
-            {
-                variableName = AddLeading(variableName);
-            }
+            Yarn.Value yarnValue = new Yarn.Value(value);
 
             VariableStorage.SetValue(variableName, yarnValue);
         }
 
-        private Yarn.Value GetObjectValue(string variableName, bool includeLeading = true)
+        private Yarn.Value GetObjectValue(string variableName)
         {
-            if(includeLeading)
-            {
-                variableName = AddLeading(variableName);
-            }
+            variableName = AddLeading(variableName);
 
             return VariableStorage.GetValue(variableName);
         }

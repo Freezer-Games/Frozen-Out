@@ -46,7 +46,7 @@ namespace Scripts.Level.Dialogue
 
         void Start()
         {
-            SetVariable<string>("crouchKey", SettingsManager.CrouchKey.ToString());
+            MainDialogueSystem.SetVariable<string>("crouchKey", SettingsManager.CrouchKey.ToString());
         }
 
         void Update()
@@ -61,11 +61,6 @@ namespace Scripts.Level.Dialogue
         public void SetLanguage()
         {
             DialogueSystem.SetLanguage(SettingsManager.SupportedLanguages.Last());
-        }
-
-        public void SetVariable<T>(string variableName, T value, bool includeLeading = true)
-        {
-            MainDialogueSystem.SetVariable<T>(variableName, value, includeLeading);
         }
 
         #region Settings
@@ -191,21 +186,18 @@ namespace Scripts.Level.Dialogue
             DialogueSystem.Stop();
         }
 
-        private global::System.Action onSwitchBack;
-        public override void SwitchToInstagram(global::System.Action onComplete)
+        public override void SwitchToSecondary(string systenName)
         {
             DialogueSystem = InstagramDialogueSystem;
-            DialogueSystem.RequestNextLine();
 
-            onSwitchBack = onComplete;
+            DialogueSystem.Switch();
         }
 
         public override void SwitchToMain()
         {
-            onSwitchBack?.Invoke();
-            onSwitchBack = null;
-
             DialogueSystem = MainDialogueSystem;
+
+            DialogueSystem.Switch();
         }
         #endregion
 
@@ -226,7 +218,7 @@ namespace Scripts.Level.Dialogue
         private void ProcessDialogue(string dialogue)
         {
             // Antes de hacer nada se analiza el texto y se clasifican internamente las partes con tags y las simples
-            IDialogueText classifiedCharacterDialogue = new DialogueText(dialogue); //DialogueTextAnalyser.AnalyseText(dialogue);
+            IDialogueText classifiedCharacterDialogue = DialogueTextAnalyser.AnalyseText(dialogue);
 
             if (Delay > 0.0f)
             {

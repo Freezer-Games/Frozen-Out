@@ -74,6 +74,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1250860137531124108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2243504419291469803}
+  - component: {fileID: 3847029143670246134}
+  m_Layer: 0
+  m_Name: InkCommands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2243504419291469803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250860137531124108}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6866037573896558285}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3847029143670246134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250860137531124108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e94c71e337f3d646b3e2d74ba382454, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InkSystem: {fileID: 7786558837340400357}
 --- !u!1 &1279341061493708423
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +222,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5540703929600547700}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6224036704003824184
 MonoBehaviour:
@@ -895,7 +939,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5540703929600547700}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1873779156556100963
 MonoBehaviour:
@@ -1191,6 +1235,51 @@ MonoBehaviour:
   AudioSource: {fileID: 1820724662768572307}
   RadioMixerGroup: {fileID: -897484965955009117, guid: 77a3138a8bdd43e4aaeed0e039538615,
     type: 2}
+--- !u!1 &5015254624637055131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5278308001778992274}
+  - component: {fileID: 9128194355408756609}
+  m_Layer: 0
+  m_Name: CradleSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5278308001778992274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015254624637055131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5540703929600547700}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9128194355408756609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015254624637055131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9f11facb424c304bb3f69942a426355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogueManager: {fileID: 2401489547208408697}
+  Story: {fileID: 0}
 --- !u!1 &5431862365576841665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1627,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2243504419291469803}
   m_Father: {fileID: 5540703929600547700}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1555,6 +1645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueManager: {fileID: 2401489547208408697}
+  InkCommands: {fileID: 3847029143670246134}
   NodeStories: []
 --- !u!1 &6396317386531443633
 GameObject:
@@ -1667,6 +1758,7 @@ Transform:
   m_Children:
   - {fileID: 596672131956474556}
   - {fileID: 6866037573896558285}
+  - {fileID: 5278308001778992274}
   - {fileID: 2593856255088214887}
   - {fileID: 4429440824072539158}
   - {fileID: 4723485816822784123}
@@ -1836,7 +1928,7 @@ MonoBehaviour:
       Minimum: 0.1
       Maximum: 1
     SizeConfiguration:
-      Default: 0
+      Default: 30
       Minimum: 25
       Maximum: 50
   DialogueCanvas: {fileID: 6396317386882989824}
@@ -2208,7 +2300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32629ad976be49a44ba47f33c6e4e34b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TalkToNode: Arrestado
+  StoryNode: 
   DialogueManager: {fileID: 2401489547208408697}
 --- !u!1 &7048318149116869897
 GameObject:
@@ -2239,7 +2331,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5540703929600547700}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7000071989007371706
 MonoBehaviour:

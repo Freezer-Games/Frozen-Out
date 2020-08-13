@@ -12,6 +12,8 @@ namespace Scripts.Level.Dialogue.System
 
         public abstract void RequestNextLine();
         public abstract void Stop();
+
+        public abstract void Switch();
     }
 
     public abstract class MainDialogueSystem : DialogueSystem
@@ -20,10 +22,10 @@ namespace Scripts.Level.Dialogue.System
 
         public abstract void RequestSelectChoice(DialogueChoice choice);
 
-        public abstract bool GetBoolVariable(string variableName, bool includeLeading = true);
-        public abstract string GetStringVariable(string variableName, bool includeLeading = true);
-        public abstract float GetNumberVariable(string variableName, bool includeLeading = true);
-        public abstract void SetVariable<T>(string variableName, T value, bool includeLeading = true);
+        public abstract bool GetBoolVariable(string variableName);
+        public abstract string GetStringVariable(string variableName);
+        public abstract float GetNumberVariable(string variableName);
+        public abstract void SetVariable<T>(string variableName, T value);
     }
 
     public abstract class SecondaryDialogueSystem : DialogueSystem
