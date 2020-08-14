@@ -6,6 +6,48 @@ public partial class @Lv1_Dialogue : SugarStory
 {
     public Scripts.Level.Dialogue.System.Cradle.CradleDialogueSystem CradleSystem;
 
+    #region Commands
+    private void giveitem(string itemVariableName, string quantity)
+    {
+        int realQuantity = int.Parse(quantity);
+
+        CradleSystem.PickItem(itemVariableName, realQuantity);
+    }
+
+    private void useitem(string itemVariableName, string quantity)
+    {
+        int realQuantity = int.Parse(quantity);
+
+        CradleSystem.UseItem(itemVariableName, realQuantity);
+    }
+
+    private void setanim(string npcName, string animation)
+    {
+        CradleSystem.SetNPCAnimation(npcName, animation);
+    }
+
+    private void setanimall(string npcName, string animation)
+    {
+        CradleSystem.SetNPCAnimationWithSimilarName(npcName, animation);
+    }
+
+    private void stopanim(string npcName)
+    {
+        CradleSystem.StopNPCAnimation(npcName);
+    }
+
+    private void stopanimall(string npcName)
+    {
+        CradleSystem.StopNPCAnimationWithSimilarName(npcName);
+    }
+
+    private void startinstagram()
+    {
+        CradleSystem.SwitchToSecondary("Instagram");
+    }
+    #endregion
+
+    #region Functions
     private bool has_item(string item)
     {
 		return CradleSystem.IsItemInInventory(item);
@@ -31,4 +73,5 @@ public partial class @Lv1_Dialogue : SugarStory
 		float random = Random.value;
 		return random > 0.5f;
 	}
+    #endregion
 }

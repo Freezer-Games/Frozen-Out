@@ -17,7 +17,6 @@ namespace Scripts.Level.Dialogue
     {
         public LevelManager LevelManager;
 
-        public MainDialogueSystem MainDialogueSystem;
         public SecondaryDialogueSystem InstagramDialogueSystem;
         public ChoiceSystem ChoiceSystem;
 

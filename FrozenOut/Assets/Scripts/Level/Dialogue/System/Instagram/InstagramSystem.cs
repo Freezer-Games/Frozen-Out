@@ -8,6 +8,8 @@ using InstagramConnection;
 using InstagramConnection.Model;
 using System.Linq;
 using CsvHelper.Configuration;
+using System;
+using Cinemachine;
 
 namespace Scripts.Level.Dialogue.System.Instagram
 {
@@ -77,20 +79,22 @@ namespace Scripts.Level.Dialogue.System.Instagram
         {
             if(Service != null)
             {
-                ICollection<Comment> lastComments = Service.GetLatestPostComments();
-
-                foreach (Comment comment in lastComments.Take(3))
+                ICollection<Comment> lastComments = null;
+                try
                 {
-                    string nameText = comment.Username;
-                    nameText = CleanComment(nameText);
+                    lastComments = Service.GetLatestPostComments();
+                }
+                catch(InvalidOperationException)
+                {
+                }
 
-                    string commentText = comment.Text;
-                    commentText = CleanComment(commentText);
-                    commentText = TrimComment(commentText);
+                if(lastComments == null)
+                {
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramempty", false);
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramerror", true);
 
-                    string commentFormatted = "<i>" + nameText + "</i>: " + "\"" + commentText + "\"";
                     DialogueManager.OnLineStarted();
-                    DialogueManager.OnLineDialogueUpdated(commentFormatted);
+                    DialogueManager.OnLineDialogueUpdated("...");
 
                     while (!RequestedNextLine)
                     {
@@ -100,6 +104,65 @@ namespace Scripts.Level.Dialogue.System.Instagram
 
                     yield return new WaitForEndOfFrame();
                 }
+                else if(lastComments.Count() == 0)
+                {
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramempty", true);
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramerror", false);
+
+                    DialogueManager.OnLineStarted();
+                    DialogueManager.OnLineDialogueUpdated("...");
+
+                    while (!RequestedNextLine)
+                    {
+                        yield return null;
+                    }
+                    RequestedNextLine = false;
+
+                    yield return new WaitForEndOfFrame();
+                }
+                else
+                {
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramempty", false);
+                    DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramerror", false);
+
+                    foreach (Comment comment in lastComments.Take(3))
+                    {
+                        string nameText = comment.Username;
+                        nameText = CleanComment(nameText);
+
+                        string commentText = comment.Text;
+                        commentText = CleanComment(commentText);
+                        commentText = TrimComment(commentText);
+
+                        string commentFormatted = "<i>" + nameText + "</i>: " + "\"" + commentText + "\"";
+                        DialogueManager.OnLineStarted();
+                        DialogueManager.OnLineDialogueUpdated(commentFormatted);
+
+                        while (!RequestedNextLine)
+                        {
+                            yield return null;
+                        }
+                        RequestedNextLine = false;
+
+                        yield return new WaitForEndOfFrame();
+                    }
+                }
+            }
+            else
+            {
+                DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramempty", false);
+                DialogueManager.MainDialogueSystem.SetVariable<bool>("instagramerror", true);
+
+                DialogueManager.OnLineStarted();
+                DialogueManager.OnLineDialogueUpdated("...");
+
+                while (!RequestedNextLine)
+                {
+                    yield return null;
+                }
+                RequestedNextLine = false;
+
+                yield return new WaitForEndOfFrame();
             }
 
             Running = false;

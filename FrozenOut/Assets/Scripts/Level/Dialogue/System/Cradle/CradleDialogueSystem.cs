@@ -11,7 +11,6 @@ namespace Scripts.Level.Dialogue.System.Cradle
 
         public Story Story;
 
-        private bool RequestedNextLine;
         private bool Running;
         private readonly DialogueLineSeparator DialogueSeparator = new DialogueLineSeparator("++", ": ");
 
@@ -59,7 +58,17 @@ namespace Scripts.Level.Dialogue.System.Cradle
 
         public override void Switch()
         {
-            // TODO
+            if(IsRunning())
+            {
+                Story.Resume();
+            }
+        }
+
+        public void SwitchToSecondary(string systemName)
+        {
+            Story.Pause();
+
+            DialogueManager.SwitchToSecondary(systemName);
         }
 
         #region Proxy

@@ -14,7 +14,7 @@ namespace InstagramConnection
             this.FrozenOutInstagramUser = GetFrozenOutInstagramUser();
         }
 
-        public InstagramService() : this(new InstagramRepository(new InstagramGraphAPIAccess("https://graph.facebook.com/v7.0/", "EAAqLlZADTcb4BAEjhEmWoQwdviJ7zAYzmkBW6EOn3PxPZCwxD064G0HGZBcCLstdaAqs4oJl1NiJMfFsB7OYO7uwZBrtS55o9Tpv25VTtHAWQZBGpC1DbNPZBw6PO444UewfraidqMUQykasE6R3F2ZBzLqftexf7qOgHEUVujCHxLOrBkoyFaQ")))
+        public InstagramService() : this(new InstagramRepository(new InstagramGraphAPIAccess("https://graph.facebook.com/v7.0/", "")))
         {
         }
 
@@ -36,7 +36,7 @@ namespace InstagramConnection
         {
             ICollection<Post> posts = Repository.GetPosts(this.FrozenOutInstagramUser);
 
-            Post latestPost = posts.Last();
+            Post latestPost = posts.First();
             latestPost.Comments = Repository.GetComments(latestPost);
 
             return latestPost;

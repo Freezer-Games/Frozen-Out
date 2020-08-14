@@ -1,39 +1,39 @@
 :: Naranjito
-<< if not visited("Introduccion") >>
-    Naranjito: ¿De dónde has salido tú...?
+<< if visited("Naranjito") is 1 >>
+    Naranjito: ¿De dónde has salido tú...?<< run setanim("Naranjito", "Awaken") >>
     Naranjito: Da igual, estoy demasiado cansado para pensar
-    Naranjito: Deberías volver a la ciudad antes de que te vean los helados
+    Naranjito: Deberías volver a la ciudad antes de que te vean los helados<< run setanim("Naranjito", "Deny") >>
     Naranjito: No permiten que nadie merodee por aquí fuera de su turno
 << endif >>
 Naranjito: <i>Cúbrete detrás de los escombros</i>
-Naranjito: <i>y usa "{$crouchKey}" para que sea más difícil que te detecten</i>...
-Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí
+Naranjito: <i>y usa </i>"$crouchKey"<i> para que sea más difícil que te detecten</i>...
+Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí<< run setanim("Naranjito", "Awaken") >>
 
 
 :: Guardia1
-Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo
+Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo<< run setanim("Guardia1", "Laugh") >>
 Guardia: Polos número 234 y 56 no me gustaría llevaros a la zona de.. <i><b>reformación</b></i>
-Guardia: HAHAHAHA.
+Guardia: HAHAHAHA<< run setanim("Guardia1", "Laugh") >> 
 
 
 :: Chups
-<< if not visited("Chups") >>
-    Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar
+<< if visited("Chups") is 1 >>
+    Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar<< run setanim("Chups", "Awaken") >>
 << endif >>
 Chups: Me pregunto qué harán con todo ese hielo, nunca tienen suficiente
 
 
 :: Helen
-<< if not visited("Helen") >>
-    Helen: Creía que no se iba a acabar nunca, te debo una
+<< if visited("Helen") is 1 >>
+    Helen: Creía que no se iba a acabar nunca, te debo una<< run setanim("Helen", "Deny") >>
 << endif >>
 Helen: Cada vez los turnos son más largos
 Helen: Con este ritmo voy a acabar en la zona de reformación
 
 
 :: Huranyo
-<< if not visited("Huranyo") >>
-    Prefiero que no nos vean hablar
+<< if visited("Huranyo") is 1 >>
+    Prefiero que no nos vean hablar<< run setanim("Huranyo", "Deny") >> 
 << else >>
     (...)
 << endif >>
@@ -41,31 +41,31 @@ Helen: Con este ritmo voy a acabar en la zona de reformación
 
 :: Palanquilla
 << if has_item("lever") >>
-    << if not visited("Palanquilla") >>
+    << if visited("Palanquilla") is 1 >>
         Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
     << endif >>
     [[ Palanquilla.Ascensor ]]
 << endif >>
 Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>
-Palanquilla: Como se enteren los guardias me van a dejar al Sol
+Palanquilla: Como se enteren los guardias me van a dejar al Sol<< run setanim("Palanquilla", "Awaken") >>
 
 
 :: Olafs
-<< if not visited("Olafs") >>
-    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos
+<< if visited("Olafs") is 1 >>
+    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos<< run setanim("Olaf", "Inclinado") >> 
 << endif >>
 << if quantity_item("ice") < 100 >>
-    Twolaf: Aún no tienes suficientes... HAHAHAHAH
+    Twolaf: Aún no tienes suficientes... HAHAHAHAH<< run setanim("Olaf", "Laugh") >><< run setanim("Twolaf", "Deny") >>
 << else >>
     [[ Olafs.Hielos ]]
 << endif >>
 
 
 :: Alfredo
-<< if not visited("Alfredo") >>
-    Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto...
+<< if visited("Alfredo") is 1 >>
+    Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto...<< run setanim("Alfredo", "Awaken") >>
 	Alfredo: se están produciendo muchos derrumbamientos
-    Alfredo: Además está acabando con todo el hielo y cada vez hace más calor
+    Alfredo: Además está acabando con todo el hielo y cada vez hace más calor<< run setanim("Alfredo", "Deny") >>
 << endif >>
 << if done_mission("rollball") >>
     [[ Alfredo.Motor ]]
@@ -74,39 +74,39 @@ Alfredo: Ojalá alguien lo apague antes de que la situación sea irreversible
 
 
 :: Alfredo.Motor
-<< if not visited("Alfredo.Motor") >>
+<< if visited("Alfredo.Motor") is 1 >>
     Alfredo: Woow! Cómo han corrido esos helados
 << else >>
     Alfredo: La ciudad entera fue construida sobre un casquete de hielo
-    Alfredo: No podemos seguir explotando los recursos a esta velocidad
+    Alfredo: No podemos seguir explotando los recursos a esta velocidad<< run setanim("Alfredo", "Awaken") >>
     Alfredo: ¡Tenemos que restaurar la cadena del frío!
 << endif >>
 
 
 :: Palanquilla.Ascensor
-<< if not visited("Palanquilla.Ascensor") >>
-    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto
+<< if visited("Palanquilla.Ascensor") is 1 >>
+    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto<< run useitem("lever", "0") >><< run setanim("Palanquilla", "Palanca") >>
 << else >>
 	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí
 << endif >>
 
 
 :: Olafs.Hielos
-<< if not visited("Olafs.Hielos") >>
-    Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...
+<< if visited("Olafs.Hielos") is 1 >>
+    Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...<< run useitem("ice", "100") >>
 << else >>
     Twolaf: ¿Qué quieres ahora polito?
 << endif >>
 
 
 :: Guardia2y3
-Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH
-Guardia: Seguro que el jefe nos da una buena comisión
-Guardia: Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos polos
+Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH<< run setanim("Guardia2", "Laugh") >>
+Guardia: Seguro que el jefe nos da una buena comisión<< run setanim("Guardia3", "Laugh") >>
+Guardia: Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos polos<< run setanim("Guardia2", "Laugh") >><< run setanim("Guardia3", "Laugh") >>
 
 
 :: Ramon
-<< if not visited("Ramon") >>
+<< if visited("Ramon") is 1 >>
     Ramon: Estoy muy cansado...
 << else >>
     Ramon: (...)
@@ -121,11 +121,11 @@ Mentolado: No quiero ir ahí... por eso estoy aquí escondido
 
 
 :: Bombon
-<< if not visited("Bombon") >>
+<< if visited("Bombon") is 1 >>
     Bombón: ¡Por fin alguien de hielo y palo por aquí!
     Bombón: Cuando empezó esa batidora a funcionar se derrumbó el ascensor...
 	Bombón: y me quedé aquí atrapado
-    Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?
+    Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?<< run setanim("Bombon", "Awaken") >>
 << endif >>
 << if done_mission("rollball") >>
     [[ Bombon.Bola ]] 
@@ -134,28 +134,28 @@ Bombón: Saca la bola de nieve y arrástrala por la superficie para hacerla más
 
 
 :: Bombon.Bola
-<< if not visited("Bombon.Bola") >>
+<< if visited("Bombon.Bola") is 1 >>
     Bombón: ¡Nunca había visto una bola tan grade!
-	Bombón: pero lo siento no te puedo dar más, eres un peligro para la sociedad
+	Bombón: pero lo siento no te puedo dar más, eres un peligro para la sociedad<< run setanim("Bombon", "Deny") >>
 << else >>
-    Bombón: Lo siento no te puedo dar más, eres un peligro para la sociedad
+    Bombón: Lo siento no te puedo dar más, eres un peligro para la sociedad<< run setanim("Bombon", "Deny") >>
 << endif >>
 
 
 :: Arrestado
 << if random_bool() >>
-	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!
+	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!<< run setanimall("Cono", "Badass") >>
 << elseif random_bool() >>
-	++Arrestado: SE TE ACABO EL JUEGO!!
+	++Arrestado: SE TE ACABO EL JUEGO!!	<< run setanimall("Cono", "Deny") >>
 << else >>
-	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!!
+	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!!	<< run setanimall("Cono", "Laugh") >>
 << endif >>
 
 
 :: Auriculares
-Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b>
+Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b><< run setanimall("Auriculares", "Discurso") >>
 Auriculares: SIGAN TRABAJANDO DURO, LA NEVERA NO PERDONA LA DEBILIDAD
-Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO
+Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO<< run stopanimall("Auriculares") >>
 
 
 :: Alfredo.Bola
@@ -174,3 +174,31 @@ Pol: (Creo que necesito una cuchara aquí)
 Pol: (Debería ayudar a ese polo antes)
 
 
+:: Instagramo
+Instagramo: Bueno, vamos a ver que dice la gente.
+<< run startinstagram() >>
+<< if $instagramerror >>
+	Instagramo: Parece que este cacharro no funciona
+<< elseif $instagramempty >>
+	Instagramo: Parece que no tienen nada que decir
+<< else >>
+	Instagramo: Pues eso ha sido todo
+<< endif >>
+
+:: Options
+Options: Vamos a ver como va esto:
+[[google, search, result, suggestion, yahoo|Google]]
+[[japan, cartoon, anime, dragon ball|Anime]]
+[[default|DefaultOption]]
+
+
+:: Google
+You wanna know about Google.
+
+
+:: Anime
+You wanna know about Anime.
+
+
+:: DefaultOption
+I don't understand what you want.

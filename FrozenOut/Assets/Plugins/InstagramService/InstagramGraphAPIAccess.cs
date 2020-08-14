@@ -25,6 +25,7 @@ namespace InstagramConnection
             request.AddParameter("access_token", this.Token);
 
             IRestClient client = new RestClient(this.BaseUrl);
+            client.Timeout = 5000;
 
             IRestResponse<T> response = client.Execute<T>(request);
 

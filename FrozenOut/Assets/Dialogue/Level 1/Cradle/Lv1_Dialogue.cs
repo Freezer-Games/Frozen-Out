@@ -25,9 +25,13 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		public VarDefs()
 		{
 			VarDef("crouchKey", () => this.@crouchKey, val => this.@crouchKey = val);
+			VarDef("instagramerror", () => this.@instagramerror, val => this.@instagramerror = val);
+			VarDef("instagramempty", () => this.@instagramempty, val => this.@instagramempty = val);
 		}
 
 		public StoryVar @crouchKey;
+		public StoryVar @instagramerror;
+		public StoryVar @instagramempty;
 	}
 
 	public new VarDefs Vars
@@ -72,6 +76,11 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		passage19_Init();
 		passage20_Init();
 		passage21_Init();
+		passage22_Init();
+		passage23_Init();
+		passage24_Init();
+		passage25_Init();
+		passage26_Init();
 	}
 
 	// ---------------
@@ -87,14 +96,16 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage0_Main()
 	{
-		if (! visited("Introduccion"))
+		if (visited("Naranjito") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Naranjito: ¿De dónde has salido tú...?");
+			setanim("Naranjito", "Awaken");
 			yield return lineBreak();
 			yield return text(@"    Naranjito: Da igual, estoy demasiado cansado para pensar");
 			yield return lineBreak();
 			yield return text(@"    Naranjito: Deberías volver a la ciudad antes de que te vean los helados");
+			setanim("Naranjito", "Deny");
 			yield return lineBreak();
 			yield return text(@"    Naranjito: No permiten que nadie merodee por aquí fuera de su turno");
 			yield return lineBreak();
@@ -102,11 +113,10 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		yield return lineBreak();
 		yield return text(@"Naranjito: <i>Cúbrete detrás de los escombros</i>");
 		yield return lineBreak();
-		yield return text(@"Naranjito: <i>y usa ""{");
-		yield return text(Vars.crouchKey);
-		yield return text(@"}"" para que sea más difícil que te detecten</i>...");
+		yield return text(@"Naranjito: <i>y usa </i>""" + Vars.crouchKey + @"""<i> para que sea más difícil que te detecten</i>...");
 		yield return lineBreak();
 		yield return text(@"Naranjito: Pero que demonios he dicho, esa frase no ha salido de mí");
+		setanim("Naranjito", "Awaken");
 		yield return lineBreak();
 		yield break;
 	}
@@ -123,10 +133,12 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 	IStoryThread passage1_Main()
 	{
 		yield return text(@"Guardia: VAMOS VAAAMOS!!! Todo ese hielo no se va a picar solo");
+		setanim("Guardia1", "Laugh");
 		yield return lineBreak();
 		yield return text(@"Guardia: Polos número 234 y 56 no me gustaría llevaros a la zona de.. <i><b>reformación</b></i>");
 		yield return lineBreak();
-		yield return text(@"Guardia: HAHAHAHA.");
+		yield return text(@"Guardia: HAHAHAHA");
+		setanim("Guardia1", "Laugh");
 		yield return lineBreak();
 		yield break;
 	}
@@ -142,10 +154,11 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage2_Main()
 	{
-		if (! visited("Chups"))
+		if (visited("Chups") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Chups: ¡Muchas gracias!, ya me estaba empezando a derretir de tanto picar");
+			setanim("Chups", "Awaken");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -165,10 +178,11 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage3_Main()
 	{
-		if (! visited("Helen"))
+		if (visited("Helen") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Helen: Creía que no se iba a acabar nunca, te debo una");
+			setanim("Helen", "Deny");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -190,10 +204,12 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage4_Main()
 	{
-		if (! visited("Huranyo"))
+		if (visited("Huranyo") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Prefiero que no nos vean hablar");
+			setanim("Huranyo", "Deny");
+			yield return text(@" ");
 			yield return lineBreak();
 		}
 		else
@@ -221,7 +237,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		{
 			yield return lineBreak();
 			yield return text(@"    ");
-			if (! visited("Palanquilla"))
+			if (visited("Palanquilla") == 1)
 			{
 				yield return lineBreak();
 				yield return text(@"        Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>");
@@ -237,6 +253,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		yield return text(@"Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b>");
 		yield return lineBreak();
 		yield return text(@"Palanquilla: Como se enteren los guardias me van a dejar al Sol");
+		setanim("Palanquilla", "Awaken");
 		yield return lineBreak();
 		yield break;
 	}
@@ -252,10 +269,12 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage6_Main()
 	{
-		if (! visited("Olafs"))
+		if (visited("Olafs") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos");
+			setanim("Olaf", "Inclinado");
+			yield return text(@" ");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -263,6 +282,8 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		{
 			yield return lineBreak();
 			yield return text(@"    Twolaf: Aún no tienes suficientes... HAHAHAHAH");
+			setanim("Olaf", "Laugh");
+			setanim("Twolaf", "Deny");
 			yield return lineBreak();
 		}
 		else
@@ -287,14 +308,16 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage7_Main()
 	{
-		if (! visited("Alfredo"))
+		if (visited("Alfredo") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Alfredo: Desde que el alcalde <b>Mc Topping</b> mandó encender ese trasto...");
+			setanim("Alfredo", "Awaken");
 			yield return lineBreak();
 			yield return text(@"	Alfredo: se están produciendo muchos derrumbamientos");
 			yield return lineBreak();
 			yield return text(@"    Alfredo: Además está acabando con todo el hielo y cada vez hace más calor");
+			setanim("Alfredo", "Deny");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -322,7 +345,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage8_Main()
 	{
-		if (! visited("Alfredo.Motor"))
+		if (visited("Alfredo.Motor") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Alfredo: Woow! Cómo han corrido esos helados");
@@ -334,6 +357,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 			yield return text(@"    Alfredo: La ciudad entera fue construida sobre un casquete de hielo");
 			yield return lineBreak();
 			yield return text(@"    Alfredo: No podemos seguir explotando los recursos a esta velocidad");
+			setanim("Alfredo", "Awaken");
 			yield return lineBreak();
 			yield return text(@"    Alfredo: ¡Tenemos que restaurar la cadena del frío!");
 			yield return lineBreak();
@@ -353,10 +377,12 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage9_Main()
 	{
-		if (! visited("Palanquilla.Ascensor"))
+		if (visited("Palanquilla.Ascensor") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto");
+			useitem("lever", "0");
+			setanim("Palanquilla", "Palanca");
 			yield return lineBreak();
 		}
 		else
@@ -380,10 +406,11 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage10_Main()
 	{
-		if (! visited("Olafs.Hielos"))
+		if (visited("Olafs.Hielos") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Olaf: ¿Có..Cómo?.. ¿Qué ya lo tienes? Está bien... pasa...");
+			useitem("ice", "100");
 			yield return lineBreak();
 		}
 		else
@@ -408,10 +435,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 	IStoryThread passage11_Main()
 	{
 		yield return text(@"Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH");
+		setanim("Guardia2", "Laugh");
 		yield return lineBreak();
 		yield return text(@"Guardia: Seguro que el jefe nos da una buena comisión");
+		setanim("Guardia3", "Laugh");
 		yield return lineBreak();
 		yield return text(@"Guardia: Siempre podemos quedarnos un poco más, y echarles la culpa a esos estúpidos polos");
+		setanim("Guardia2", "Laugh");
+		setanim("Guardia3", "Laugh");
 		yield return lineBreak();
 		yield break;
 	}
@@ -427,7 +458,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage12_Main()
 	{
-		if (! visited("Ramon"))
+		if (visited("Ramon") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Ramon: Estoy muy cansado...");
@@ -476,7 +507,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage14_Main()
 	{
-		if (! visited("Bombon"))
+		if (visited("Bombon") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Bombón: ¡Por fin alguien de hielo y palo por aquí!");
@@ -486,6 +517,7 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 			yield return text(@"	Bombón: y me quedé aquí atrapado");
 			yield return lineBreak();
 			yield return text(@"    Bombón: Ahora me dedico a hacer bolas de nieve ¿Quieres probar?");
+			setanim("Bombon", "Awaken");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -515,18 +547,20 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 	IStoryThread passage15_Main()
 	{
-		if (! visited("Bombon.Bola"))
+		if (visited("Bombon.Bola") == 1)
 		{
 			yield return lineBreak();
 			yield return text(@"    Bombón: ¡Nunca había visto una bola tan grade!");
 			yield return lineBreak();
 			yield return text(@"	Bombón: pero lo siento no te puedo dar más, eres un peligro para la sociedad");
+			setanim("Bombon", "Deny");
 			yield return lineBreak();
 		}
 		else
 		{
 			yield return lineBreak();
 			yield return text(@"    Bombón: Lo siento no te puedo dar más, eres un peligro para la sociedad");
+			setanim("Bombon", "Deny");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -548,18 +582,21 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		{
 			yield return lineBreak();
 			yield return text(@"	++Arrestado: ¡¡NO DEBERÍAS ESTAR AQUÍ, QUEDAS ARRESTADO!!");
+			setanimall("Cono", "Badass");
 			yield return lineBreak();
 		}
 		else if (random_bool())
 		{
 			yield return lineBreak();
-			yield return text(@"	++Arrestado: SE TE ACABO EL JUEGO!!");
+			yield return text(@"	++Arrestado: SE TE ACABO EL JUEGO!!	");
+			setanimall("Cono", "Deny");
 			yield return lineBreak();
 		}
 		else
 		{
 			yield return lineBreak();
-			yield return text(@"	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!!");
+			yield return text(@"	++Arrestado: DIRECTO A LA ZONA DE REFORMACIÓN!!	");
+			setanimall("Cono", "Laugh");
 			yield return lineBreak();
 		}
 		yield return lineBreak();
@@ -578,10 +615,12 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 	IStoryThread passage17_Main()
 	{
 		yield return text(@"Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b>");
+		setanimall("Auriculares", "Discurso");
 		yield return lineBreak();
 		yield return text(@"Auriculares: SIGAN TRABAJANDO DURO, LA NEVERA NO PERDONA LA DEBILIDAD");
 		yield return lineBreak();
 		yield return text(@"Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO");
+		stopanimall("Auriculares");
 		yield return lineBreak();
 		yield break;
 	}
@@ -646,6 +685,113 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 	IStoryThread passage21_Main()
 	{
 		yield return text(@"Pol: (Debería ayudar a ese polo antes)");
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #22: Instagramo
+
+	void passage22_Init()
+	{
+		this.Passages[@"Instagramo"] = new StoryPassage(@"Instagramo", new string[]{  }, passage22_Main);
+	}
+
+	IStoryThread passage22_Main()
+	{
+		yield return text(@"Instagramo: Bueno, vamos a ver que dice la gente.");
+		yield return lineBreak();
+		startinstagram();
+		yield return lineBreak();
+		if (Vars.instagramerror)
+		{
+			yield return lineBreak();
+			yield return text(@"	Instagramo: Parece que este cacharro no funciona");
+			yield return lineBreak();
+		}
+		else if (Vars.instagramempty)
+		{
+			yield return lineBreak();
+			yield return text(@"	Instagramo: Parece que no tienen nada que decir");
+			yield return lineBreak();
+		}
+		else
+		{
+			yield return lineBreak();
+			yield return text(@"	Instagramo: Pues eso ha sido todo");
+			yield return lineBreak();
+		}
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #23: Options
+
+	void passage23_Init()
+	{
+		this.Passages[@"Options"] = new StoryPassage(@"Options", new string[]{  }, passage23_Main);
+	}
+
+	IStoryThread passage23_Main()
+	{
+		yield return text(@"Options: Vamos a ver como va esto:");
+		yield return lineBreak();
+		yield return link(@"google, search, result, suggestion, yahoo", @"Google", null);
+		yield return lineBreak();
+		yield return link(@"japan, cartoon, anime, dragon ball", @"Anime", null);
+		yield return lineBreak();
+		yield return link(@"default", @"DefaultOption", null);
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #24: Google
+
+	void passage24_Init()
+	{
+		this.Passages[@"Google"] = new StoryPassage(@"Google", new string[]{  }, passage24_Main);
+	}
+
+	IStoryThread passage24_Main()
+	{
+		yield return text(@"You wanna know about Google.");
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #25: Anime
+
+	void passage25_Init()
+	{
+		this.Passages[@"Anime"] = new StoryPassage(@"Anime", new string[]{  }, passage25_Main);
+	}
+
+	IStoryThread passage25_Main()
+	{
+		yield return text(@"You wanna know about Anime.");
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #26: DefaultOption
+
+	void passage26_Init()
+	{
+		this.Passages[@"DefaultOption"] = new StoryPassage(@"DefaultOption", new string[]{  }, passage26_Main);
+	}
+
+	IStoryThread passage26_Main()
+	{
+		yield return text(@"I don't understand what you want.");
 		yield return lineBreak();
 		yield break;
 	}

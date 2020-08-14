@@ -16,6 +16,11 @@ namespace Scripts.Level.Dialogue
         protected DialogueSystem DialogueSystem;
 
         /// <summary>
+        /// Sistema actual encargado de recoger las lineas de diálogo
+        /// </summary>
+        public MainDialogueSystem MainDialogueSystem;
+
+        /// <summary>
         /// Encargado de dar voz a las líneas de diálogo
         /// </summary>
         public VoiceManager VoiceManager;

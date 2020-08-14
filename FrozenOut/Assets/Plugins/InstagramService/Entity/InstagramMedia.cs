@@ -20,6 +20,7 @@ namespace InstagramConnection.Entity
     {
         public InstagramMedia()
         {
+            Comments = new InstagramCommentData();
         }
 
         public string Id
