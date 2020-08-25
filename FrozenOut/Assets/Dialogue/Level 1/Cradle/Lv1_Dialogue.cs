@@ -81,6 +81,8 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		passage24_Init();
 		passage25_Init();
 		passage26_Init();
+		passage27_Init();
+		passage28_Init();
 	}
 
 	// ---------------
@@ -190,19 +192,55 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 		yield return lineBreak();
 		yield return text(@"Helen: Con este ritmo voy a acabar en la zona de reformación");
 		yield return lineBreak();
+		yield return link(@"Voy a liberaros", @"Liberar", null);
+		yield return lineBreak();
+		yield return link(@"Nos vemos", @"Salir", null);
+		yield return lineBreak();
 		yield break;
 	}
 
 
 	// .............
-	// #4: Huranyo
+	// #4: Liberar
 
 	void passage4_Init()
 	{
-		this.Passages[@"Huranyo"] = new StoryPassage(@"Huranyo", new string[]{  }, passage4_Main);
+		this.Passages[@"Liberar"] = new StoryPassage(@"Liberar", new string[]{  }, passage4_Main);
 	}
 
 	IStoryThread passage4_Main()
+	{
+		yield return text(@"Helen: Ojalá..");
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #5: Salir
+
+	void passage5_Init()
+	{
+		this.Passages[@"Salir"] = new StoryPassage(@"Salir", new string[]{  }, passage5_Main);
+	}
+
+	IStoryThread passage5_Main()
+	{
+		yield return text(@"Helen: (...)");
+		yield return lineBreak();
+		yield break;
+	}
+
+
+	// .............
+	// #6: Huranyo
+
+	void passage6_Init()
+	{
+		this.Passages[@"Huranyo"] = new StoryPassage(@"Huranyo", new string[]{  }, passage6_Main);
+	}
+
+	IStoryThread passage6_Main()
 	{
 		if (visited("Huranyo") == 1)
 		{
@@ -224,14 +262,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #5: Palanquilla
+	// #7: Palanquilla
 
-	void passage5_Init()
+	void passage7_Init()
 	{
-		this.Passages[@"Palanquilla"] = new StoryPassage(@"Palanquilla", new string[]{  }, passage5_Main);
+		this.Passages[@"Palanquilla"] = new StoryPassage(@"Palanquilla", new string[]{  }, passage7_Main);
 	}
 
-	IStoryThread passage5_Main()
+	IStoryThread passage7_Main()
 	{
 		if (has_item("lever"))
 		{
@@ -260,14 +298,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #6: Olafs
+	// #8: Olafs
 
-	void passage6_Init()
+	void passage8_Init()
 	{
-		this.Passages[@"Olafs"] = new StoryPassage(@"Olafs", new string[]{  }, passage6_Main);
+		this.Passages[@"Olafs"] = new StoryPassage(@"Olafs", new string[]{  }, passage8_Main);
 	}
 
-	IStoryThread passage6_Main()
+	IStoryThread passage8_Main()
 	{
 		if (visited("Olafs") == 1)
 		{
@@ -299,14 +337,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #7: Alfredo
+	// #9: Alfredo
 
-	void passage7_Init()
+	void passage9_Init()
 	{
-		this.Passages[@"Alfredo"] = new StoryPassage(@"Alfredo", new string[]{  }, passage7_Main);
+		this.Passages[@"Alfredo"] = new StoryPassage(@"Alfredo", new string[]{  }, passage9_Main);
 	}
 
-	IStoryThread passage7_Main()
+	IStoryThread passage9_Main()
 	{
 		if (visited("Alfredo") == 1)
 		{
@@ -336,14 +374,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #8: Alfredo.Motor
+	// #10: Alfredo.Motor
 
-	void passage8_Init()
+	void passage10_Init()
 	{
-		this.Passages[@"Alfredo.Motor"] = new StoryPassage(@"Alfredo.Motor", new string[]{  }, passage8_Main);
+		this.Passages[@"Alfredo.Motor"] = new StoryPassage(@"Alfredo.Motor", new string[]{  }, passage10_Main);
 	}
 
-	IStoryThread passage8_Main()
+	IStoryThread passage10_Main()
 	{
 		if (visited("Alfredo.Motor") == 1)
 		{
@@ -368,14 +406,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #9: Palanquilla.Ascensor
+	// #11: Palanquilla.Ascensor
 
-	void passage9_Init()
+	void passage11_Init()
 	{
-		this.Passages[@"Palanquilla.Ascensor"] = new StoryPassage(@"Palanquilla.Ascensor", new string[]{  }, passage9_Main);
+		this.Passages[@"Palanquilla.Ascensor"] = new StoryPassage(@"Palanquilla.Ascensor", new string[]{  }, passage11_Main);
 	}
 
-	IStoryThread passage9_Main()
+	IStoryThread passage11_Main()
 	{
 		if (visited("Palanquilla.Ascensor") == 1)
 		{
@@ -397,14 +435,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #10: Olafs.Hielos
+	// #12: Olafs.Hielos
 
-	void passage10_Init()
+	void passage12_Init()
 	{
-		this.Passages[@"Olafs.Hielos"] = new StoryPassage(@"Olafs.Hielos", new string[]{  }, passage10_Main);
+		this.Passages[@"Olafs.Hielos"] = new StoryPassage(@"Olafs.Hielos", new string[]{  }, passage12_Main);
 	}
 
-	IStoryThread passage10_Main()
+	IStoryThread passage12_Main()
 	{
 		if (visited("Olafs.Hielos") == 1)
 		{
@@ -425,14 +463,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #11: Guardia2y3
+	// #13: Guardia2y3
 
-	void passage11_Init()
+	void passage13_Init()
 	{
-		this.Passages[@"Guardia2y3"] = new StoryPassage(@"Guardia2y3", new string[]{  }, passage11_Main);
+		this.Passages[@"Guardia2y3"] = new StoryPassage(@"Guardia2y3", new string[]{  }, passage13_Main);
 	}
 
-	IStoryThread passage11_Main()
+	IStoryThread passage13_Main()
 	{
 		yield return text(@"Guardia: Hemos conseguido un buen montón de hielos HAHAHAHAH");
 		setanim("Guardia2", "Laugh");
@@ -449,14 +487,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #12: Ramon
+	// #14: Ramon
 
-	void passage12_Init()
+	void passage14_Init()
 	{
-		this.Passages[@"Ramon"] = new StoryPassage(@"Ramon", new string[]{  }, passage12_Main);
+		this.Passages[@"Ramon"] = new StoryPassage(@"Ramon", new string[]{  }, passage14_Main);
 	}
 
-	IStoryThread passage12_Main()
+	IStoryThread passage14_Main()
 	{
 		if (visited("Ramon") == 1)
 		{
@@ -476,14 +514,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #13: Mentolado
+	// #15: Mentolado
 
-	void passage13_Init()
+	void passage15_Init()
 	{
-		this.Passages[@"Mentolado"] = new StoryPassage(@"Mentolado", new string[]{  }, passage13_Main);
+		this.Passages[@"Mentolado"] = new StoryPassage(@"Mentolado", new string[]{  }, passage15_Main);
 	}
 
-	IStoryThread passage13_Main()
+	IStoryThread passage15_Main()
 	{
 		yield return text(@"Mentolado: Está batidora es capaz de extraer tanto hielo como yo en un mes..");
 		yield return lineBreak();
@@ -498,14 +536,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #14: Bombon
+	// #16: Bombon
 
-	void passage14_Init()
+	void passage16_Init()
 	{
-		this.Passages[@"Bombon"] = new StoryPassage(@"Bombon", new string[]{  }, passage14_Main);
+		this.Passages[@"Bombon"] = new StoryPassage(@"Bombon", new string[]{  }, passage16_Main);
 	}
 
-	IStoryThread passage14_Main()
+	IStoryThread passage16_Main()
 	{
 		if (visited("Bombon") == 1)
 		{
@@ -538,14 +576,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #15: Bombon.Bola
+	// #17: Bombon.Bola
 
-	void passage15_Init()
+	void passage17_Init()
 	{
-		this.Passages[@"Bombon.Bola"] = new StoryPassage(@"Bombon.Bola", new string[]{  }, passage15_Main);
+		this.Passages[@"Bombon.Bola"] = new StoryPassage(@"Bombon.Bola", new string[]{  }, passage17_Main);
 	}
 
-	IStoryThread passage15_Main()
+	IStoryThread passage17_Main()
 	{
 		if (visited("Bombon.Bola") == 1)
 		{
@@ -569,14 +607,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #16: Arrestado
+	// #18: Arrestado
 
-	void passage16_Init()
+	void passage18_Init()
 	{
-		this.Passages[@"Arrestado"] = new StoryPassage(@"Arrestado", new string[]{  }, passage16_Main);
+		this.Passages[@"Arrestado"] = new StoryPassage(@"Arrestado", new string[]{  }, passage18_Main);
 	}
 
-	IStoryThread passage16_Main()
+	IStoryThread passage18_Main()
 	{
 		if (random_bool())
 		{
@@ -605,14 +643,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #17: Auriculares
+	// #19: Auriculares
 
-	void passage17_Init()
+	void passage19_Init()
 	{
-		this.Passages[@"Auriculares"] = new StoryPassage(@"Auriculares", new string[]{  }, passage17_Main);
+		this.Passages[@"Auriculares"] = new StoryPassage(@"Auriculares", new string[]{  }, passage19_Main);
 	}
 
-	IStoryThread passage17_Main()
+	IStoryThread passage19_Main()
 	{
 		yield return text(@"Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b>");
 		setanimall("Auriculares", "Discurso");
@@ -627,14 +665,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #18: Alfredo.Bola
+	// #20: Alfredo.Bola
 
-	void passage18_Init()
+	void passage20_Init()
 	{
-		this.Passages[@"Alfredo.Bola"] = new StoryPassage(@"Alfredo.Bola", new string[]{  }, passage18_Main);
+		this.Passages[@"Alfredo.Bola"] = new StoryPassage(@"Alfredo.Bola", new string[]{  }, passage20_Main);
 	}
 
-	IStoryThread passage18_Main()
+	IStoryThread passage20_Main()
 	{
 		yield return text(@"Alfredo: Carámbanos!");
 		yield return lineBreak();
@@ -643,14 +681,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #19: SinPico
+	// #21: SinPico
 
-	void passage19_Init()
+	void passage21_Init()
 	{
-		this.Passages[@"SinPico"] = new StoryPassage(@"SinPico", new string[]{  }, passage19_Main);
+		this.Passages[@"SinPico"] = new StoryPassage(@"SinPico", new string[]{  }, passage21_Main);
 	}
 
-	IStoryThread passage19_Main()
+	IStoryThread passage21_Main()
 	{
 		yield return text(@"Pol: (Me hace falta el pico para esto)");
 		yield return lineBreak();
@@ -659,14 +697,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #20: SinCuchara
+	// #22: SinCuchara
 
-	void passage20_Init()
+	void passage22_Init()
 	{
-		this.Passages[@"SinCuchara"] = new StoryPassage(@"SinCuchara", new string[]{  }, passage20_Main);
+		this.Passages[@"SinCuchara"] = new StoryPassage(@"SinCuchara", new string[]{  }, passage22_Main);
 	}
 
-	IStoryThread passage20_Main()
+	IStoryThread passage22_Main()
 	{
 		yield return text(@"Pol: (Creo que necesito una cuchara aquí)");
 		yield return lineBreak();
@@ -675,14 +713,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #21: SinBola
+	// #23: SinBola
 
-	void passage21_Init()
+	void passage23_Init()
 	{
-		this.Passages[@"SinBola"] = new StoryPassage(@"SinBola", new string[]{  }, passage21_Main);
+		this.Passages[@"SinBola"] = new StoryPassage(@"SinBola", new string[]{  }, passage23_Main);
 	}
 
-	IStoryThread passage21_Main()
+	IStoryThread passage23_Main()
 	{
 		yield return text(@"Pol: (Debería ayudar a ese polo antes)");
 		yield return lineBreak();
@@ -691,14 +729,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #22: Instagramo
+	// #24: Instagramo
 
-	void passage22_Init()
+	void passage24_Init()
 	{
-		this.Passages[@"Instagramo"] = new StoryPassage(@"Instagramo", new string[]{  }, passage22_Main);
+		this.Passages[@"Instagramo"] = new StoryPassage(@"Instagramo", new string[]{  }, passage24_Main);
 	}
 
-	IStoryThread passage22_Main()
+	IStoryThread passage24_Main()
 	{
 		yield return text(@"Instagramo: Bueno, vamos a ver que dice la gente.");
 		yield return lineBreak();
@@ -728,14 +766,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #23: Options
+	// #25: Options
 
-	void passage23_Init()
+	void passage25_Init()
 	{
-		this.Passages[@"Options"] = new StoryPassage(@"Options", new string[]{  }, passage23_Main);
+		this.Passages[@"Options"] = new StoryPassage(@"Options", new string[]{  }, passage25_Main);
 	}
 
-	IStoryThread passage23_Main()
+	IStoryThread passage25_Main()
 	{
 		yield return text(@"Options: Vamos a ver como va esto:");
 		yield return lineBreak();
@@ -750,14 +788,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #24: Google
+	// #26: Google
 
-	void passage24_Init()
+	void passage26_Init()
 	{
-		this.Passages[@"Google"] = new StoryPassage(@"Google", new string[]{  }, passage24_Main);
+		this.Passages[@"Google"] = new StoryPassage(@"Google", new string[]{  }, passage26_Main);
 	}
 
-	IStoryThread passage24_Main()
+	IStoryThread passage26_Main()
 	{
 		yield return text(@"You wanna know about Google.");
 		yield return lineBreak();
@@ -766,14 +804,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #25: Anime
+	// #27: Anime
 
-	void passage25_Init()
+	void passage27_Init()
 	{
-		this.Passages[@"Anime"] = new StoryPassage(@"Anime", new string[]{  }, passage25_Main);
+		this.Passages[@"Anime"] = new StoryPassage(@"Anime", new string[]{  }, passage27_Main);
 	}
 
-	IStoryThread passage25_Main()
+	IStoryThread passage27_Main()
 	{
 		yield return text(@"You wanna know about Anime.");
 		yield return lineBreak();
@@ -782,14 +820,14 @@ public partial class @Lv1_Dialogue: Cradle.StoryFormats.Sugar.SugarStory
 
 
 	// .............
-	// #26: DefaultOption
+	// #28: DefaultOption
 
-	void passage26_Init()
+	void passage28_Init()
 	{
-		this.Passages[@"DefaultOption"] = new StoryPassage(@"DefaultOption", new string[]{  }, passage26_Main);
+		this.Passages[@"DefaultOption"] = new StoryPassage(@"DefaultOption", new string[]{  }, passage28_Main);
 	}
 
-	IStoryThread passage26_Main()
+	IStoryThread passage28_Main()
 	{
 		yield return text(@"I don't understand what you want.");
 		yield return lineBreak();

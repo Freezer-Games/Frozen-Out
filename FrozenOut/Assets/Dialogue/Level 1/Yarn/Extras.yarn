@@ -1,0 +1,47 @@
+title: Instagramo
+---
+Instagramo: Bueno, vamos a ver que dice la gente #line:0b32ab2
+<< startinstagram >>
+<< if $instagramerror >>
+	Instagramo: Parece que este cacharro no funciona #line:03590b8
+<< elseif $instagramempty >>
+	Instagramo: Parece que no tienen nada que decir #line:0ac1e4d
+<< else >>
+	Instagramo: Pues eso ha sido todo #line:00753fa
+<< endif >>
+===
+
+title: InputOptions
+---
+Crema: Qué es lo que quieres saber? #line:07eebba
+[[sentido, memoria|Trabajo]] #line:024894e
+[[nevera, aparato, edificio, helados|Nevera]] #line:08a6e5f
+[[esconder, guardia, huir|Guardias]] #line:0fe88f0
+[[default|Nada]] #line:0662c10
+===
+
+title: ButtonOptions
+---
+Crema: Qué es lo que quieres saber? #line:0258c5c
+[[¿Qué hago aquí?|Trabajo]] #line:0c10584
+[[¿Qué es esa nevera tan <b>grande</b>?|Nevera]] #line:0a606a2
+[[¿Cómo puedo esconderme de los <color=red>guardias</color>?|Guardias]] #line:062bead
+[[Nada más|Nada]] #line:098fd04
+===
+
+title: Trabajo
+---
+Crema: Pues trabajar, que es lo que esperabas #line:025c4fb
+===
+title: Nevera
+---
+Crema: La nevera es donde viven los helados pero ni se te ocurra acercarte #line:0484e26
+===
+title: Guardias
+---
+Crema: Pulsa {$crouchKey} para hacer menos ruido #line:04ed88d
+===
+title: Nada
+---
+Crema: Tú mismo #line:0e94312
+===

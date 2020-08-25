@@ -20,6 +20,7 @@ namespace Scripts.Level.Dialogue.System.Choice
 
             TextField.enabled = true;
             TextField.text = "";
+            TextField.Select();
         }
 
         public override void Close()

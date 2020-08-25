@@ -59,7 +59,7 @@ namespace Scripts.Level.Dialogue
 
         public void SetLanguage()
         {
-            DialogueSystem.SetLanguage(SettingsManager.SupportedLanguages.Last());
+            DialogueSystem.SetLanguage(SettingsManager.Locale);
         }
 
         #region Settings

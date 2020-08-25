@@ -1,0 +1,29 @@
+title: Olafs
+---
+<< if not visited("Olafs") >>
+    << setanim YarnCommands Olaf Inclinado >>
+    Olaf: <size=70>No</size> está permitido pasar a la <b>ciudad</b> hasta que no reúnas <b><color=blue>100 hielos</color></b> #line:062324b
+<< endif >>
+<< if quantity_item("ice") < 100 >>
+    << setanim YarnCommands Olaf Laugh >>
+    Olaf: Aún no tienes suficientes... <i><color=red>HAHAHAHAH</color></i> #line:01da91f
+<< else >>
+    [[ Olafs.Hielos ]]
+<< endif >>
+===
+title: Palanquilla
+---
+<< if not visited("Palanquilla") >>
+    Palanquilla++Panico: Madre mía... he perdido la <b>manivela</b> y ahora no se puede usar el <b>ascensor</b> #line:0dccd81
+<< endif >>
+<< if has_item("lever") >>
+    Palanquilla++Feliz: Me has salvado la vida... ahora mismo pongo en marcha este trasto #line:0f87ade
+	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí #line:0723cae
+<< endif >>
+===
+title: Auriculares
+---
+Auriculares: A TODOS LOS CIUDADANOS, LES HABLA EL ALCALDE <b>MC TOPPING</b> #line:0377221
+Auriculares: SIGAN TRABAJANDO DURO, LA NEVERA NO PERDONA LA DEBILIDAD #line:0c7eb39
+Auriculares: JUNTOS VAMOS A CONSTRUIR UN FUTURO GÉLIDO #line:0cad6c9
+===

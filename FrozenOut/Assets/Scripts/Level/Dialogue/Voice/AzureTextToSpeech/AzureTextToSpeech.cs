@@ -15,7 +15,7 @@ namespace Scripts.Level.Dialogue.Voice.Azure
         private SpeechSynthesizer Synthesizer;
 
         private const string ServiceRegion = "westeurope";
-        private const string SubscriptionKey = "84c068692c8d4dafababeefa3fa4e4f1";
+        private const string SubscriptionKey = "";
 
         private void Start()
         {

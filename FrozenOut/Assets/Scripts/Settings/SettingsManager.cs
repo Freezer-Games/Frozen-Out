@@ -291,8 +291,8 @@ namespace Scripts.Settings
         private void AssignLanguages()
         {
             SupportedLanguages = LocalizationSettings.AvailableLocales.Locales;
-            
-            Locale = LocalizationSettings.SelectedLocale;
+
+            Locale = SupportedLanguages[1]; //Override locale del sistema para estar siempre en castellano //LocalizationSettings.SelectedLocale;
         }
 
         private void AssignGraphics()

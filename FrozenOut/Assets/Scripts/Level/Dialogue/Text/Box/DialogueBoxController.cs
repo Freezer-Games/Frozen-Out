@@ -36,7 +36,7 @@ namespace Scripts.Level.Dialogue.Text
         private void Awake()
         {
             RectTransform holderTransform = GetComponent<RectTransform>();
-            MaxWidthPerLine = holderTransform.rect.width - 100.0f;
+            MaxWidthPerLine = holderTransform.rect.width - 200.0f;
 
             TextAnimators = new List<Animator>();
         }

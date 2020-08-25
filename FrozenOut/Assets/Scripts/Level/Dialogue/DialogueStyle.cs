@@ -49,7 +49,7 @@ namespace Scripts.Level.Dialogue
 
             if(relativeValue < 0)
             {
-                finalValue = Mathf.Lerp(minValue, defaultValue, -(relativeValue));
+                finalValue = Mathf.Lerp(minValue, defaultValue, (1+relativeValue));
             }
             else if(relativeValue > 0)
             {
@@ -73,7 +73,7 @@ namespace Scripts.Level.Dialogue
         [NonSerialized]
         public int Size;
 
-        [Header("Efectos")]
+        [Header("Efects")]
         public TextEffect Effect;
 
         [Serializable]
@@ -100,7 +100,7 @@ namespace Scripts.Level.Dialogue
         [NonSerialized]
         public float Volume;
 
-        [Header("Efectos")]
+        [Header("Efects")]
         public VoiceEffect Effect;
 
         [Serializable]
