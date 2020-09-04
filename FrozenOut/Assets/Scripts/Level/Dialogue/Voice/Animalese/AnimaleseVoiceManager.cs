@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 namespace Scripts.Level.Dialogue.Voice.Animalese
 {
-    public class Animalese : VoiceManager
+    public class AnimaleseVoiceManager : VoiceManager
     {
         public AudioSource AudioSource;
 

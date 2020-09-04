@@ -15,12 +15,12 @@ namespace Scripts.Level.Dialogue
 {
     public class NormalDialogueManager : DialogueManager
     {
-        public LevelManager LevelManager;
-
+        [Header("Subsistemas", order = 0)]
         public SecondaryDialogueSystem InstagramDialogueSystem;
         public ChoiceSystem ChoiceSystem;
 
-        public DialogueActer GameOverActer;
+        [Header("Level", order = 1)]
+        public LevelManager LevelManager;
 
         private DialogueActer CurrentActer;
         private float Delay;
@@ -173,11 +173,6 @@ namespace Scripts.Level.Dialogue
                 SwitchToMain();
                 MainDialogueSystem.StartDialogue(acter);
             }
-        }
-
-        public override void StartGameOverDialogue()
-        {
-            StartDialogue(GameOverActer);
         }
 
         public override void StopDialogue()

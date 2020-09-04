@@ -230,7 +230,7 @@ public class Patrulla : MonoBehaviour
         lookTo.y = transform.position.y;
         transform.LookAt(lookTo);
 
-        DialogueManager.StartGameOverDialogue();
+        //DialogueManager.StartGameOverDialogue();
     }
 
     private IEnumerator Esperar(int tipo)//1 para NextPoint, 2 para PreviousPoint

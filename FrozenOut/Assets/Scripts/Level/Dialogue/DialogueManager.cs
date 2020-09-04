@@ -15,11 +15,13 @@ namespace Scripts.Level.Dialogue
         /// </summary>
         protected DialogueSystem DialogueSystem;
 
+        [Header("Sistema principal", order = 0)]
         /// <summary>
         /// Sistema actual encargado de recoger las lineas de diálogo
         /// </summary>
         public MainDialogueSystem MainDialogueSystem;
 
+        [Header("Controladores", order = 1)]
         /// <summary>
         /// Encargado de dar voz a las líneas de diálogo
         /// </summary>
@@ -29,6 +31,7 @@ namespace Scripts.Level.Dialogue
         /// </summary>
         public TextManager TextManager;
 
+        [Header("Componentes adicionales", order = 2)]
         /// <summary>
         /// Encargado de guardar y actualizar los estilos para cada personaje
         /// </summary>
@@ -39,7 +42,6 @@ namespace Scripts.Level.Dialogue
         public abstract bool IsRunning();
         public abstract bool IsReady();
         public abstract void StartDialogue(DialogueActer acter);
-        public abstract void StartGameOverDialogue();
         public abstract void StopDialogue();
 
         public abstract void SwitchToSecondary(string systemName);
