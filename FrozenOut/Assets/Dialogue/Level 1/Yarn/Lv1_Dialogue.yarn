@@ -79,13 +79,13 @@ position: -334,448
 ---
 << if has_item("lever") >>
     << if not visited("Palanquilla") >>
-        Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0dccd81
+        Palanquilla++Panico: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0dccd81
     << endif >>
     [[ Palanquilla.Ascensor ]]
 << endif >>
-Palanquilla: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0b3d00d
+Palanquilla++Panico: Madre mía... he perdido la manivela y ahora no se puede usar el <b>ascensor</b> #line:0b3d00d
 << setanim YarnCommands Palanquilla Awaken >>
-Palanquilla: Como se enteren los guardias me van a dejar al Sol #line:0221493
+Palanquilla++Panico: Como se enteren los guardias me van a dejar al Sol #line:0221493
 ===
 title: Olafs
 tags: 
@@ -142,7 +142,7 @@ position: -330,725
 ---
 << if not visited("Palanquilla.Ascensor") >>
     << useitem YarnCommands lever 0 >>
-    Palanquilla: Me has salvado la vida... ahora mismo pongo en marcha este trasto #line:0f87ade
+    Palanquilla++Feliz: Me has salvado la vida... ahora mismo pongo en marcha este trasto #line:0f87ade
     << setanim YarnCommands Palanquilla Palanca >>
 << else >>
 	Palanquilla: Mira como gira, el alcalde estaría orgulloso de mí #line:0723cae
