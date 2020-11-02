@@ -117,7 +117,6 @@ namespace Scripts.Level.Player
         {
             MovementDir = PlayerBase.GetMovement();
             MovementDir *= MoveSpeed;
-
             Vector3 velocity = PlayerBase.Rigidbody.velocity;
             Vector3 velocityChange = (MovementDir - velocity);
             velocityChange.x = Mathf.Clamp(velocityChange.x, -MoveSpeed, MoveSpeed);

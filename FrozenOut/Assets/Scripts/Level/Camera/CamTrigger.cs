@@ -7,12 +7,12 @@ namespace Scripts.Level.Camera
 {
     public class CamTrigger : TriggerBase
     {
-        public CameraController CameraController;
-        public CinemachineVirtualCamera SegmentCamera;
-        public CinemachineVirtualCamera PreviousCamera;
+        //public CameraController CameraController;
+        public CinemachineVirtualCamera NextCamera;
+        public CinemachineVirtualCamera CurrentCamera;
 
-        [SerializeField] bool IsMain;
-        [SerializeField] bool Disable;
+        [SerializeField] bool Unidirectional;
+        //[SerializeField] bool Disable;
 
         void OnTriggerEnter(Collider other)
         {
@@ -24,31 +24,14 @@ namespace Scripts.Level.Camera
 
         void ChangeCamPriority() 
         {
-            /*
-                Activate the previous camera of the new zone, 
-                it used to be the camera of the lower zone
-            */
-            if (PreviousCamera.Priority == 20)
-            {
-                PreviousCamera.Priority = 30;
-                SegmentCamera.Priority = 20;
+            NextCamera.Priority = 40;
+            CurrentCamera.Priority = 20;
 
-                if (Disable)
-                {
-                    GetComponent<Collider>().enabled = false;
-                }
-            }
-            //Activate the camera of the segment the player is going
-            else 
+            if (!Unidirectional)
             {
-                PreviousCamera.Priority = 20;
-                SegmentCamera.Priority = 40;
-
-                //That's mean the segment camera is the main of each segment
-                if (IsMain)
-                {
-                    CameraController.SetCurrentVC(SegmentCamera);
-                }
+                CinemachineVirtualCamera AuxCamera = NextCamera;
+                NextCamera = CurrentCamera;
+                CurrentCamera = AuxCamera;
             }
         }
     }
