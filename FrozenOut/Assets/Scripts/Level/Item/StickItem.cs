@@ -10,7 +10,6 @@ namespace Scripts.Level.Item
         [SerializeField] float DropForce;
         public Rigidbody Rigidbody;
         public Collider Collider;
-        public MeshRenderer Renderer;
         public Transform Player;
 
         public UnityEvent PlayerNormal;
