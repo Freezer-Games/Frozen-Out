@@ -93,10 +93,7 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
             };
         }
 
-        public override void Open()
-        {
-            // TODO
-        }
+        public override void Open() {}
 
         public override void Close()
         {
@@ -124,7 +121,6 @@ namespace Scripts.Level.Dialogue.Voice.Animalese
                     AudioSource.outputAudioMixerGroup = null;
                     break;
             }
-            // TODO
         }
 
         public override void SpeakDialogueAccumulated(string dialogue)
