@@ -15,19 +15,22 @@ namespace Scripts.Level.Camera
         [SerializeField] float diffPlyrCam4;
         [SerializeField] float currentDiff;
 
+        /*
         public CinemachineVirtualCamera FirstSegmenetVC;
         public CinemachineVirtualCamera SecondSegmentVC;
         public CinemachineVirtualCamera ScndSegTLVC;
         public CinemachineVirtualCamera ThirdSegmentVC;
         public CinemachineVirtualCamera FourthSegmentVC;
+        */
 
         void Start()
         {
-            CurrentVC = FirstSegmenetVC;
+            //CurrentVC = FirstSegmenetVC;
         }
 
-        void Update()
+        /*void Update()
         {
+
             if (CurrentVC != FirstSegmenetVC)
             {
                 currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
@@ -69,7 +72,7 @@ namespace Scripts.Level.Camera
                     }
                 }
             }
-        }
+        }*/
 
         public void SetCurrentVC(CinemachineVirtualCamera vCam)
         {
