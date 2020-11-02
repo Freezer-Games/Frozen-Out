@@ -183,12 +183,20 @@ namespace Scripts.Level.Dialogue
 
         public override void StartGameOverDialogue()
         {
+            if(IsRunning())
+            {
+                StopDialogue();
+            }
+
             StartDialogue(GameOverActer);
         }
 
         public override void StopDialogue()
         {
             DialogueSystem.Stop();
+
+            TextManager.Close();
+            VoiceManager.Close();
         }
 
         private global::System.Action onSwitchBack;
