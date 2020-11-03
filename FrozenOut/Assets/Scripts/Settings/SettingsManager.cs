@@ -45,7 +45,11 @@ namespace Scripts.Settings
             get;
             private set;
         }
-
+        public KeyCode MissionsKey
+        {
+            get;
+            private set;
+        }
         public KeyCode InteractKey
         {
             get;
@@ -204,6 +208,12 @@ namespace Scripts.Settings
             SetPlayerPrefsKey(nameof(CrouchKey), CrouchKey);
         }
 
+        public void SetMissionsKey(KeyCode keyCode)
+        {
+            MissionsKey = keyCode;
+            SetPlayerPrefsKey(nameof(MissionsKey), MissionsKey);
+        }
+
         public void SetInteractKey(KeyCode keyCode)
         {
             InteractKey = keyCode;
@@ -353,6 +363,7 @@ namespace Scripts.Settings
             RightKey = GetPlayerPrefsKey(nameof(RightKey), "D");
             LeftKey = GetPlayerPrefsKey(nameof(LeftKey), "A");
             CrouchKey = GetPlayerPrefsKey(nameof(CrouchKey), "LeftControl");
+            MissionsKey = GetPlayerPrefsKey(nameof(MissionsKey), "T");
             InteractKey = GetPlayerPrefsKey(nameof(InteractKey), "F");
             NextDialogueKey = GetPlayerPrefsKey(nameof(NextDialogueKey), "Space");
             InventoryKey = GetPlayerPrefsKey(nameof(InventoryKey), "Tab");

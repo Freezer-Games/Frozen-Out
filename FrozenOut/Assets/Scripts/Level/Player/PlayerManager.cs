@@ -44,6 +44,11 @@ namespace Scripts.Level.Player
             return SettingsManager.CrouchKey;
         }
 
+        public KeyCode GetMissionsKey()
+        {
+            return SettingsManager.MissionsKey;
+        }
+
         public KeyCode [] GetMovementKeys()
         {
             return SettingsManager.MovementKeys;

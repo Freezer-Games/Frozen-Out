@@ -12,6 +12,8 @@ namespace Scripts.Level.Mission
     public class MissionBase
     {
         public string VariableName;
+        public string Description;
+        public bool isActive;
 
         public override bool Equals(object obj)
         {
@@ -23,5 +25,11 @@ namespace Scripts.Level.Mission
             MissionBase other = (MissionBase)obj;
             return this.VariableName.Equals(other.VariableName);
         }
+
+        public bool IsActive() { return isActive; }
+
+        public void SetActive() { isActive = true; }
+
+        public void SetInactive() { isActive = false; }
     }
 }

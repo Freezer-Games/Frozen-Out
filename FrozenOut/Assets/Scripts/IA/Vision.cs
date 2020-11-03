@@ -12,7 +12,7 @@ public class Vision : MonoBehaviour
     [Range(0, 360)]
     public float viewAngle;
 
-    public int TiempoDeteccion = 255;
+    public float TiempoDeteccion = 255f;
 
     public LayerMask Detectable;
     public LayerMask Obstaculos;
@@ -28,7 +28,7 @@ public class Vision : MonoBehaviour
     [HideInInspector]
     public bool NoVisto = true;
 
-    public GameObject camera;
+    public GameObject Camera;
     public GameObject DeteccionUI;
     public GameObject DeteccionUI2;
     private SpriteRenderer DeteccionSprite;
@@ -66,7 +66,6 @@ public class Vision : MonoBehaviour
 
     void FindVisibleTargets()
     {
-        //vaciamos listas y comprobamos las vistas con esferea de vision
         ObjetosVistos.Clear();
         ObjetosCercanos.Clear();
         Collider[] colisionObjetosVistos = Physics.OverlapSphere(transform.position, RadioVista, Detectable);
@@ -77,7 +76,6 @@ public class Vision : MonoBehaviour
         {
             Transform target = colisionObjetosCercanos[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            //ObjetosCercanos.Add(target);
             double dif = target.position.y - gameObject.transform.position.y;
             if (dif > -2.5 && dif < 2.5)
             {
@@ -163,7 +161,7 @@ public class Vision : MonoBehaviour
         {
             NoVisto = false;
             UIRenderer.GetPropertyBlock(_propBlock);
-            _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
+            _propBlock.SetFloat("_Change", 1 - ((TiempoDeteccion - Deteccion) / TiempoDeteccion));
             UIRenderer.SetPropertyBlock(_propBlock);
             Deteccion = 255;
         }
@@ -171,16 +169,14 @@ public class Vision : MonoBehaviour
 
     private void StartDetection(Transform t)
     {
-        //Debug.Log("StartDetection");
         DeteccionSprite.enabled = true; 
-        //ShowUI();
         StartCoroutine(ContinueDetection(t));
     }
 
     private IEnumerator ContinueDetection(Transform t) {
         if (Deteccion < TiempoDeteccion) { Deteccion++; }
         UIRenderer.GetPropertyBlock(_propBlock);
-        _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion)/255f));
+        _propBlock.SetFloat("_Change", 1 - ((TiempoDeteccion - Deteccion)/ TiempoDeteccion));
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion < TiempoDeteccion && ObjetosVistos.Contains(t))
         {
@@ -207,14 +203,13 @@ public class Vision : MonoBehaviour
     {
         anim.StopAnimation();
         UIRenderer.GetPropertyBlock(_propBlock);
-        _propBlock.SetFloat("_Change", 1 - ((255f - Deteccion) / 255f));
+        _propBlock.SetFloat("_Change", 1 - ((TiempoDeteccion - Deteccion) / TiempoDeteccion));
         UIRenderer.SetPropertyBlock(_propBlock);
         if (Deteccion <= 0) {
             DeteccionSprite.enabled = false;
             ObjetosDetectados.Clear();
             UltimasPosiciones.Clear();
             NoVisto = true;
-            //HideUI();
             yield return null;
             CR_running = false;
         }
@@ -238,7 +233,6 @@ public class Vision : MonoBehaviour
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
-        //calcular direccion desde angulo
         if (!angleIsGlobal) { angleInDegrees += transform.eulerAngles.y; }
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
 
@@ -246,7 +240,7 @@ public class Vision : MonoBehaviour
 
     private void Update()
     {
-        DeteccionUI.transform.LookAt(camera.transform);
-        DeteccionUI2.transform.LookAt(camera.transform);
+        DeteccionUI.transform.LookAt(Camera.transform);
+        DeteccionUI2.transform.LookAt(Camera.transform);
     }
 }

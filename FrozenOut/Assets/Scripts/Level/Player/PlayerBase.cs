@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scripts.Level.Player 
 {
@@ -33,8 +34,11 @@ namespace Scripts.Level.Player
         [SerializeField] LayerMask Ignored;
         [SerializeField] float groundDistance;
 
-        [Header("Death")]
-        [SerializeField] float CdToDeath;
+        [Header("Health")]
+        [SerializeField] float MaxHealth;
+        [SerializeField] float LowerHealthTime;
+        float Health = 100;
+        private bool Dead = false;
         public bool InDeathZone;
         private Coroutine deathCoroutine;
 
@@ -43,11 +47,26 @@ namespace Scripts.Level.Player
         private Vector3 CamForward;
         private Vector3 CamRight;
 
+        [SerializeField] private GameObject PlayerHealthUI;
+        private SpriteRenderer DeteccionSprite;
+        private Renderer UIRenderer;
+        private MaterialPropertyBlock _propBlock;
+
+        [SerializeField] private GameObject MissionsUI;
+
         void Start()
         {
             Rigidbody = GetComponent<Rigidbody>();
             Animator = GetComponent<Animator>();
             Collider = GetComponent<CapsuleCollider>();
+
+            DeteccionSprite = PlayerHealthUI.GetComponent<SpriteRenderer>();
+            DeteccionSprite.enabled = true;
+            UIRenderer = PlayerHealthUI.GetComponent<Renderer>();
+            _propBlock = new MaterialPropertyBlock();
+            _propBlock.SetFloat("_Change", 1);
+            UIRenderer.SetPropertyBlock(_propBlock);
+            Health = MaxHealth;
         }
 
         void Update()
@@ -97,6 +116,11 @@ namespace Scripts.Level.Player
                 CanMove = false;
                 Animator.SetTrigger("isSneakingOut");
                 Animator.SetBool("isMoving", false);
+            }
+
+            if (Health <= 0 && !Dead) {
+                LevelManager.GameOver();
+                Dead = true;
             }
         }
 
@@ -209,19 +233,40 @@ namespace Scripts.Level.Player
                 {
                     if (!InDeathZone)
                     {
-                        deathCoroutine = StartCoroutine(CountdownToDeath());
+                        InDeathZone = true;
+                        deathCoroutine = StartCoroutine(OnDeathZone());
                         PlayerManager.OnDeathZone();
                     }
                 }
             }
         }
 
-        private IEnumerator CountdownToDeath()
+        public void LowerHealth()
         {
-            InDeathZone = true;
-            yield return new WaitForSeconds(CdToDeath);
-            LevelManager.GameOver();     
+            if (!Dead) {
+            Health--;
+            Debug.Log("Health: " + Health);
+            UIRenderer.GetPropertyBlock(_propBlock);
+            _propBlock.SetFloat("_Change", 1 - (MaxHealth - Health) / MaxHealth);
+            UIRenderer.SetPropertyBlock(_propBlock);
+            }
+        }
+
+        public IEnumerator ShowMissions() {
+            MissionsUI.GetComponent<Text>().enabled = true;
+            yield return new WaitForSeconds(10);
+            MissionsUI.GetComponent<Text>().enabled = false;
             yield return null;
+        }
+
+        private IEnumerator OnDeathZone()
+        {
+            LowerHealth();
+            yield return new WaitForSeconds(LowerHealthTime);
+            if (InDeathZone)
+            {
+                deathCoroutine = StartCoroutine(OnDeathZone());
+            }
         }
     }
 }

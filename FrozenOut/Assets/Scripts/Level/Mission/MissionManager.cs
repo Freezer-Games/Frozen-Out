@@ -19,6 +19,19 @@ namespace Scripts.Level.Mission
             return Missions.Find(temp => temp.Equals(mission));
         }
 
+        public MissionInfo GetActiveMission()
+        {
+            return Missions.Find(temp => temp.IsActive());
+        }
+
+        public MissionInfo SetActiveMission(MissionBase mission)
+        {
+            Missions.Find(temp => temp.IsActive()).SetInactive();
+            MissionInfo ans = Missions.Find(temp => temp.IsActive());
+            ans.SetActive();
+            return ans;
+        }
+
         public void MarkMissionAsDone(MissionBase mission)
         {
             MissionInfo missionInfo = GetMission(mission);
