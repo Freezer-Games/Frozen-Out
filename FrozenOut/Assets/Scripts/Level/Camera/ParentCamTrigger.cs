@@ -7,31 +7,21 @@ namespace Scripts.Level.Camera
 {
     public class ParentCamTrigger : MonoBehaviour
     {
-        public CameraController CameraController;
-        public CinemachineVirtualCamera SegmentCamera;
-        public CinemachineVirtualCamera AreaCamera;
+        public CinemachineVirtualCamera NextCamera;
+        public CinemachineVirtualCamera CurrentCamera;
 
-        [SerializeField] bool IsMain;
+        [SerializeField] bool Unidirectional;
 
         public void ChangeCamPriority() 
         {
-            //Is active
-            if (AreaCamera.Priority == 20)
-            {
-                SegmentCamera.Priority = 20;
-                AreaCamera.Priority = 30;
-            }
-            //Isn't active
-            else 
-            {
-                SegmentCamera.Priority = 40;
-                AreaCamera.Priority = 20;
+            NextCamera.Priority = 40;
+            CurrentCamera.Priority = 20;
 
-                //That's mean the segment camera is the main of each segment
-                if (IsMain)
-                {
-                    CameraController.SetCurrentVC(SegmentCamera);
-                }
+            if (!Unidirectional)
+            {
+                CinemachineVirtualCamera AuxCamera = NextCamera;
+                NextCamera = CurrentCamera;
+                CurrentCamera = AuxCamera;
             }
         }
     }

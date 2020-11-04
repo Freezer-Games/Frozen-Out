@@ -5,16 +5,20 @@ using UnityEngine;
 
 namespace Scripts.Level.Camera 
 {
-    public class ChildCamTrigger : MonoBehaviour
+    public class ChildCamTrigger : TriggerBase
     {
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.CompareTag(PlayerTag))
             {
-                Debug.Log("entra el jugador");
-                ParentCamTrigger parent = GetComponentInParent<ParentCamTrigger>();
-                if (parent != null)
-                    parent.ChangeCamPriority();
+                ParentCamTrigger[] parents = GetComponentsInParent<ParentCamTrigger>();
+                if (parents.Length > 0)
+                {
+                    foreach (ParentCamTrigger p in parents)
+                    {
+                        p.ChangeCamPriority();
+                    }
+                }
             }
         }
     }
