@@ -83,7 +83,8 @@ colorID: 1
 position: 399,222
 ---
 << if not visited("Olafs") >>
-    << setanim YarnCommands Olaf Inclinado >> 
+    << setanim YarnCommands Olaf Inclinado >>
+	<< markmission YarnCommands Start >>
     Olaf: No está permitido pasar a la ciudad hasta que no reúnas <b>100</b> hielos. #line:062324b
 << endif >>
 << if quantity_item("ice") < 100 >>
@@ -106,7 +107,7 @@ position: 119,446
     << setanim YarnCommands Alfredo Deny >>
     Alfredo: Además está acabando con todo el hielo y cada vez hace más calor. #line:064e5a8
 << endif >>
-<< if done_mission("rollball") >>
+<< if done_submission("Rollball") >>
     [[ Alfredo.Motor ]]
 << endif >>
 Alfredo: Ojalá alguien lo apague antes de que la situación sea irreversible. #line:09b456c
@@ -145,6 +146,7 @@ position: 400,492
 ---
 << if not visited("Olafs.Hielos") >>
     << useitem YarnCommands ice 100 >>
+	<< markmission YarnCommands IceGot >>
     Olaf: ¿Có..cómo? ¿Que ya lo tienes? Está bien... pasa... #line:04fcc69
 << else >>
     Twolaf: ¿Qué quieres ahora polito? #line:051d4b9
@@ -196,7 +198,7 @@ position: -109,448
     << setanim YarnCommands Bombon Awaken >>
     Bombón: Ahora me dedico a hacer bolas de nieve, ¿Quieres probar? #line:03b951f
 << endif >>
-<< if done_mission("rollball") >>
+<< if done_submission("Rollball") >>
     [[ Bombon.Bola ]] 
 << endif >> 
 Bombón: Saca la bola de nieve y arrástrala por la superficie para hacerla más grande. #line:0da3eb9

@@ -1,35 +1,54 @@
-﻿using Scripts.Level.Mission;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
+
+using Scripts.Level.Mission;
+using Scripts.Settings;
 
 namespace Scripts.Level.Player
 {
     public class MissionsText : BaseManager
     {
-
         private ILevelManager LevelManager => GameManager.Instance.CurrentLevelManager;
-        private MissionManager missionsManager;
-        MissionBase m;
+        private MissionManager MissionManager => LevelManager.GetMissionManager();
+        private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
-        Text MText;
+        public GameObject MissionObject;
+        private LocalizedString LocalizeScriptName => MissionObject.GetComponent<LocalizeStringBehaviour>().StringReference;
 
-        // Start is called before the first frame update
-        void Start()
+        Text MissionText;
+
+        private void Start()
         {
-
-            MText = gameObject.GetComponent<Text>();
-            missionsManager = LevelManager.GetMissionManager();
-            MText.text = missionsManager.GetActiveMission().Description;
+            MissionText = GetComponent<Text>();
         }
 
-        public void MissionFinished() {
-            m = new MissionBase();
-            m.VariableName = "IceGot";
-            m = missionsManager.GetMission(m);
-            m.SetActive();
-            MText.text = m.Description;
+        private void Update()
+        {
+            if (Input.GetKey(SettingsManager.MissionsKey))
+            {
+                StartCoroutine(DoShowText());
+            }
+        }
+
+        private IEnumerator DoShowText()
+        {
+            MissionText.enabled = true;
+
+            MissionInfo activeMission = MissionManager.GetActiveMission();
+            if (activeMission != null)
+            {
+                LocalizeScriptName.TableEntryReference = activeMission.VariableName;
+            }
+            else
+            {
+                LocalizeScriptName.TableEntryReference = "empty";
+            }
+            yield return new WaitForSeconds(10);
+            MissionText.enabled = false;
+            yield return null;
         }
     }
 }

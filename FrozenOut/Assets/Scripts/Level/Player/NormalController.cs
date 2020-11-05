@@ -51,11 +51,6 @@ namespace Scripts.Level.Player
                 {
                     inStealth = false;
                 }
-
-                if (Input.GetKey(PlayerBase.PlayerManager.GetMissionsKey())) {
-                    ShowMissions();
-                }
-
    
                 if (PlayerBase.CanMove)
                 {
@@ -154,10 +149,5 @@ namespace Scripts.Level.Player
                 transform.SetParent(MainParent);
             }
         }
-
-        void ShowMissions() {
-            StartCoroutine(PlayerBase.ShowMissions());
-        }
-
     }
 }

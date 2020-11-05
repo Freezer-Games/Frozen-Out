@@ -6,13 +6,18 @@ namespace Scripts.Level.Mission
     public class MissionInfo : MissionBase
     {
         public bool IsDone;
+
+        public void SetDone()
+        {
+            IsDone = true;
+            isActive = false;
+        }
     }
 
     [Serializable]
     public class MissionBase
     {
         public string VariableName;
-        public string Description;
         public bool isActive;
 
         public override bool Equals(object obj)
