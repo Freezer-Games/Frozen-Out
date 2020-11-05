@@ -36,7 +36,7 @@ namespace Scripts.Level.Player
 
         [Header("Health")]
         [SerializeField] float MaxHealth;
-        [SerializeField] float LowerHealthTime;
+        [SerializeField] float ChangeHealthTime;
         float Health = 100;
         private bool Dead = false;
         public bool InDeathZone;
@@ -67,6 +67,7 @@ namespace Scripts.Level.Player
             _propBlock.SetFloat("_Change", 1);
             UIRenderer.SetPropertyBlock(_propBlock);
             Health = MaxHealth;
+            PlayerHealthUI.SetActive(false);
         }
 
         void Update()
@@ -122,6 +123,8 @@ namespace Scripts.Level.Player
                 LevelManager.GameOver();
                 Dead = true;
             }
+
+            PlayerHealthUI.transform.LookAt(UnityEngine.Camera.main.transform);
         }
 
         void FixedUpdate()
@@ -228,6 +231,13 @@ namespace Scripts.Level.Player
                     if (InDeathZone)
                     {
                         StopCoroutine(deathCoroutine);
+                        if (Health < MaxHealth)
+                        {
+                            deathCoroutine = StartCoroutine(NotOnDeathZone());
+                        }
+                        else {
+                            PlayerHealthUI.SetActive(false);
+                        }
                         InDeathZone = false;
                         PlayerManager.OnNormalZone();
                     }
@@ -238,6 +248,7 @@ namespace Scripts.Level.Player
                     if (!InDeathZone)
                     {
                         InDeathZone = true;
+                        PlayerHealthUI.SetActive(true);
                         deathCoroutine = StartCoroutine(OnDeathZone());
                         PlayerManager.OnDeathZone();
                     }
@@ -247,22 +258,48 @@ namespace Scripts.Level.Player
 
         public void LowerHealth()
         {
-            if (!Dead) {
-            Health--;
-            Debug.Log("Health: " + Health);
-            UIRenderer.GetPropertyBlock(_propBlock);
-            _propBlock.SetFloat("_Change", 1 - (MaxHealth - Health) / MaxHealth);
-            UIRenderer.SetPropertyBlock(_propBlock);
+            if (!Dead)
+            {
+                Health--;
+                //Debug.Log("Health: " + Health);
+                UIRenderer.GetPropertyBlock(_propBlock);
+                _propBlock.SetFloat("_Change", 1 - (MaxHealth - Health) / MaxHealth);
+                UIRenderer.SetPropertyBlock(_propBlock);
+            }
+        }
+
+        public void BoostHealth()
+        {
+            if (!Dead)
+            {
+                Health++;
+                //Debug.Log("Health: " + Health);
+                UIRenderer.GetPropertyBlock(_propBlock);
+                _propBlock.SetFloat("_Change", 1 - (MaxHealth - Health) / MaxHealth);
+                UIRenderer.SetPropertyBlock(_propBlock);
             }
         }
 
         private IEnumerator OnDeathZone()
         {
             LowerHealth();
-            yield return new WaitForSeconds(LowerHealthTime);
+            yield return new WaitForSeconds(ChangeHealthTime);
             if (InDeathZone)
             {
                 deathCoroutine = StartCoroutine(OnDeathZone());
+            }
+        }
+
+        private IEnumerator NotOnDeathZone()
+        {
+            BoostHealth();
+            yield return new WaitForSeconds(ChangeHealthTime);
+            if (!InDeathZone && Health != MaxHealth)
+            {
+                deathCoroutine = StartCoroutine(NotOnDeathZone());
+            }
+            else if (!InDeathZone && Health >= MaxHealth) {
+                PlayerHealthUI.SetActive(false);
             }
         }
     }
