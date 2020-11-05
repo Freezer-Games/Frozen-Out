@@ -75,9 +75,13 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
         {
             return DialogueManager.QuantityOfItem(itemVariableName);
         }
-        public bool MarkMissionDone(string missionVariableName)
+        public bool IsSubmissionDone(string missionVariableName)
         {
-            return DialogueManager.MarkMissionDone(missionVariableName);
+            return DialogueManager.IsSubmissionDone(missionVariableName);
+        }
+        public void MarkMissionAsDone(string missionVariableName)
+        {
+            DialogueManager.MarkMissionAsDone(missionVariableName);
         }
         public void PickItem(string itemVariableName, int quantity)
         {

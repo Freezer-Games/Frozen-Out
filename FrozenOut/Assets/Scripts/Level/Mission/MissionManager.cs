@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Scripts.Level.Mission
@@ -6,6 +8,7 @@ namespace Scripts.Level.Mission
     public class MissionManager : MonoBehaviour
     {
         public List<MissionInfo> Missions;
+        public List<MissionInfo> Submissions;
 
         public bool IsMissionDone(MissionBase mission)
         {
@@ -14,9 +17,21 @@ namespace Scripts.Level.Mission
             return missionInfo.IsDone;
         }
 
-        public MissionInfo GetMission(MissionBase mission)
+        public bool IsSubmissionDone(MissionBase submission)
+        {
+            MissionInfo submissionInfo = GetSubmission(submission);
+
+            return submissionInfo.IsDone;
+        }
+
+        private MissionInfo GetMission(MissionBase mission)
         {
             return Missions.Find(temp => temp.Equals(mission));
+        }
+
+        private MissionInfo GetSubmission(MissionBase submission)
+        {
+            return Submissions.Find(temp => temp.Equals(submission));
         }
 
         public MissionInfo GetActiveMission()
@@ -24,19 +39,27 @@ namespace Scripts.Level.Mission
             return Missions.Find(temp => temp.IsActive());
         }
 
-        public MissionInfo SetActiveMission(MissionBase mission)
-        {
-            Missions.Find(temp => temp.IsActive()).SetInactive();
-            MissionInfo ans = Missions.Find(temp => temp.IsActive());
-            ans.SetActive();
-            return ans;
-        }
-
         public void MarkMissionAsDone(MissionBase mission)
         {
             MissionInfo missionInfo = GetMission(mission);
 
-            missionInfo.IsDone = true;
+            missionInfo.SetDone();
+
+            int finishedIndex = Missions.IndexOf(missionInfo);
+            int nextIndex = finishedIndex + 1;
+
+            if (nextIndex < Missions.Count)
+            {
+                MissionInfo nextMission = Missions.ElementAt(nextIndex);
+                nextMission.SetActive();
+            }
+        }
+
+        public void MarkSubmissionAsDone(MissionBase mission)
+        {
+            MissionInfo submissionInfo = GetSubmission(mission);
+
+            submissionInfo.SetDone();
         }
     }
 }

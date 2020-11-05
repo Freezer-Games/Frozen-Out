@@ -107,13 +107,21 @@ namespace Scripts.Level.Dialogue
             };
             return Inventory.QuantityOfItem(item);
         }
-        public override bool MarkMissionDone(string missionVariableName)
+        public override bool IsSubmissionDone(string missionVariableName)
         {
             MissionBase mission = new MissionBase()
             {
                 VariableName = missionVariableName
             };
-            return MissionManager.IsMissionDone(mission);
+            return MissionManager.IsSubmissionDone(mission);
+        }
+        public override void MarkMissionAsDone(string missionVariableName)
+        {
+            MissionBase mission = new MissionBase()
+            {
+                VariableName = missionVariableName
+            };
+            MissionManager.MarkMissionAsDone(mission);
         }
         public override void PickItem(string itemVariableName, int quantity)
         {

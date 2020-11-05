@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 using Yarn.Unity;
@@ -46,10 +45,10 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
                 return YarnSystem.QuantityOfItem(itemVariableName);
             });
 
-            DialogueRunner.AddFunction("done_mission", 1, delegate (Yarn.Value[] parameters)
+            DialogueRunner.AddFunction("done_submission", 1, delegate (Yarn.Value[] parameters)
             {
                 string missionVariableName = parameters[0].AsString;
-                return YarnSystem.MarkMissionDone(missionVariableName);
+                return YarnSystem.IsSubmissionDone(missionVariableName);
             });
 
             DialogueRunner.AddFunction("random_bool", 0, delegate (Yarn.Value[] parameters)

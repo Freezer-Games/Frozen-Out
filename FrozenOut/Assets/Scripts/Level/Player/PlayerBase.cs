@@ -256,13 +256,6 @@ namespace Scripts.Level.Player
             }
         }
 
-        public IEnumerator ShowMissions() {
-            MissionsUI.GetComponent<Text>().enabled = true;
-            yield return new WaitForSeconds(10);
-            MissionsUI.GetComponent<Text>().enabled = false;
-            yield return null;
-        }
-
         private IEnumerator OnDeathZone()
         {
             LowerHealth();

@@ -58,6 +58,12 @@ namespace Scripts.Level.Dialogue.System.YarnSpinner
             YarnSystem.StopNPCAnimationWithSimilarName(npcName);
         }
 
+        [YarnCommand("markmission")]
+        public void MarkMissionAsDone(string missionName)
+        {
+            YarnSystem.MarkMissionAsDone(missionName);
+        }
+
         public void StartInstagram(string[] parameters, global::System.Action onComplete)
         {
             YarnSystem.DialogueManager.SwitchToInstagram(onComplete);
