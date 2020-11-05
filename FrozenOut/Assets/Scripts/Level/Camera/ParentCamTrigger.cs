@@ -7,17 +7,25 @@ namespace Scripts.Level.Camera
 {
     public class ParentCamTrigger : MonoBehaviour
     {
+        public CameraController CameraController;
         public CinemachineVirtualCamera NextCamera;
         public CinemachineVirtualCamera CurrentCamera;
 
         [SerializeField] bool Unidirectional;
 
+        private void Start()
+        {
+            CameraController.CameraChange += (send, args) => SwitchCamVarName(args);
+        }
+
         public void ChangeCamPriority() 
         {
-            NextCamera.Priority = 40;
-            CurrentCamera.Priority = 20;
+            CameraController.ChangePriorities(NextCamera);
+        }
 
-            if (!Unidirectional)
+        public void SwitchCamVarName(CinemachineVirtualCamera camera)
+        {
+            if (!Unidirectional && camera == NextCamera)
             {
                 CinemachineVirtualCamera AuxCamera = NextCamera;
                 NextCamera = CurrentCamera;

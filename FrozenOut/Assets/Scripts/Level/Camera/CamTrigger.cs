@@ -7,27 +7,28 @@ namespace Scripts.Level.Camera
 {
     public class CamTrigger : TriggerBase
     {
-        //public CameraController CameraController;
+        public CameraController CameraController;
         public CinemachineVirtualCamera NextCamera;
         public CinemachineVirtualCamera CurrentCamera;
 
         [SerializeField] bool Unidirectional;
-        //[SerializeField] bool Disable;
+
+        private void Start()
+        {
+            CameraController.CameraChange += (send, args) => SwitchCamVarName(args);
+        }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag(PlayerTag))
             {
-                ChangeCamPriority();  
+                CameraController.ChangePriorities(NextCamera);
             }
         }
 
-        void ChangeCamPriority() 
+        public void SwitchCamVarName(CinemachineVirtualCamera camera)
         {
-            NextCamera.Priority = 40;
-            CurrentCamera.Priority = 20;
-
-            if (!Unidirectional)
+            if (!Unidirectional && camera == NextCamera)
             {
                 CinemachineVirtualCamera AuxCamera = NextCamera;
                 NextCamera = CurrentCamera;
@@ -35,5 +36,4 @@ namespace Scripts.Level.Camera
             }
         }
     }
-
 }

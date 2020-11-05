@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797690260280443}
   CurrentCamera: {fileID: 2929797689463671691}
   Unidirectional: 0
@@ -483,6 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046f9e146a5692b46b5f7420bc9f6cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797688593572925}
   CurrentCamera: {fileID: 2929797689634727707}
   Unidirectional: 1
@@ -617,6 +619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046f9e146a5692b46b5f7420bc9f6cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797690260280443}
   CurrentCamera: {fileID: 2929797690120594363}
   Unidirectional: 1
@@ -632,6 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046f9e146a5692b46b5f7420bc9f6cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797690260280443}
   CurrentCamera: {fileID: 2929797689450919552}
   Unidirectional: 1
@@ -1100,6 +1104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797689463671691}
   CurrentCamera: {fileID: 2929797690120594363}
   Unidirectional: 1
@@ -1209,6 +1214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797689450919552}
   CurrentCamera: {fileID: 2929797690260280443}
   Unidirectional: 0
@@ -1930,6 +1936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797688593572925}
   CurrentCamera: {fileID: 2929797690260280443}
   Unidirectional: 0
@@ -2039,6 +2046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797689634727707}
   CurrentCamera: {fileID: 2929797688593572925}
   Unidirectional: 0
@@ -2543,6 +2551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220dda5372a1c24488447c7120803513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1827482615}
   NextCamera: {fileID: 2929797690120594363}
   CurrentCamera: {fileID: 2929797690260280443}
   Unidirectional: 0
@@ -2799,6 +2808,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7678970340283412758}
+  - component: {fileID: 1827482615}
   m_Layer: 0
   m_Name: Level One Cameras
   m_TagString: Untagged
@@ -2825,6 +2835,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1827482615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511177170237910870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dff880c0914961845acf395984aba799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelCameras:
+  - {fileID: 2929797689463671691}
+  - {fileID: 2929797690260280443}
+  - {fileID: 2929797688593572925}
+  - {fileID: 2929797690120594363}
+  - {fileID: 2929797689450919552}
+  - {fileID: 2929797689634727707}
 --- !u!1 &6385231306679767372
 GameObject:
   m_ObjectHideFlags: 0

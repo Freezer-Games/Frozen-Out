@@ -2,81 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 namespace Scripts.Level.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] CinemachineVirtualCamera CurrentVC;
-        public Transform Player;
-        [SerializeField] float diffPlyrCam2;
-        [SerializeField] float diffPlyrCam2TL;
-        [SerializeField] float diffPlyrCam3;
-        [SerializeField] float diffPlyrCam4;
-        [SerializeField] float currentDiff;
+        public CinemachineVirtualCamera[] LevelCameras;
 
-        /*
-        public CinemachineVirtualCamera FirstSegmenetVC;
-        public CinemachineVirtualCamera SecondSegmentVC;
-        public CinemachineVirtualCamera ScndSegTLVC;
-        public CinemachineVirtualCamera ThirdSegmentVC;
-        public CinemachineVirtualCamera FourthSegmentVC;
-        */
-
-        void Start()
+        public void ChangePriorities(CinemachineVirtualCamera current)
         {
-            //CurrentVC = FirstSegmenetVC;
-        }
-
-        /*void Update()
-        {
-
-            if (CurrentVC != FirstSegmenetVC)
+            foreach (CinemachineVirtualCamera camera in LevelCameras)
             {
-                currentDiff = CurrentVC.transform.position.y - Player.transform.position.y;
-
-                if (CurrentVC == SecondSegmentVC)
+                if (camera == current)
                 {
-                    if (currentDiff > diffPlyrCam2 && currentDiff >= 0)
-                    {
-                        FirstSegmenetVC.Priority = 30;
-                        CurrentVC.Priority = 20;
-                        CurrentVC = FirstSegmenetVC;
-                    }
+                    camera.Priority = 40;
                 }
-                else if (CurrentVC == ScndSegTLVC)
+                else
                 {
-                    if (currentDiff > diffPlyrCam2TL && currentDiff >= 0)
-                    {
-                        FirstSegmenetVC.Priority = 30;
-                        CurrentVC.Priority = 20;
-                        CurrentVC = FirstSegmenetVC;
-                    }
-                }
-                else if (CurrentVC == ThirdSegmentVC)
-                {
-                    if (currentDiff > diffPlyrCam3 && currentDiff >= 0)
-                    {
-                        FirstSegmenetVC.Priority = 30;
-                        CurrentVC.Priority = 20;
-                        CurrentVC = FirstSegmenetVC;
-                    }
-                }
-                else if (CurrentVC == FourthSegmentVC)
-                {
-                    if (currentDiff > diffPlyrCam4 && currentDiff >= 0)
-                    {
-                        FirstSegmenetVC.Priority = 30;
-                        CurrentVC.Priority = 20;
-                        CurrentVC = FirstSegmenetVC;
-                    }
+                    camera.Priority = 20;
                 }
             }
-        }*/
+            OnCameraChange(current);
+        }
 
-        public void SetCurrentVC(CinemachineVirtualCamera vCam)
+        public event EventHandler<CinemachineVirtualCamera> CameraChange;
+
+        public void OnCameraChange(CinemachineVirtualCamera camera)
         {
-            CurrentVC = vCam;
+            CameraChange?.Invoke(this, camera);
         }
     }
 }
