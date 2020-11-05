@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Snowtracks : MonoBehaviour
 {
-    public Shader drawShader;
+    private Shader drawShader;
 
     public int mapResolution;
     private RenderTexture trackMap;
@@ -27,6 +27,7 @@ public class Snowtracks : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        drawShader = Resources.Load<Shader>("Shaders/DrawTracks");
         drawMaterial = new Material(drawShader);
         snowMaterial = new Material[terrains.Length];
         trackMap = new RenderTexture(mapResolution, mapResolution, 0, RenderTextureFormat.ARGBFloat);

@@ -115,15 +115,11 @@ namespace Scripts.Level.Player
 
         protected void CalculeMove() 
         {
+            
             MovementDir = PlayerBase.GetMovement();
-            MovementDir *= MoveSpeed;
-            Vector3 velocity = PlayerBase.Rigidbody.velocity;
-            Vector3 velocityChange = (MovementDir - velocity);
-            velocityChange.x = Mathf.Clamp(velocityChange.x, -MoveSpeed, MoveSpeed);
-            velocityChange.z = Mathf.Clamp(velocityChange.z, -MoveSpeed, MoveSpeed);
-            velocityChange.y = 0f;
+            MovementDir *= MoveSpeed * Time.deltaTime;
 
-            Rigidbody.AddForce(velocityChange, ForceMode.VelocityChange);
+            Rigidbody.MovePosition(transform.position + MovementDir);
         }
 
         void Jump()

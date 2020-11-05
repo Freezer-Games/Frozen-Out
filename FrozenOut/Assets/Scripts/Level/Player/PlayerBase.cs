@@ -124,6 +124,11 @@ namespace Scripts.Level.Player
             }
         }
 
+        void FixedUpdate()
+        {
+            CheckWithRay();
+        }
+
         void LateUpdate()
         {
             CameraVectors();    
@@ -165,7 +170,6 @@ namespace Scripts.Level.Player
             //Se mueve a la posicion deseada minetras mira y luego interactua
             else 
             {
-                Debug.Log("interaccion con dos puntos");
                 Vector3 lookPos = targetLook.position;
                 lookPos.y = transform.position.y;
                 transform.LookAt(lookPos);
