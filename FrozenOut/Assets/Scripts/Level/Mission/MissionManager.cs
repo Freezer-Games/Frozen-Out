@@ -24,12 +24,12 @@ namespace Scripts.Level.Mission
             return submissionInfo.IsDone;
         }
 
-        public MissionInfo GetMission(MissionBase mission)
+        private MissionInfo GetMission(MissionBase mission)
         {
             return Missions.Find(temp => temp.Equals(mission));
         }
 
-        public MissionInfo GetSubmission(MissionBase submission)
+        private MissionInfo GetSubmission(MissionBase submission)
         {
             return Submissions.Find(temp => temp.Equals(submission));
         }
