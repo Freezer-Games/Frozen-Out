@@ -28,7 +28,6 @@ public class Vision : MonoBehaviour
     [HideInInspector]
     public bool NoVisto = true;
 
-    public GameObject Camera;
     public GameObject DeteccionUI;
     public GameObject DeteccionUI2;
     private SpriteRenderer DeteccionSprite;
@@ -240,7 +239,8 @@ public class Vision : MonoBehaviour
 
     private void Update()
     {
-        DeteccionUI.transform.LookAt(Camera.transform);
-        DeteccionUI2.transform.LookAt(Camera.transform);
+        Transform cameraTransform = UnityEngine.Camera.main.transform;
+        DeteccionUI.transform.LookAt(cameraTransform);
+        DeteccionUI2.transform.LookAt(cameraTransform);
     }
 }
