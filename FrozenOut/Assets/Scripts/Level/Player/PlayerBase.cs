@@ -228,30 +228,32 @@ namespace Scripts.Level.Player
                     Grounded = true;
                     Animator.SetBool("isGrounded", true);
 
-                    if (InDeathZone)
+                    if (DeathZone == (DeathZone | (1 << hit.transform.gameObject.layer)))
                     {
-                        StopCoroutine(deathCoroutine);
+                        if (!InDeathZone)
+                        {
+                            InDeathZone = true;
+                            PlayerHealthUI.SetActive(true);
+                            deathCoroutine = StartCoroutine(OnDeathZone());
+                            PlayerManager.OnDeathZone();
+                        }
+                    }else{
+                        if (deathCoroutine != null)
+                        {
+                            StopCoroutine(deathCoroutine);
+                        }
                         if (Health < MaxHealth)
                         {
                             deathCoroutine = StartCoroutine(NotOnDeathZone());
                         }
-                        else {
+                        else
+                        {
                             PlayerHealthUI.SetActive(false);
                         }
                         InDeathZone = false;
                         PlayerManager.OnNormalZone();
                     }
-                }
 
-                if (DeathZone == (DeathZone | (1 << hit.transform.gameObject.layer)))
-                {
-                    if (!InDeathZone)
-                    {
-                        InDeathZone = true;
-                        PlayerHealthUI.SetActive(true);
-                        deathCoroutine = StartCoroutine(OnDeathZone());
-                        PlayerManager.OnDeathZone();
-                    }
                 }
             }
         }
