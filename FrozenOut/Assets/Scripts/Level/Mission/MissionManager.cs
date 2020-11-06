@@ -44,6 +44,7 @@ namespace Scripts.Level.Mission
             MissionInfo missionInfo = GetMission(mission);
 
             missionInfo.SetDone();
+            OnNewEventActive();
 
             int finishedIndex = Missions.IndexOf(missionInfo);
             int nextIndex = finishedIndex + 1;
@@ -61,5 +62,14 @@ namespace Scripts.Level.Mission
 
             submissionInfo.SetDone();
         }
+
+        #region Events
+        public event EventHandler NewEventActive;
+
+        public void OnNewEventActive()
+        {
+            NewEventActive?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
     }
 }
