@@ -15,27 +15,43 @@ namespace Scripts.Level.Player
         private MissionManager MissionManager => LevelManager.GetMissionManager();
         private SettingsManager SettingsManager => LevelManager.GetSettingsManager();
 
-        public GameObject MissionObject;
-        private LocalizedString LocalizeScriptName => MissionObject.GetComponent<LocalizeStringBehaviour>().StringReference;
 
-        Text MissionText;
+        public GameObject MissionPanel;
+        public Text MissionText;
+        public GameObject MissionObject;
+
+        private LocalizedString LocalizeScriptName => MissionObject.GetComponent<LocalizeStringBehaviour>().StringReference;
 
         private void Start()
         {
-            MissionText = GetComponent<Text>();
+            MissionManager.NewEventActive += (sender, args) => { StopAllCoroutines(); StartCoroutine(DoShowNewText()); };
+            
+            StartCoroutine(DoShowText());
         }
 
         private void Update()
         {
             if (Input.GetKey(SettingsManager.MissionsKey))
             {
+                StopAllCoroutines();
                 StartCoroutine(DoShowText());
             }
         }
 
+        private IEnumerator DoShowNewText()
+        {
+            MissionPanel.SetActive(true);
+            MissionText.color = Color.red;
+
+            yield return new WaitForSeconds(1);
+
+            yield return StartCoroutine(DoShowText());
+        }
+
         private IEnumerator DoShowText()
         {
-            MissionText.enabled = true;
+            MissionPanel.SetActive(true);
+            MissionText.color = Color.white;
 
             MissionInfo activeMission = MissionManager.GetActiveMission();
             if (activeMission != null)
@@ -46,8 +62,9 @@ namespace Scripts.Level.Player
             {
                 LocalizeScriptName.TableEntryReference = "empty";
             }
-            yield return new WaitForSeconds(10);
-            MissionText.enabled = false;
+            yield return new WaitForSeconds(5);
+
+            MissionPanel.SetActive(false);
             yield return null;
         }
     }
